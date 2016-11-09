@@ -11,8 +11,10 @@ bin/composer:
 	
 init:	bin/composer
 	$(COMPOSER) install
+	mkdir -p var
+	mkdir -p var/twig_cache
 
 dist-clean:
-	rm -fr bin vendor
+	rm -fr bin vendor var
 
 .PHONY:	help init dist-clean

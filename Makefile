@@ -1,4 +1,5 @@
 COMPOSER := bin/composer
+NPM := npm
 
 help:
 	@echo "Available targets: help, init, dist-clean"
@@ -13,6 +14,7 @@ init:	bin/composer
 	$(COMPOSER) install
 	mkdir -p var
 	mkdir -p var/twig_cache
+	$(NPM) install
 
 dist-clean:
 	rm -fr bin vendor var

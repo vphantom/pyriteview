@@ -1,0 +1,28 @@
+{
+  "name": "pyriteview",
+  "version": "1.0.0",
+  "description": "Article versioning hub for peer-reviewed publications",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vphantom/pyriteview.git"
+  },
+  "author": "Stéphane Lavergne <lis@imars.com> (https://github.com/vphantom)",
+  "license": "AGPL-3.0",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/vphantom/pyriteview/issues"
+  },
+  "homepage": "https://github.com/vphantom/pyriteview#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "browserify": "^13.1.1",
+    "clean-css": "^3.4.20",
+    "eslint": "^3.9.1",
+    "uglify-js": "^2.7.4"
+  }
+}

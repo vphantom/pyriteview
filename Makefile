@@ -1,8 +1,18 @@
-COMPOSER := bin/composer
-NPM := npm
+COMPOSER   := bin/composer
+NPM        := npm
+CSS        := node_modules/.bin/cleancss --skip-rebase
+BROWSERIFY := node_modules/.bin/browserify
+JS         := node_modules/.bin/uglifyjs >/dev/null --compress --mangle
+JSLINT     := node_modules/.bin/eslint --fix
+GZIP       := gzip -f -n -k -9
 
 help:
-	@echo "Available targets: help, init, dist-clean"
+	@echo
+	@echo "  [ Users ]  make init    - First-time initialization"
+	@echo
+	@echo "  [ Devel ]  make distrib - Build a new release"
+	@echo "  [ Devel ]  make clean   - Remove all dev files, become a release"
+	@echo
 
 bin/composer:
 	@mkdir -p bin
@@ -15,8 +25,13 @@ init:	bin/composer
 	mkdir -p var
 	mkdir -p var/twig_cache
 	$(NPM) install
+	# TODO: Create fresh SQLite DB file
 
-dist-clean:
-	rm -fr bin vendor var
+clean:
+	rm -fr bin node_modules vendor var
 
-.PHONY:	help init dist-clean
+distrib:
+	# TODO: Build css and css.gz
+	# TODO: Build js and js.gz
+
+.PHONY:	help clean init distrib

@@ -6,6 +6,8 @@ JS         := node_modules/.bin/uglifyjs >/dev/null --compress --mangle
 JSLINT     := node_modules/.bin/eslint --fix
 GZIP       := gzip -f -n -k -9
 
+CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css $(wildcard css/*.css)
+
 help:
 	@echo
 	@echo "  [ Users ]  make init    - First-time initialization"
@@ -38,8 +40,25 @@ init:	deps bin/composer
 clean:
 	rm -fr bin node_modules vendor var
 
-distrib:
-	# TODO: Build css and css.gz
-	# TODO: Build js and js.gz
+dist-clean:
+	rm -f client.css client.css.map client.css.gz
+	rm -f client.js client.js.map client.js.gz
 
-.PHONY:	help deps clean init distrib
+distrib:	dist-clean client.css.gz client.js.gz
+
+# Bootstrap hard-codes "../fonts/" which we need to clean up
+client.css:	$(CSS_SRC)
+	$(CSS) --source-map -o $@ $+
+	mv $@ $@.tmp
+	cat $@.tmp |sed 's/\.\.\/\(fonts\)/\1/g' >$@
+	rm -f $@.tmp
+
+client.js:	js/index.js
+	$(BROWSERIFY) $< -d -o bundle.js
+	$(JS) --source-map client.js.map -o client.js -- bundle.js
+	rm -f bundle.js
+
+%.gz: %
+	$(GZIP) $< -c >$@
+
+.PHONY:	help deps clean init dist-clean distrib

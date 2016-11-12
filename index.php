@@ -16,8 +16,6 @@ foreach (glob(__DIR__ . '/modules/*.php') as $fname) {
 // Start up
 trigger('startup');
 
-$body = filter('body', 'FIXME');
-
 // Shut down
 trigger('shutdown');
 

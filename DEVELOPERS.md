@@ -45,6 +45,14 @@ Invoked at the very start of the request process.  Used for initialization, for 
 
 Invoked at the very end of the request process.  Used for proper clean-up.
 
+#### render (*$template*, *$args[]*)
+
+If a templating plugin is listening, it will render the named `$template` with supplied `$args[]`.
+
+#### title (*$subtitle*)
+
+If a templating plugin is listening, it will prepend `$subtitle` and a dash to the current HTML title.
+
 ### Forms
 
 These events require the `$form_name` argument be supplied, which should be unique to the entire application, possibly matching the form's HTML `ID`.

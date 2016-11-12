@@ -6,6 +6,29 @@ The build process compiles `modules/*.css` into a single resource, so add-on mod
 
 Similarly, the build compiles `modules/*.js` into a single script, so add-on modules should supply their own JS module rather than modify `pyriteview.js`. **FIXME:** Do we need to bootstrap them?
 
+To summarize, a typical plugin involved with all aspects of PyriteView would consist of three new files added to `modules/`.  For example:
+
+* `modules/example.php`
+* `modules/example.css`
+* `modules/example.js`
+
+If your CSS refers to additional resources, they should be nested, which will be handled by the build process.  For example:
+
+* `modules/example/image.png`
+* `modules/example/font.ttf`
+
+**FIXME:** Does `cleancss` actually handle this gracefully?
+
+## Requirements
+
+In addition to the run-time requirements, for building PyriteView you will also need:
+
+* NodeJS for its package manager "NPM"
+
+Run `make dev-init` to initially download the requirements for the build process.
+
+Then, running `make distrib` any time will rebuild `client.css`, `client.css.gz`, `client.js` and `client.js.gz`.
+
 ## Events
 
 PyriteView is somewhat event-driven using the simple and elegant [Sphido Events library](https://github.com/sphido/events).

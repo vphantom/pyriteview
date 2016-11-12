@@ -22,7 +22,8 @@ deps:
 	@if ! which wget >/dev/null; then echo "  **  Please install wget."; exit 1; fi
 	@if ! which php  >/dev/null; then echo "  **  Please install PHP 5+."; exit 1; fi
 	@if ! which sqlite3 >/dev/null; then echo "  **  Please install SQLite 3."; exit 1; fi
-	@if ! php -m |grep -q pdo_sqlite; then echo "  **  Please install the PHP extension pdo_sqlite."; exit 1; fi
+	@if ! php -m |grep -q -E '^mcrypt'; then echo "  **  Please install the PHP extension mcrypt."; exit 1; fi
+	@if ! php -m |grep -q -E '^pdo_sqlite'; then echo "  **  Please install the PHP extension pdo_sqlite."; exit 1; fi
 
 bin/composer:	deps
 	@mkdir -p bin

@@ -6,6 +6,7 @@ ini_set('session.cookie_httponly', true);
 session_start();
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once 'lib/formsafe.php';
 
 $twig = new Twig_Environment(
     new Twig_Loader_Filesystem(__DIR__ . '/templates'),

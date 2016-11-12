@@ -9,12 +9,10 @@ This simple hub allows publication editors, single edition editors, article auth
 ### Requirements
 
 * PHP 5.x or later
-* PHP's `memcached` extension module
 * PHP's `pdo_sqlite` extension module
 * SQLite 3
 * Typical Linux command line tools: wget, gzip
 * A web server of course
-* Access to a Memcached server, typically local
 
 ### First-time initialization
 

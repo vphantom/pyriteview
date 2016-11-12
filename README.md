@@ -9,6 +9,7 @@ This simple hub allows publication editors, single edition editors, article auth
 ### Requirements
 
 * PHP 5.x or later
+* PHP's `mcrypt` extension module
 * PHP's `pdo_sqlite` extension module
 * SQLite 3
 * Typical Linux command line tools: wget, gzip

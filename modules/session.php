@@ -1,5 +1,7 @@
 <?php
 
+namespace PyriteView\Session;
+
 // Session startup
 //
 // Start a PHP-handled session and bind it to the current remote IP address as

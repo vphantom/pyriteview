@@ -9,14 +9,8 @@ function pass() {
 };
 
 // Load modular components
-$plugdir = __DIR__ . '/modules/';
-if ($dir = opendir($plugdir)) {
-    while (($fname = readdir($dir)) !== false) {
-        if (is_file($plugdir . $fname)) {
-            include_once "{$plugdir}{$fname}";
-        };
-    };
-    closedir($dir);
+foreach (glob(__DIR__ . '/modules/*.php') as $fname) {
+    include_once $fname;
 };
 
 // Start up

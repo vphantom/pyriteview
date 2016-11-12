@@ -1,21 +1,23 @@
 <?php
 
-ini_set('session.gc_maxlifetime', 12 * 60 * 60);
-ini_set('session.cookie_lifetime', 12 * 60 * 60);
-ini_set('session.cookie_httponly', true);
-session_start();
-
+// Load dependencies provided by Composer
 require_once __DIR__ . '/vendor/autoload.php';
-require_once 'lib/formsafe.php';
 
-$twig = new Twig_Environment(
-    new Twig_Loader_Filesystem(__DIR__ . '/templates'),
-    array(
-        'cache' => __DIR__ . '/var/twig_cache',
-        'autoescape' => true,
-    )
-);
+// Load local library of classes, event handlers, etc.
+$plugdir = __DIR__ . '/lib/';
+if ($dir = opendir($plugdir)) {
+    while (($fname = readdir($dir)) !== false) {
+        if (is_file($plugdir . $fname)) {
+            include_once "{$plugdir}{$fname}";
+        };
+    };
+    closedir($dir);
+};
 
-session_write_close();
+// Start up
+trigger('startup');
+
+// Shut down
+trigger('shutdown');
 
 ?>

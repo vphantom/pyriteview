@@ -25,7 +25,7 @@ deps:
 	@if ! php -m |grep -q -E '^mcrypt'; then echo "  **  Please install the PHP extension mcrypt."; exit 1; fi
 	@if ! php -m |grep -q -E '^pdo_sqlite'; then echo "  **  Please install the PHP extension pdo_sqlite."; exit 1; fi
 
-bin/composer:	deps
+bin/composer:
 	@mkdir -p bin
 	wget https://raw.githubusercontent.com/composer/getcomposer.org/6cf720ddb5567ef7f97b6855fda18dba92209f27/web/installer -O composer-setup.php
 	php composer-setup.php --install-dir=bin --filename=composer
@@ -33,10 +33,11 @@ bin/composer:	deps
 	
 init:	deps bin/composer
 	$(COMPOSER) install
-	mkdir -p var
-	mkdir -p var/twig_cache
+	@mkdir -p var
+	@mkdir -p var/twig_cache
 	$(NPM) install --production
-	if [ ! -f var/main.db ]; then $(SQLITE) var/main.db <.barebones.sql; fi
+	if [ ! -f var/main.db ]; then $(SQLITE) /dev/null '.save var/main.db'; fi
+	php -f index.php
 
 dev-init:	deps
 	@if ! which npm  >/dev/null; then echo "  **  Please install NPM, part of NodeJS."; exit 1; fi

@@ -16,6 +16,12 @@ foreach (glob(__DIR__ . '/modules/*.php') as $fname) {
 // Database
 $GLOBALS['db'] = new PDB('sqlite:' . __DIR__ . '/var/main.db');
 
+// From the command line means install mode
+if (php_sapi_name() === 'cli') {
+    trigger('install');
+    return;
+};
+
 // Start up
 trigger('startup');
 

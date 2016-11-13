@@ -37,6 +37,10 @@ In addition to its `on()`/`trigger()` and `add_filter()`/`filter()`, we add `pas
 
 ### Global
 
+#### install
+
+Invoked when `index.php` is executed from the command line.  Use this to confirm the existence of any database tables your module may need, for example.
+
 #### startup
 
 Invoked at the very start of the request process.  Used for initialization, for example session handling.
@@ -52,6 +56,24 @@ If a templating plugin is listening, it will render the named `$template` with s
 #### title (*$subtitle*)
 
 If a templating plugin is listening, it will prepend `$subtitle` and a dash to the current HTML title.
+
+### Access Control
+
+#### login
+
+Triggered when the current user's identity or credentials have changed.
+
+#### can_user (*$verb*[, *$object*[, *$objectId*]])
+
+Access control plugins need to return true if the current user is allowed to perform the action named `$verb`, either by itself or acting upon an object of type `$object`, possibly a specific instance of it.
+
+Because this should be triggered with `pass()`, it isn't practical to have more than one plugin handle those events: either permissions would always be denied (one not understanding the verbs of the other).  Worse, if both returned `true` quietly on unknown verbs, there would be a risk of malformed verbs to always be granted as they wouldn't be understood by either plugin.  The safe approach is thus to have a single plugin manage an access control list.
+
+#### transaction (*$verb*[, *$object*[, *$objectId*]])
+
+Whenever an action is noteworthy, it should trigger this event to offer the information to logger plugins.  File logs and relational audit trails could be derived from these events.
+
+This should be triggered once the action has taken place successfully, not when its right is (presumably) tested beforehand.
 
 ### Forms
 

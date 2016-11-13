@@ -13,6 +13,9 @@ foreach (glob(__DIR__ . '/modules/*.php') as $fname) {
     include_once $fname;
 };
 
+// Database
+$GLOBALS['db'] = new PDB('sqlite:' . __DIR__ . '/var/main.db');
+
 // Start up
 trigger('startup');
 

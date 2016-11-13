@@ -1,52 +1,53 @@
 <?php
 
-namespace PyriteView\Templating;
+class Templating {
+    private static $twig;
+    private static $title = '';
 
-$twig = new \Twig_Environment(
-    new \Twig_Loader_Filesystem(__DIR__ . '/../templates'),
-    array(
-//        'cache' => __DIR__ . '/var/twig_cache',
-        'autoescape' => true,
-    )
-);
-$twig->addFunction(new \Twig_SimpleFunction('trigger', function () {
-    ob_start();
-    call_user_func_array('trigger', func_get_args());
-    $result = ob_get_contents();
-    ob_end_clean();
-    return $result;
-}));
-$twig->addFunction(new \Twig_SimpleFunction('filter', function () {
-    return call_user_func_array('filter', func_get_args());
-}));
-$twig->addFunction(new \Twig_SimpleFunction('pass', function () {
-    return array_pop(call_user_func_array('trigger', func_get_args())) !== false;
-}));
+    public static function startup() {
+        $twig = new \Twig_Environment(
+            new \Twig_Loader_Filesystem(__DIR__ . '/../templates'),
+            array(
+        //        'cache' => __DIR__ . '/var/twig_cache',
+                'autoescape' => true,
+            )
+        );
+        $twig->addFunction(new \Twig_SimpleFunction('trigger', function () {
+            ob_start();
+            call_user_func_array('trigger', func_get_args());
+            $result = ob_get_contents();
+            ob_end_clean();
+            return $result;
+        }));
+        $twig->addFunction(new \Twig_SimpleFunction('filter', function () {
+            return call_user_func_array('filter', func_get_args());
+        }));
+        $twig->addFunction(new \Twig_SimpleFunction('pass', function () {
+            return array_pop(call_user_func_array('trigger', func_get_args())) !== false;
+        }));
+        self::$twig = $twig;
 
-on('startup', function () {
-    global $twig;
-    echo $twig->render('head.html');
-    flush();
-    ob_start();
-}, 99);
+        echo $twig->render('head.html');
+        flush();
+        ob_start();
+    }
 
-// Page title
-$title = 'PyriteView';
-on('title', function($prepend) {
-    global $title;
-    $title = $prepend . ' - ' . $title;
-});
+    public static function shutdown() {
+        $body = self::$twig->render('body.html', array('title' => self::$title, 'body' => filter('body', ob_get_contents())));
+        ob_end_clean();
+        echo $body;
+    }
 
-on('shutdown', function () {
-    global $twig, $title;
-    $body = $twig->render('body.html', array('title' => $title, 'body' => filter('body', ob_get_contents())));
-    ob_end_clean();
-    echo $body;
-}, 1);
+    public static function title($prepend, $sep = ' - ') {
+        self::$title = $prepend . (self::$title !== '' ? ($sep . self::$title) : '');
+    }
 
-on('render', function ($name, $args) {
-    global $twig;
-    echo $twig->render($name, $args);
-});
+    public static function render($name, $args) {
+        echo self::$twig->render($name, $args);
+    }
+}
+
+on('startup', 'Templating::startup', 99);
+on('shutdown', 'Templating::shutdown', 1);
 
 ?>

@@ -1,13 +1,16 @@
 <?php
 
-namespace PyriteView\ACL;
+class ACL {
+    public static function reload() {
+        $user = User::whoami();
+        // TODO: Load context-optimized ACL in session based on authenticated user
+    }
 
-on('login', function () {
-    // TODO: Load context-optimized ACL based on authenticated user
-});
+    public static function can($verb, $object = null, $objectId = null) {
+        // TODO: Return true or false, according to found permission
+    }
+}
 
-on('can_user', function($verb, $object = null, $objectId = null) {
-    // TODO: Return true or false, according to the permission
-});
+on('login', 'ACL::reload');
 
 ?>

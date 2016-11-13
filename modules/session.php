@@ -1,6 +1,22 @@
 <?php
 
-namespace PyriteView\Session;
+class Session {
+    public static function reset() {
+        session_unset();
+        $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+    }
+
+    public static function login($email, $password) {
+        if (User::login($email, $password)) {
+            self::reset();
+            $_SESSION['email'] = $email;
+            $_SESSION['password'] = $password;
+            trigger('login');
+        } else {
+            return false;
+        };
+    }
+}
 
 // Session startup
 //
@@ -13,11 +29,16 @@ on('startup', function () {
     session_start();
     if (isset($_SESSION['REMOTE_ADDR'])) {
         if ($_SESSION['REMOTE_ADDR'] !== $_SERVER['REMOTE_ADDR']) {
-            session_unset();
-            $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+            Session::reset();
         };
     } else {
         $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+    };
+    if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
+        if (!User::login($_SESSION['email'], $_SESSION['password'])) {
+            Session::reset();
+            trigger('login');
+        };
     };
 }, 1);
 

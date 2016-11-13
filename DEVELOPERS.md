@@ -29,6 +29,78 @@ Run `make dev-init` to initially download the requirements for the build process
 
 Then, running `make distrib` any time will rebuild `client.css`, `client.css.gz`, `client.js` and `client.js.gz`.
 
+## Database
+
+Global variable `$db` is available with an instance of the `PDB` wrapper to `PDO`.  **FIXME:** Link to PDB documentation.
+
+## Templating
+
+The templating module creates static class `Templating` with the following static methods:
+
+### Templating::title(*$prepend*[, *$sep*])
+
+Prepends `$prepend` to the current title to be displayed.  If the title wasn't empty, uses `$sep` as separator (default: " - ").
+
+### Templating::render(*$template*[, *$args[]*])
+
+Render the named `$template` with optional supplied associative `$args[]`.
+
+## Logging
+
+The logging module is used to create an audit trail in the database.  It creates class `Log` with the following static methods:
+
+### add(*$args[]*)
+
+This should be called once a noteworthy action has taken place successfully.  Possible arguments (depending on transaction type):
+
+#### action
+
+Typically one of: `create`, `update`, `delete` or your custom verbs.
+
+#### [objectType]
+
+Class of object being acted upon (i.e. 'article').
+
+#### [objectId]
+
+Specific ID of the object being acted upon.
+
+#### [fieldName]
+
+Name of object's field being affected.
+
+#### [oldValue]
+
+Previous value, if any, of the field being modified.  Requires `fieldName`.
+
+#### [newValue]
+
+New value of the field being modified.  Requires `fieldName`.
+
+## User
+
+The user module creates static class `User` with the following static methods:
+
+### User::whoami()
+
+Returns the associative array describing the currently authenticated user.
+
+## Session
+
+The session module creates static class `Session` with the following static methods:
+
+### login(*$email*, *$password*)
+
+Attempts logging in with the `User` module and saves the credentials in the current session if successful.  This should be invoked when processing a login form.
+
+## Access Control
+
+The access control module creates static class `ACL` with the following static methods:
+
+### ACL::can(*$verb*[, *$object*[, *$objectId*]])
+
+Returns true if the current user is allowed to perform the action named `$verb`, either by itself or acting upon an object of type `$object`, possibly a specific instance of it.
+
 ## Events
 
 PyriteView is somewhat event-driven using the simple and elegant [Sphido Events library](https://github.com/sphido/events).
@@ -49,31 +121,9 @@ Invoked at the very start of the request process.  Used for initialization, for 
 
 Invoked at the very end of the request process.  Used for proper clean-up.
 
-#### render (*$template*, *$args[]*)
-
-If a templating plugin is listening, it will render the named `$template` with supplied `$args[]`.
-
-#### title (*$subtitle*)
-
-If a templating plugin is listening, it will prepend `$subtitle` and a dash to the current HTML title.
-
-### Access Control
-
 #### login
 
-Triggered when the current user's identity or credentials have changed.
-
-#### can_user (*$verb*[, *$object*[, *$objectId*]])
-
-Access control plugins need to return true if the current user is allowed to perform the action named `$verb`, either by itself or acting upon an object of type `$object`, possibly a specific instance of it.
-
-Because this should be triggered with `pass()`, it isn't practical to have more than one plugin handle those events: either permissions would always be denied (one not understanding the verbs of the other).  Worse, if both returned `true` quietly on unknown verbs, there would be a risk of malformed verbs to always be granted as they wouldn't be understood by either plugin.  The safe approach is thus to have a single plugin manage an access control list.
-
-#### transaction (*$verb*[, *$object*[, *$objectId*]])
-
-Whenever an action is noteworthy, it should trigger this event to offer the information to logger plugins.  File logs and relational audit trails could be derived from these events.
-
-This should be triggered once the action has taken place successfully, not when its right is (presumably) tested beforehand.
+Triggered when the current user's identity or credentials have changed.  Useful for cache invalidation.
 
 ### Forms
 

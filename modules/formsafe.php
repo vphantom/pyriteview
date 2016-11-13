@@ -1,6 +1,6 @@
 <?php
 
-namespace PyriteView\FormSafe;
+namespace FormSafe;
 
 function hashname($form_name)
 {

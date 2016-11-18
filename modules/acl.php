@@ -96,5 +96,6 @@ class ACL {
 
 on('install', 'ACL::install');
 on('newuser', 'ACL::reload');
+on('can',     'ACL::can');
 
 ?>

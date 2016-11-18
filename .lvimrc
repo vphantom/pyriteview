@@ -1,0 +1,20 @@
+" Project overrides for Vim
+" See: http://www.vim.org/scripts/script.php?script_id=441
+" I use it with the following in my .vimrc:
+" let g:localvimrc_persistent=2
+" let g:localvimrc_event=["BufWinEnter","BufReadPre","BufNewFile"]
+if &filetype =~ 'php'
+   setlocal expandtab
+   setlocal tabstop=4
+   setlocal shiftwidth=4
+   setlocal softtabstop=4
+   let &l:makeprg="phpcs --report=emacs --standard=PEAR --tab-width=4 --ignore=smarty,tpl_c -n %"
+endif
+if &filetype =~ 'javascript' || &filetype =~ 'json'
+   setlocal expandtab
+   setlocal tabstop=2
+   setlocal shiftwidth=2
+   setlocal softtabstop=2
+   let &l:makeprg=g:localvimrc_script_dir."/node_modules/.bin/eslint --format unix %"
+endif
+au BufRead,BufNewFile *.jst set filetype=jsp

@@ -40,7 +40,7 @@ Rollback pending transaction
 **Returns:** `object` — PDB instance (for chaining)
 
 
-### exec(*$q*, *$args* = null)
+### exec(*$q*, *$args* = array())
 
 Execute a result-less statement
 
@@ -63,7 +63,7 @@ This is a shortcut to the API value, to avoid performing a `SELECT LAST_INSERT_I
 **Returns:** `string` — Last ID if supported/available
 
 
-### selectAtom(*$q*, *$args* = null)
+### selectAtom(*$q*, *$args* = array())
 
 Fetch a single value
 
@@ -77,7 +77,7 @@ The result is the value returned in row 0, column 0. Useful for `COUNT(*)` and s
 **Returns:** `mixed` — Single result cell, null if no results
 
 
-### selectList(*$q*, *$args* = null)
+### selectList(*$q*, *$args* = array())
 
 Fetch a simple list of result values
 
@@ -91,7 +91,7 @@ The result is a list of the values found in the first column of each row.
 **Returns:** `array` — 
 
 
-### selectSingleArray(*$q*, *$args* = null)
+### selectSingleArray(*$q*, *$args* = array())
 
 Fetch a single row as associative array
 
@@ -107,7 +107,7 @@ Note that if you're not selecting by a unique ID, a `LIMIT 1` should still be sp
 **Returns:** `array` — Single associative row
 
 
-### selectArray(*$q*, *$args* = null)
+### selectArray(*$q*, *$args* = array())
 
 Fetch all results in an associative array
 
@@ -119,7 +119,7 @@ Fetch all results in an associative array
 **Returns:** `array` — All associative rows
 
 
-### selectArrayIndexed(*$q*, *$args* = null)
+### selectArrayIndexed(*$q*, *$args* = array())
 
 Fetch all results in an associative array, index by first column
 
@@ -133,7 +133,7 @@ Whereas `selectArray()` returns a list of associative rows, this returns an asso
 **Returns:** `array` — All associative rows, keyed on first column
 
 
-### selectArrayPairs(*$q*, *$args* = null)
+### selectArrayPairs(*$q*, *$args* = array())
 
 Fetch 2-column result into associative array
 

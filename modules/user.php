@@ -6,25 +6,28 @@ class User {
         echo "    Installing users... ";
         $db->exec("
             CREATE TABLE IF NOT EXISTS 'users' (
-                id int,
-                email varchar(255),
-                password_hash varchar(255)
+                id           INTEGER PRIMARY KEY AUTOINCREMENT,
+                email        VARCHAR(255),
+                passwordHash VARCHAR(255)
             )
-            ");
+        ");
         echo "    done!\n";
     }
 
     public static function login($email, $password) {
+        global $db;
+
         // TODO:
         // - Lookup and authenticate
         // $hash_in_db = password_hash('password', PASSWORD_DEFAULT);
         // password_verify('password', $hash_in_db);
         // Retrieve the user as an associative array
         // return the user array if successful, null otherwise
+        return $db->selectSingleArray("SELECT * FROM users WHERE id='1'");
     }
 }
 
 on('install', 'User::install');
-on('login', 'User::login');
+on('authenticate', 'User::login');
 
 ?>

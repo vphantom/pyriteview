@@ -32,7 +32,7 @@ class Session {
     }
 
     public static function login($email, $password) {
-        if (is_array($user = grab('login', $email, $password))) {
+        if (is_array($user = grab('authenticate', $email, $password))) {
             self::reset();
             $_SESSION['USER_INFO'] = $user;
             $_SESSION['email'] = $email;

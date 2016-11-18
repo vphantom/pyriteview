@@ -9,10 +9,10 @@ class AuditTrail {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 userId INTEGER NOT NULL DEFAULT '0',
-                objectType VARCHAR(255) DEFAULT NULL,
+                objectType VARCHAR(64) DEFAULT NULL,
                 objectId INTEGER DEFAULT NULL,
-                action VARCHAR(255) NOT NULL DEFAULT '',
-                fieldName VARCHAR(255) DEFAULT NULL,
+                action VARCHAR(64) NOT NULL DEFAULT '',
+                fieldName VARCHAR(64) DEFAULT NULL,
                 oldValue VARCHAR(255) DEFAULT NULL,
                 newValue VARCHAR(255) DEFAULT NULL
             )

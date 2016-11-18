@@ -30,5 +30,7 @@ class User {
 }
 
 on('install', 'User::install');
+on('login', 'User::login');
+on('whoami', 'User::whoami');
 
 ?>

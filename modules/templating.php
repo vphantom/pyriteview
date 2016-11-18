@@ -3,6 +3,7 @@
 class Templating {
     private static $twig;
     private static $title = '';
+    private static $status = 200;
 
     public static function startup() {
         $twig = new \Twig_Environment(
@@ -12,6 +13,7 @@ class Templating {
                 'autoescape' => true,
             )
         );
+        /*
         $twig->addFunction(new \Twig_SimpleFunction('trigger', function () {
             ob_start();
             call_user_func_array('trigger', func_get_args());
@@ -25,17 +27,29 @@ class Templating {
         $twig->addFunction(new \Twig_SimpleFunction('pass', function () {
             return array_pop(call_user_func_array('trigger', func_get_args())) !== false;
         }));
+         */
         self::$twig = $twig;
 
+        if (self::$status !== 200) {
+            http_response_code(self::$status);
+        };
         echo $twig->render('head.html');
         flush();
         ob_start();
     }
 
     public static function shutdown() {
-        $body = self::$twig->render('body.html', array('title' => self::$title, 'body' => filter('body', ob_get_contents())));
+        $name = 'body.html';
+        if (self::$status !== 200) {
+            $name = 'status' . self::$status . '.html';
+        };
+        $body = self::$twig->render($name, array('title' => self::$title, 'body' => filter('body', ob_get_contents())));
         ob_end_clean();
         echo $body;
+    }
+
+    public static function status($code) {
+        self::$status = $code;
     }
 
     public static function title($prepend, $sep = ' - ') {
@@ -49,5 +63,8 @@ class Templating {
 
 on('startup', 'Templating::startup', 99);
 on('shutdown', 'Templating::shutdown', 1);
+on('render', 'Templating::render');
+on('title', 'Templating::title');
+on('http_status', 'Templating::status');
 
 ?>

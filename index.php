@@ -3,10 +3,16 @@
 // Load dependencies provided by Composer
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Supplement to sphido/event
+// Supplements to sphido/event
+function grab() {
+    return array_pop(call_user_func_array('trigger', func_get_args()));
+};
 function pass() {
     return array_pop(call_user_func_array('trigger', func_get_args())) !== false;
 };
+
+// Load router before modular components
+require_once 'router.php';
 
 // Load modular components
 foreach (glob(__DIR__ . '/modules/*.php') as $fname) {
@@ -24,6 +30,9 @@ if (php_sapi_name() === 'cli') {
 
 // Start up
 trigger('startup');
+
+// Router
+Router::run();
 
 // Shut down
 trigger('shutdown');

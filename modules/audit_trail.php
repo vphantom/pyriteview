@@ -1,6 +1,6 @@
 <?php
 
-class Log {
+class AuditTrail {
     public static function install() {
         global $db;
         echo "    Installing log... ";
@@ -39,6 +39,7 @@ class Log {
     }
 }
 
-on('install', 'Log::install');
+on('install', 'AuditTrail::install');
+on('log', 'AuditTrail::add');
 
 ?>

@@ -11,6 +11,6 @@ class ACL {
     }
 }
 
-on('login', 'ACL::reload');
+on('newuser', 'ACL::reload');
 
 ?>

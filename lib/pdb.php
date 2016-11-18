@@ -106,7 +106,7 @@ class PDB
      *
      * @return object PDB instance (for chaining)
      */
-    private function _execute($args = null)
+    private function _execute($args = array())
     {
         if ($this->_err) {
             return $this;
@@ -131,7 +131,7 @@ class PDB
      *
      * @return int Number of affected rows, false on error
      */
-    public function exec($q, $args = null)
+    public function exec($q, $args = array())
     {
         $this->_prepare($q)->_execute($args);
         return $this->_sth ? $this->_sth->rowCount() : false;
@@ -161,9 +161,9 @@ class PDB
      *
      * @return mixed Single result cell, null if no results
      */
-    public function selectAtom($q, $args = null)
+    public function selectAtom($q, $args = array())
     {
-        $this->run($q, $args);
+        $this->exec($q, $args);
         // FIXME: Test if it is indeed NULL
         return $this->_sth ? $this->_sth->fetchColumn() : false;
     }
@@ -179,9 +179,9 @@ class PDB
      *
      * @return array
      */
-    public function selectList($q, $args = null)
+    public function selectList($q, $args = array())
     {
-        $this->run($q, $args);
+        $this->exec($q, $args);
         return $this->_sth ? $this->_sth->fetchAll(PDO::FETCH_COLUMN, 0) : false;
     }
 
@@ -200,9 +200,9 @@ class PDB
      *
      * @return array Single associative row
      */
-    public function selectSingleArray($q, $args = null)
+    public function selectSingleArray($q, $args = array())
     {
-        $this->run($q, $args);
+        $this->exec($q, $args);
         return $this->_sth ? $this->_sth->fetch(PDO::FETCH_ASSOC) : false;
     }
 
@@ -214,9 +214,9 @@ class PDB
      *
      * @return array All associative rows
      */
-    public function selectArray($q, $args = null)
+    public function selectArray($q, $args = array())
     {
-        $this->run($q, $args);
+        $this->exec($q, $args);
         return $this->_sth ? $this->_sth->fetchAll(PDO::FETCH_ASSOC) : false;
     }
 
@@ -231,9 +231,9 @@ class PDB
      *
      * @return array All associative rows, keyed on first column
      */
-    public function selectArrayIndexed($q, $args = null)
+    public function selectArrayIndexed($q, $args = array())
     {
-        $this->run($q, $args);
+        $this->exec($q, $args);
         if ($this->_sth) {
             $result = array();
             while ($row = $this->_sth->fetch(PDO::FETCH_ASSOC)) {
@@ -256,9 +256,9 @@ class PDB
      *
      * @return array Associative pairs
      */
-    public function selectArrayPairs($q, $args = null)
+    public function selectArrayPairs($q, $args = array())
     {
-        $this->run($q, $args);
+        $this->exec($q, $args);
         return $this->_sth ? $this->_sth->fetchAll(PDO::FETCH_COLUMN | PDO::FETCH_GROUP) : false;
     }
 

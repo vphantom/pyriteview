@@ -96,15 +96,6 @@ When an empty or root URL is processed, the route will resolve to `main`, theref
 Any URL not resolvable to an event handler will yield an HTTP 404 error.
 
 
-## Access Control
-
-The access control module creates static class `ACL` with the following static methods:
-
-### ACL::can(*$verb*[, *$object*[, *$objectId*]])
-
-Returns true if the current user is allowed to perform the action named `$verb`, either by itself or acting upon an object of type `$object`, possibly a specific instance of it.
-
-
 ## Events
 
 With only the above exceptions, PyriteView is event-driven to keep its structure completely modular.  It uses the simple and elegant [Sphido Events library](https://github.com/sphido/events) with a couple of handy helper functions thrown in:
@@ -207,6 +198,10 @@ After the main content area of the current page is buffered, it is passed throug
 #### login (*$email*, *$password*)
 
 Attempts logging in and saves the credentials in the current session if successful.  This should be triggered with `pass()` when processing a login or ID confirmation form.
+
+#### can (*$verb*[, *$objectType*[, *$objectId*]])
+
+Returns true if the current user is allowed to perform the action named `$verb`, either by itself or acting upon an object of type `$objectType`, possibly a specific instance `$objectId`.  This should be triggered with `pass()` to obtain a clean boolean result.
 
 
 ### Logging Events

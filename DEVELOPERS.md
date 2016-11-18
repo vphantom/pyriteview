@@ -74,26 +74,26 @@ Note that the first three columns defined in our example `modules/user.php` shou
 
 A simple `PATH_INFO` based router dispatches the main processing of a URL to an event named "route/_basename_" or "route/_basename_+_sectionname_".  Processing of this event is expected to return a non-false value, or else the router will issue an HTTP 500 error.
 
-For example, if "/index.php/foo/bar/baz" is requested, the base route is deemed to be `foo` and, if previously declared using the static method below, would trigger the event `route/foo` with the rest of the path as an array argument.  Further, if `foo+bar` was declared, the trigger will instead be `route/foo+bar` with the shorter rest of that path as argument.
+For example, if "/index.php/foo/bar/baz" is requested, the base route is deemed to be `foo` and, if previously declared using the static method below, would trigger the event `route/foo` with the rest of the path as an array argument.  Further, if `foo+bar` was also declared, the event will instead be `route/foo+bar` with the shorter rest of that path as argument.
 
-### Router::register(*basename*)
-
-To avoid the most obvious possibilities of URL-based attacks, valid base routes need to be registered when your module is loaded.  Thus a typical route module would define an event handler for its base route and also call this to declare it.
-
-If it is more complex and has sub-sections, each sub-route needs the same registration and event handler.  For example:
+For example:
 
 ```php
 class MyClass { ... }
 
-Router::register('mystuff');
+// Handle '/mystuff'
 on('route/mystuff', 'MyClass::myStaticMethod');
 
-Router::register('mystuff+edit');
+// Handle '/mystuff/edit'
 on('route/mystuff+edit', 'MyClass::myEditMethod');
 
-Router::register('mystuff+delete');
+// Handle /mystuff/delete
 on('route/mystuff+delete', 'MyClass::myDeleteMethod');
 ```
+
+When an empty or root URL is processed, the route will resolve to `main`, therefore to event `route/main`.
+
+Any URL not resolvable to an event handler will yield an HTTP 404 error.
 
 
 ## Access Control
@@ -131,9 +131,9 @@ Wrapper around `trigger()` which returns the _last_ return value of the handler 
 
 Wrapper around `trigger()` which tests for the non-falsehood of its _last_ return value.  In other words, if any of the triggered event handlers returned false, which also stops propagation, then `pass()` will return false instead of `trigger()`'s array of all results.  This is great for validation purposes where all handlers should agree.
 
-#### add_filter($event, $callable) / filter($event, $value)
+#### filter($event, $value)
 
-Sphido Events includes a WordPress-inspired filtering mechanism, where chains of handlers can modify input supplied to `filter()`.  This can be useful for formatting add-ons, currency conversion and such.  Quoting the example straight from Sphido's documentation:
+Sphido Events includes a WordPress-inspired filtering mechanism, where chains of handlers can modify input supplied to `filter()`.  This can be useful for formatting add-ons, currency conversion and such.  Note that `add_filter()` is just an alias for `on()`  Quoting the example straight from Sphido's documentation:
 
 ```php
 add_filter('price', function($price) {

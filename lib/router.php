@@ -1,32 +1,30 @@
 <?php
 
 class Router {
-    private static $bases = array();
-    private static $base = null;
-
-    public static function register($newbase) {
-        if (!in_array($newbase, self::$bases)) {
-            self::$bases[] = $newbase;
-        };
-    }
+    private static $_base = null;
+    private static $_PATH = array();
 
     public static function startup() {
-        $PATH = explode('/', $_SERVER['PATH_INFO']);
-        if ($PATH[0] === '') {
-            array_shift($PATH);
+        self::$_PATH = explode('/', $_SERVER['PATH_INFO']);
+        if (self::$_PATH[0] === '') {
+            array_shift(self::$_PATH);
         };
 
-        if (isset($PATH[1]) && in_array($PATH[0] . '+' . $PATH[1], self::$bases)) {
-            self::$base = array_shift($PATH) . '+' . array_shift($PATH);
-        } elseif (isset($PATH[0]) && in_array($PATH[0], self::$bases)) {
-            self::$base = array_shift($PATH);
+        if (isset(self::$_PATH[1]) && listeners('route/' . self::$_PATH[0] . '+' . self::$_PATH[1])) {
+            self::$_base = array_shift(self::$_PATH) . '+' . array_shift(self::$_PATH);
+        } elseif (isset(self::$_PATH[0])) {
+            if (listeners('route/' . self::$_PATH[0])) {
+                self::$_base = array_shift(self::$_PATH);
+            } else {
+                trigger('http_status', 404);
+            };
         } else {
-            trigger('http_status', 404);
+            self::$_base = 'main';
         };
     }
 
     public static function run() {
-        if (self::$base !== null  &&  !pass('route/' . self::$base, $PATH)) {
+        if (self::$_base !== null  &&  !pass('route/' . self::$_base, self::$_PATH)) {
             trigger('http_status', 500);
         };
     }

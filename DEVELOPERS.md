@@ -60,7 +60,7 @@ When a non-200 HTTP status code was set, one of these is rendered instead of `bo
 
 ## Database
 
-Global variable `$db` is available with an instance of the `PDB` wrapper to `PDO`.  **FIXME:** Link to PDB documentation.
+Global variable `$db` is available with an instance of the `PDB` wrapper to `PDO`.  See [PDB documentation](PDB.md).
 
 
 ## Router

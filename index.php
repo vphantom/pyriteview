@@ -11,8 +11,9 @@ function pass() {
     return array_pop(call_user_func_array('trigger', func_get_args())) !== false;
 };
 
-// Load router before modular components
-require_once 'router.php';
+// Load core components before modular components
+require_once 'lib/pdb.php';
+require_once 'lib/router.php';
 
 // Load modular components
 foreach (glob(__DIR__ . '/modules/*.php') as $fname) {

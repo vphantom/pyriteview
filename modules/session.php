@@ -13,13 +13,7 @@ class Session {
                 self::reset();
             };
         } else {
-            $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
-        };
-        if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
-            if (!pass('login', $_SESSION['email'], $_SESSION['password'])) {
-                self::reset();
-                trigger('newuser');
-            };
+            self::init();
         };
     }
 
@@ -27,14 +21,20 @@ class Session {
         session_write_close();
     }
 
+    private static function init() {
+        $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+        $_SESSION['USER_INFO'] = null;
+    }
+
     public static function reset() {
         session_unset();
-        $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+        self::init();
     }
 
     public static function login($email, $password) {
-        if (pass('login', $email, $password)) {
+        if (is_array($user = grab('login', $email, $password))) {
             self::reset();
+            $_SESSION['USER_INFO'] = $user;
             $_SESSION['email'] = $email;
             $_SESSION['password'] = $password;
             trigger('newuser');

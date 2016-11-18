@@ -60,7 +60,14 @@ When a non-200 HTTP status code was set, one of these is rendered instead of `bo
 
 ## Database
 
-Global variable `$db` is available with an instance of the `PDB` wrapper to `PDO`.  See [PDB documentation](PDB.md).
+Global variable `$db` is available with an instance of the `PDB` wrapper to `PDO`.  See [PDB documentation](lib/PDB.md).
+
+
+## User
+
+An associative array of the current user's information, if one is logged in, is available as  `$_SESSION['USER_INFO']`.
+
+Note that the first three columns defined in our example `modules/user.php` should remain intact: we need a unique ID and we expect to identify users by e-mail address and password, which itself is stored as a one-way hash in the database.
 
 
 ## Router
@@ -199,11 +206,7 @@ After the main content area of the current page is buffered, it is passed throug
 
 #### login (*$email*, *$password*)
 
-Attempts logging in with the `User` module and saves the credentials in the current session if successful.  This should be triggered with `pass()` when processing a login form.
-
-#### whoam
-
-Returns the associative array describing the currently authenticated user, normally triggered with `grab()`.
+Attempts logging in and saves the credentials in the current session if successful.  This should be triggered with `pass()` when processing a login or ID confirmation form.
 
 
 ### Logging Events

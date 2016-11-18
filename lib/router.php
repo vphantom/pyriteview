@@ -18,8 +18,10 @@ class Router {
             } else {
                 trigger('http_status', 404);
             };
-        } else {
+        } elseif (listeners('route/main')) {
             self::$_base = 'main';
+        } else {
+            trigger('http_status', 404);
         };
     }
 

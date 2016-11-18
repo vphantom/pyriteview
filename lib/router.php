@@ -16,9 +16,9 @@ class Router {
             array_shift($PATH);
         };
 
-        // TODO: Implement base+section having priority over this base only
-
-        if (isset($PATH[0]) && in_array($PATH[0], self::$bases)) {
+        if (isset($PATH[1]) && in_array($PATH[0] . '+' . $PATH[1], self::$bases)) {
+            self::$base = array_shift($PATH) . '+' . array_shift($PATH);
+        } elseif (isset($PATH[0]) && in_array($PATH[0], self::$bases)) {
             self::$base = array_shift($PATH);
         } else {
             trigger('http_status', 404);

@@ -179,11 +179,11 @@ These events require the `$form_name` argument be supplied, which should be uniq
 
 #### form_begin (*$form_name*)
 
-Triggered by templates just after opening an HTML `FORM` block, to allow the injection of control values to the form.
+Generate unique form ID to guarantee one-time validity which expires with the current session.  Should be triggered with `grab()` within templates at the beginning of HTML `FORM` blocks.
 
 #### form_validate (*$form_name*)
 
-Triggered by form handling code *before* processing form data.  This allows the cleanup of control values and should be triggered with `pass()` so that processing stops and the form doesn't get acted upon if any validation handler fails.
+Trigger in your form handling code *before* processing form data.  This allows the cleanup of control values and should be triggered with `pass()` so that processing stops and the form doesn't get acted upon if any validation handler fails.
 
 
 ### Filtering Events

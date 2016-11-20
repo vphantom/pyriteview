@@ -1,9 +1,11 @@
 <?php
 
 class Templating {
-    private static $twig;
-    private static $title = '';
-    private static $status = 200;
+    private static $_twig;
+    private static $_title = '';
+    private static $_status = 200;
+    private static $_template;
+    private static $_safeBody = '';
 
     public static function startup() {
         $twig = new \Twig_Environment(
@@ -28,36 +30,41 @@ class Templating {
             return array_pop(call_user_func_array('trigger', func_get_args())) !== false;
         }));
          */
-        self::$twig = $twig;
+        self::$_twig = $twig;
+        self::$_template = $twig->loadTemplate('layout.html');
 
-        if (self::$status !== 200) {
-            http_response_code(self::$status);
+        if (self::$_status !== 200) {
+            http_response_code(self::$_status);
         };
-        echo $twig->render('head.html');
+        echo self::$_template->renderBlock('init', array());
         flush();
         ob_start();
     }
 
     public static function shutdown() {
-        $name = 'body.html';
-        if (self::$status !== 200) {
-            $name = 'status' . self::$status . '.html';
+        $headName = 'head';
+        $footName = 'foot';
+        if (self::$_status !== 200) {
+            $headName .= '_error';
+            $footName .= '_error';
         };
-        $body = self::$twig->render($name, array('title' => self::$title, 'body' => filter('body', ob_get_contents())));
+        $body = ob_get_contents();
         ob_end_clean();
-        echo $body;
+        echo self::$_template->renderBlock($headName, array('http_status' => self::$_status, 'title' => self::$_title));
+        echo self::$_safeBody;
+        echo self::$_template->renderBlock($footName, array('http_status' => self::$_status, 'body' => $body));
     }
 
     public static function status($code) {
-        self::$status = $code;
+        self::$_status = $code;
     }
 
     public static function title($prepend, $sep = ' - ') {
-        self::$title = $prepend . (self::$title !== '' ? ($sep . self::$title) : '');
+        self::$_title = $prepend . (self::$_title !== '' ? ($sep . self::$_title) : '');
     }
 
     public static function render($name, $args) {
-        echo self::$twig->render($name, $args);
+        self::$_safeBody .= self::$_twig->render($name, $args);
     }
 }
 

@@ -31,6 +31,7 @@ if (php_sapi_name() === 'cli') {
 
 // Start up
 trigger('startup');
+trigger('title', 'PyriteView');
 
 // Router
 Router::run();

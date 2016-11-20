@@ -37,25 +37,33 @@ Then, running `make distrib` any time will rebuild `client.css[.gz]` and `client
 
 ## Template Files
 
-The following template files have special meaning.  Any other name is available for use for building your output.
+A single file is mandatory: `layout.html` which is divided into five blocks:
 
-### head.html
+### init
 
 Displayed and flushed to the browser as early as possible.  Should reference resources and *not* include a TITLE tag yet.
 
-### body.html
+Variables available: `http_status`
 
-If processing the request was successful, during `shutdown` this is displayed for the rest of the document, including TITLE, closing HEAD, etc.
+### head / foot
 
-It is supplied with variable `title` which contains the final title of the page and `body` which contains the output printed by all code that ran between `startup` and `shutdown`.
+If processing the request was successful, during event `shutdown` this is displayed for the rest of the document, including TITLE, closing HEAD, etc.
 
-### statusXXX.html
+Variables available: `title`
 
-When a non-200 HTTP status code was set, one of these is rendered instead of `body.html` and must thus provide the same structure.  Built-in codes in use:
+### head_error / foot_error
+
+When a non-200 HTTP status code was set, these are rendered instead and must thus provide the same structure.
+
+Variables available: `http_status`, `title`
+
+Typical status codes:
 
 **404** When no module declared support for the base of the requested URL.
 
 **500** When a module handled the requested URL, but returned `false`.
+
+For debugging purposes, `foot` and `foot_error` also have special variable `body` available which contains the *escaped* output captured from all code that ran between `startup` and `shutdown` events.  Output by any code not using the `render` event to display templates safely ends up here.
 
 
 ## Database

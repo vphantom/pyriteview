@@ -6,7 +6,7 @@ class Router {
 
     public static function startup() {
         self::$_PATH = explode('/', $_SERVER['PATH_INFO']);
-        if (self::$_PATH[0] === '') {
+        while (self::$_PATH[0] === '') {
             array_shift(self::$_PATH);
         };
 

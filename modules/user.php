@@ -17,13 +17,13 @@ class User {
     public static function login($email, $password) {
         global $db;
 
-        // TODO:
-        // - Lookup and authenticate
-        // $hash_in_db = password_hash('password', PASSWORD_DEFAULT);
-        // password_verify('password', $hash_in_db);
-        // Retrieve the user as an associative array
-        // return the user array if successful, null otherwise
-        return $db->selectSingleArray("SELECT * FROM users WHERE id='1'");
+        if ($user = $db->selectSingleArray("SELECT * FROM users WHERE email=?", array($email))) {
+            if (password_verify($password, $user['passwordHash'])) {
+                return $user;
+            };
+        };
+
+        return false;
     }
 }
 

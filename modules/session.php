@@ -49,4 +49,3 @@ on('startup', 'Session::startup', 1);
 on('shutdown', 'Session::shutdown', 99);
 on('login', 'Session::login', 1);
 
-?>

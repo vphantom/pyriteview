@@ -42,4 +42,3 @@ class AuditTrail {
 on('install', 'AuditTrail::install');
 on('log', 'AuditTrail::add');
 
-?>

@@ -28,4 +28,3 @@ on('form_validate', function ($form_name)
     };
 });
 
-?>

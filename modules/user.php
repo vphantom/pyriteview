@@ -30,4 +30,3 @@ class User {
 on('install', 'User::install');
 on('authenticate', 'User::login');
 
-?>

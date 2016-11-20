@@ -1,6 +1,6 @@
 <?php
 
-class Templating {
+class Twigger {
     private static $_twig;
     private static $_title = '';
     private static $_status = 200;
@@ -15,28 +15,13 @@ class Templating {
                 'autoescape' => true,
             )
         );
-        /*
-        $twig->addFunction(new \Twig_SimpleFunction('trigger', function () {
-            ob_start();
-            call_user_func_array('trigger', func_get_args());
-            $result = ob_get_contents();
-            ob_end_clean();
-            return $result;
-        }));
-        $twig->addFunction(new \Twig_SimpleFunction('filter', function () {
-            return call_user_func_array('filter', func_get_args());
-        }));
-        $twig->addFunction(new \Twig_SimpleFunction('pass', function () {
-            return array_pop(call_user_func_array('trigger', func_get_args())) !== false;
-        }));
-         */
         self::$_twig = $twig;
         self::$_template = $twig->loadTemplate('layout.html');
 
         if (self::$_status !== 200) {
             http_response_code(self::$_status);
         };
-        echo self::$_template->renderBlock('init', array());
+        echo self::$_template->renderBlock('init', array('http_status' => self::$_status));
         flush();
         ob_start();
     }
@@ -68,10 +53,9 @@ class Templating {
     }
 }
 
-on('startup', 'Templating::startup', 99);
-on('shutdown', 'Templating::shutdown', 1);
-on('render', 'Templating::render');
-on('title', 'Templating::title');
-on('http_status', 'Templating::status');
+on('startup', 'Twigger::startup', 99);
+on('shutdown', 'Twigger::shutdown', 1);
+on('render', 'Twigger::render');
+on('title', 'Twigger::title');
+on('http_status', 'Twigger::status');
 
-?>

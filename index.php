@@ -1,13 +1,44 @@
 <?php
 
+/**
+ * Index
+ *
+ * PHP version 5
+ *
+ * @category  Application
+ * @package   PyriteView
+ * @author    Stéphane Lavergne <lis@imars.com>
+ * @copyright 2016 Stéphane Lavergne
+ * @license   http://www.gnu.org/licenses/agpl-3.0.txt  GNU AGPL version 3
+ * @link      https://github.com/vphantom/pyriteview
+ */
+
 // Load dependencies provided by Composer
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Supplements to sphido/event
-function grab() {
+
+/**
+ * Trigger an event and get the last return value
+ *
+ * Parameters are passed as-is to trigger().
+ *
+ * @return mixed The last return value of the result stack.
+ */
+function grab()
+{
     return array_pop(call_user_func_array('trigger', func_get_args()));
 };
-function pass() {
+
+/**
+ * Trigger an event and test falsehood of the last return value
+ *
+ * Parameters are passed as-is to trigger()
+ *
+ * @return bool Whether the last result wasn't false
+ */
+function pass()
+{
     return array_pop(call_user_func_array('trigger', func_get_args())) !== false;
 };
 

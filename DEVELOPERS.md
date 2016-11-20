@@ -73,7 +73,7 @@ Global variable `$db` is available with an instance of the `PDB` wrapper to `PDO
 
 ## User
 
-An associative array of the current user's information, if one is logged in, is available as  `$_SESSION['USER_INFO']`.
+An associative array of the current user's information, if one is logged in, is available as `$_SESSION['USER_INFO']`.  A convenience boolean `$_SESSION['USER_OK']` also indicates if a user is currently identified.
 
 Note that the first three columns defined in our example `modules/user.php` should remain intact: we need a unique ID and we expect to identify users by e-mail address and password, which itself is stored as a one-way hash in the database.
 

@@ -24,6 +24,7 @@ class Session {
     private static function init() {
         $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
         $_SESSION['USER_INFO'] = null;
+        $_SESSION['USER_OK'] = false;
     }
 
     public static function reset() {
@@ -35,8 +36,7 @@ class Session {
         if (is_array($user = grab('authenticate', $email, $password))) {
             self::reset();
             $_SESSION['USER_INFO'] = $user;
-            $_SESSION['email'] = $email;
-            $_SESSION['password'] = $password;
+            $_SESSION['USER_OK'] = true;
             trigger('newuser');
             return true;
         } else {

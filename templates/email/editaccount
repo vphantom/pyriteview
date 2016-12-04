@@ -1,0 +1,36 @@
+{% block subject %}
+PyritePHP - Account information changed
+{% endblock %}
+
+
+{% block text %}
+Hello,
+
+This message is to notify you that your account's e-mail address and/or
+password was successfully modified.  You do not need to take any further
+action at this time.
+
+If you have not requested this modification, please contact us so we may look
+into the issue.
+
+Thank you,
+PyritePHP
+{% endblock %}
+
+
+{% block html %}
+<p>Hello,</p>
+<p>
+This message is to notify you that your account's e-mail address and/or
+password was successfully modified.  You do not need to take any further
+action at this time.
+</p>
+<p>
+If you have not requested this modification, please contact us so we may look
+into the issue.
+</p>
+<p>
+Thank you,
+<br>PyritePHP
+</p>
+{% endblock %}

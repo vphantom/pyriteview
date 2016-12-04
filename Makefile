@@ -9,6 +9,8 @@ GZIP       := gzip -f -n -k -9
 
 CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css $(wildcard modules/*.css)
 
+JS_TOUCH := $(wildcard modules/*.js)
+
 help:
 	@echo
 	@echo "  [ Users ]  make init    - First-time initialization"
@@ -23,6 +25,7 @@ deps:
 	@if ! which php  >/dev/null; then echo "  **  Please install PHP 5+."; exit 1; fi
 	@if ! which sqlite3 >/dev/null; then echo "  **  Please install SQLite 3."; exit 1; fi
 	@if ! php -m |grep -q -E '^mcrypt'; then echo "  **  Please install the PHP extension mcrypt."; exit 1; fi
+	@if ! php -m |grep -q -E '^readline'; then echo "  **  Please install the PHP extension readline. (May not be available under Windows.)"; exit 1; fi
 	@if ! php -m |grep -q -E '^pdo_sqlite'; then echo "  **  Please install the PHP extension pdo_sqlite."; exit 1; fi
 
 bin/composer:
@@ -33,8 +36,7 @@ bin/composer:
 	
 init:	deps bin/composer
 	$(COMPOSER) install
-	@mkdir -p var
-	@mkdir -p var/twig_cache
+	@mkdir -p var/twig_cache var/sessions
 	$(NPM) install --production
 	if [ ! -f var/main.db ]; then $(SQLITE) /dev/null '.save var/main.db'; fi
 	php -f index.php
@@ -42,6 +44,14 @@ init:	deps bin/composer
 dev-init:	deps
 	@if ! which npm  >/dev/null; then echo "  **  Please install NPM, part of NodeJS."; exit 1; fi
 	$(NPM) install
+
+update:	deps bin/composer
+	$(COMPOSER) self-update
+	$(COMPOSER) update
+
+dev-update:	update
+	@if ! which npm  >/dev/null; then echo "  **  Please install NPM, part of NodeJS."; exit 1; fi
+	$(NPM) update
 
 clean:
 	rm -fr bin node_modules vendor var
@@ -63,12 +73,12 @@ client.css:	$(CSS_SRC)
 	cat $@.tmp |sed 's/\.\.\/\(fonts\)/\1/g' >$@
 	rm -f $@.tmp
 
-client.js:	modules/pyriteview.js
-	$(BROWSERIFY) $< -d -o bundle.js
+client.js:	$(JS_TOUCH)
+	$(BROWSERIFY) modules/main.js -d -o bundle.js
 	$(JS) --source-map client.js.map -o client.js -- bundle.js
 	rm -f bundle.js
 
 %.gz: %
 	$(GZIP) $< -c >$@
 
-.PHONY:	help deps clean init dev-init dist-clean distrib
+.PHONY:	help deps clean init dev-init update dev-update dist-clean distrib

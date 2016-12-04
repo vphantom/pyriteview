@@ -1,0 +1,45 @@
+{% block subject %}
+PyritePHP - Account confirmation
+{% endblock %}
+
+
+{% block text %}
+Hello,
+
+This message is to confirm that you control this e-mail address.  If you made
+this request, copy and paste the following link in your web browser to
+continue:
+
+{{ req.protocol }}://{{ req.host }}/{{ validation_link |raw }}
+
+If you have not requested this verification, you can safely discard this
+message.  To learn more about the IP address where this request originated
+from, see:
+
+http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}
+
+Thank you,
+PyritePHP
+{% endblock %}
+
+
+{% block html %}
+<p>Hello,</p>
+<p>
+This message is to confirm that you control this e-mail address.  If you made
+this request, click the following link to continue:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/{{ validation_link }}</a>
+</p>
+<p>
+If you have not requested this verification, you can safely discard this
+message.  To learn more about the IP address where this request originated
+from, see:
+<a href="http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}">http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}</a>
+</p>
+<p>
+Thank you,
+<br>PyritePHP
+</p>
+{% endblock %}

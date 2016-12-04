@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4b6b447b95ae6f97681bd6c489cfa56c",
-    "content-hash": "49bc26a5cd74ddf890d5362157e183f8",
+    "hash": "9c1394f3484c20bb58be5c9484d8bfa3",
+    "content-hash": "62df6bf74b8432be12dec81c68d4fe9c",
     "packages": [
         {
             "name": "sphido/events",
@@ -57,16 +57,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.27.0",
+            "version": "1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "3c6c0033fd3b5679c6e1cb60f4f9766c2b424d97"
+                "reference": "717365d089a2f5cc767d75084f9639811881f628"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3c6c0033fd3b5679c6e1cb60f4f9766c2b424d97",
-                "reference": "3c6c0033fd3b5679c6e1cb60f4f9766c2b424d97",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/717365d089a2f5cc767d75084f9639811881f628",
+                "reference": "717365d089a2f5cc767d75084f9639811881f628",
                 "shasum": ""
             },
             "require": {
@@ -74,12 +74,12 @@
             },
             "require-dev": {
                 "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~2.7"
+                "symfony/phpunit-bridge": "~3.2@dev"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.27-dev"
+                    "dev-master": "1.29-dev"
                 }
             },
             "autoload": {
@@ -114,15 +114,64 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-10-25 19:17:17"
+            "time": "2016-11-23 18:59:28"
+        },
+        {
+            "name": "vphantom/pyritephp-core",
+            "version": "v0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vphantom/pyritephp-core.git",
+                "reference": "2d01ec93f43035f0bf96219c53814b19ef99b2d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vphantom/pyritephp-core/zipball/2d01ec93f43035f0bf96219c53814b19ef99b2d7",
+                "reference": "2d01ec93f43035f0bf96219c53814b19ef99b2d7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mcrypt": "*",
+                "ext-pdo_sqlite": "*",
+                "ext-readline": "*",
+                "ext-session": "*",
+                "php": "~5.5",
+                "sphido/events": "^0.3.0",
+                "twig/twig": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pyrite\\": "src/Pyrite"
+                },
+                "files": [
+                    "src/globals.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stéphane Lavergne",
+                    "email": "lis@imars.com"
+                }
+            ],
+            "description": "PyritePHP Core",
+            "time": "2016-12-03 16:31:59"
         }
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "~5.5",
+        "ext-fileinfo": "*",
+        "ext-pcre": "*"
+    },
     "platform-dev": []
 }

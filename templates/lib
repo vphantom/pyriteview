@@ -1,0 +1,44 @@
+{% macro alert(good, body) %}
+<div class="alert alert-{% if good %}success{% else %}danger{% endif %} alert-dismissable" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+	{{ body }}
+</div>
+{% endmacro %}
+
+{% macro format_timestamp(timestamp) %}
+<span class="timeago" datetime="{{ timestamp }}">{{ timestamp }}</span>
+{% endmacro %}
+
+{% macro format_ip(ip) -%}
+<a href="http://www.ip-adress.com/ip_tracer/{{ ip }}">{{ ip }}</a>
+{%- endmacro %}
+
+{% macro format_email(email) -%}
+<a href="mailto:{{ email }}">{{ email }}</a>
+{%- endmacro %}
+
+{% macro format_user(id) -%}
+	{%- if id == 0 -%}
+		The System
+	{%- else -%}
+		{%- set user = grab('user_resolve', id) -%}
+		{%- if user != false -%}
+			<a href="mailto:{{ user.email }}">{{ user.name }}</a>
+		{%- endif -%}
+	{%- endif -%}
+{%- endmacro %}
+
+{% macro format(type, value) -%}
+	{%- if type == 'ip' -%}
+		{{ _self.format_ip(value) }}
+	{%- elseif type == 'email' -%}
+		{{ _self.format_email(value) }}
+	{%- elseif type == 'user' -%}
+		{{ _self.format_user(value) }}
+	{%- else -%}
+		{{ value }}
+	{%- endif -%}
+{%- endmacro %}

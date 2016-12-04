@@ -1,6 +1,18 @@
 {
+    "name": "vphantom/pyriteview",
+    "type": "project",
+    "license": "AGPL-3.0",
+    "authors": [
+        {
+            "name": "Stéphane Lavergne",
+            "email": "lis@imars.com"
+        }
+    ],
+    "minimum-stability": "dev",
     "require": {
-        "twig/twig": "~1.0",
-        "sphido/events": "^0.3.0"
+        "php": "~5.5",
+        "ext-fileinfo": "*",
+        "ext-pcre": "*",
+        "vphantom/pyritephp-core": "~0.7"
     }
 }

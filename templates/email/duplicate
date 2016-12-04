@@ -1,0 +1,48 @@
+{% block subject %}
+PyritePHP - Account already exists
+{% endblock %}
+
+
+{% block text %}
+Hello,
+
+This message is just to let you know that you or someone else attempted to
+create an account for this e-mail address, but it already exists.  If you made
+this request, then perhaps you simply forgot your password?  If so, copy and
+paste the following link in your web browser to reset your password:
+
+{{ req.protocol }}://{{ req.host }}/password_reset
+
+If you have not requested this verification, you can safely discard this
+message.  To learn more about the IP address where this request originated
+from, see:
+
+http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}
+
+Thank you,
+PyritePHP
+{% endblock %}
+
+
+{% block html %}
+<p>Hello,</p>
+<p>
+This message is just to let you know that you or someone else attempted to
+create an account for this e-mail address, but it already exists.  If you made
+this request, then perhaps you simply forgot your password?  If so, click the
+following link to reset your password:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/password_reset">{{ req.protocol }}://{{ req.host }}/password_reset</a>
+</p>
+<p>
+If you have not requested this verification, you can safely discard this
+message.  To learn more about the IP address where this request originated
+from, see:
+<a href="http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}">http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}</a>
+</p>
+<p>
+Thank you,
+<br>PyritePHP
+</p>
+{% endblock %}

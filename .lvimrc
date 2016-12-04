@@ -17,4 +17,6 @@ if &filetype =~ 'javascript' || &filetype =~ 'json'
    setlocal softtabstop=2
    let &l:makeprg=g:localvimrc_script_dir."/node_modules/.bin/eslint --format unix %"
 endif
-au BufRead,BufNewFile *.jst set filetype=jsp
+au BufRead,BufNewFile *.html set filetype=htmldjango
+au BufRead,BufNewFile */templates/email/* set filetype=htmldjango
+au BufRead,BufNewFile */templates/lib set filetype=htmldjango

@@ -6,11 +6,11 @@
  * PHP version 5
  *
  * @category  Application
- * @package   PyritePHP
+ * @package   PyriteView
  * @author    Stéphane Lavergne <lis@imars.com>
  * @copyright 2016 Stéphane Lavergne
- * @license   https://opensource.org/licenses/MIT  MIT
- * @link      https://github.com/vphantom/pyrite-php
+ * @license   https://www.gnu.org/licenses/agpl-3.0.txt  GNU Affero GPL version 3
+ * @link      https://github.com/vphantom/pyriteview
  */
 
 // Load dependencies provided by Composer

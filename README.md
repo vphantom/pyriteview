@@ -2,7 +2,7 @@
 
 Article versioning hub for peer-reviewed publications.
 
-This simple hub allows publication editors, single edition editors, article authors as well as third-party reviewers to come together to centralize the peer-reviewing workflow.
+This simple hub allows publication editors, single edition editors, article authors as well as third-party reviewers to come together to centralize the peer-reviewing workflow.  It was developed as a multilingual application in English and French, and 100% of linguistic content is in templates, so translating to new languages should be fairly easy.
 
 ### Why the name "Pyrite"?
 

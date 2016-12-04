@@ -1,5 +1,5 @@
 {% block subject %}
-PyritePHP - Account information changed
+PyriteView - Account information changed
 {% endblock %}
 
 
@@ -14,7 +14,7 @@ If you have not requested this modification, please contact us so we may look
 into the issue.
 
 Thank you,
-PyritePHP
+PyriteView
 {% endblock %}
 
 
@@ -31,6 +31,6 @@ into the issue.
 </p>
 <p>
 Thank you,
-<br>PyritePHP
+<br>PyriteView
 </p>
 {% endblock %}

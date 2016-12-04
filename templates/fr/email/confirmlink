@@ -1,0 +1,46 @@
+{% block subject %}
+PyriteView - Confirmation de compte
+{% endblock %}
+
+
+{% block text %}
+Bonjour,
+
+Ce message est pour confirmer que vous contrôlez bien cette adresse de
+courriel.  Si vous avez fait cette demande, copiez et collez le lien
+ci-dessous dans votre navigateur pour continuer:
+
+{{ req.protocol }}://{{ req.host }}/{{ validation_link |raw }}
+
+Si vous n'avez pas demandé cette vérification, vous pouvez sans danger ignorer
+ce message.  Pour en savoir plus sur l'adresse IP d'où provient cette demande,
+consultez:
+
+http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}
+
+Merci,
+PyriteView
+{% endblock %}
+
+
+{% block html %}
+<p>Hello,</p>
+<p>
+Ce message est pour confirmer que vous contrôlez bien cette adresse de
+courriel.  Si vous avez fait cette demande, cliquez le lien ci-dessous pour
+continuer:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/{{ validation_link }}</a>
+</p>
+<p>
+Si vous n'avez pas demandé cette vérification, vous pouvez sans danger ignorer
+ce message.  Pour en savoir plus sur l'adresse IP d'où provient cette demande,
+consultez:
+<a href="http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}">http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}</a>
+</p>
+<p>
+Merci,
+<br>PyriteView
+</p>
+{% endblock %}

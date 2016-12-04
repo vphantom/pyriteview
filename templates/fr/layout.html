@@ -23,7 +23,7 @@
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
+						<span class="sr-only">Basculer navigation</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -37,9 +37,9 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ session.user.name }} <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li class="dropdown-header">{{ session.user.email }}</li>
-								<li><a href="{{ req.base }}/user/prefs"><span class="glyphicon glyphicon-cog"></span> Preferences</a></li>
-								<li><a href="{{ req.base }}/user/history"><span class="glyphicon glyphicon-list"></span> Account History</a></li>
-								<li><a href="{{ req.base }}/logout"><span class="glyphicon glyphicon-off"></span> Sign out</a></li>
+								<li><a href="{{ req.base }}/user/prefs"><span class="glyphicon glyphicon-cog"></span> Préférences</a></li>
+								<li><a href="{{ req.base }}/user/history"><span class="glyphicon glyphicon-list"></span> Historique du compte</a></li>
+								<li><a href="{{ req.base }}/logout"><span class="glyphicon glyphicon-off"></span> Déconnexion</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -47,20 +47,20 @@
 					<form class="navbar-form navbar-right" method="post" action="{{ req.base }}/login" id="login-form">
 						{{ filter('form_begin', 'login-form') |raw }}
 						<div class="form-group">
-							<input type="email" name="email" placeholder="E-Mail" value="{{ post.email }}" class="form-control" required>
+							<input type="email" name="email" placeholder="Courriel" value="{{ post.email }}" class="form-control" required>
 						</div>
 						<div class="form-group">
-							<input type="password" name="password" placeholder="Password" class="form-control" required>
+							<input type="password" name="password" placeholder="Mot de passe" class="form-control" required>
 						</div>
-						<button type="submit" class="btn btn-success">Sign in</button>
+						<button type="submit" class="btn btn-success">Connexion</button>
 					</form>
 					{% endif %}
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ req.lang }} <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="/{% if 'en' != req.default_lang %}en/{% endif %}{{ req.path }}{{ req.query }}">English</a></li>
 								<li><a href="/{% if 'fr' != req.default_lang %}fr/{% endif %}{{ req.path }}{{ req.query }}">Français</a></li>
+								<li><a href="/{% if 'en' != req.default_lang %}en/{% endif %}{{ req.path }}{{ req.query }}">English</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -72,13 +72,13 @@
 			<div class="row">
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
-						<li><a href="{{ req.base }}/"{% if req.path == '' %} class="active"{% endif %}><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+						<li><a href="{{ req.base }}/"{% if req.path == '' %} class="active"{% endif %}><span class="glyphicon glyphicon-dashboard"></span> Tableau de bord</a></li>
 						{% if pass('can', 'admin') %}
 							<li><a href="{{ req.base }}/admin"{% if req.path == 'admin' or req.path starts with 'admin/' %} class="active"{% endif %}><span class="glyphicon glyphicon-wrench"></span> Administration</a>
 								{% if req.path starts with 'admin' %}
 									<ul class="nav nav-second-level">
-										<li><a href="{{ req.base }}/admin/users"{% if req.path starts with 'admin/users' %} class="active"{% endif %}><span class="glyphicon glyphicon-user"></span> Users</a></li>
-										<li><a href="{{ req.base }}/admin/roles"{% if req.path starts with 'admin/roles' %} class="active"{% endif %}><span class="glyphicon glyphicon-education"></span> Roles</a></li>
+										<li><a href="{{ req.base }}/admin/users"{% if req.path starts with 'admin/users' %} class="active"{% endif %}><span class="glyphicon glyphicon-user"></span> Usagers</a></li>
+										<li><a href="{{ req.base }}/admin/roles"{% if req.path starts with 'admin/roles' %} class="active"{% endif %}><span class="glyphicon glyphicon-education"></span> Rôles</a></li>
 									</ul>
 								{% endif %}
 							</li>
@@ -93,33 +93,33 @@
 			{% if req.status >= 400 %}
 				<div class="jumbotron">
 					{% if req.status == 404 %}
-						<h1>Not Found</h1>
-						<p>This resource cannot be found right now.  You might want to go back one page from here.</p>
+						<h1>Introuvable</h1>
+						<p>Cette ressource ne peut être trouvée présentement.  Vous pourriez reculer d'une page à partir d'ici.</p>
 					{% elseif req.status == 403 %}
 						{% if session.identified %}
-							<h1>Unauthorized</h1>
-							<p>Your current permissions do not give you access to this resource.</p>
+							<h1>Non-autorisé</h1>
+							<p>Vos permissions actuelles ne donnent pas accès à cette ressource.</p>
 						{% else %}
 							{% if req.get.onetime %}
-								<h1>Account Activation Failed</h1>
-								<p>The activation link has expired or is otherwise invalid.</p>
+								<h1>Activation du compte infructueuse</h1>
+								<p>Le lien d'activation est expiré ou invalide.</p>
 							{% elseif req.post.email %}
-								<h1>Login Failed</h1>
-								<p>The e-mail address and password combination that you entered is incorrect.</p>
+								<h1>Connexion impossible</h1>
+								<p>L'adresse de courriel et le mot de passe fournis sont incorrects.</p>
 							{% else %}
-								<h1>Welcome to PyriteView!</h1>
+								<h1>Bienvenue à PyriteView!</h1>
 							{% endif %}
-							<p>In order to use this application, you need to log in to your account here.  If you don't have an account yet, please consider registering.</p>
-							<p><a class="btn btn-primary btn-lg" type="button" href="{{ req.base }}/register">Register &raquo;</a></p>
-							<p>If you already have an account and forgot your password, <a href="{{ req.base }}/password_reset">click here</a>.</p>
+							<p>Pour utiliser cette application, vous devez vous connecter à votre compte ici.  Si vous n'avez pas encore de compte, vous devriez vous inscrire.</p>
+							<p><a class="btn btn-primary btn-lg" type="button" href="{{ req.base }}/register">Inscription &raquo;</a></p>
+							<p>Si vous avez déjà un compte mais avez oublié votre mot de passe, <a href="{{ req.base }}/password_reset">cliquez ici</a>.</p>
 						{% endif %}
 					{% elseif req.status == 440 %}
 						{% if session.identified %}
-							<h1>Duplicate Submission</h1>
-							<p>It seems your browser had already submitted this form.  If you were submitting new information, you might have to fill it out again.</p>
+							<h1>Soumission en double</h1>
+							<p>Il semblerait que votre navigateur aie déjà soumis ce formulaire.  Si vous transmettiez de la nouvelle information, vous pourriez devoir les remplir à nouveau.</p>
 						{% else %}
-							<h1>Session Expired</h1>
-							<p>Please sign in again.</p>
+							<h1>Session expirée</h1>
+							<p>Veuillez vous connecter à nouveau.</p>
 						{% endif %}
 					{% endif %}
 				</div>

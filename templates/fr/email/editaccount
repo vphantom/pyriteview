@@ -1,0 +1,36 @@
+{% block subject %}
+PyriteView - Modifications au compte
+{% endblock %}
+
+
+{% block text %}
+Bonjour,
+
+Ce message est pour vous informer que l'adresse de courriel et/ou le mot de
+passe de votre compte ont été modifiés.  Vous n'avez pas d'autre action à
+prendre.
+
+Si vous n'avez pas demandé cette modification, veuillez nous contacter sans
+tarder pour nous permettre de regarder ce qui s'est passé.
+
+Merci,
+PyriteView
+{% endblock %}
+
+
+{% block html %}
+<p>Bonjour,</p>
+<p>
+Ce message est pour vous informer que l'adresse de courriel et/ou le mot de
+passe de votre compte ont été modifiés.  Vous n'avez pas d'autre action à
+prendre.
+</p>
+<p>
+Si vous n'avez pas demandé cette modification, veuillez nous contacter sans
+tarder pour nous permettre de regarder ce qui s'est passé.
+</p>
+<p>
+Merci,
+<br>PyriteView
+</p>
+{% endblock %}

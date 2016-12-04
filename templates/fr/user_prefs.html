@@ -1,0 +1,39 @@
+{{ title('Préférences') }}
+<h2>Préférences du compte</h2>
+{% if saved %}
+	{% if success %}
+		{{ lib.alert(success, "Sauvegardé avec succès.") }}
+	{% else %}
+		{{ lib.alert(success, "Une erreur est survenue durant la sauvegarde.  Mauvais mot de passe, peut-être?") }}
+	{% endif %}
+{% else %}
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		Configuration &amp; Information
+	</div>
+	<div class="panel-body">
+		{% include 'user_edit.html' %}
+	</div>
+</div>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		Modifier courriel ou mot de passe
+	</div>
+	<div class="panel-body">
+		<form id="user_passmail" method="post" class="form-auto">
+			<p>Pour votre protection, pour modifier votre adresse de courriel ou votre mot de passe, vous devez entrer votre mot de passe actuel à nouveau.  Un rappel vous sera également transmis par courriel (aux nouvelle et ancienne adresses, s'il y a lieu).</p>
+			{{ filter('form_begin', 'user_passmail') |raw }}
+			<input data-label="Courriel" type="email" id="email" value="{{ user.email }}" required maxlength="100">
+			<p>&nbsp;</p>
+			<input data-label="Mot de passe actuel" type="password" id="password" required>
+			<p>&nbsp;</p>
+			<input data-label="Nouveau mot de passe" type="password" id="newpassword1" minlength="8" maxlength="16" placeholder="Remplir seulement si vous voulez le modifier">
+			<input data-label="Répéter mot de passe" type="password" id="newpassword2" maxlength="16" placeholder="encore, pour confirmer" data-parsley-equalto="#newpassword1" data-parsley-validate-if-empty>
+			<button type="submit">Sauvegarder changements</button>
+		</form>
+	</div>
+</div>
+
+{% endif %}

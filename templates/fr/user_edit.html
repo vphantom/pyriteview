@@ -1,0 +1,9 @@
+<form id="user_prefs" method="post" class="form-auto">
+	{{ filter('form_begin', 'user_prefs') |raw }}
+	{% if user.id != session.user.id and pass('can', 'admin') %}
+		<input type="hidden" name="id" value="{{ user.id }}">
+		<input data-label="Courriel" type="email" id="email" value="{{ user.email }}" required maxlength="100">
+	{% endif %}
+	<input data-label="Nom" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100">
+	<button type="submit">Sauvegarder changements</button>
+</form>

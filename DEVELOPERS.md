@@ -320,6 +320,14 @@ Trigger in your form handling code *before* processing form data.  This allows t
 
 After the main content area of the current page is buffered, it is passed through this filter.  This allows, for example, automated table of contents generation, link substitutions, etc.
 
+#### clean_email (*$address*)
+
+Sanitizes whatever characters shouldn't be in an e-mail address.
+
+#### clean_name (*$name*)
+
+Sanitizes what shouldn't comprise a typical user input field, such as `<>|\"'` and the backtick and low-ASCII.
+
 
 ### Session Events
 

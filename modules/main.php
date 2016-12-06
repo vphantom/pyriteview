@@ -292,12 +292,13 @@ on(
             $success = false;
             $history = array();
             $user = array();
+            $roles = array();
             $rights = array();
 
-            if (isset($_POST['name'])) {
+            if (isset($_POST['name']) && isset($_GET['id'])) {
                 if (!pass('form_validate', 'user_prefs')) return trigger('http_status', 440);
                 $saved = true;
-                $success = pass('user_update', $_POST['id'], $_POST);
+                $success = pass('user_update', $_GET['id'], $_POST);
 
             } elseif (isset($_GET['id'])) {
                 $user = \Pyrite\Users::resolve($_GET['id']);

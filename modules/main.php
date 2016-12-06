@@ -31,35 +31,6 @@ function isGuest()
     return false;
 }
 
-/**
- * Sanitize e-mail address
- *
- * @param string $email String to filter
- *
- * @return string
- */
-function cleanEmail($email)
-{
-    // filter_var()'s FILTER_SANITIZE_EMAIL is way too permissive
-    return preg_replace('/[^a-zA-Z0-9@.,_+-]/', '', $email);
-}
-
-/**
- * Strip low-ASCII and <>`|\"' from string
- *
- * @param string $string String to filter
- *
- * @return string
- */
-function cleanText($string)
-{
-    return preg_replace(
-        '/[<>`|\\"\']/',
-        '',
-        filter_var($string, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES|FILTER_FLAG_STRIP_LOW)
-    );
-}
-
 on(
     'route/main',
     function () {
@@ -131,21 +102,21 @@ on(
                 return trigger('http_status', 440);
             };
             $saved = true;
-            $_POST['name'] = cleanText($_POST['name']);
+            $_POST['name'] = filter('clean_name', $_POST['name']);
             $success = pass('user_update', $_SESSION['user']['id'], $_POST);
         };
 
         // Change e-mail or password
         if (isset($_POST['email'])) {
-            $_POST['email'] = cleanEmail($_POST['email']);
+            $_POST['email'] = filter('clean_email', $_POST['email']);
             if (!pass('form_validate', 'user_passmail')) {
                 return trigger('http_status', 440);
             };
             $saved = true;
-            $oldEmail = cleanEmail($_SESSION['user']['email']);
+            $oldEmail = filter('clean_email', $_SESSION['user']['email']);
             if (pass('login', $oldEmail, $_POST['password'])) {
                 if ($success = pass('user_update', $_SESSION['user']['id'], $_POST)) {
-                    $name = cleanText($_SESSION['user']['name']);
+                    $name = filter('clean_name', $_SESSION['user']['name']);
                     trigger(
                         'sendmail',
                         "{$name} <{$oldEmail}>",
@@ -214,8 +185,8 @@ on(
                 return trigger('http_status', 440);
             };
             $created = true;
-            $_POST['email'] = cleanEmail($_POST['email']);
-            $_POST['name'] = cleanText($_POST['name']);
+            $_POST['email'] = filter('clean_email', $_POST['email']);
+            $_POST['name'] = filter('clean_email', $_POST['name']);
             $_POST['onetime'] = true;
             if (($onetime = grab('user_create', $_POST)) !== false) {
                 $success = true;
@@ -312,7 +283,7 @@ on(
             // 2.1 Link from e-mail clicked, display form if onetime valid
             $inprogress = true;
             $saved = false;
-            $email = cleanEmail($_GET['email']);
+            $email = filter('clean_email', $_GET['email']);
             if (($user = grab('authenticate', $_GET['email'], null, $_GET['onetime'])) !== false) {
                 $valid = true;
                 if (($onetime = grab('user_update', $user['id'], array('onetime' => true))) === false) {

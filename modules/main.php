@@ -15,26 +15,10 @@
  * @link      https://github.com/vphantom/pyriteview
  */
 
-namespace Main;
-
-/**
- * Enforce mandatory login for accessing a component
- *
- * @return bool Whether user is logged in and can thus proceed
- */
-function isGuest()
-{
-    if (!$_SESSION['identified']) {
-        trigger('http_status', 403);
-        return true;
-    };
-    return false;
-}
-
 on(
     'route/main',
     function () {
-        if (isGuest()) return;
+        if (!$_SESSION['identified']) return trigger('http_status', 403);
         if (!pass('can', 'login')) {
             return trigger('http_status', 403);
         };
@@ -46,7 +30,7 @@ on(
 on(
     'route/admin',
     function () {
-        if (isGuest()) return;
+        if (!$_SESSION['identified']) return trigger('http_status', 403);
         if (!pass('can', 'admin')) {
             return trigger('http_status', 403);
         };
@@ -92,7 +76,7 @@ on(
 on(
     'route/user+prefs',
     function () {
-        if (isGuest()) return;
+        if (!$_SESSION['identified']) return trigger('http_status', 403);
         $saved = false;
         $success = false;
 
@@ -155,7 +139,7 @@ on(
 on(
     'route/user+history',
     function () {
-        if (isGuest()) return;
+        if (!$_SESSION['identified']) return trigger('http_status', 403);
         $history = grab(
             'history',
             array(

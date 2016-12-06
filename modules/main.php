@@ -154,7 +154,7 @@ on(
             if (!pass('form_validate', 'registration')) return trigger('http_status', 440);
             $created = true;
             $_POST['email'] = filter('clean_email', $_POST['email']);
-            $_POST['name'] = filter('clean_email', $_POST['name']);
+            $_POST['name'] = filter('clean_name', $_POST['name']);
             $_POST['onetime'] = true;
             if (($onetime = grab('user_create', $_POST)) !== false) {
                 $success = true;

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9c1394f3484c20bb58be5c9484d8bfa3",
-    "content-hash": "62df6bf74b8432be12dec81c68d4fe9c",
+    "hash": "a89da7c5354be5c0f224303beb8797b2",
+    "content-hash": "c9dc5cd6d4daf74fd44485bb5858a271",
     "packages": [
         {
             "name": "sphido/events",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "717365d089a2f5cc767d75084f9639811881f628"
+                "reference": "8ad862b98e8c0ea509a04242c454c97e1265bd9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/717365d089a2f5cc767d75084f9639811881f628",
-                "reference": "717365d089a2f5cc767d75084f9639811881f628",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/8ad862b98e8c0ea509a04242c454c97e1265bd9a",
+                "reference": "8ad862b98e8c0ea509a04242c454c97e1265bd9a",
                 "shasum": ""
             },
             "require": {
@@ -114,20 +114,20 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-11-23 18:59:28"
+            "time": "2016-12-05 09:20:45"
         },
         {
             "name": "vphantom/pyritephp-core",
-            "version": "v0.7.1",
+            "version": "v0.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vphantom/pyritephp-core.git",
-                "reference": "2d01ec93f43035f0bf96219c53814b19ef99b2d7"
+                "reference": "c4426e48baecaad5e286a42b0c06e2c722dd1910"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vphantom/pyritephp-core/zipball/2d01ec93f43035f0bf96219c53814b19ef99b2d7",
-                "reference": "2d01ec93f43035f0bf96219c53814b19ef99b2d7",
+                "url": "https://api.github.com/repos/vphantom/pyritephp-core/zipball/c4426e48baecaad5e286a42b0c06e2c722dd1910",
+                "reference": "c4426e48baecaad5e286a42b0c06e2c722dd1910",
                 "shasum": ""
             },
             "require": {
@@ -159,7 +159,7 @@
                 }
             ],
             "description": "PyritePHP Core",
-            "time": "2016-12-03 16:31:59"
+            "time": "2016-12-06 12:10:32"
         }
     ],
     "packages-dev": [],
@@ -169,7 +169,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~5.5",
+        "php": ">=5.5",
         "ext-fileinfo": "*",
         "ext-pcre": "*"
     },

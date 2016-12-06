@@ -26,7 +26,6 @@ deps:
 	@if ! which sqlite3 >/dev/null; then echo "  **  Please install SQLite 3."; exit 1; fi
 	@if ! php -m |grep -q -E '^mcrypt'; then echo "  **  Please install the PHP extension mcrypt."; exit 1; fi
 	@if ! php -m |grep -q -E '^readline'; then echo "  **  Please install the PHP extension readline. (May not be available under Windows.)"; exit 1; fi
-	@if ! php -m |grep -q -E '^pdo_sqlite'; then echo "  **  Please install the PHP extension pdo_sqlite."; exit 1; fi
 
 bin/composer:
 	@mkdir -p bin
@@ -37,7 +36,6 @@ bin/composer:
 init:	deps bin/composer
 	$(COMPOSER) install
 	@mkdir -p var/twig_cache var/sessions
-	$(NPM) install --production
 	if [ ! -f var/main.db ]; then $(SQLITE) /dev/null '.save var/main.db'; fi
 	php -f index.php
 

@@ -18,8 +18,6 @@
   },
   "homepage": "https://github.com/vphantom/pyriteview#readme",
   "dependencies": {
-    "eslint": "^3.11.1",
-    "uglify-js": "^2.7.5"
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",

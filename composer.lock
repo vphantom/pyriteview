@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a89da7c5354be5c0f224303beb8797b2",
-    "content-hash": "c9dc5cd6d4daf74fd44485bb5858a271",
+    "hash": "bab7ee125042040a05e40d2688419417",
+    "content-hash": "d47154a160083190d8422a7275cc8fde",
     "packages": [
         {
             "name": "sphido/events",
@@ -171,7 +171,10 @@
     "platform": {
         "php": ">=5.5",
         "ext-fileinfo": "*",
-        "ext-pcre": "*"
+        "ext-mcrypt": "*",
+        "ext-pcre": "*",
+        "ext-pdo_sqlite": "*",
+        "ext-readline": "*"
     },
     "platform-dev": []
 }

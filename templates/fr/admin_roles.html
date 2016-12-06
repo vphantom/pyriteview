@@ -75,9 +75,9 @@
 									</form>
 								{% endif %}
 							</td>
-							<td class="fit">{% if right.action == '*' %}<em>any action</em>{% else %}{{ right.action }}{% endif %}</td>
-							<td class="fit">{% if right.objectType == '*' %}<em>any type</em>{% else %}{{ right.objectType }}{% endif %}</td>
-							<td>{% if right.objectId == 0 %}<em>all</em>{% else %}{{ right.objectId }}{% endif %}</td>
+							<td class="fit">{% if right.action == '*' %}<em>toute action</em>{% else %}{{ right.action }}{% endif %}</td>
+							<td class="fit">{% if right.objectType == '*' %}<em>tout type</em>{% else %}{{ right.objectType }}{% endif %}</td>
+							<td>{% if right.objectId == 0 %}<em>tous</em>{% else %}{{ right.objectId }}{% endif %}</td>
 						</tr>
 						{% endfor %}
 						{% if roles[role]|length == 0 %}

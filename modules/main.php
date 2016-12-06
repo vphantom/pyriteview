@@ -19,9 +19,7 @@ on(
     'route/main',
     function () {
         if (!$_SESSION['identified']) return trigger('http_status', 403);
-        if (!pass('can', 'login')) {
-            return trigger('http_status', 403);
-        };
+        if (!pass('can', 'login')) return trigger('http_status', 403);
         // TODO: Your application's authenticated interface starts here.
         echo "<p>Dashboard will go here</p>\n";
     }
@@ -31,9 +29,7 @@ on(
     'route/admin',
     function () {
         if (!$_SESSION['identified']) return trigger('http_status', 403);
-        if (!pass('can', 'admin')) {
-            return trigger('http_status', 403);
-        };
+        if (!pass('can', 'admin')) return trigger('http_status', 403);
         echo "<p>An admin dashboard can go here</p>\n";
     }
 );
@@ -46,18 +42,12 @@ on(
         if (isset($_GET['email']) && isset($_GET['onetime'])) {
 
             // Account creation validation link
-            if (!pass('login', $_GET['email'], null, $_GET['onetime'])) {
-                return trigger('http_status', 403);
-            };
+            if (!pass('login', $_GET['email'], null, $_GET['onetime'])) return trigger('http_status', 403);
         } else {
 
             // Normal login
-            if (!pass('form_validate', 'login-form')) {
-                return trigger('http_status', 440);
-            };
-            if (!pass('login', $_POST['email'], $_POST['password'])) {
-                return trigger('http_status', 403);
-            };
+            if (!pass('form_validate', 'login-form')) return trigger('http_status', 440);
+            if (!pass('login', $_POST['email'], $_POST['password'])) return trigger('http_status', 403);
         };
 
         trigger('http_redirect', $req['base'] . '/');
@@ -82,9 +72,7 @@ on(
 
         // Settings & Information
         if (isset($_POST['name'])) {
-            if (!pass('form_validate', 'user_prefs')) {
-                return trigger('http_status', 440);
-            };
+            if (!pass('form_validate', 'user_prefs')) return trigger('http_status', 440);
             $saved = true;
             $_POST['name'] = filter('clean_name', $_POST['name']);
             $success = pass('user_update', $_SESSION['user']['id'], $_POST);
@@ -93,9 +81,7 @@ on(
         // Change e-mail or password
         if (isset($_POST['email'])) {
             $_POST['email'] = filter('clean_email', $_POST['email']);
-            if (!pass('form_validate', 'user_passmail')) {
-                return trigger('http_status', 440);
-            };
+            if (!pass('form_validate', 'user_passmail')) return trigger('http_status', 440);
             $saved = true;
             $oldEmail = filter('clean_email', $_SESSION['user']['email']);
             if (pass('login', $oldEmail, $_POST['password'])) {
@@ -165,9 +151,7 @@ on(
         $created = false;
         $success = false;
         if (isset($_POST['email'])) {
-            if (!pass('form_validate', 'registration')) {
-                return trigger('http_status', 440);
-            };
+            if (!pass('form_validate', 'registration')) return trigger('http_status', 440);
             $created = true;
             $_POST['email'] = filter('clean_email', $_POST['email']);
             $_POST['name'] = filter('clean_email', $_POST['name']);
@@ -297,9 +281,7 @@ on(
     function ($path) {
         global $PPHP;
 
-        if (!pass('can', 'admin')) {
-            return trigger('http_status', 403);
-        };
+        if (!pass('can', 'admin')) return trigger('http_status', 403);
         $f = array_shift($path);
         switch ($f) {
 
@@ -313,9 +295,7 @@ on(
             $rights = array();
 
             if (isset($_POST['name'])) {
-                if (!pass('form_validate', 'user_prefs')) {
-                    return trigger('http_status', 440);
-                };
+                if (!pass('form_validate', 'user_prefs')) return trigger('http_status', 440);
                 $saved = true;
                 $success = pass('user_update', $_POST['id'], $_POST);
 
@@ -412,9 +392,7 @@ on(
     function () {
         global $PPHP;
 
-        if (!pass('can', 'admin')) {
-            return trigger('http_status', 403);
-        };
+        if (!pass('can', 'admin')) return trigger('http_status', 403);
 
         $f = isset($_POST['f']) ? $_POST['f'] : null;
         $success = false;

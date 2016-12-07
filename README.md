@@ -22,10 +22,8 @@ TODO
 ### Requirements
 
 * PHP 5.x or later
-* PHP's `mcrypt` extension module
-* PHP's `pdo_sqlite` extension module
+* PHP extension modules: mbstring, mcrypt, pdo_sqlite, readline
 * SQLite 3
-* Typical Linux command line tools: wget, gzip
 * Typical Linux command line tools: make, wget, gzip
 * A web server of course
 
@@ -58,9 +56,7 @@ location ~ /(bin|lib|modules|node_modules|templates|var|vendor) {
 }
 
 location ~ \.php$ {
-    fastcgi_pass 127.0.0.1:9000;
-    fastcgi_param SCRIPT_FILENAME $document_root $fastcgi_script_name;
-    include fastcgi_params;
+	# Usual FastCGI configuration
 }
 
 location / {

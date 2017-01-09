@@ -1,26 +1,26 @@
 {% block subject %}
-Invitation à joindre PyriteView
+Invitation à joindre {{ config.global.name }}
 {% endblock %}
 
 
 {% block text %}
 Bonjour,
 
-Vous êtes invités à vous joindre à PyriteView, où ce courriel a été ajouté.
+Vous êtes invités à vous joindre à {{ config.global.name }}, où ce courriel a été ajouté.
 Veuillez copier et coller le lien ci-dessous dans votre navigateur pour
 accéder à votre nouveau compte:
 
 {{ req.protocol }}://{{ req.host }}/
 
 Merci,
-PyriteView
+{{ config.global.name }}
 {% endblock %}
 
 
 {% block html %}
 <p>Bonjour,</p>
 <p>
-Vous êtes invités à vous joindre à PyriteView, où ce courriel a été ajouté.
+Vous êtes invités à vous joindre à {{ config.global.name }}, où ce courriel a été ajouté.
 Veuillez cliquer le lien ci-dessous pour accéder à votre nouveau compte:
 </p>
 <p>
@@ -28,6 +28,6 @@ Veuillez cliquer le lien ci-dessous pour accéder à votre nouveau compte:
 </p>
 <p>
 Merci,
-<br>PyriteView
+<br>{{ config.global.name }}
 </p>
 {% endblock %}

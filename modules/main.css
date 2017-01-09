@@ -4,6 +4,11 @@ body {
 	padding-top: 70px;
 }
 
+.optional {
+	background-color: #f4f6f8;
+	padding: 0.5em;
+}
+
 .panel-heading {
 	font-weight: bold;
 }
@@ -15,6 +20,11 @@ body {
 
 .form-toolbar .btn {
 	padding: 0;
+}
+
+form.form-horizontal input[type="submit"],
+form.form-horizontal button[type="submit"] {
+	margin-top: 1em;
 }
 
 /* Left menu */

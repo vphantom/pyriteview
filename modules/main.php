@@ -47,7 +47,25 @@ on(
 
             // Normal login
             if (!pass('form_validate', 'login-form')) return trigger('http_status', 440);
-            if (!pass('login', $_POST['email'], $_POST['password'])) return trigger('http_status', 403);
+            usleep(500000);
+            if (isset($_POST['password']) && strlen($_POST['password']) > 0) {
+                if (!pass('login', $_POST['email'], $_POST['password'])) return trigger('http_status', 403);
+            } else {
+                if (($user = grab('user_fromemail', $_POST['email'])) !== false) {
+                    if (($onetime = grab('user_update', $user['id'], array('onetime' => true))) !== false) {
+                        $link = 'login?' . http_build_query(array( 'email' => $_POST['email'], 'onetime' => $onetime));
+                        trigger(
+                            'sendmail',
+                            "{$user['name']} <{$_POST['email']}>",
+                            'confirmlink',
+                            array(
+                                'validation_link' => $link
+                            )
+                        );
+                    };
+                };
+                return trigger('render', 'login.html');
+            };
         };
 
         trigger('http_redirect', $req['base'] . '/');
@@ -158,15 +176,23 @@ on(
             $_POST['onetime'] = true;
             if (($onetime = grab('user_create', $_POST)) !== false) {
                 $success = true;
-                $link = 'login?' . http_build_query(array( 'email' => $_POST['email'], 'onetime' => $onetime));
-                trigger(
-                    'sendmail',
-                    "{$_POST['name']} <{$_POST['email']}>",
-                    'confirmlink',
-                    array(
-                        'validation_link' => $link
-                    )
-                );
+                if (pass('can', 'admin')) {
+                    trigger(
+                        'sendmail',
+                        "{$_POST['name']} <{$_POST['email']}>",
+                        'invitation'
+                    );
+                } else {
+                    $link = 'login?' . http_build_query(array( 'email' => $_POST['email'], 'onetime' => $onetime));
+                    trigger(
+                        'sendmail',
+                        "{$_POST['name']} <{$_POST['email']}>",
+                        'confirmlink',
+                        array(
+                            'validation_link' => $link
+                        )
+                    );
+                };
             } else {
                 if (($user = grab('user_fromemail', $_POST['email'])) !== false) {
                     // Onetime failed because user exists, warn of duplicate

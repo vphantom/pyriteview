@@ -7,7 +7,6 @@
 	{% endif %}
 {% else %}
 
-<div class="container">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h2>Sign up</h2>
@@ -17,12 +16,16 @@
 				{{ filter('form_begin', 'registration') |raw }}
 				<input data-label="E-Mail"          type="email"    id="email" placeholder="Your e-mail address identifies you here" maxlength="100" required>
 				<input data-label="Name"            type="text"     id="name" minlength="3" maxlength="100" required>
-				<input data-label="Password"        type="password" id="password" minlength="8" maxlength="16" required>
-				<input data-label="Repeat password" type="password" id="password2" data-parsley-equalto="#password" data-parsley-validate-if-empty>
+
+				<div class="optional">
+					<p>(Optional.) If you would prefer not to confirm your e-mail every time you sign in, define a password below.  You can then use it to sign in without any other confirmation.</p>
+					<input data-label="Password"        type="password" id="password" minlength="8" maxlength="16">
+					<input data-label="Repeat password" type="password" id="password2" data-parsley-equalto="#password" data-parsley-validate-if-empty>
+				</div>
+
 				<button type="submit">Confirm e-mail to create account</button>
 			</form>
 		</div>
 	</div>
-</div>
 
 {% endif %}

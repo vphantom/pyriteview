@@ -1,0 +1,33 @@
+{% block subject %}
+Invitation to join PyriteView
+{% endblock %}
+
+
+{% block text %}
+Hello,
+
+You are invited to join PyriteView, where this e-mail address has just been
+added.  Please copy and paste the following link in your web browser to access
+your new account:
+
+{{ req.protocol }}://{{ req.host }}/
+
+Thank you,
+PyriteView
+{% endblock %}
+
+
+{% block html %}
+<p>Hello,</p>
+<p>
+You are invited to join PyriteView, where this e-mail address has just been added.
+Please click the following link to access your new account:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/">{{ req.protocol }}://{{ req.host }}/</a>
+</p>
+<p>
+Thank you,
+<br>PyriteView
+</p>
+{% endblock %}

@@ -49,11 +49,15 @@ Given class `form-horizontal`, each of a form's inputs and buttons will become i
 
 ## Templating
 
-All templates have variable `session` equivalent to `$_SESSION`, as well as `grab()`, `pass()` and `filter()` from the PHP side and the special variable `req` with details about the current request.
+All templates have variable `session` equivalent to `$_SESSION`, `config` which is `$PPHP['config']` as well as `grab()`, `pass()` and `filter()` from the PHP side and the special variable `req` with details about the current request.
 
 Twig's `dump()` is always available and it is forcibly muted when `config.ini`'s `global.debug` is false.  It is therefore safe to leave some of those laying around.  For convenience, `debug()` prints all its arguments when debugging is true and nothing at all when it is false.
 
 ### Common variables
+
+#### config.global.name
+
+Whatever you call your product, per `config.ini`.  Avoids having to change it in multiple places in templates.
 
 #### session.user
 

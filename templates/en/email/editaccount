@@ -1,5 +1,5 @@
 {% block subject %}
-PyriteView - Account information changed
+{{ config.global.name }} - Account information changed
 {% endblock %}
 
 
@@ -14,7 +14,7 @@ If you have not requested this modification, please contact us so we may look
 into the issue.
 
 Thank you,
-PyriteView
+{{ config.global.name }}
 {% endblock %}
 
 
@@ -31,6 +31,6 @@ into the issue.
 </p>
 <p>
 Thank you,
-<br>PyriteView
+<br>{{ config.global.name }}
 </p>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% block subject %}
-PyriteView - Confirmation de compte
+{{ config.global.name }} - Confirmation de compte
 {% endblock %}
 
 
@@ -19,7 +19,7 @@ consultez:
 http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}
 
 Merci,
-PyriteView
+{{ config.global.name }}
 {% endblock %}
 
 
@@ -41,6 +41,6 @@ consultez:
 </p>
 <p>
 Merci,
-<br>PyriteView
+<br>{{ config.global.name }}
 </p>
 {% endblock %}

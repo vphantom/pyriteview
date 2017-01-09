@@ -1,5 +1,5 @@
 {% block subject %}
-PyriteView - Account already exists
+{{ config.global.name }} - Account already exists
 {% endblock %}
 
 
@@ -20,7 +20,7 @@ from, see:
 http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}
 
 Thank you,
-PyriteView
+{{ config.global.name }}
 {% endblock %}
 
 
@@ -43,6 +43,6 @@ from, see:
 </p>
 <p>
 Thank you,
-<br>PyriteView
+<br>{{ config.global.name }}
 </p>
 {% endblock %}

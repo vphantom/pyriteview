@@ -32,9 +32,9 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="#">À propos</a></li>
-						<li><a href="#">Contacts</a></li>
-						<li><a href="#">Instructions pour auteurs</a></li>
+						<li{% if req.path_args[0] == 'about' %} class="active"{% endif %}><a href="{{ req.base }}/page/about">À propos</a></li>
+						<li{% if req.path_args[0] == 'contacts' %} class="active"{% endif %}><a href="{{ req.base }}/page/contacts">Contacts</a></li>
+						<li{% if req.path_args[0] == 'instructions' %} class="active"{% endif %}><a href="{{ req.base }}/page/instructions">Instructions pour auteurs</a></li>
 					</ul>
 					{% if session.identified %}
 					<ul class="nav navbar-nav navbar-right">

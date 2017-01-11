@@ -1,9 +1,14 @@
 {{ title('Administration') }}
 {{ title('Usagers') }}
 <h2>Usagers</h2>
+
+{% if pass('can', 'create', 'user') %}
 <p>
 Pour créer un nouvel usager, utilisez le même <a href="{{ req.base }}/register">formulaire d'inscription</a>.  Vous demeurerez connecté.  L'usager recevra une notice par courriel.
 </p>
+{% endif %}
+
+{% if pass('can', 'view', 'user') %}
 <h3>Liste</h3>
 <form id="user_search" method="post" class="form-compact">
 	<input data-label="Nom" placeholder="nom partiel" id="name" value="{{ req.post.name }}" minlength="3">
@@ -37,3 +42,4 @@ Pour créer un nouvel usager, utilisez le même <a href="{{ req.base }}/register
 		</tbody>
 	</table>
 </div>
+{% endif %}

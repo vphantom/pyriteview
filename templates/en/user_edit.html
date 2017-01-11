@@ -1,6 +1,6 @@
 <form id="user_prefs" method="post" class="form-auto">
 	{{ filter('form_begin', 'user_prefs') |raw }}
-	{% if user.id != session.user.id and pass('can', 'admin') %}
+	{% if user.id != session.user.id and pass('can', 'edit', 'user', user.id) %}
 		<input type="hidden" name="id" value="{{ user.id }}">
 		<input data-label="E-mail" type="email" id="email" value="{{ user.email }}" required maxlength="100">
 	{% endif %}

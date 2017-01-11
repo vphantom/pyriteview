@@ -17,88 +17,94 @@
 
 	<h2>User: {{ user.name }}</h2>
 
-	{% include 'user_edit.html' %}
+	{% if pass('can', 'edit', 'user', user.id) %}
 
-	<h3>Roles</h3>
+		{% include 'user_edit.html' %}
 
-	<form id="admin_user_role" method="post" class="form-horizontal">
-		<div class="btn-group" role="group">
-			{% for role in roles %}
-				<button
-					type="submit"
-					name="{% if role in user_roles %}del{% else %}add{% endif %}role"
-					value="{{ role }}"
-					class="btn btn-{% if role in user_roles %}success active{% else %}default{% endif %}"
-				>{{ role }}</button>
-			{% endfor %}
-		</div>
-	</form>
+		<h3>Roles</h3>
 
-	<h3>Permissions</h3>
-
-	<p>
-		<form id="admin_user_acl_add" method="post" class="form-compact">
-			<input type="hidden" name="f" value="add">
-			<strong>New:</strong>
-			<select data-label="Action" id="action" required>
-				<option selected disabled>Action...
-				<option value="*">* Any action
-				{% for action in actions %}
-					<option>{{ action }}
+		<form id="admin_user_role" method="post" class="form-horizontal">
+			<div class="btn-group" role="group">
+				{% for role in roles %}
+					<button
+						type="submit"
+						name="{% if role in user_roles %}del{% else %}add{% endif %}role"
+						value="{{ role }}"
+						class="btn btn-{% if role in user_roles %}success active{% else %}default{% endif %}"
+					>{{ role }}</button>
 				{% endfor %}
-			</select>
-			<select data-label="Object Type" id="objectType" required>
-				<option selected disabled>Type...
-				<option selected value="*">* Any type
-				{% for objectType in objectTypes %}
-					<option>{{ objectType }}
-				{% endfor %}
-			</select>
-			<input data-label="Object ID" placeholder="Object ID" id="objectId">
-			<button type="submit">Add</button>
+			</div>
 		</form>
-	</p>
 
-	<div class="table-responsive">
-		<table class="table table-hover table-condensed">
-			<thead>
-				<tr>
-					<th>&nbsp;</th>
-					<th>Action</th>
-					<th>objectType</th>
-					<th>objectId</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for right in rights %}
-				<tr>
-					<td class="fit">
-						{% if (role == 'admin' and right.action == '*') or (role == 'member' and right.action == 'login') %}
-							&nbsp;
-						{% else %}
-							<form id="admin_user_acl_del" class="form-toolbar" method="post">
-								<input type="hidden" name="f" value="del">
-								<input type="hidden" name="role" value="{{ role }}">
-								<input type="hidden" name="action" value="{{ right.action }}">
-								<input type="hidden" name="objectType" value="{{ right.objectType }}">
-								<input type="hidden" name="objectId" value="{{ right.objectId }}">
-								<button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-remove"></span></button>
-							</form>
-						{% endif %}
-					</td>
-					<td class="fit">{% if right.action == '*' %}<em>any action</em>{% else %}{{ right.action }}{% endif %}</td>
-					<td class="fit">{% if right.objectType == '*' %}<em>any type</em>{% else %}{{ right.objectType }}{% endif %}</td>
-					<td>{% if right.objectId == 0 %}<em>all</em>{% else %}{{ right.objectId }}{% endif %}</td>
-				</tr>
-				{% endfor %}
-				{% if roles[role]|length == 0 %}
-					<tr><td colspan="4"><em>No special permissions</em></td></tr>
-				{% endif %}
-			</tbody>
-		</table>
-	</div>
+		<h3>Permissions</h3>
 
-	<h3>Recent Account History</h3>
-	{% include 'history.html' %}
+		<p>
+			<form id="admin_user_acl_add" method="post" class="form-compact">
+				<input type="hidden" name="f" value="add">
+				<strong>New:</strong>
+				<select data-label="Action" id="action" required>
+					<option selected disabled>Action...
+					<option value="*">* Any action
+					{% for action in actions %}
+						<option>{{ action }}
+					{% endfor %}
+				</select>
+				<select data-label="Object Type" id="objectType" required>
+					<option selected disabled>Type...
+					<option selected value="*">* Any type
+					{% for objectType in objectTypes %}
+						<option>{{ objectType }}
+					{% endfor %}
+				</select>
+				<input data-label="Object ID" placeholder="Object ID" id="objectId">
+				<button type="submit">Add</button>
+			</form>
+		</p>
+
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>Action</th>
+						<th>objectType</th>
+						<th>objectId</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for right in rights %}
+					<tr>
+						<td class="fit">
+							{% if (role == 'admin' and right.action == '*') or (role == 'member' and right.action == 'login') %}
+								&nbsp;
+							{% else %}
+								<form id="admin_user_acl_del" class="form-toolbar" method="post">
+									<input type="hidden" name="f" value="del">
+									<input type="hidden" name="role" value="{{ role }}">
+									<input type="hidden" name="action" value="{{ right.action }}">
+									<input type="hidden" name="objectType" value="{{ right.objectType }}">
+									<input type="hidden" name="objectId" value="{{ right.objectId }}">
+									<button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-remove"></span></button>
+								</form>
+							{% endif %}
+						</td>
+						<td class="fit">{% if right.action == '*' %}<em>any action</em>{% else %}{{ right.action }}{% endif %}</td>
+						<td class="fit">{% if right.objectType == '*' %}<em>any type</em>{% else %}{{ right.objectType }}{% endif %}</td>
+						<td>{% if right.objectId == 0 %}<em>all</em>{% else %}{{ right.objectId }}{% endif %}</td>
+					</tr>
+					{% endfor %}
+					{% if roles[role]|length == 0 %}
+						<tr><td colspan="4"><em>No special permissions</em></td></tr>
+					{% endif %}
+				</tbody>
+			</table>
+		</div>
+
+	{% endif %}
+
+	{% if pass('can', 'view', 'user', user.id) %}
+		<h3>Recent Account History</h3>
+		{% include 'history.html' %}
+	{% endif %}
 
 {% endif %}

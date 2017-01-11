@@ -1,9 +1,14 @@
 {{ title('Administration') }}
 {{ title('Users') }}
 <h2>Users</h2>
+
+{% if pass('can', 'create', 'user') %}
 <p>
 To create a new user, use the same <a href="{{ req.base }}/register">registration form</a>.  You will remain logged in.  The user will be notified via e-mail.
 </p>
+{% endif %}
+
+{% if pass('can', 'view', 'user') %}
 <h3>List</h3>
 <form id="user_search" method="post" class="form-compact">
 	<input data-label="Name" placeholder="partial name" id="name" value="{{ req.post.name }}" minlength="3">
@@ -37,3 +42,4 @@ To create a new user, use the same <a href="{{ req.base }}/register">registratio
 		</tbody>
 	</table>
 </div>
+{% endif %}

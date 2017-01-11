@@ -78,12 +78,16 @@
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
 						<li><a href="{{ req.base }}/"{% if req.path == '' %} class="active"{% endif %}><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-						{% if pass('can', 'admin') %}
+						{% if pass('can', 'view', 'user') or pass('can', 'view', 'role') %}
 							<li><a href="{{ req.base }}/admin"{% if req.path == 'admin' or req.path starts with 'admin/' %} class="active"{% endif %}><span class="glyphicon glyphicon-wrench"></span> Administration</a>
 								{% if req.path starts with 'admin' %}
 									<ul class="nav nav-second-level">
-										<li><a href="{{ req.base }}/admin/users"{% if req.path starts with 'admin/users' %} class="active"{% endif %}><span class="glyphicon glyphicon-user"></span> Users</a></li>
-										<li><a href="{{ req.base }}/admin/roles"{% if req.path starts with 'admin/roles' %} class="active"{% endif %}><span class="glyphicon glyphicon-education"></span> Roles</a></li>
+										{% if pass('can', 'view', 'user') %}
+											<li><a href="{{ req.base }}/admin/users"{% if req.path starts with 'admin/users' %} class="active"{% endif %}><span class="glyphicon glyphicon-user"></span> Users</a></li>
+										{% endif %}
+										{% if pass('can', 'view', 'role') %}
+											<li><a href="{{ req.base }}/admin/roles"{% if req.path starts with 'admin/roles' %} class="active"{% endif %}><span class="glyphicon glyphicon-education"></span> Roles</a></li>
+										{% endif %}
 									</ul>
 								{% endif %}
 							</li>

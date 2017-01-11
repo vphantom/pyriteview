@@ -9,7 +9,7 @@
 	{% endif %}
 {% endif %}
 
-<h2>Rôles</h2>
+<h2 class="page-header">Rôles</h2>
 
 {% if pass('can', 'create', 'role') %}
 <p>Note: l'existence des rôles est déclarée dans votre fichier <code>config.ini</code> à la section <code>acl</code>.</p>
@@ -47,52 +47,58 @@
 {% endif %}
 
 {% if pass('can', 'view', 'role') %}
-{% set canEdit = pass('can', 'edit', 'role') %}
-{% for role in roles|keys %}
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			{{ role }}
-		</div>
-		<div class="panel-body">
-			<div class="table-responsive">
-				<table class="table table-hover table-condensed">
-					<thead>
-						<tr>
-							<th>&nbsp;</th>
-							<th>Action</th>
-							<th>objectType</th>
-							<th>objectId</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for right in roles[role] %}
-						<tr>
-							<td class="fit">
-								{% if not canEdit or (role == 'admin' and right.action == '*') or (role == 'member' and right.action == 'login') %}
-									&nbsp;
-								{% else %}
-									<form id="admin_role_acl_del" class="form-toolbar" method="post">
-										<input type="hidden" name="f" value="del">
-										<input type="hidden" name="role" value="{{ role }}">
-										<input type="hidden" name="action" value="{{ right.action }}">
-										<input type="hidden" name="objectType" value="{{ right.objectType }}">
-										<input type="hidden" name="objectId" value="{{ right.objectId }}">
-										<button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-remove"></span></button>
-									</form>
-								{% endif %}
-							</td>
-							<td class="fit">{% if right.action == '*' %}<em>toute action</em>{% else %}{{ right.action }}{% endif %}</td>
-							<td class="fit">{% if right.objectType == '*' %}<em>tout type</em>{% else %}{{ right.objectType }}{% endif %}</td>
-							<td>{% if right.objectId == 0 %}<em>tous</em>{% else %}{{ right.objectId }}{% endif %}</td>
-						</tr>
-						{% endfor %}
-						{% if roles[role]|length == 0 %}
-							<tr><td colspan="4"><em>Aucune permission spéciale</em></td></tr>
-						{% endif %}
-					</tbody>
-				</table>
+	{% set canEdit = pass('can', 'edit', 'role') %}
+	<ul class="nav nav-tabs">
+		{% set first = true %}
+		{% for role in roles|keys %}
+			<li{% if first %} class="active"{% endif %}><a href="#{{ role }}" data-toggle="tab" aria-expanded="{% if first %}true{% else %}false{% endif %}">{{ role }}</a></li>
+			{% set first = false %}
+		{% endfor %}
+	</ul>
+	<div class="tab-content">
+		{% set first = true %}
+		{% for role in roles|keys %}
+			<div class="tab-pane{% if first %} active in{% endif %}" id="{{ role }}">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>&nbsp;</th>
+								<th>Action</th>
+								<th>objectType</th>
+								<th>objectId</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for right in roles[role] %}
+							<tr>
+								<td class="fit">
+									{% if not canEdit or (role == 'admin' and right.action == '*') or (role == 'member' and right.action == 'login') %}
+										&nbsp;
+									{% else %}
+										<form id="admin_role_acl_del" class="form-toolbar" method="post">
+											<input type="hidden" name="f" value="del">
+											<input type="hidden" name="role" value="{{ role }}">
+											<input type="hidden" name="action" value="{{ right.action }}">
+											<input type="hidden" name="objectType" value="{{ right.objectType }}">
+											<input type="hidden" name="objectId" value="{{ right.objectId }}">
+											<button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-remove"></span></button>
+										</form>
+									{% endif %}
+								</td>
+								<td class="fit">{% if right.action == '*' %}<em>toute action</em>{% else %}{{ right.action }}{% endif %}</td>
+								<td class="fit">{% if right.objectType == '*' %}<em>tout type</em>{% else %}{{ right.objectType }}{% endif %}</td>
+								<td>{% if right.objectId == 0 %}<em>tous</em>{% else %}{{ right.objectId }}{% endif %}</td>
+							</tr>
+							{% endfor %}
+							{% if roles[role]|length == 0 %}
+								<tr><td colspan="4"><em>Aucune permission spéciale</em></td></tr>
+							{% endif %}
+						</tbody>
+					</table>
+				</div>
 			</div>
-		</div>
+			{% set first = false %}
+		{% endfor %}
 	</div>
-{% endfor %}
 {% endif %}

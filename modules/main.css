@@ -18,6 +18,14 @@ body {
 	width: 1%;
 }
 
+.text-muted.small {
+	font-style: italic;
+}
+
+.panel-body .table {
+	margin-bottom: 0;
+}
+
 .form-toolbar .btn {
 	padding: 0;
 }
@@ -26,6 +34,12 @@ form.form-horizontal input[type="submit"],
 form.form-horizontal button[type="submit"] {
 	margin-top: 1em;
 }
+
+/* Large sizes */
+.grow-2x { font-size: 2em; }
+.grow-3x { font-size: 3em; }
+.grow-4x { font-size: 4em; }
+.grow-5x { font-size: 5em; }
 
 /* Left menu */
 .nav-sidebar {

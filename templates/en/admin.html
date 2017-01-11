@@ -1,0 +1,71 @@
+{{ title('Administration') }}
+<h2 class="page-header">Administration</h2>
+
+<div class="row">
+	{{ lib.counter('globe', 'primary', 26, 'New examples!', '#') }}
+	{{ lib.counter('tint', 'green', 12, 'New examples!', '#') }}
+	{{ lib.counter('envelope', 'yellow', 124, 'New examples!', '#') }}
+	{{ lib.counter('calendar', 'red', 13, 'New examples!', '#') }}
+</div>
+
+<div class="row">
+	<div class="col-lg-8">
+
+		<!-- Example Left Panel -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-question-sign"></span> Example Left Panel
+				<div class="pull-right">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Actions <span class="caret"></span></button>
+						<ul class="dropdown-menu pull-right" role="menu">
+							<li><a href="#">Test</a></li>
+							<li><a href="#">Test</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Test</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Content area</p>
+			</div>
+		</div>
+		<!-- /Example Left Panel -->
+
+	</div>
+	<div class="col-lg-4">
+
+		<!-- Recent Activity Panel -->
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-list"></span> Recent Activity
+			</div>
+			<div class="panel-body">
+				{% include 'history.html' with {'history': recentHistory, 'narrow': true} %}
+			</div>
+		</div>
+		<!-- /Recent Activity Panel -->
+
+		<!-- Example Right Panel -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-question-sign"></span> Example Right Panel
+				<div class="btn-group pull-right">
+					<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-chevron-down"></span></button>
+					<ul class="dropdown-menu slidedown">
+						<li><a href="#">ICON Action text</a></li>
+						<li><a href="#">ICON Action text</a></li>
+						<li class="divider"></li>
+						<li><a href="#">ICON Action text</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Content area</p>
+			</div>
+		</div>
+		<!-- /Example Right Panel -->
+
+	</div>
+</div>

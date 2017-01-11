@@ -31,9 +31,20 @@
 						{% if tx.newValue %}to '{{ lib.format(tx.fieldName, tx.newValue) }}'{% endif %}
 					{% endif %}
 				</td>
-				<td class="fit">{{ lib.format_timestamp(tx.localtimestamp) }} depuis {{ lib.format_ip(tx.ip) }}</td>
+				<td class="fit">
+					{%- if narrow -%}
+						<span class="text-muted small">{{ lib.format_timestamp(tx.localtimestamp) }}</span>
+					{%- else -%}
+						{{ lib.format_timestamp(tx.localtimestamp) }} depuis {{ lib.format_ip(tx.ip) }}
+					{%- endif -%}
+				</td>
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 </div>
+
+
+
+
+

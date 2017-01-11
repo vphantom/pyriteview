@@ -15,7 +15,7 @@
 	{% endif %}
 {% endif %}
 
-	<h2>User: {{ user.name }}</h2>
+	<h2 class="page-header">User: {{ user.name }}</h2>
 
 	{% if pass('can', 'edit', 'user', user.id) %}
 

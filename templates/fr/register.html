@@ -17,6 +17,13 @@
 				{{ filter('form_begin', 'registration') |raw }}
 				<input data-label="Courriel"        type="email"    id="email" placeholder="Votre courriel vous identifie ici" maxlength="100" required>
 				<input data-label="Nom"             type="text"     id="name" minlength="3" maxlength="100" required>
+				<select data-label="Genre" name="isMale" required>
+					<option selected disabled>Genre...</option>
+					<option value="0">Femme</option>
+					<option value="1">Homme</option>
+				</select>
+				<input data-label="Titre professionnel" type="text" id="profession" minlength="3" maxlength="100" required>
+				<input data-label="Employeur"           type="text" id="employer" minlength="3" maxlength="100">
 
 				<div class="optional">
 					<p>(Facultatif.)  Si vous ne voulez pas confirmer votre courriel à chaque connexion, définissez un mot de passe ci-dessous.  Vous pourrez ensuite l'utiliser pour vous connecter sans autre confirmation.</p>

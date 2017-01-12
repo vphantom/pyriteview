@@ -5,5 +5,12 @@
 		<input data-label="Courriel" type="email" id="email" value="{{ user.email }}" required maxlength="100">
 	{% endif %}
 	<input data-label="Nom" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100">
+	<select data-label="Genre" name="isMale" required>
+		<option disabled>Genre...</option>
+		<option {% if not user.isMale %}selected {% endif %}value="0">Femme</option>
+		<option {% if user.isMale %}selected {% endif %}value="1">Homme</option>
+	</select>
+	<input data-label="Titre professionnel" type="text" id="profession" value="{{ user.profession }}" minlength="3" maxlength="100" required>
+	<input data-label="Employeur"           type="text" id="employer" value="{{ user.employer }}" minlength="3" maxlength="100">
 	<button type="submit">Sauvegarder changements</button>
 </form>

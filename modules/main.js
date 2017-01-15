@@ -22,14 +22,18 @@ $().ready(function() {
 
   // Bootstrap-ize forms before enabling Parsley on them
 
-  // Typical long forms
-  $('form.form-auto').each(function() {
+  // LARGE FORMS
+  //
+  // leftright: labels on the left, one input/button per line, errors below
+  // tight: labels and errors inside inputs, button on own line
+  //
+  $('form.form-leftright, form.form-tight').each(function() {
     $(this)
       .attr('name', $(this).attr('id'))
       .addClass('form-horizontal')
     ;
   });
-  $('form.form-auto input, form.form-auto select')
+  $('form.form-leftright input, form.form-leftright select')
     .not(excludedInputs)
     .each(function() {
       var id    = $(this).attr('id');
@@ -52,7 +56,23 @@ $().ready(function() {
         .wrap('<div class="col-sm-10"></div>');
     }
   );
-  $('form.form-auto button').each(function() {
+  $('form.form-tight input, form.form-tight select')
+    .not(excludedInputs)
+    .each(function() {
+      var id      = $(this).attr('id');
+      var label   = $(this).attr('data-label');
+      var colsize = $(this).attr('data-colsize') || 6;
+
+      $(this)
+        .attr('name', id)
+        .addClass('form-control')
+        .wrap('<div class="input-block col-sm-' + colsize + '"></div>')
+        .parent()
+        .prepend('<label for="' + id + '">' + label + '</label>')
+      ;
+    }
+  );
+  $('form.form-leftright button, form.form-tight button').each(function() {
     $(this)
       .addClass('btn btn-default')
       .wrap('<div class="form-group"></div>')
@@ -60,7 +80,8 @@ $().ready(function() {
     ;
   });
 
-  // Short implicit inline forms
+  // INLINE FORMS
+  //
   $('form.form-compact').each(function() {
     $(this)
       .attr('name', $(this).attr('id'))
@@ -110,7 +131,7 @@ $().ready(function() {
       return $(el.$element).closest('.form-group');
     },
     errorsContainer: function() {},
-    errorsWrapper  : '<span class="help-block"></span>',
+    errorsWrapper  : '<span class="input-error"></span>',
     errorTemplate  : '<span></span>'
   });
 

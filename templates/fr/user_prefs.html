@@ -23,7 +23,7 @@
 		Modifier courriel ou mot de passe
 	</div>
 	<div class="panel-body">
-		<form id="user_passmail" method="post" class="form-auto">
+		<form id="user_passmail" method="post" class="form-leftright">
 			<p>Pour votre protection, pour modifier votre adresse de courriel ou votre mot de passe, vous devez entrer votre mot de passe actuel à nouveau.  Un rappel vous sera également transmis par courriel (aux nouvelle et ancienne adresses, s'il y a lieu).</p>
 			{{ filter('form_begin', 'user_passmail') |raw }}
 			<input data-label="Courriel" type="email" id="email" value="{{ user.email }}" required maxlength="100">

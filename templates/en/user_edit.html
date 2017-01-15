@@ -1,16 +1,22 @@
-<form id="user_prefs" method="post" class="form-auto">
+<form id="user_prefs" method="post" class="form-tight">
 	{{ filter('form_begin', 'user_prefs') |raw }}
 	{% if user.id != session.user.id and pass('can', 'edit', 'user', user.id) %}
 		<input type="hidden" name="id" value="{{ user.id }}">
-		<input data-label="E-mail" type="email" id="email" value="{{ user.email }}" required maxlength="100">
+		<div class="form-group">
+			<input data-label="E-mail" type="email" id="email" value="{{ user.email }}" required maxlength="100">
+		</div>
 	{% endif %}
-	<input data-label="Name" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100">
-	<select data-label="Gender" name="isMale" required>
-		<option disabled>Gender...</option>
-		<option {% if not user.isMale %}selected {% endif %}value="0">Woman</option>
-		<option {% if user.isMale %}selected {% endif %}value="1">Man</option>
-	</select>
-	<input data-label="Professional title" type="text" id="profession" value="{{ user.profession }}" minlength="3" maxlength="100" required>
-	<input data-label="Employer"           type="text" id="employer" value="{{ user.employer }}" minlength="3" maxlength="100">
+	<div class="form-group">
+		<input data-colsize="9" data-label="Name" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100">
+		<select data-colsize="3" data-label="Gender" name="isMale" required>
+			<option disabled>Gender...</option>
+			<option {% if not user.isMale %}selected {% endif %}value="0">Woman</option>
+			<option {% if user.isMale %}selected {% endif %}value="1">Man</option>
+		</select>
+	</div>
+	<div class="form-group">
+		<input data-label="Professional title" type="text" id="profession" value="{{ user.profession }}" minlength="3" maxlength="100" required>
+		<input data-label="Employer"           type="text" id="employer" value="{{ user.employer }}" minlength="3" maxlength="100">
+	</div>
 	<button type="submit">Save changes</button>
 </form>

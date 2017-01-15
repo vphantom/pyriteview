@@ -23,7 +23,7 @@
 		Change e-mail or password
 	</div>
 	<div class="panel-body">
-		<form id="user_passmail" method="post" class="form-auto">
+		<form id="user_passmail" method="post" class="form-leftright">
 			<p>For your protection, to change either your e-mail address or your password, you will need to re-enter your current password.  A notification will also be e-mailed to you (at both old and new addresses if you changed it).</p>
 			{{ filter('form_begin', 'user_passmail') |raw }}
 			<input data-label="E-mail" type="email" id="email" value="{{ user.email }}" required maxlength="100">

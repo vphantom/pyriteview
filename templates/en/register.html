@@ -12,22 +12,30 @@
 			<h2>Sign up</h2>
 		</div>
 		<div class="panel-body">
-			<form class="form-auto" method="post" id="registration">
+			<form class="form-tight" method="post" id="registration">
 				{{ filter('form_begin', 'registration') |raw }}
-				<input data-label="E-Mail"          type="email"    id="email" placeholder="Your e-mail address identifies you here" maxlength="100" required>
-				<input data-label="Name"            type="text"     id="name" minlength="3" maxlength="100" required>
-				<select data-label="Gender" name="isMale" required>
-					<option selected disabled>Gender...</option>
-					<option value="0">Woman</option>
-					<option value="1">Man</option>
-				</select>
-				<input data-label="Professional title" type="text" id="profession" minlength="3" maxlength="100" required>
-				<input data-label="Employer"           type="text" id="employer" minlength="3" maxlength="100">
+				<div class="form-group">
+					<input data-label="E-Mail" type="email" id="email" placeholder="Your e-mail address identifies you here" maxlength="100" required>
+				</div>
+				<div class="form-group">
+					<input data-colsize="9" data-label="Name" type="text" id="name" minlength="3" maxlength="100" required>
+					<select data-colsize="3" data-label="Gender" name="isMale" required>
+						<option selected disabled>Gender...</option>
+						<option value="0">Woman</option>
+						<option value="1">Man</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<input data-label="Professional title" type="text" id="profession" minlength="3" maxlength="100" required>
+					<input data-label="Employer"           type="text" id="employer" minlength="3" maxlength="100">
+				</div>
 
 				<div class="optional">
 					<p>(Optional.) If you would prefer not to confirm your e-mail every time you sign in, define a password below.  You can then use it to sign in without any other confirmation.</p>
-					<input data-label="Password"        type="password" id="password" minlength="8" maxlength="16">
-					<input data-label="Repeat password" type="password" id="password2" data-parsley-equalto="#password" data-parsley-validate-if-empty>
+					<div class="form-group">
+						<input data-label="Password"        type="password" id="password" minlength="8" maxlength="16">
+						<input data-label="Repeat password" type="password" id="password2" data-parsley-equalto="#password" data-parsley-validate-if-empty>
+					</div>
 				</div>
 
 				<button type="submit">Confirm e-mail to create account</button>

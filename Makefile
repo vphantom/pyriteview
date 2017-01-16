@@ -33,7 +33,7 @@ bin/composer:
 	
 init:	deps bin/composer
 	$(COMPOSER) install
-	@mkdir -p var/twig_cache var/sessions
+	@mkdir -p var/twig_cache var/sessions var/articles
 	if [ ! -f var/main.db ]; then $(SQLITE) /dev/null '.save var/main.db'; fi
 	php -f index.php
 

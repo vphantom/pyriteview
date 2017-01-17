@@ -68,15 +68,6 @@ on(
     'route/main',
     function () {
         if (!$_SESSION['identified']) return trigger('http_status', 403);
-        // TODO: Your application's authenticated interface starts here.
-        echo "<p>Dashboard will go here</p>\n";
-    }
-);
-
-on(
-    'route/admin',
-    function () {
-        if (!$_SESSION['identified']) return trigger('http_status', 403);
 
         $recentHistory = grab(
             'history',
@@ -88,7 +79,7 @@ on(
         );
         trigger(
             'render',
-            'admin.html',
+            'dashboard.html',
             array(
                 'recentHistory' => $recentHistory
             )

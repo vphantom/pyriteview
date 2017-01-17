@@ -224,7 +224,6 @@ on(
             $editors_active = grab('object_users', '*', 'issue', $_GET['id']);
         };
         if (isset($_POST['number'])) {
-            if (!pass('can', 'edit', 'issue', $_POST['id'])) return trigger('http_status', 403);
             if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
             $saved = true;
             $success = pass('issue_save', $_POST);

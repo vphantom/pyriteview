@@ -9,7 +9,7 @@
 	{% endif %}
 {% endif %}
 
-<h2 class="page-header"><span class="glyphicon glyphicon-education"></span> Roles</h2>
+<h2 class="page-header"><span class="glyphicon glyphicon-tags"></span> Roles</h2>
 
 {% if pass('can', 'create', 'role') %}
 <p>Note: The existence of roles is declared in your <code>config.ini</code> file in section <code>acl</code>.</p>
@@ -51,7 +51,7 @@
 	<ul class="nav nav-tabs">
 		{% set first = true %}
 		{% for role in roles|keys %}
-			<li{% if first %} class="active"{% endif %}><a href="#{{ role }}" data-toggle="tab" aria-expanded="{% if first %}true{% else %}false{% endif %}">{{ role }}</a></li>
+			<li{% if first %} class="active"{% endif %}><a href="#{{ role }}" data-toggle="tab" aria-expanded="{% if first %}true{% else %}false{% endif %}"><span class="glyphicon glyphicon-tag"></span> {{ role }}</a></li>
 			{% set first = false %}
 		{% endfor %}
 	</ul>

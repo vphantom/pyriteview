@@ -31,7 +31,7 @@
 						name="{% if role in user_roles %}del{% else %}add{% endif %}role"
 						value="{{ role }}"
 						class="btn btn-{% if role in user_roles %}success active{% else %}default{% endif %}"
-					>{{ role }}</button>
+			><span class="glyphicon glyphicon-tag"></span> {{ role }}</button>
 				{% endfor %}
 			</div>
 		</form>

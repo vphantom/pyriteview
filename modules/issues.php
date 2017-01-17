@@ -196,6 +196,7 @@ on(
         $success = false;
         $history = null;
         $editors = array();
+        $editors_active = array();
         if (isset($_GET['id'])) {
             if (!pass('can', 'view', 'issue', $_GET['id'])) return trigger('http_status', 403);
             $issue = grab('issue', $_GET['id']);

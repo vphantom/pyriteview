@@ -1,0 +1,25 @@
+<div class="table-responsive">
+	<table class="table table-hover table-condensed">
+		<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th>Numéro</th>
+				<th>Titre</th>
+				<th>Publication</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for issue in issues %}
+				<tr>
+					<td class="fit"><a href="{{ req.base }}/{{ req.path }}/edit?id={{ issue.id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
+					<td class="fit">{{ issue.number }}</td>
+					<td>{{ issue.title }}</td>
+					<td class="fit">{{ issue.publication }}</td>
+				</tr>
+			{% endfor %}
+			{% if issues|length == 0 %}
+				<tr><td colspan="4"><em>Aucun numéro</em></td></tr>
+			{% endif %}
+		</tbody>
+	</table>
+</div>

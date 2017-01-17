@@ -1,0 +1,20 @@
+{{ title('Numéros') }}
+<h2 class="page-header"><span class="glyphicon glyphicon-book"></span> Numéros</h2>
+
+<div class="row">
+	<form id="issue_search" method="post" class="form-inline col-sm-6">
+		<div class="input-group">
+			<input class="form-control" placeholder="Recherche par titre..." name="title" value="{{ req.post.title }}" minlength="3">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+			</span>
+		</div>
+	</form>
+	{% if pass('can', 'create', 'issue') %}
+		<form action="issues/edit" id="issue_create" method="post" class="form-inline col-sm-6">
+			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-plus"></span> Créer</button>
+		</form>
+	{% endif %}
+</div>
+
+{% include 'issues_list.html' %}

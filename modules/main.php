@@ -15,73 +15,29 @@
  * @link      https://github.com/vphantom/pyriteview
  */
 
-// Create database tables if necessary
-on(
-    'install',
-    function () {
-        global $PPHP;
-        $db = $PPHP['db'];
+// Start-up definitions from our support modules
+Issues::bootstrap();
+Articles::bootstrap();
 
-        // Issues
-        //
-        $db->exec(
-            "
-            CREATE TABLE IF NOT EXISTS 'issues' (
-                id          INTEGER PRIMARY KEY AUTOINCREMENT,
-                publication DATE NOT NULL DEFAULT '1980-01-01',
-                number      VARCHAR(16),
-                title       VARCHAR(255)
-            )
-            "
-        );
-        $db->exec(
-            "
-            CREATE UNIQUE INDEX IF NOT EXISTS 'idx_issues_publication'
-            ON issues (publication)
-            "
-        );
-        $db->exec(
-            "
-            CREATE UNIQUE INDEX IF NOT EXISTS 'idx_issues_number'
-            ON issues (number)
-            "
-        );
-
-        // Articles
-        //
-        $db->exec(
-            "
-            CREATE TABLE IF NOT EXISTS 'articles' (
-                id          INTEGER PRIMARY KEY AUTOINCREMENT,
-                issueId     INTEGER NOT NULL DEFAULT '0',
-                wordCount   INTEGER NOT NULL DEFAULT '0',
-                title       VARCHAR(255),
-                keywords    TEXT NOT NULL DEFAULT '',
-                abstract    TEXT NOT NULL DEFAULT ''
-            )
-            "
-        );
-    }
-);
-
+// Dashboard
 on(
     'route/main',
     function () {
         if (!$_SESSION['identified']) return trigger('http_status', 403);
 
-        $recentHistory = grab(
-            'history',
-            array(
-                'action' => array('login', 'created'),
-                'order' => 'DESC',
-                'max' => 12
-            )
+        $historyFilter = array(
+            'action' => array('login', 'created'),
+            'order' => 'DESC',
+            'max' => 12
         );
+        if (!pass('can', 'view', 'user')) {
+            $historyFilter['userId'] = $_SESSION['user']['id'];
+        };
         trigger(
             'render',
             'dashboard.html',
             array(
-                'recentHistory' => $recentHistory
+                'recentHistory' => grab('history', $historyFilter)
             )
         );
     }

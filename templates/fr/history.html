@@ -20,9 +20,7 @@
 
 					{% elseif tx.action == 'created' %}
 						créé
-						{% if tx.objectType == 'user' %}
-							le compte
-						{% endif %}
+						{{ lib.format(tx.objectType, tx.objectId) }}
 
 					{% else %}
 						{{ tx.action }}

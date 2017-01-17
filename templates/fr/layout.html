@@ -77,7 +77,7 @@
 			<div class="row">
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
-						<li><a href="{{ req.base }}/"{% if req.path == '' %} class="active"{% endif %}><span class="glyphicon glyphicon-dashboard"></span> Tableau de bord</a></li>
+						<li><a href="{{ req.base }}/"{% if req.path == '' %} class="active"{% endif %}><span class="glyphicon glyphicon-home"></span> Tableau de bord</a></li>
 						<li><a href="{{ req.base }}/issues"{% if req.path starts with 'issues' %} class="active"{% endif %}><span class="glyphicon glyphicon-book"></span> Numéros</a></li>
 						<li><a href="{{ req.base }}/articles"{% if req.path starts with 'articles' %} class="active"{% endif %}><span class="glyphicon glyphicon-align-left"></span> Articles</a></li>
 						{% if pass('can', 'view', 'user') %}

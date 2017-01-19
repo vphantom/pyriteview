@@ -5,33 +5,34 @@
 	{% else %}
 		{{ lib.alert(success, "Une erreur est survenue durant la tentative de sauvegarde.") }}
 	{% endif %}
-{% else %}
-	{% if added or deleted %}
-		{% if success %}
-			{{ lib.alert(success, "Changement d'éditeurs réussi.") }}
-		{% else %}
-			{{ lib.alert(success, "Le changement d'éditeurs a échoué (peut-être un double?)") }}
-		{% endif %}
+{% endif %}
+
+{% if added or deleted %}
+	{% if success %}
+		{{ lib.alert(success, "Changement d'éditeurs réussi.") }}
+	{% else %}
+		{{ lib.alert(success, "Le changement d'éditeurs a échoué (peut-être un double?)") }}
 	{% endif %}
+{% endif %}
 
-	<h2 class="page-header"><span class="glyphicon glyphicon-book"></span> {{ issue.number }} {{ issue.title|default('Nouveau numéro') }} <span class="text-muted small">{{ issue.publication }}</span></h2>
+<h2 class="page-header"><span class="glyphicon glyphicon-book"></span> {{ issue.number }} {{ issue.title|default('Nouveau numéro') }} <span class="text-muted small">{{ issue.publication }}</span></h2>
 
-	{% if pass('can', 'edit', 'issue', issue.id) %}
+{% if pass('can', 'edit', 'issue', issue.id) %}
 
-		<form id="issues_edit" method="post" class="form-tight">
-			{{ filter('form_begin', 'issues_edit') |raw }}
-			{% if issue.id %}
-				<input type="hidden" name="id" value="{{ issue.id }}">
-			{% endif %}
-			<div class="form-group">
-				<input data-colsize="2" data-label="Numéro" type="text" id="number" value="{{ issue.number }}" required maxlength="16">
-				<input data-colsize="3" data-label="Publication (AAAA-MM-JJ)" type="text" id="publication" value="{{ issue.publication }}" maxlength="10" minlength="10">
-				<input data-colsize="7" data-label="Titre" type="text" id="title" value="{{ issue.title }}" required>
-			</div>
-			<button type="submit">Sauvegarder changements</button>
-		</form>
-
+	<form id="issues_edit" method="post" class="form-tight">
+		{{ filter('form_begin', 'issues_edit') |raw }}
 		{% if issue.id %}
+			<input type="hidden" name="id" value="{{ issue.id }}">
+		{% endif %}
+		<div class="form-group">
+			<input data-colsize="2" data-label="Numéro" type="text" id="number" value="{{ issue.number }}" required maxlength="16">
+			<input data-colsize="3" data-label="Publication (AAAA-MM-JJ)" type="text" id="publication" value="{{ issue.publication }}" maxlength="10" minlength="10">
+			<input data-colsize="7" data-label="Titre" type="text" id="title" value="{{ issue.title }}" required>
+		</div>
+		<button type="submit">Sauvegarder changements</button>
+	</form>
+
+	{% if issue.id %}
 
 		<h3>Éditeurs</h3>
 
@@ -51,16 +52,18 @@
 		<h3>Historique</h3>
 		{% include 'history.html' %}
 
-		{% endif %}
-
 	{% endif %}
 
-	{% if issue.id %}
+{% elseif pass('can', 'view', 'issue', issue.id) %}
 
-		<h3>Articles</h3>
+	<p>TODO: read-only display</p>
 
-		TODO: Include article lister with restriction on current issue
+{% endif %}
 
-	{% endif %}
+{% if issue.id %}
+
+	<h3>Articles</h3>
+
+	{% include 'articles_list.html' %}
 
 {% endif %}

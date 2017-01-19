@@ -195,8 +195,14 @@ on(
         $deleted = false;
         $success = false;
         $history = null;
+        $articles = array();
         $editors = array();
         $editors_active = array();
+        if (isset($_POST['number'])) {
+            if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
+            $saved = true;
+            $success = pass('issue_save', $_POST);
+        };
         if (isset($_GET['id'])) {
             if (!pass('can', 'view', 'issue', $_GET['id'])) return trigger('http_status', 403);
             $issue = grab('issue', $_GET['id']);
@@ -212,6 +218,7 @@ on(
                 $success = pass('revoke', $_POST['deleditor'], null, '*', 'issue', $_GET['id']);
             };
 
+            $articles = grab('articles', null, $_GET['id']);
             $history = grab(
                 'history',
                 array(
@@ -222,11 +229,6 @@ on(
             );
             $editors = grab('role_users', 'editor');
             $editors_active = grab('object_users', '*', 'issue', $_GET['id']);
-        };
-        if (isset($_POST['number'])) {
-            if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
-            $saved = true;
-            $success = pass('issue_save', $_POST);
         };
         trigger(
             'render',
@@ -239,7 +241,8 @@ on(
                 'issue' => $issue,
                 'editors' => $editors,
                 'editors_active' => $editors_active,
-                'history' => $history
+                'history' => $history,
+                'articles' => $articles
             )
         );
     }

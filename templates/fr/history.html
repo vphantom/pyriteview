@@ -11,9 +11,14 @@
 					{% endif %}
 
 					{% if tx.action == 'modified' %}
-						changé {{ tx.fieldName }}
-						{% if tx.oldValue %}de '{{ lib.format(tx.fieldName, tx.oldValue) }}'{% endif %}
-						{% if tx.newValue %}à '{{ lib.format(tx.fieldName, tx.newValue) }}'{% endif %}
+						{% if tx.fieldName %}
+							changé {{ tx.fieldName }}
+							{% if tx.oldValue %}de '{{ lib.format(tx.fieldName, tx.oldValue) }}'{% endif %}
+							{% if tx.newValue %}à '{{ lib.format(tx.fieldName, tx.newValue) }}'{% endif %}
+						{% else %}
+							modifié
+							{{ lib.format(tx.objectType, tx.objectId) }}
+						{% endif %}
 
 					{% elseif tx.action == 'login' %}
 						connecté

@@ -1,0 +1,83 @@
+{{ title('Articles') }}
+{% if saved %}
+	{% if success %}
+		{{ lib.alert(success, "Sauvegarde réussie.") }}
+	{% else %}
+		{{ lib.alert(success, "Une erreur est survenue durant la tentative de sauvegarde.") }}
+	{% endif %}
+{% endif %}
+
+{% if added or deleted %}
+	{% if success %}
+		{{ lib.alert(success, "Changement d'éditeurs réussi.") }}
+	{% else %}
+		{{ lib.alert(success, "Le changement d'éditeurs a échoué (peut-être un double?)") }}
+	{% endif %}
+{% endif %}
+
+<h2 class="page-header"><span class="glyphicon glyphicon-align-left"></span> {{ article.title|default('Nouvel article') }}</h2>
+
+{% if pass('can', 'edit', 'article', article.id) or (pass('can', 'create', 'article') and not article.id) %}
+
+	<form id="articles_edit" method="post" class="form-leftright">
+		{{ filter('form_begin', 'articles_edit') |raw }}
+		{% if article.id %}
+			<input type="hidden" name="id" value="{{ article.id }}">
+		{% endif %}
+		<input data-label="Titre" type="text" id="title" value="{{ article.title }}" required>
+		{% if pass('can', 'move', 'article', article.id) or not article.id %}
+			<select data-label="Numéro" id="issueId" required>
+				{% if not article.id %}
+					<option selected disabled>Numéro...
+				{% endif %}
+				{% for issue in issues %}
+					<option value="{{ issue.id }}"{% if issue.id == article.issueId %} selected{% endif %}>{{ issue.number }} {{ issue.title }}
+				{% endfor %}
+			</select>
+		{% endif %}
+		<input data-label="Nombre de mots" type="number" id="wordCount" value="{{ article.wordCount }}" required>
+		<textarea data-label="Mots-clefs" id="keywords">{{ article.keywords }}</textarea>
+		<textarea data-label="Résumé" id="abstract">{{ article.abstract }}</textarea>
+		<button type="submit">Sauvegarder changements</button>
+	</form>
+
+	{% if article.id %}
+
+		<h3>Fichiers</h3>
+
+		<p>TODO: fichiers</p>
+
+		{% if pass('can', 'move', 'article', article.id) %}
+
+			<h3>Auteurs</h3>
+
+			<p>TODO: choisir/créer auteurs</p>
+
+			<h3>Critiques</h3>
+
+			<p>TODO: choisir/créer critiques</p>
+
+			<h3>Historique</h3>
+			{% include 'history.html' %}
+
+		{% else %}
+
+			<p>TODO: display read-only authors</p>
+
+		{% endif %}
+
+	{% endif %}
+
+{% elseif pass('can', 'view', 'article', article.id) and article.id %}
+
+	<dl class="dl-horizontal">
+		<dt>Titre</dt><dd>{{ article.title }}</dd>
+		<dt>Numéro</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
+		<dt>Nombre de mots</dt><dd>{{ article.wordCount }}</dd>
+		<dt>Mots-clefs</dt><dd>{{ article.keywords }}</dd>
+		<dt>Résumé</dt><dd>{{ article.abstract }}</dd>
+	</dl>
+
+	<p>TODO: display read-only files, authors</p>
+
+{% endif %}

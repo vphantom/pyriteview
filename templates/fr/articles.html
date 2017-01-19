@@ -1,0 +1,20 @@
+{{ title('Articles') }}
+<h2 class="page-header"><span class="glyphicon glyphicon-align-left"></span> Articles</h2>
+
+<div class="row">
+	<form id="article_search" method="post" class="form-inline col-sm-6">
+		<div class="input-group">
+			<input class="form-control" placeholder="Recherche par mot-clef..." name="keyword" value="{{ req.post.keyword }}" minlength="3">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+			</span>
+		</div>
+	</form>
+	{% if pass('can', 'create', 'article') %}
+		<form action="articles/edit" id="article_create" method="post" class="form-inline col-sm-6">
+			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-plus"></span> Créer</button>
+		</form>
+	{% endif %}
+</div>
+
+{% include 'articles_list.html' %}

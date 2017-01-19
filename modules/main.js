@@ -33,7 +33,7 @@ $().ready(function() {
       .addClass('form-horizontal')
     ;
   });
-  $('form.form-leftright input, form.form-leftright select')
+  $('form.form-leftright input, form.form-leftright select, form.form-leftright textarea')
     .not(excludedInputs)
     .each(function() {
       var id    = $(this).attr('id');
@@ -56,7 +56,7 @@ $().ready(function() {
         .wrap('<div class="col-sm-10"></div>');
     }
   );
-  $('form.form-tight input, form.form-tight select')
+  $('form.form-tight input, form.form-tight select, form.form-tight textarea')
     .not(excludedInputs)
     .each(function() {
       var id      = $(this).attr('id');
@@ -88,7 +88,7 @@ $().ready(function() {
       .addClass('form-inline')
     ;
   });
-  $('form.form-compact input, form.form-compact select')
+  $('form.form-compact input, form.form-compact select, form.form-compact textarea')
     .not(excludedInputs)
     .each(function() {
       var id    = $(this).attr('id');

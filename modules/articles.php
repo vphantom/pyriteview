@@ -82,10 +82,30 @@ class Articles
     {
         global $PPHP;
         $db = $PPHP['db'];
+        $config = $PPHP['config']['articles'];
         $article = false;
 
         if (pass('can', 'view', 'article', $id)) {
-            $article = $db->selectSingleArray("SELECT * FROM articles WHERE id=?", array($id));
+            $article = $db->selectSingleArray("SELECT articles.*, issues.number FROM articles, issues WHERE issues.id=articles.issueId AND articles.id=?", array($id));
+
+            if ($article !== false) {
+                $article['authors'] = grab('object_users', 'edit', 'article', $id);
+                $article['peers'] = grab('object_users', 'review', 'article', $id);
+
+                /*
+                 * Try to open config.articles.path '/' article.number '/' article.id as directory
+                 */
+                $article['files'] = array();
+                foreach (glob("{$config['path']}/{$article['number']}/{$article['id']}/*.*") as $fname) {
+                    $bytes = filesize($fname);
+                    $pi = pathinfo($fname);
+                    $article['files'][] = array(
+                        'dir' => $pi['dirname'],
+                        'name' => $pi['basename'],
+                        'bytes' => $bytes
+                    );
+                };
+            };
         };
 
         return $article;
@@ -115,15 +135,15 @@ class Articles
             $q->and('articles.issueId=?', $issueId);
         };
         $q->and(grab('can_sql', 'issues.id', 'view', 'issue'));
-        $q->and(grab('can_sql', 'id', 'view', 'article'));
+        $q->and(grab('can_sql', 'articles.id', 'view', 'article'));
         if ($keyword !== null) {
             $search = array();
-            $search[] = $db->query('title LIKE ?', "%{$keyword}%");
-            $search[] = $db->query('keywords LIKE ?', "%{$keyword}%");
-            $search[] = $db->query('abstract LIKE ?', "%{$keyword}%");
+            $search[] = $db->query('articles.title LIKE ?', "%{$keyword}%");
+            $search[] = $db->query('articles.keywords LIKE ?', "%{$keyword}%");
+            $search[] = $db->query('articles.abstract LIKE ?', "%{$keyword}%");
             $q->and()->implodeClosed('OR', $search);
         };
-        $q->order_by('number DESC');
+        $q->order_by('issues.number DESC, articles.id DESC');
         return $db->selectArray($q);
     }
 
@@ -180,19 +200,97 @@ class Articles
 
 on(
     'route/articles',
-    function () {
+    function ($path) {
         if (!$_SESSION['identified']) return trigger('http_status', 403);
-        $keyword = null;
-        if (isset($_POST['keyword'])) {
-            $keyword = $_POST['keyword'];
+        $req = grab('request');
+
+        // A binary request is necessarily for a file within an article
+        //
+        if ($req['binary']) {
+            $articleId = array_shift($path);
+            if (!pass('can', 'view', 'article', $articleId)) return trigger('http_status', 403);
+
+            $fname = array_shift($path);
+            $article = grab('article', $articleId);
+            if ($article === false) return trigger('http_status', 404);
+
+            foreach ($article['files'] as $file) {
+                if ($file['name'] === $fname) {
+                    header('Content-Type: application/octet-stream');
+                    header('Content-Disposition: attachment; filename="'.$fname.'"');
+                    header('Expires: 0');
+                    header('Cache-Control: must-revalidate');
+                    header('Pragma: public');
+                    header('Content-Length: ' . $file['bytes']);
+                    readfile($file['dir'] . '/' . $file['name']);
+                    exit;
+                };
+            };
+            return trigger('http_status', 404);
         };
-        trigger(
-            'render',
-            'articles.html',
-            array(
-                'articles' => grab('articles', $keyword)
-            )
-        );
+
+        // Non-binary request can be for general listing or a specific article
+        //
+        $articleId = array_shift($path);
+        if ($articleId !== null) {
+            $article = null;
+            $saved = false;
+            $added = false;
+            $deleted = false;
+            $success = false;
+            $history = null;
+            $editors = array();
+            $editors_active = array();
+            if (isset($_POST['wordCount'])) {
+                if (!pass('form_validate', 'articles_edit')) return trigger('http_status', 440);
+                $saved = true;
+                $success = pass('article_save', $_POST);
+            };
+            if (is_numeric($articleId)) {
+                if (!pass('can', 'view', 'article', $articleId)) return trigger('http_status', 403);
+                $article = grab('article', $articleId);
+
+
+                $history = grab(
+                    'history',
+                    array(
+                        'objectType' => 'article',
+                        'objectId' => $articleId,
+                        'order' => 'DESC'
+                    )
+                );
+                $editors = grab('role_users', 'editor');
+                $editors_active = grab('object_users', '*', 'article', $articleId);
+            };
+            trigger(
+                'render',
+                'articles_edit.html',
+                array(
+                    'saved' => $saved,
+                    'added' => $added,
+                    'deleted' => $deleted,
+                    'success' => $success,
+                    'article' => $article,
+                    'editors' => $editors,
+                    'editors_active' => $editors_active,
+                    'issues' => grab('issues'),
+                    'history' => $history
+                )
+            );
+        } else {
+            $keyword = null;
+            if (isset($_POST['keyword'])) {
+                $keyword = $_POST['keyword'];
+            };
+            trigger(
+                'render',
+                'articles.html',
+                array(
+                    'articles' => grab('articles', $keyword)
+                )
+            );
+        };
+
     }
 );
 
@@ -200,59 +298,5 @@ on(
     'route/articles+edit',
     function () {
         if (!$_SESSION['identified']) return trigger('http_status', 403);
-        $article = null;
-        $saved = false;
-        $added = false;
-        $deleted = false;
-        $success = false;
-        $history = null;
-        $editors = array();
-        $editors_active = array();
-        if (isset($_POST['wordCount'])) {
-            if (!pass('form_validate', 'articles_edit')) return trigger('http_status', 440);
-            $saved = true;
-            $success = pass('article_save', $_POST);
-        };
-        if (isset($_GET['id'])) {
-            if (!pass('can', 'view', 'article', $_GET['id'])) return trigger('http_status', 403);
-            $article = grab('article', $_GET['id']);
-
-            if (isset($_POST['addeditor'])) {
-                if (!pass('can', 'edit', 'article', $_GET['id'])) return trigger('http_status', 403);
-                $added = true;
-                $success = pass('grant', $_POST['addeditor'], null, '*', 'article', $_GET['id']);
-            };
-            if (isset($_POST['deleditor'])) {
-                if (!pass('can', 'edit', 'article', $_GET['id'])) return trigger('http_status', 403);
-                $deleted = true;
-                $success = pass('revoke', $_POST['deleditor'], null, '*', 'article', $_GET['id']);
-            };
-
-            $history = grab(
-                'history',
-                array(
-                    'objectType' => 'article',
-                    'objectId' => $_GET['id'],
-                    'order' => 'DESC'
-                )
-            );
-            $editors = grab('role_users', 'editor');
-            $editors_active = grab('object_users', '*', 'article', $_GET['id']);
-        };
-        trigger(
-            'render',
-            'articles_edit.html',
-            array(
-                'saved' => $saved,
-                'added' => $added,
-                'deleted' => $deleted,
-                'success' => $success,
-                'article' => $article,
-                'editors' => $editors,
-                'editors_active' => $editors_active,
-                'issues' => grab('issues'),
-                'history' => $history
-            )
-        );
     }
 );

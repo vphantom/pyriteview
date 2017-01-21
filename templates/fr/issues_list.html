@@ -11,7 +11,7 @@
 		<tbody>
 			{% for issue in issues %}
 				<tr>
-					<td class="fit"><a href="{{ req.base }}/issues/edit?id={{ issue.id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
+					<td class="fit"><a href="{{ req.base }}/issues/{{ issue.id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
 					<td class="fit">{{ issue.number }}</td>
 					<td>{{ issue.title }}</td>
 					<td class="fit">{{ issue.publication }}</td>

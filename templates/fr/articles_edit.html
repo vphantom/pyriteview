@@ -45,16 +45,25 @@
 
 		<h3>Fichiers</h3>
 
+		{% for file in article.files %}
+			<p><a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank">{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})</p>
+		{% endfor %}
 		<p>TODO: fichiers</p>
 
 		{% if pass('can', 'move', 'article', article.id) %}
 
 			<h3>Auteurs</h3>
 
+			{% for author in article.authors %}
+			({{ author }})
+			{% endfor %}
 			<p>TODO: choisir/créer auteurs</p>
 
 			<h3>Critiques</h3>
 
+			{% for peer in article.peers %}
+			({{ peer }})
+			{% endfor %}
 			<p>TODO: choisir/créer critiques</p>
 
 			<h3>Historique</h3>

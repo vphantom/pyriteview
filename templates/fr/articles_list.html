@@ -11,7 +11,7 @@
 		<tbody>
 			{% for article in articles %}
 				<tr>
-					<td class="fit"><a href="{{ req.base }}/articles/edit?id={{ article.id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
+					<td class="fit"><a href="{{ req.base }}/articles/{{ article.id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
 					<td class="fit">{{ article.number }}</td>
 					<td class="fit">{{ article.wordCount }}</td>
 					<td>{{ article.title }}</td>

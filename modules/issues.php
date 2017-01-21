@@ -169,81 +169,81 @@ class Issues
 
 on(
     'route/issues',
-    function () {
+    function ($path) {
         if (!$_SESSION['identified']) return trigger('http_status', 403);
-        $title = null;
-        if (isset($_POST['title'])) {
-            $title = $_POST['title'];
-        };
-        trigger(
-            'render',
-            'issues.html',
-            array(
-                'issues' => grab('issues', $title)
-            )
-        );
-    }
-);
 
-on(
-    'route/issues+edit',
-    function () {
-        if (!$_SESSION['identified']) return trigger('http_status', 403);
-        $issue = null;
-        $saved = false;
-        $added = false;
-        $deleted = false;
-        $success = false;
-        $history = null;
-        $articles = array();
-        $editors = array();
-        $editors_active = array();
-        if (isset($_POST['number'])) {
-            if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
-            $saved = true;
-            $success = pass('issue_save', $_POST);
-        };
-        if (isset($_GET['id'])) {
-            if (!pass('can', 'view', 'issue', $_GET['id'])) return trigger('http_status', 403);
-            $issue = grab('issue', $_GET['id']);
-
-            if (isset($_POST['addeditor'])) {
-                if (!pass('can', 'edit', 'issue', $_GET['id'])) return trigger('http_status', 403);
-                $added = true;
-                $success = pass('grant', $_POST['addeditor'], null, '*', 'issue', $_GET['id']);
+        $issueId = array_shift($path);
+        if ($issueId !== null) {
+            $issue = null;
+            $saved = false;
+            $added = false;
+            $deleted = false;
+            $success = false;
+            $history = null;
+            $articles = array();
+            $editors = array();
+            $editors_active = array();
+            if (isset($_POST['number'])) {
+                if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
+                $saved = true;
+                $success = pass('issue_save', $_POST);
             };
-            if (isset($_POST['deleditor'])) {
-                if (!pass('can', 'edit', 'issue', $_GET['id'])) return trigger('http_status', 403);
-                $deleted = true;
-                $success = pass('revoke', $_POST['deleditor'], null, '*', 'issue', $_GET['id']);
-            };
+            if (is_numeric($issueId)) {
+                if (!pass('can', 'view', 'issue', $issueId)) return trigger('http_status', 403);
+                $issue = grab('issue', $issueId);
 
-            $articles = grab('articles', null, $_GET['id']);
-            $history = grab(
-                'history',
+                if (isset($_POST['addeditor'])) {
+                    if (!pass('can', 'edit', 'issue', $issueId)) return trigger('http_status', 403);
+                    $added = true;
+                    $success = pass('grant', $_POST['addeditor'], null, '*', 'issue', $issueId);
+                };
+                if (isset($_POST['deleditor'])) {
+                    if (!pass('can', 'edit', 'issue', $issueId)) return trigger('http_status', 403);
+                    $deleted = true;
+                    $success = pass('revoke', $_POST['deleditor'], null, '*', 'issue', $issueId);
+                };
+
+                $articles = grab('articles', null, $issueId);
+                $history = grab(
+                    'history',
+                    array(
+                        'objectType' => 'issue',
+                        'objectId' => $issueId,
+                        'order' => 'DESC'
+                    )
+                );
+                $editors = grab('role_users', 'editor');
+                $editors_active = grab('object_users', '*', 'issue', $issueId);
+            };
+            trigger(
+                'render',
+                'issues_edit.html',
                 array(
-                    'objectType' => 'issue',
-                    'objectId' => $_GET['id'],
-                    'order' => 'DESC'
+                    'saved' => $saved,
+                    'added' => $added,
+                    'deleted' => $deleted,
+                    'success' => $success,
+                    'issue' => $issue,
+                    'editors' => $editors,
+                    'editors_active' => $editors_active,
+                    'history' => $history,
+                    'articles' => $articles
                 )
             );
-            $editors = grab('role_users', 'editor');
-            $editors_active = grab('object_users', '*', 'issue', $_GET['id']);
+
+        } else {
+            $title = null;
+            if (isset($_POST['title'])) {
+                $title = $_POST['title'];
+            };
+            trigger(
+                'render',
+                'issues.html',
+                array(
+                    'issues' => grab('issues', $title)
+                )
+            );
         };
-        trigger(
-            'render',
-            'issues_edit.html',
-            array(
-                'saved' => $saved,
-                'added' => $added,
-                'deleted' => $deleted,
-                'success' => $success,
-                'issue' => $issue,
-                'editors' => $editors,
-                'editors_active' => $editors_active,
-                'history' => $history,
-                'articles' => $articles
-            )
-        );
+
     }
 );

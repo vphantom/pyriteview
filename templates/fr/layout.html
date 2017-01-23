@@ -80,7 +80,7 @@
 						<li><a href="{{ req.base }}/"{% if req.path == '' %} class="active"{% endif %}><span class="glyphicon glyphicon-home"></span> Tableau de bord</a></li>
 						<li><a href="{{ req.base }}/issues"{% if req.path starts with 'issues' %} class="active"{% endif %}><span class="glyphicon glyphicon-book"></span> Numéros</a></li>
 						<li><a href="{{ req.base }}/articles"{% if req.path starts with 'articles' %} class="active"{% endif %}><span class="glyphicon glyphicon-align-left"></span> Articles</a></li>
-						{% if pass('can', 'view', 'user') %}
+						{% if pass('can', 'view', 'user') or pass('can', 'create', 'user') %}
 							<li><a href="{{ req.base }}/admin/users"{% if req.path starts with 'admin/users' %} class="active"{% endif %}><span class="glyphicon glyphicon-user"></span> Usagers</a></li>
 						{% endif %}
 						{% if pass('can', 'view', 'role') %}

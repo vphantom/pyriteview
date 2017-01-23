@@ -17,7 +17,7 @@
 {%- endmacro %}
 
 {% macro format_email(email) -%}
-<a href="mailto:{{ email }}">{{ email }}</a>
+<a href="mailto:{{ email }}"><span class="glyphicon glyphicon-envelope"></span>{{ email }}</a>
 {%- endmacro %}
 
 {% macro format_bytes(bytes) -%}
@@ -52,11 +52,13 @@
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro format_user(id) -%}
-	{%- if id == 0 -%}
+{% macro format_user(user) -%}
+	{%- if not user.id and not user == 0 -%}
+	{%- set user = grab('user_resolve', user) -%}
+	{%- endif -%}
+	{%- if user == 0 -%}
 		<span class="glyphicon glyphicon-user"></span>Le système
 	{%- else -%}
-		{%- set user = grab('user_resolve', id) -%}
 		{%- if user != false -%}
 			{%- if pass('can', 'view', 'user', id) -%}
 				<a href="{{ req.base }}/admin/users/edit?id={{ user.id }}"><span class="glyphicon glyphicon-user"></span>{{ user.name }}</a>
@@ -64,7 +66,7 @@
 				<span class="glyphicon glyphicon-user"></span>{{ user.name }}
 			{%- endif -%}
 		{%- else -%}
-			<span class="glyphicon glyphicon-user"></span>inconnu '{{ id }}'
+			<span class="glyphicon glyphicon-user"></span>inconnu
 		{%- endif -%}
 	{%- endif -%}
 {%- endmacro %}

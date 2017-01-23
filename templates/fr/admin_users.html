@@ -20,8 +20,7 @@ Pour créer un nouvel usager, utilisez le même <a href="{{ req.base }}/register
 	<table class="table table-hover table-condensed">
 		<thead>
 			<tr>
-				<th>&nbsp;</th>
-				<th>Nom</th>
+				<th>Usager</th>
 				<th>Courriel</th>
 				<th>Rôles</th>
 				<th>Dernière visite</th>
@@ -32,8 +31,7 @@ Pour créer un nouvel usager, utilisez le même <a href="{{ req.base }}/register
 			{% set roles = grab('user_roles', user.id) %}
 			{% set login = grab('user_seen', user.id) %}
 			<tr>
-				<td class="fit"><a href="{{ req.base }}/{{ req.path }}/edit?id={{ user.id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
-				<td class="fit"><a href="{{ req.base }}/{{ req.path }}/edit?id={{ user.id }}">{{ user.name }}</a></td>
+				<td class="fit">{{ lib.format_user(user) }}</td>
 				<td class="fit">{{ lib.format_email(user.email) }}</td>
 				<td class="fit">
 					{% for role in roles %}

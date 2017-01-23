@@ -67,7 +67,7 @@ class Articles
             ('dispatched_review'),
             ('accepted_with_condition'),
             ('accepted'),
-            ('printing_with_condition'),
+            ('printing'),
             ('published'),
             ('rejected'),
             ('deleted')
@@ -148,23 +148,65 @@ class Articles
      * A convenience virtual column 'number' is fetched from the issues table
      * as well in addition to 'issueId'.
      *
-     * @param string $keyword  (Optional) Search in titles, keywords, abstracts
-     * @param int    $issueId  (Optional) Restrict to a specific issue
-     * @param bool   $byStatus (Optional) Group results by status code
+     * The following keys may be defined in $args:
+     *
+     * keyword: Search in titles, keywords, abstracts
+     * issueId: Restrict to a specific issue
+     * states: Restrict to specific states (string for one, array for many)
+     * byStatus: Set true to group results by status code
+     *
+     * @param array $args (Optional) Arguments described above
      *
      * @return array Articles or arrays keyed by status
      */
-    public static function getList($keyword = null, $issueId = null, $byStatus = false)
+    public static function getList($args = array())
     {
         global $PPHP;
         $db = $PPHP['db'];
+        $keyword = null;
+        $issueId = null;
+        $byStatus = false;
+        $states = array();
+
+        foreach ($args as $key => $val) {
+            switch ($key) {
+            case 'keyword':
+                $keyword = $val;
+                break;
+            case 'issueId':
+                $issueId = $val;
+                break;
+            case 'states':
+                if (is_array($val)) {
+                    $states = $val;
+                } else {
+                    $states[] = $val;
+                };
+                break;
+            case 'byStatus':
+                $byStatus = $val;
+                break;
+            };
+        };
 
         $q = $db->query('SELECT articles.*, issues.number FROM articles');
         $q->left_join('issues ON issues.id=articles.issueId');
         $q->where();
-        $q->implodeClosed('OR', array(grab('can_sql', 'issues.id', 'view', 'issue'), grab('can_sql', 'articles.id', 'view', 'article')));
+        $sources = array();
+        $sources[] = grab('can_sql', 'issues.id', 'view', 'issue');
+        $sources[] = grab('can_sql', 'articles.id', 'view', 'article');
+        if (pass('has_role', 'author')) {
+            $sources[] = grab('can_sql', 'articles.id', 'edit', 'article');
+        };
+        $q->implodeClosed('OR', $sources);
+        if (pass('has_role', 'reader')) {
+            $q->and("articles.status='published'");
+        };
         if ($issueId !== null) {
             $q->and('articles.issueId=?', $issueId);
+        };
+        if (count($states) > 0) {
+            $q->append('AND articles.status IN')->varsClosed($states);
         };
         if ($keyword !== null) {
             $search = array();
@@ -174,6 +216,7 @@ class Articles
             $q->and()->implodeClosed('OR', $search);
         };
         $q->order_by('issues.number DESC, articles.id DESC');
+        print_r($q);
         $list = $db->selectArray($q);
         if ($byStatus) {
             $sorted = array();
@@ -256,7 +299,7 @@ on(
         //
         if ($req['binary']) {
             if ($article === false) return trigger('http_status', 404);
-            if (!(pass('can', 'view', 'article', $articleId) || pass('can', 'view', 'issue', $article['issueId']))) return trigger('http_status', 403);
+            if (!(pass('can', 'view', 'article', $articleId) || pass('can', 'edit', 'article', $articleId) || pass('can', 'view', 'issue', $article['issueId']))) return trigger('http_status', 403);
 
             $fname = array_shift($path);
 
@@ -297,7 +340,7 @@ on(
                 $article = grab('article', $articleId);
             };
             if (is_numeric($articleId)) {
-                if (!(pass('can', 'view', 'article', $articleId) || pass('can', 'view', 'issue', $article['issueId']))) return trigger('http_status', 403);
+                if (!(pass('can', 'view', 'article', $articleId) || pass('can', 'edit', 'article', $articleId) || pass('can', 'view', 'issue', $article['issueId']))) return trigger('http_status', 403);
 
                 $history = grab(
                     'history',
@@ -334,7 +377,13 @@ on(
                 'render',
                 'articles.html',
                 array(
-                    'articles' => grab('articles', $keyword, null, true)
+                    'articles' => grab(
+                        'articles',
+                        array(
+                            'keyword' => $keyword,
+                            'byStatus' => true
+                        )
+                    )
                 )
             );
         };

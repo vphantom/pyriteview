@@ -23,6 +23,8 @@ Articles::bootstrap();
 on(
     'route/main',
     function () {
+        global $PPHP;
+
         if (!$_SESSION['identified']) return trigger('http_status', 403);
 
         $historyFilter = array(
@@ -33,11 +35,22 @@ on(
         if (!pass('can', 'create', 'user')) {
             $historyFilter['userId'] = $_SESSION['user']['id'];
         };
+        $states = array();
+        if (!pass('has_role', 'author')) {
+            $states = $PPHP['config']['articles']['states_wip'];
+        };
         trigger(
             'render',
             'dashboard.html',
             array(
-                'recentHistory' => grab('history', $historyFilter)
+                'recentHistory' => grab('history', $historyFilter),
+                'articles' => grab(
+                    'articles',
+                    array(
+                        'byStatus' => true,
+                        'states' => $states
+                    )
+                )
             )
         );
     }

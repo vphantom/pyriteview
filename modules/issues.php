@@ -203,7 +203,13 @@ on(
                     $success = pass('revoke', $_POST['deleditor'], null, '*', 'issue', $issueId);
                 };
 
-                $articles = grab('articles', null, $issueId, true);
+                $articles = grab(
+                    'articles',
+                    array(
+                        'issueId' => $issueId,
+                        'byStatus' => true
+                    )
+                );
                 $history = grab(
                     'history',
                     array(

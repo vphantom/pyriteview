@@ -39,8 +39,8 @@
 		<span class="glyphicon glyphicon-flag fg-stalled"></span> accepté sous condition
 	{%- elseif status == 'accepted' -%}
 		<span class="glyphicon glyphicon-ok fg-ok"></span> accepté
-	{%- elseif status == 'printing_with_condition' -%}
-		<span class="glyphicon glyphicon-flag fg-stalled"></span> sous presse sous condition
+	{%- elseif status == 'printing' -%}
+		<span class="glyphicon glyphicon-flag fg-stalled"></span> sous presse
 	{%- elseif status == 'published' -%}
 		<span class="glyphicon glyphicon-lock fg-ok"></span> publié
 	{%- elseif status == 'rejected' -%}
@@ -119,7 +119,7 @@
 	{%- set article = grab('article', article) -%}
 	{%- endif -%}
 	{%- if article != false -%}
-		{%- if (pass('can', 'view', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) and not flat -%}
+		{%- if (pass('can', 'view', 'article', article.id) or pass('can', 'edit', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) and not flat -%}
 			<a href="{{ req.base }}/articles/{{ article.id }}"><span class="glyphicon glyphicon-align-left"></span>{{ article.title }}</a>
 		{%- else -%}
 			<span class="glyphicon glyphicon-align-left"></span>{{ article.title }}

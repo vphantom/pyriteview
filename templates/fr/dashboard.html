@@ -13,29 +13,16 @@
 <div class="row">
 	<div class="col-lg-8">
 
-		{#
-		<!-- Example Left Panel -->
+		<!-- Articles Panel -->
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<span class="glyphicon glyphicon-question-sign"></span> Exemple de panneau de gauche
-				<div class="pull-right">
-					<div class="btn-group">
-						<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Actions <span class="caret"></span></button>
-						<ul class="dropdown-menu pull-right" role="menu">
-							<li><a href="#">Test</a></li>
-							<li><a href="#">Test</a></li>
-							<li class="divider"></li>
-							<li><a href="#">Test</a></li>
-						</ul>
-					</div>
-				</div>
+				<span class="glyphicon glyphicon-align-left"></span> Articles
 			</div>
 			<div class="panel-body">
-				<p>Zone de contenu</p>
+				{% include 'articles_list.html' %}
 			</div>
 		</div>
-		<!-- /Example Left Panel -->
-		#}
+		<!-- /Articles Panel -->
 
 	</div>
 	<div class="col-lg-4">

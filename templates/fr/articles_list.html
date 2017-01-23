@@ -9,14 +9,16 @@
 		</thead>
 		<tbody>
 			{% for status in config.articles.states %}
-				<tr class="table-section panel-default"><th colspan="3" class="panel-heading">{{ lib.format_status(status) }}</th></tr>
-				{% for article in articles[status] %}
-					<tr>
-						<td class="fit">{{ article.number |default('hors-série') }}</td>
-						<td class="fit">{{ article.wordCount }}</td>
-						<td>{{ lib.format_article(article) }}</td>
-					</tr>
-				{% endfor %}
+				{% if articles[status] |length > 0 %}
+					<tr class="table-section panel-default"><th colspan="3" class="panel-heading">{{ lib.format_status(status) }}</th></tr>
+					{% for article in articles[status] %}
+						<tr>
+							<td class="fit">{{ article.number |default('hors-série') }}</td>
+							<td class="fit">{{ article.wordCount }}</td>
+							<td>{{ lib.format_article(article) }}</td>
+						</tr>
+					{% endfor %}
+				{% endif %}
 			{% endfor %}
 		</tbody>
 	</table>

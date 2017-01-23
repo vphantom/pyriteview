@@ -30,7 +30,7 @@ on(
             'order' => 'DESC',
             'max' => 12
         );
-        if (!pass('can', 'view', 'user')) {
+        if (!pass('can', 'create', 'user')) {
             $historyFilter['userId'] = $_SESSION['user']['id'];
         };
         trigger(

@@ -107,15 +107,15 @@ class Articles
         $config = $PPHP['config']['articles'];
         $article = false;
 
-        if (pass('can', 'view', 'article', $id)) {
-            $article = $db->selectSingleArray(
-                "
-                SELECT articles.*, issues.number FROM articles
-                LEFT JOIN issues ON issues.id=articles.issueId
-                WHERE articles.id=?
-                ",
-                array($id)
-            );
+        $article = $db->selectSingleArray(
+            "
+            SELECT articles.*, issues.number FROM articles
+            LEFT JOIN issues ON issues.id=articles.issueId
+            WHERE articles.id=?
+            ",
+            array($id)
+        );
+        if (pass('can', 'view', 'article', $id) || pass('can', 'view', 'issue', $article['issueId'])) {
 
             if ($article !== false) {
                 $article['authors'] = grab('object_users', 'edit', 'article', $id);
@@ -239,16 +239,16 @@ on(
     function ($path) {
         if (!$_SESSION['identified']) return trigger('http_status', 403);
         $req = grab('request');
+        $articleId = array_shift($path);
+        $article = grab('article', $articleId);
 
         // A binary request is necessarily for a file within an article
         //
         if ($req['binary']) {
-            $articleId = array_shift($path);
-            if (!pass('can', 'view', 'article', $articleId)) return trigger('http_status', 403);
+            if ($article === false) return trigger('http_status', 404);
+            if (!(pass('can', 'view', 'article', $articleId) || pass('can', 'view', 'issue', $article['issueId']))) return trigger('http_status', 403);
 
             $fname = array_shift($path);
-            $article = grab('article', $articleId);
-            if ($article === false) return trigger('http_status', 404);
 
             foreach ($article['files'] as $file) {
                 if ($file['name'] === $fname) {
@@ -267,9 +267,7 @@ on(
 
         // Non-binary request can be for general listing or a specific article
         //
-        $articleId = array_shift($path);
         if ($articleId !== null) {
-            $article = null;
             $saved = false;
             $added = false;
             $deleted = false;
@@ -279,13 +277,17 @@ on(
             $editors_active = array();
             if (isset($_POST['wordCount'])) {
                 if (!pass('form_validate', 'articles_edit')) return trigger('http_status', 440);
+                if (is_numeric($articleId)) {
+                    if (!(pass('can', 'edit', 'article', $articleId) || pass('can', 'edit', 'issue', $article['issueId']))) return trigger('http_status', 403);
+                } else {
+                    if (!pass('can', 'create', 'article')) return trigger('http_status', 403);
+                };
                 $saved = true;
                 $success = pass('article_save', $_POST);
+                $article = grab('article', $articleId);
             };
             if (is_numeric($articleId)) {
-                if (!pass('can', 'view', 'article', $articleId)) return trigger('http_status', 403);
-                $article = grab('article', $articleId);
-
+                if (!(pass('can', 'view', 'article', $articleId) || pass('can', 'view', 'issue', $article['issueId']))) return trigger('http_status', 403);
 
                 $history = grab(
                     'history',
@@ -327,12 +329,5 @@ on(
             );
         };
 
-    }
-);
-
-on(
-    'route/articles+edit',
-    function () {
-        if (!$_SESSION['identified']) return trigger('http_status', 403);
     }
 );

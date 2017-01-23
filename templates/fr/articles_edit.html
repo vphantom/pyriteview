@@ -23,7 +23,7 @@
 	{% set issueId = req.post.issueId %}
 {% endif %}
 
-{% if pass('can', 'edit', 'article', article.id) or (pass('can', 'create', 'article') and not article.id) %}
+{% if pass('can', 'edit', 'article', article.id) or pass('can', 'edit', 'issue', article.issueId) or (pass('can', 'create', 'article') and not article.id) %}
 
 	<form id="articles_edit" method="post" class="form-leftright">
 		{{ filter('form_begin', 'articles_edit') |raw }}
@@ -59,7 +59,7 @@
 		{% endfor %}
 		<p>TODO: fichiers</p>
 
-		{% if pass('can', 'move', 'article', article.id) %}
+		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
 
 			<h3>Auteurs</h3>
 
@@ -88,7 +88,7 @@
 
 	{% endif %}
 
-{% elseif pass('can', 'view', 'article', article.id) and article.id %}
+{% elseif article.id and (pass('can', 'view', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) %}
 
 	<dl class="dl-horizontal">
 		<dt>Numéro</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>

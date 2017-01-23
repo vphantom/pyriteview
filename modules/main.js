@@ -18,7 +18,7 @@ $().ready(function() {
   // (Default is just in case we miss it.  It _should_ always be set.)
   var lang = $('html').attr('lang') || 'en';
 
-  var excludedInputs = 'input[type=button], input[type=submit], input[type=reset], input[type=hidden], [disabled], :hidden';  // eslint-disable-line max-len
+  var excludedInputs = 'input[type=button], input[type=submit], input[type=reset], input[type=hidden], :hidden';  // eslint-disable-line max-len
 
   // Bootstrap-ize forms before enabling Parsley on them
 
@@ -33,7 +33,7 @@ $().ready(function() {
       .addClass('form-horizontal')
     ;
   });
-  $('form.form-leftright input, form.form-leftright select, form.form-leftright textarea')
+  $('form.form-leftright input, form.form-leftright select, form.form-leftright textarea, form.form-leftright .input-like')  // eslint-disable-line max-len
     .not(excludedInputs)
     .each(function() {
       var id    = $(this).attr('id');
@@ -88,7 +88,7 @@ $().ready(function() {
       .addClass('form-inline')
     ;
   });
-  $('form.form-compact input, form.form-compact select, form.form-compact textarea')
+  $('form.form-compact input, form.form-compact select, form.form-compact textarea')  // eslint-disable-line max-len
     .not(excludedInputs)
     .each(function() {
       var id    = $(this).attr('id');
@@ -123,7 +123,7 @@ $().ready(function() {
   // ...and http://jimmybonney.com/articles/parsley_js_twitter_bootstrap/
   // CAUTION: $.fn.parsley.defaults({...}) was IGNORED.
   $('form').parsley({
-    excluded    : excludedInputs,
+    excluded    : excludedInputs + ', [disabled]',
     successClass: 'has-success',
     errorClass  : 'has-error',
     classHandler: function(el) {

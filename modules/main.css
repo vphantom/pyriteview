@@ -22,12 +22,46 @@ body {
 	font-style: italic;
 }
 
+.label a {
+	color: #fff;
+}
+h1 .label, h2 .label, h3 .label {
+	font-size: 50%;
+}
+h1 .label-default, h2 .label-default, h3 .label-default {
+	background-color: #bbb;
+}
+
+/* Assorted text colors, useful for glyphicons */
+.fg-new, .fg-pending, .fg-ok, .fg-stalled, .fg-err {
+	text-shadow: 0 0 1px #888;
+}
+.fg-new {
+	color: #ffee00;
+}
+.fg-pending {
+	color: #ff8800;
+}
+.fg-ok {
+	color: #00aa00;
+}
+.fg-stalled {
+	color: #ff8800;
+}
+.fg-err {
+	color: #cc0000;
+}
+
 .panel-body .table {
 	margin-bottom: 0;
 }
 
 .form-toolbar .btn {
 	padding: 0;
+}
+
+tr.table-section {
+	text-transform: uppercase;
 }
 
 input, select, textarea {

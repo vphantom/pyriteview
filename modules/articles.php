@@ -148,12 +148,13 @@ class Articles
      * A convenience virtual column 'number' is fetched from the issues table
      * as well in addition to 'issueId'.
      *
-     * @param string $keyword (Optional) Search in titles, keywords, abstracts
-     * @param int    $issueId (Optional) Restrict to a specific issue
+     * @param string $keyword  (Optional) Search in titles, keywords, abstracts
+     * @param int    $issueId  (Optional) Restrict to a specific issue
+     * @param bool   $byStatus (Optional) Group results by status code
      *
-     * @return array Articles
+     * @return array Articles or arrays keyed by status
      */
-    public static function getList($keyword = null, $issueId = null)
+    public static function getList($keyword = null, $issueId = null, $byStatus = false)
     {
         global $PPHP;
         $db = $PPHP['db'];
@@ -173,7 +174,16 @@ class Articles
             $q->and()->implodeClosed('OR', $search);
         };
         $q->order_by('issues.number DESC, articles.id DESC');
-        return $db->selectArray($q);
+        $list = $db->selectArray($q);
+        if ($byStatus) {
+            $sorted = array();
+            foreach ($list as $article) {
+                $sorted[$article['status']][] = $article;
+            };
+            return $sorted;
+        } else {
+            return $list;
+        };
     }
 
     /**
@@ -324,7 +334,7 @@ on(
                 'render',
                 'articles.html',
                 array(
-                    'articles' => grab('articles', $keyword)
+                    'articles' => grab('articles', $keyword, null, true)
                 )
             );
         };

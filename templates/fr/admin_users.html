@@ -35,7 +35,7 @@ Pour créer un nouvel usager, utilisez le même <a href="{{ req.base }}/register
 				<td class="fit">{{ lib.format_email(user.email) }}</td>
 				<td class="fit">
 					{% for role in roles %}
-						{{ lib.format_role(role) }}
+						{{ lib.label_role(role) }}
 					{% endfor %}
 				</td>
 				<td>{{ lib.format_timestamp(login.localtimestamp) }}{% if login.ip %} depuis {{ lib.format_ip(login.ip) }}{% endif %}</td>

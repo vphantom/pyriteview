@@ -203,7 +203,7 @@ on(
                     $success = pass('revoke', $_POST['deleditor'], null, '*', 'issue', $issueId);
                 };
 
-                $articles = grab('articles', null, $issueId);
+                $articles = grab('articles', null, $issueId, true);
                 $history = grab(
                     'history',
                     array(

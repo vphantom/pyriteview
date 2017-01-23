@@ -30,29 +30,29 @@
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro format_articleStatus(status) -%}
+{% macro format_status(status) -%}
 	{%- if status == 'created' -%}
-		nouvellement créé
+		<span class="glyphicon glyphicon-star fg-new"></span> nouveau
 	{%- elseif status == 'dispatched_review' -%}
-		en évaluation
+		<span class="glyphicon glyphicon-time fg-pending"></span> en évaluation
 	{%- elseif status == 'accepted_with_condition' -%}
-		accepté sous condition
+		<span class="glyphicon glyphicon-flag fg-stalled"></span> accepté sous condition
 	{%- elseif status == 'accepted' -%}
-		accepté
+		<span class="glyphicon glyphicon-ok fg-ok"></span> accepté
 	{%- elseif status == 'printing_with_condition' -%}
-		sous presse sous condition
+		<span class="glyphicon glyphicon-flag fg-stalled"></span> sous presse sous condition
 	{%- elseif status == 'published' -%}
-		publié
+		<span class="glyphicon glyphicon-lock fg-ok"></span> publié
 	{%- elseif status == 'rejected' -%}
-		rejeté
+		<span class="glyphicon glyphicon-remove fg-err"></span> rejeté
 	{%- elseif status == 'deleted' -%}
-		effacé
+		<span class="glyphicon glyphicon-trash fg-err"></span> effacé
 	{%- else -%}
-		état inconnu
+		<span class="glyphicon glyphicon-question-sign fg-err"></span> état inconnu
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro format_user(user) -%}
+{% macro format_user(user, flat) -%}
 	{%- if not user.id and not user == 0 -%}
 	{%- set user = grab('user_resolve', user) -%}
 	{%- endif -%}
@@ -60,7 +60,7 @@
 		<span class="glyphicon glyphicon-user"></span>Le système
 	{%- else -%}
 		{%- if user != false -%}
-			{%- if pass('can', 'view', 'user', id) -%}
+			{%- if pass('can', 'view', 'user', id) and not flat -%}
 				<a href="{{ req.base }}/admin/users/edit?id={{ user.id }}"><span class="glyphicon glyphicon-user"></span>{{ user.name }}</a>
 			{%- else -%}
 				<span class="glyphicon glyphicon-user"></span>{{ user.name }}
@@ -71,20 +71,40 @@
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro format_role(role) -%}
-	{%- if pass('can', 'view', 'role', role) -%}
-		<a href="{{ req.base }}/admin/roles/{{ role }}"><span class="glyphicon glyphicon-tag"></span>{{ role }}</a>
+{% macro format_role(role, flat) -%}
+	{%- set name = 'inconnu' -%}
+	{%- if role == 'admin' %}{% set name = 'administrateur' -%}
+	{%- elseif role == 'member' %}{% set name = 'membre' -%}
+	{%- elseif role == 'editor-in-chief' %}{% set name = 'éditeur en chef' -%}
+	{%- elseif role == 'editor' %}{% set name = 'éditeur' -%}
+	{%- elseif role == 'author' %}{% set name = 'auteur' -%}
+	{%- elseif role == 'peer' %}{% set name = 'pair' -%}
+	{%- elseif role == 'reader' %}{% set name = 'lecteur' -%}
+	{%- endif -%}
+	{%- if pass('can', 'view', 'role', role) and not flat -%}
+		<a href="{{ req.base }}/admin/roles/{{ role }}"><span class="glyphicon glyphicon-tag"></span>{{ name }}</a>
 	{%- else -%}
-		<span class="glyphicon glyphicon-tag"></span>{{ role }}
+		<span class="glyphicon glyphicon-tag"></span>{{ name }}
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro format_issue(issue) -%}
+{% macro label_role(role, flat) -%}
+	{%- if role == 'member' %}{% set v = 'info' -%}
+	{%- elseif role == 'editor' or role == 'editor-in-chief' %}{% set v = 'success' -%}
+	{%- elseif role == 'admin' %}{% set v = 'danger' -%}
+	{%- elseif role == 'author' %}{% set v = 'primary' -%}
+	{%- elseif role == 'peer' %}{% set v = 'warning' -%}
+	{%- else %}{% set v = 'default' -%}
+	{%- endif -%}
+	<span class="label label-{{ v }}">{{ _self.format_role(role, flat) }}</span>
+{%- endmacro %}
+
+{% macro format_issue(issue, flat) -%}
 	{%- if not issue.id -%}
 	{%- set issue = grab('issue', issue) -%}
 	{%- endif -%}
 	{%- if issue != false -%}
-		{%- if pass('can', 'view', 'issue', issue.id) -%}
+		{%- if pass('can', 'view', 'issue', issue.id) and not flat -%}
 			<a href="{{ req.base }}/issues/{{ issue.id }}"><span class="glyphicon glyphicon-book"></span>{{ issue.number }} {{ issue.title }}</a>
 		{%- else -%}
 			<span class="glyphicon glyphicon-book"></span>{{ issue.number }} {{ issue.title }}
@@ -94,12 +114,12 @@
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro format_article(article) -%}
+{% macro format_article(article, flat) -%}
 	{%- if not article.id -%}
 	{%- set article = grab('article', article) -%}
 	{%- endif -%}
 	{%- if article != false -%}
-		{%- if pass('can', 'view', 'article', article.id) or pass('can', 'view', 'issue', article.issueId) -%}
+		{%- if (pass('can', 'view', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) and not flat -%}
 			<a href="{{ req.base }}/articles/{{ article.id }}"><span class="glyphicon glyphicon-align-left"></span>{{ article.title }}</a>
 		{%- else -%}
 			<span class="glyphicon glyphicon-align-left"></span>{{ article.title }}
@@ -114,6 +134,8 @@
 		{{ _self.format_ip(value) }}
 	{%- elseif type == 'email' -%}
 		{{ _self.format_email(value) }}
+	{%- elseif type == 'status' -%}
+		{{ _self.format_status(value) }}
 	{%- elseif type == 'user' -%}
 		{{ _self.format_user(value) }}
 	{%- elseif type == 'role' -%}

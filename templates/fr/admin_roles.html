@@ -45,7 +45,7 @@
 	<ul class="nav nav-tabs">
 		{% set first = true %}
 		{% for roleId in roles %}
-		<li{% if roleId == role %} class="active"{% endif %}><a href="{{ req.base }}/admin/roles/{{ roleId }}" aria-expanded="{% if roleId == role %}true{% else %}false{% endif %}"><span class="glyphicon glyphicon-tag"></span> {{ roleId }}</a></li>
+		<li{% if roleId == role %} class="active"{% endif %}>{{ lib.format_role(roleId) }}</li>
 			{% set first = false %}
 		{% endfor %}
 	</ul>

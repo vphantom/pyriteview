@@ -15,7 +15,7 @@
 	{% endif %}
 {% endif %}
 
-<h2 class="page-header"><span class="glyphicon glyphicon-align-left"></span> {{ article.title|default('Nouvel article') }} <span class="text-muted small">({{ lib.format_articleStatus(article.status) }})</span></h2>
+<h2 class="page-header"><span class="glyphicon glyphicon-align-left"></span> {{ article.title|default('Nouvel article') }} <span class="label label-default">{{ lib.format_status(article.status) }}</span></h2>
 
 {% if article.id %}
 	{% set issueId = article.issueId %}

@@ -69,6 +69,14 @@
 	{%- endif -%}
 {%- endmacro %}
 
+{% macro format_role(role) -%}
+	{%- if pass('can', 'view', 'role', role) -%}
+		<a href="{{ req.base }}/admin/roles/{{ role }}"><span class="glyphicon glyphicon-tag"></span>{{ role }}</a>
+	{%- else -%}
+		<span class="glyphicon glyphicon-tag"></span>{{ role }}
+	{%- endif -%}
+{%- endmacro %}
+
 {% macro format_issue(issue) -%}
 	{%- if not issue.id -%}
 	{%- set issue = grab('issue', issue) -%}
@@ -106,6 +114,8 @@
 		{{ _self.format_email(value) }}
 	{%- elseif type == 'user' -%}
 		{{ _self.format_user(value) }}
+	{%- elseif type == 'role' -%}
+		{{ _self.format_role(value) }}
 	{%- elseif type == 'issue' -%}
 		{{ _self.format_issue(value) }}
 	{%- elseif type == 'article' -%}

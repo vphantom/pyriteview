@@ -19,13 +19,7 @@
 <p>
 	<form id="admin_role_acl_add" method="post" class="form-compact">
 		<input type="hidden" name="f" value="add">
-		<strong>Nouveau:</strong>
-		<select data-label="Role" id="role" required>
-			<option selected disabled>Rôle...
-			{% for role in roles|keys %}
-				<option>{{ role }}
-			{% endfor %}
-		</select>
+		<strong>Nouveau droit:</strong>
 		<select data-label="Action" id="action" required>
 			<option selected disabled>Action...
 			<option value="*">* Toute action
@@ -35,7 +29,7 @@
 		</select>
 		<select data-label="Object Type" id="objectType" required>
 			<option selected disabled>Type...
-			<option selected value="*">* Tout type
+			<option value="*">* Tout type
 			{% for objectType in objectTypes %}
 				<option>{{ objectType }}
 			{% endfor %}
@@ -50,15 +44,13 @@
 	{% set canEdit = pass('can', 'edit', 'role') %}
 	<ul class="nav nav-tabs">
 		{% set first = true %}
-		{% for role in roles|keys %}
-			<li{% if first %} class="active"{% endif %}><a href="#{{ role }}" data-toggle="tab" aria-expanded="{% if first %}true{% else %}false{% endif %}"><span class="glyphicon glyphicon-tag"></span> {{ role }}</a></li>
+		{% for roleId in roles %}
+		<li{% if roleId == role %} class="active"{% endif %}><a href="{{ req.base }}/admin/roles/{{ roleId }}" aria-expanded="{% if roleId == role %}true{% else %}false{% endif %}"><span class="glyphicon glyphicon-tag"></span> {{ roleId }}</a></li>
 			{% set first = false %}
 		{% endfor %}
 	</ul>
 	<div class="tab-content">
-		{% set first = true %}
-		{% for role in roles|keys %}
-			<div class="tab-pane{% if first %} active in{% endif %}" id="{{ role }}">
+			<div class="tab-pane active in" id="{{ role }}">
 				<div class="table-responsive">
 					<table class="table table-hover table-condensed">
 						<thead>
@@ -70,7 +62,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% for right in roles[role] %}
+							{% for right in rights %}
 							<tr>
 								<td class="fit">
 									{% if not canEdit or (role == 'admin' and right.action == '*') or (role == 'member' and right.action == 'login') %}
@@ -91,14 +83,12 @@
 								<td>{% if right.objectId == 0 %}<em>tous</em>{% else %}{{ right.objectId }}{% endif %}</td>
 							</tr>
 							{% endfor %}
-							{% if roles[role]|length == 0 %}
+							{% if rights|length == 0 %}
 								<tr><td colspan="4"><em>Aucune permission spéciale</em></td></tr>
 							{% endif %}
 						</tbody>
 					</table>
 				</div>
 			</div>
-			{% set first = false %}
-		{% endfor %}
 	</div>
 {% endif %}

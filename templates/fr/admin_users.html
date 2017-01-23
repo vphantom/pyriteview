@@ -35,7 +35,11 @@ Pour créer un nouvel usager, utilisez le même <a href="{{ req.base }}/register
 				<td class="fit"><a href="{{ req.base }}/{{ req.path }}/edit?id={{ user.id }}"><span class="glyphicon glyphicon-edit"></span></a></td>
 				<td class="fit"><a href="{{ req.base }}/{{ req.path }}/edit?id={{ user.id }}">{{ user.name }}</a></td>
 				<td class="fit">{{ lib.format_email(user.email) }}</td>
-				<td class="fit">{{ roles |join(', ') }}</td>
+				<td class="fit">
+					{% for role in roles %}
+						{{ lib.format_role(role) }}
+					{% endfor %}
+				</td>
 				<td>{{ lib.format_timestamp(login.localtimestamp) }}{% if login.ip %} depuis {{ lib.format_ip(login.ip) }}{% endif %}</td>
 			</tr>
 			{% endfor %}

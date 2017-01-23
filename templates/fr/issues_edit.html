@@ -54,19 +54,20 @@
 
 	{% endif %}
 
-{% elseif pass('can', 'view', 'issue', issue.id) %}
-
-	<dl class="dl-horizontal">
-		<dt>Numéro</dt><dd>{{ issue.number }}</dd>
-		<dt>Publication</dt><dd>{{ issue.publication }}</dd>
-		<dt>Titre</dt><dd>{{ issue.title }}</dd>
-	</dl>
-
 {% endif %}
 
 {% if issue.id %}
 
 	<h3>Articles</h3>
+
+	{% if pass('can', 'create', 'article') %}
+		<div>
+			<form action="{{ req.base }}/articles/new" id="article_create" method="post" class="form-inline">
+				<input type="hidden" name="issueId" value="{{ issue.id }}">
+				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-plus"></span> Créer</button>
+			</form>
+		</div>
+	{% endif %}
 
 	{% include 'articles_list.html' %}
 

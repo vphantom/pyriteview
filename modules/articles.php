@@ -55,13 +55,35 @@ class Articles
         $db->begin();
         $db->exec(
             "
+            CREATE TABLE IF NOT EXISTS 'articleStatus' (
+                name VARCHAR(64) NOT NULL DEFAULT '' PRIMARY KEY
+            )
+            "
+        );
+        $db->exec(
+            "
+            REPLACE INTO articleStatus (name) VALUES
+            ('created'),
+            ('dispatched_review'),
+            ('accepted_with_condition'),
+            ('accepted'),
+            ('printing_with_condition'),
+            ('published'),
+            ('rejected'),
+            ('deleted')
+            "
+        );
+        $db->exec(
+            "
             CREATE TABLE IF NOT EXISTS 'articles' (
                 id          INTEGER PRIMARY KEY AUTOINCREMENT,
                 issueId     INTEGER NOT NULL DEFAULT '0',
+                status      VARCHAR(64) NOT NULL DEFAULT 'created',
                 wordCount   INTEGER NOT NULL DEFAULT '0',
                 title       VARCHAR(255),
                 keywords    TEXT NOT NULL DEFAULT '',
-                abstract    TEXT NOT NULL DEFAULT ''
+                abstract    TEXT NOT NULL DEFAULT '',
+                FOREIGN KEY(status) REFERENCES articleStatus(name)
             )
             "
         );
@@ -86,7 +108,14 @@ class Articles
         $article = false;
 
         if (pass('can', 'view', 'article', $id)) {
-            $article = $db->selectSingleArray("SELECT articles.*, issues.number FROM articles, issues WHERE issues.id=articles.issueId AND articles.id=?", array($id));
+            $article = $db->selectSingleArray(
+                "
+                SELECT articles.*, issues.number FROM articles
+                LEFT JOIN issues ON issues.id=articles.issueId
+                WHERE articles.id=?
+                ",
+                array($id)
+            );
 
             if ($article !== false) {
                 $article['authors'] = grab('object_users', 'edit', 'article', $id);
@@ -129,13 +158,13 @@ class Articles
         global $PPHP;
         $db = $PPHP['db'];
 
-        $q = $db->query('SELECT articles.*, issues.number FROM articles, issues');
-        $q->where('issues.id=articles.issueId');
+        $q = $db->query('SELECT articles.*, issues.number FROM articles');
+        $q->left_join('issues ON issues.id=articles.issueId');
+        $q->where();
+        $q->implodeClosed('OR', array(grab('can_sql', 'issues.id', 'view', 'issue'), grab('can_sql', 'articles.id', 'view', 'article')));
         if ($issueId !== null) {
             $q->and('articles.issueId=?', $issueId);
         };
-        $q->and(grab('can_sql', 'issues.id', 'view', 'issue'));
-        $q->and(grab('can_sql', 'articles.id', 'view', 'article'));
         if ($keyword !== null) {
             $search = array();
             $search[] = $db->query('articles.title LIKE ?', "%{$keyword}%");
@@ -163,6 +192,7 @@ class Articles
         $db = $PPHP['db'];
         $res = false;
 
+        $db->begin();
         if (isset($cols['id'])) {
             $id = $cols['id'];
             unset($cols['id']);
@@ -189,8 +219,14 @@ class Articles
                         'objectId' => $res
                     )
                 );
+                if (pass('has_role', 'author')) {
+                    // Authors need explicit rights to their creations
+                    trigger('grant', $_SESSION['user']['id'], null, 'view', 'article', $res);
+                    trigger('grant', $_SESSION['user']['id'], null, 'edit', 'article', $res);
+                };
             };
         };
+        $db->commit();
 
         return $res;
     }

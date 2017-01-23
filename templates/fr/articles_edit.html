@@ -15,7 +15,13 @@
 	{% endif %}
 {% endif %}
 
-<h2 class="page-header"><span class="glyphicon glyphicon-align-left"></span> {{ article.title|default('Nouvel article') }}</h2>
+<h2 class="page-header"><span class="glyphicon glyphicon-align-left"></span> {{ article.title|default('Nouvel article') }} <span class="text-muted small">({{ lib.format_articleStatus(article.status) }})</span></h2>
+
+{% if article.id %}
+	{% set issueId = article.issueId %}
+{% else %}
+	{% set issueId = req.post.issueId %}
+{% endif %}
 
 {% if pass('can', 'edit', 'article', article.id) or (pass('can', 'create', 'article') and not article.id) %}
 
@@ -30,10 +36,13 @@
 				{% if not article.id %}
 					<option selected disabled>Numéro...
 				{% endif %}
+				<option value="0"{% if article.id and issueId == 0 %} selected{% endif %}>Hors-série
 				{% for issue in issues %}
-					<option value="{{ issue.id }}"{% if issue.id == article.issueId %} selected{% endif %}>{{ issue.number }} {{ issue.title }}
+					<option value="{{ issue.id }}"{% if issue.id == issueId %} selected{% endif %}>{{ issue.number }} {{ issue.title }}
 				{% endfor %}
 			</select>
+		{% else %}
+			<span data-label="Numéro" class="input-like">{{ lib.format_issue(article.issueId) }}</span>
 		{% endif %}
 		<input data-label="Nombre de mots" type="number" id="wordCount" value="{{ article.wordCount }}" required>
 		<textarea data-label="Mots-clefs" id="keywords">{{ article.keywords }}</textarea>
@@ -64,7 +73,7 @@
 			{% for peer in article.peers %}
 			({{ peer }})
 			{% endfor %}
-			<p>TODO: choisir/créer critiques</p>
+			<p>TODO: choisir/créer UNE critique (cause/log le status dispatched_review)</p>
 
 			<h3>Historique</h3>
 			{% include 'history.html' %}
@@ -73,6 +82,8 @@
 
 			<p>TODO: display read-only authors</p>
 
+			<p>TODO: Si je critique cet article, permettre d'emettre une decision</p>
+
 		{% endif %}
 
 	{% endif %}
@@ -80,7 +91,6 @@
 {% elseif pass('can', 'view', 'article', article.id) and article.id %}
 
 	<dl class="dl-horizontal">
-		<dt>Titre</dt><dd>{{ article.title }}</dd>
 		<dt>Numéro</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
 		<dt>Nombre de mots</dt><dd>{{ article.wordCount }}</dd>
 		<dt>Mots-clefs</dt><dd>{{ article.keywords }}</dd>

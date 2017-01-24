@@ -7,7 +7,7 @@ JS         := node_modules/.bin/uglifyjs >/dev/null --compress --mangle
 JSLINT     := node_modules/.bin/eslint --fix
 GZIP       := gzip -f -n -k -9
 
-CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css $(wildcard modules/*.css)
+CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css node_modules/selectize/dist/css/selectize.css node_modules/selectize/dist/css/selectize.bootstrap3.css $(wildcard modules/*.css)
 
 JS_TOUCH := $(wildcard modules/*.js)
 

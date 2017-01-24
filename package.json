@@ -17,8 +17,7 @@
     "url": "https://github.com/vphantom/pyriteview/issues"
   },
   "homepage": "https://github.com/vphantom/pyriteview#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "bootstrap": "^3.3.7",
     "browserify": "^13.1.1",
@@ -26,6 +25,7 @@
     "eslint": "^3.9.1",
     "jquery": "^2.2.4",
     "parsleyjs": "^2.6.0",
+    "selectize": "^0.12.4",
     "timeago.js": "^2.0.3",
     "uglify-js": "^2.7.4"
   }

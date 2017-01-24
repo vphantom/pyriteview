@@ -4,6 +4,7 @@ var $ = global.jQuery = require('jquery');
 var bootstrap = require('bootstrap');  // eslint-disable-line no-unused-vars
 var parsley = require('parsleyjs');  // eslint-disable-line no-unused-vars
 var timeago = require('timeago.js');  // eslint-disable-line no-unused-vars
+var selectize = require('selectize');  // eslint-disable-line no-unused-vars
 
 // Non-English locales for timeago.js
 // (This is necessary so that Browserify bundles them all at build time.)
@@ -36,13 +37,22 @@ $().ready(function() {
   $('form.form-leftright input, form.form-leftright select, form.form-leftright textarea, form.form-leftright .input-like')  // eslint-disable-line max-len
     .not(excludedInputs)
     .each(function() {
-      var id    = $(this).attr('id');
-      var label = $(this).attr('data-label');
+      var id        = $(this).attr('id');
+      var label     = $(this).attr('data-label');
+      var fgClasses = '';
+      var icon      = null;
+
+      if ($(this).is('[class*="feedback-"]')) {
+        fgClasses = ' has-feedback has-feedback-left';
+        icon = $(this)
+          .attr('class')
+          .match(/\bfeedback-([a-zA-Z0-9_-]+)\b/)[1];
+      }
 
       $(this)
         .attr('name', id)
         .addClass('form-control')
-        .wrap('<div class="form-group"></div>')
+        .wrap('<div class="form-group' + fgClasses + '"></div>')
         .parent()
         .prepend(
           '<label for="'
@@ -52,8 +62,14 @@ $().ready(function() {
           + '</label>'
         )
       ;
-      $(this)
-        .wrap('<div class="col-sm-10"></div>');
+      $(this).wrap('<div class="col-sm-10"></div>');
+      if (icon) {
+        $(this).after(
+            '<span class="form-control-feedback glyphicon glyphicon-'
+            + icon
+            + '"></span>'
+          );
+      }
     }
   );
   $('form.form-tight input, form.form-tight select, form.form-tight textarea')
@@ -72,13 +88,15 @@ $().ready(function() {
       ;
     }
   );
-  $('form.form-leftright button, form.form-tight button[type=submit]').each(function() {
-    $(this)
-      .addClass('btn btn-default')
-      .wrap('<div class="form-group"></div>')
-      .wrap('<div class="col-sm-offset-2 col-sm-10"></div>')
-    ;
-  });
+  $('form.form-leftright button, form.form-tight button[type=submit]')
+    .each(function() {
+      $(this)
+        .addClass('btn btn-default')
+        .wrap('<div class="form-group"></div>')
+        .wrap('<div class="col-sm-offset-2 col-sm-10"></div>')
+      ;
+    }
+  );
 
   // INLINE FORMS
   //
@@ -113,6 +131,12 @@ $().ready(function() {
     $(this)
       .addClass('btn btn-default')
     ;
+  });
+
+  // Selectize on advanced selects
+  $('select.advanced').selectize({
+    plugins  : ['remove_button'],
+    highlight: false
   });
 
   // Set parsley to found language instead of last loaded

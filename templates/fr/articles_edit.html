@@ -32,7 +32,7 @@
 		{% endif %}
 		<input data-label="Titre" type="text" id="title" value="{{ article.title }}" required>
 		{% if pass('can', 'move', 'article', article.id) or not article.id %}
-			<select data-label="Numéro" id="issueId" required>
+			<select data-label="Numéro" id="issueId" class="feedback-book" required>
 				{% if not article.id %}
 					<option selected disabled>Numéro...
 				{% endif %}

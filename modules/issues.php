@@ -96,6 +96,9 @@ class Issues
 
         if (pass('can', 'view', 'issue', $id)) {
             $issue = $db->selectSingleArray("SELECT * FROM issues WHERE id=?", array($id));
+            if (is_array($issue)) {
+                $issue['editors'] = grab('object_users', '*', 'issue', $id);
+            };
         };
 
         return $issue;
@@ -160,6 +163,30 @@ class Issues
                 );
             };
         };
+        if (!isset($cols['editors'])) {
+            $cols['editors'] = array();
+        };
+        if ($res !== false) {
+            $oldEditors = grab('object_users', '*', 'issue', $res);
+            $deled = array_diff($oldEditors, $cols['editors']);
+            $added = array_diff($cols['editors'], $oldEditors);
+
+            foreach ($added as $editor) {
+                if (pass('grant', $editor, null, '*', 'issue', $res)) {
+                    // TODO: log success
+                } else {
+                    // TODO: bubble failure?
+                };
+            };
+
+            foreach ($deled as $editor) {
+                if (pass('revoke', $editor, null, '*', 'issue', $res)) {
+                    // TODO: log success
+                } else {
+                    // TODO: bubble failure?
+                };
+            };
+        };
 
         return $res;
     }
@@ -181,8 +208,6 @@ on(
             $success = false;
             $history = null;
             $articles = array();
-            $editors = array();
-            $editors_active = array();
             if (isset($_POST['number'])) {
                 if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
                 $saved = true;
@@ -191,17 +216,6 @@ on(
             if (is_numeric($issueId)) {
                 if (!pass('can', 'view', 'issue', $issueId)) return trigger('http_status', 403);
                 $issue = grab('issue', $issueId);
-
-                if (isset($_POST['addeditor'])) {
-                    if (!pass('can', 'edit', 'issue', $issueId)) return trigger('http_status', 403);
-                    $added = true;
-                    $success = pass('grant', $_POST['addeditor'], null, '*', 'issue', $issueId);
-                };
-                if (isset($_POST['deleditor'])) {
-                    if (!pass('can', 'edit', 'issue', $issueId)) return trigger('http_status', 403);
-                    $deleted = true;
-                    $success = pass('revoke', $_POST['deleditor'], null, '*', 'issue', $issueId);
-                };
 
                 $articles = grab(
                     'articles',
@@ -218,8 +232,6 @@ on(
                         'order' => 'DESC'
                     )
                 );
-                $editors = grab('role_users', 'editor');
-                $editors_active = grab('object_users', '*', 'issue', $issueId);
             };
             trigger(
                 'render',
@@ -230,8 +242,6 @@ on(
                     'deleted' => $deleted,
                     'success' => $success,
                     'issue' => $issue,
-                    'editors' => $editors,
-                    'editors_active' => $editors_active,
                     'history' => $history,
                     'articles' => $articles
                 )

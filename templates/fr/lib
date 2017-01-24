@@ -177,7 +177,7 @@
 {% endmacro %}
 
 {% macro select_users(label, role, selected) %}
-	<select data-label="{{ label }}" placeholder="Cliquer pour chercher ou choisir" id="{{ role }}s" class="advanced feedback-user" multiple>
+	<select data-label="{{ label }}" placeholder="Cliquer pour chercher ou choisir" id="{{ role }}s[]" class="advanced feedback-user" multiple>
 		{% for user in grab('role_users', role) %}
 			<option value="{{ user }}"{% if user in selected %} selected{% endif %}>{{ lib.format_user(user, true, true) }}
 		{% endfor %}

@@ -1,4 +1,7 @@
 {{ title('Articles') }}
+{% if article.id %}
+	{{ title(article.title) }}
+{% endif %}
 {% if saved %}
 	{% if success %}
 		{{ lib.alert(success, "Sauvegarde réussie.") }}

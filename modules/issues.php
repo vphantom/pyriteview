@@ -143,6 +143,7 @@ class Issues
         $db = $PPHP['db'];
         $res = false;
 
+        $db->begin();
         if (isset($cols['id'])) {
             $id = $cols['id'];
             unset($cols['id']);
@@ -172,21 +173,14 @@ class Issues
             $added = array_diff($cols['editors'], $oldEditors);
 
             foreach ($added as $editor) {
-                if (pass('grant', $editor, null, '*', 'issue', $res)) {
-                    // TODO: log success
-                } else {
-                    // TODO: bubble failure?
-                };
+                trigger('grant', $editor, null, '*', 'issue', $res);
             };
 
             foreach ($deled as $editor) {
-                if (pass('revoke', $editor, null, '*', 'issue', $res)) {
-                    // TODO: log success
-                } else {
-                    // TODO: bubble failure?
-                };
+                trigger('revoke', $editor, null, '*', 'issue', $res);
             };
         };
+        $db->commit();
 
         return $res;
     }

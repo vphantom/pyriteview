@@ -279,9 +279,29 @@ class Articles
                 );
                 if (pass('has_role', 'author')) {
                     // Authors need explicit rights to their creations
-                    trigger('grant', $_SESSION['user']['id'], null, 'view', 'article', $res);
                     trigger('grant', $_SESSION['user']['id'], null, 'edit', 'article', $res);
                 };
+            };
+        };
+        if ($res !== false) {
+            $oldAuthors = grab('object_users', 'edit', 'article', $res);
+            $deled = array_diff($oldAuthors, $cols['authors']);
+            $added = array_diff($cols['authors'], $oldAuthors);
+            foreach ($added as $author) {
+                trigger('grant', $author, null, 'edit', 'article', $res);
+            };
+            foreach ($deled as $author) {
+                trigger('revoke', $author, null, 'edit', 'article', $res);
+            };
+
+            $oldPeers = grab('object_users', 'review', 'article', $res);
+            $deled = array_diff($oldPeers, $cols['peers']);
+            $added = array_diff($cols['peers'], $oldPeers);
+            foreach ($added as $peer) {
+                trigger('grant', $peer, null, 'review', 'article', $res);
+            };
+            foreach ($deled as $author) {
+                trigger('revoke', $author, null, 'review', 'article', $res);
             };
         };
         $db->commit();
@@ -331,8 +351,6 @@ on(
             $deleted = false;
             $success = false;
             $history = null;
-            $editors = array();
-            $editors_active = array();
             if (isset($_POST['wordCount'])) {
                 if (!pass('form_validate', 'articles_edit')) return trigger('http_status', 440);
                 if (is_numeric($articleId)) {
@@ -355,8 +373,6 @@ on(
                         'order' => 'DESC'
                     )
                 );
-                $editors = grab('role_users', 'editor');
-                $editors_active = grab('object_users', '*', 'article', $articleId);
             };
             trigger(
                 'render',
@@ -367,8 +383,6 @@ on(
                     'deleted' => $deleted,
                     'success' => $success,
                     'article' => $article,
-                    'editors' => $editors,
-                    'editors_active' => $editors_active,
                     'issues' => grab('issues'),
                     'history' => $history
                 )

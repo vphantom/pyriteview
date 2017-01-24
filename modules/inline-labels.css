@@ -26,12 +26,16 @@ div.input-block label {
 	font-weight: normal;
 }
 
-div.input-block input, div.input-block textarea, div.input-block select, div.input-block .btn {
+div.input-block input, div.input-block textarea, div.input-block select, div.input-block .btn,
+div.input-block .selectize-input, div.input-block .selectize-control.multi .selectize-input.has-items
+{
 	position: relative;
 	/* z-index: 10; */
 	/* background-color: transparent !important; */
 	padding: 1.5em 6px 6px 6px;
 	height: auto;
+}
+
 }
 
 /* Work around Chrome brute forcing yellow on autofill since 2008 */

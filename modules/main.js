@@ -78,14 +78,30 @@ $().ready(function() {
       var id      = $(this).attr('id');
       var label   = $(this).attr('data-label');
       var colsize = $(this).attr('data-colsize') || 6;
+      var fgClasses = '';
+      var icon      = null;
+
+      if ($(this).is('[class*="feedback-"]')) {
+        fgClasses = ' has-feedback has-feedback-left';
+        icon = $(this)
+          .attr('class')
+          .match(/\bfeedback-([a-zA-Z0-9_-]+)\b/)[1];
+      }
 
       $(this)
         .attr('name', id)
         .addClass('form-control')
-        .wrap('<div class="input-block col-sm-' + colsize + '"></div>')
+        .wrap('<div class="input-block col-sm-' + colsize + fgClasses + '"></div>')
         .parent()
         .prepend('<label for="' + id + '">' + label + '</label>')
       ;
+      if (icon) {
+        $(this).after(
+            '<span class="form-control-feedback glyphicon glyphicon-'
+            + icon
+            + '"></span>'
+          );
+      }
     }
   );
   $('form.form-leftright button, form.form-tight button[type=submit]')

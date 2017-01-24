@@ -73,3 +73,6 @@
 .has-feedback-left .form-control.selectize-control {
 	padding-left: 0 !important;
 }
+.form-tight .has-feedback label~.form-control-feedback {
+	top: 17px;
+}

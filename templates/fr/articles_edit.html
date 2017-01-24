@@ -47,6 +47,16 @@
 		<input data-label="Nombre de mots" type="number" id="wordCount" value="{{ article.wordCount }}" required>
 		<textarea data-label="Mots-clefs" id="keywords">{{ article.keywords }}</textarea>
 		<textarea data-label="Résumé" id="abstract">{{ article.abstract }}</textarea>
+		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'article', article.issueId) %}
+			{{ lib.select_users('Auteurs', 'author', article.authors) }}
+			{{ lib.select_users('Critiques', 'peer', article.peers) }}
+		{% else %}
+			<span data-label="Auteurs" class="input-like">
+				{% for author in article.authors %}
+					{{ lib.format_user(author) }}
+				{% endfor %}
+			</span>
+		{% endif %}
 		<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
 	</form>
 
@@ -60,20 +70,6 @@
 		<p>TODO: fichiers</p>
 
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
-
-			<h3>Auteurs</h3>
-
-			{% for author in article.authors %}
-			({{ author }})
-			{% endfor %}
-			<p>TODO: choisir/créer auteurs</p>
-
-			<h3>Critiques</h3>
-
-			{% for peer in article.peers %}
-			({{ peer }})
-			{% endfor %}
-			<p>TODO: choisir/créer UNE critique (cause/log le status dispatched_review)</p>
 
 			<h3>Historique</h3>
 			{% include 'history.html' %}
@@ -97,6 +93,6 @@
 		<dt>Résumé</dt><dd>{{ article.abstract }}</dd>
 	</dl>
 
-	<p>TODO: display read-only files, authors</p>
+	<p>TODO: display read-only files</p>
 
 {% endif %}

@@ -115,7 +115,11 @@ class Articles
             ",
             array($id)
         );
-        if (pass('can', 'view', 'article', $id) || pass('can', 'view', 'issue', $article['issueId'])) {
+        if (pass('can', 'view', 'article', $id)
+            || pass('can', 'view', 'issue', $article['issueId'])
+            || pass('can', 'edit', 'article', $id)
+            || pass('can', 'edit', 'issue', $article['issueId'])
+        ) {
 
             if ($article !== false) {
                 $article['authors'] = grab('object_users', 'edit', 'article', $id);
@@ -135,6 +139,8 @@ class Articles
                     );
                 };
             };
+        } else {
+            return array();
         };
 
         return $article;

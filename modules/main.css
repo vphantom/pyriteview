@@ -33,19 +33,19 @@ h1 .label-default, h2 .label-default, h3 .label-default {
 }
 
 /* Assorted text colors, useful for glyphicons */
-.fg-new, .fg-pending, .fg-ok, .fg-stalled, .fg-err {
+.fg-new, .fg-info, .fg-pending, .fg-ok, .fg-stalled, .fg-warn, .fg-err {
 	text-shadow: 0 0 1px #888;
 }
 .fg-new {
 	color: #ffee00;
 }
-.fg-pending {
-	color: #ff8800;
+.fg-info, .fg-pending {
+	color: #80f;
 }
 .fg-ok {
 	color: #00aa00;
 }
-.fg-stalled {
+.fg-warn, .fg-stalled {
 	color: #ff8800;
 }
 .fg-err {

@@ -29,7 +29,7 @@
 			<input data-colsize="3" data-label="Publication (AAAA-MM-JJ)" type="text" id="publication" value="{{ issue.publication }}" maxlength="10" minlength="10">
 			<input data-colsize="7" data-label="Titre" type="text" id="title" value="{{ issue.title }}" required>
 		</div>
-		<button type="submit">Sauvegarder changements</button>
+		<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
 	</form>
 
 	{% if issue.id %}

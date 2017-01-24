@@ -12,7 +12,7 @@
 	</form>
 	{% if pass('can', 'create', 'issue') %}
 		<form action="{{ req.base }}/issues/new" id="issue_create" method="post" class="form-inline col-sm-6">
-			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-plus"></span> Créer</button>
+			<button class="btn btn-default" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Créer</button>
 		</form>
 	{% endif %}
 </div>

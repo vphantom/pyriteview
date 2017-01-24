@@ -47,7 +47,7 @@
 		<input data-label="Nombre de mots" type="number" id="wordCount" value="{{ article.wordCount }}" required>
 		<textarea data-label="Mots-clefs" id="keywords">{{ article.keywords }}</textarea>
 		<textarea data-label="Résumé" id="abstract">{{ article.abstract }}</textarea>
-		<button type="submit">Sauvegarder changements</button>
+		<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
 	</form>
 
 	{% if article.id %}

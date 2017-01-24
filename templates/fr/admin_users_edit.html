@@ -57,7 +57,7 @@
 					{% endfor %}
 				</select>
 				<input data-label="Object ID" placeholder="Object ID" id="objectId">
-				<button type="submit">Ajouter</button>
+				<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Ajouter</button>
 			</form>
 		</p>
 
@@ -84,7 +84,7 @@
 									<input type="hidden" name="action" value="{{ right.action }}">
 									<input type="hidden" name="objectType" value="{{ right.objectType }}">
 									<input type="hidden" name="objectId" value="{{ right.objectId }}">
-									<button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-remove"></span></button>
+									<button type="submit" class="btn btn-link fg-err"><span class="glyphicon glyphicon-minus"></span></button>
 								</form>
 							{% endif %}
 						</td>

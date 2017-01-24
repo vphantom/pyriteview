@@ -26,10 +26,10 @@ div.input-block label {
 	font-weight: normal;
 }
 
-div.input-block input, div.input-block textarea, div.input-block select {
+div.input-block input, div.input-block textarea, div.input-block select, div.input-block a.btn {
 	position: relative;
-	z-index: 10;
-	background-color: transparent !important;
+	/* z-index: 10; */
+	/* background-color: transparent !important; */
 	padding: 1.5em 6px 6px 6px;
 	height: auto;
 }

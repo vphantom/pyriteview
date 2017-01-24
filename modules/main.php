@@ -28,7 +28,7 @@ on(
         if (!$_SESSION['identified']) return trigger('http_status', 403);
 
         $historyFilter = array(
-            'action' => array('login', 'created'),
+            'action' => array('login', 'created', 'activated', 'deactivated'),
             'order' => 'DESC',
             'max' => 12
         );

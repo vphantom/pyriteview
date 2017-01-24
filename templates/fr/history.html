@@ -27,6 +27,14 @@
 						créé
 						{{ lib.format(tx.objectType, tx.objectId) }}
 
+					{% elseif tx.action == 'activated' %}
+						activé
+						{{ lib.format(tx.objectType, tx.objectId) }}
+
+					{% elseif tx.action == 'deactivated' %}
+						désactivé
+						{{ lib.format(tx.objectType, tx.objectId) }}
+
 					{% else %}
 						{{ tx.action }}
 						{{ tx.fieldName }}

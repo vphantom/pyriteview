@@ -216,7 +216,6 @@ class Articles
             $q->and()->implodeClosed('OR', $search);
         };
         $q->order_by('issues.number DESC, articles.id DESC');
-        print_r($q);
         $list = $db->selectArray($q);
         if ($byStatus) {
             $sorted = array();

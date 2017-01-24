@@ -67,10 +67,8 @@ tr.table-section {
 input, select, textarea {
 	color: #333 !important;  /* Bootstrap 3's #555 is excessively low-contrast */
 }
-
-form.form-horizontal input[type="submit"],
-form.form-horizontal button[type="submit"] {
-	margin-top: 1em;
+.input-like {
+	height: auto !important;
 }
 
 /* Large sizes */

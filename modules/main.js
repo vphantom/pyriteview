@@ -19,7 +19,7 @@ $().ready(function() {
   // (Default is just in case we miss it.  It _should_ always be set.)
   var lang = $('html').attr('lang') || 'en';
 
-  var excludedInputs = 'input[type=button], input[type=submit], input[type=reset], input[type=hidden], :hidden';  // eslint-disable-line max-len
+  var excludedInputs = 'input[type=button], input[type=submit], input[type=reset], input[type=hidden], :hidden, .input-like input';  // eslint-disable-line max-len
 
   // Bootstrap-ize forms before enabling Parsley on them
 
@@ -91,7 +91,12 @@ $().ready(function() {
       $(this)
         .attr('name', id)
         .addClass('form-control')
-        .wrap('<div class="input-block col-sm-' + colsize + fgClasses + '"></div>')
+        .wrap(
+            '<div class="input-block col-sm-'
+            + colsize
+            + fgClasses
+            + '"></div>'
+          )
         .parent()
         .prepend('<label for="' + id + '">' + label + '</label>')
       ;
@@ -105,6 +110,7 @@ $().ready(function() {
     }
   );
   $('form.form-leftright button, form.form-tight button[type=submit]')
+    .not('.input-like button')
     .each(function() {
       $(this)
         .addClass('btn btn-default')
@@ -147,6 +153,23 @@ $().ready(function() {
     $(this)
       .addClass('btn btn-default')
     ;
+  });
+
+  // Styled file inputs
+  $('label input[type="file"]').each(function() {
+    var id = $(this).attr('id');
+
+    $('#' + id + '_name').hide();
+    $(this).on('change', function() {
+      $('#' + id + '_name')
+        .text($(this).val())
+        .show()
+      ;
+      $('#' + id + '_submit')
+        .removeClass('disabled')
+        .attr('disabled', false)
+      ;
+    });
   });
 
   // Selectize on advanced selects

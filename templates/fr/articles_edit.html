@@ -64,25 +64,23 @@
 	</form>
 
 	{% if article.id %}
+		<form id="articles_file" method="post" class="form-leftright" enctype="multipart/form-data">
+			{{ filter('form_begin', 'articles_file') |raw }}
+			<input type="hidden" name="id" value="{{ article.id }}">
+			<span data-label="Fichiers" class="input-like">
+				{% for file in article.files %}
+					<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
+				{% endfor %}
+				{{ lib.input_file('addfiles', 'xs') }}
+			</span>
+		</form>
+	{% endif %}
 
-		<h3>Fichiers</h3>
-
-		{% for file in article.files %}
-			<p><a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank">{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})</p>
-		{% endfor %}
-		<p>TODO: fichiers</p>
+	{% if article.id %}
 
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
-
 			<h3>Historique</h3>
 			{% include 'history.html' %}
-
-		{% else %}
-
-			<p>TODO: display read-only authors</p>
-
-			<p>TODO: Si je critique cet article, permettre d'emettre une decision</p>
-
 		{% endif %}
 
 	{% endif %}
@@ -94,6 +92,11 @@
 		<dt>Nombre de mots</dt><dd>{{ article.wordCount }}</dd>
 		<dt>Mots-clefs</dt><dd>{{ article.keywords }}</dd>
 		<dt>Résumé</dt><dd>{{ article.abstract }}</dd>
+		<dt>Auteurs</dt><dd>
+			{% for author in article.authors %}
+				{{ lib.format_user(author) }}
+			{% endfor %}
+		</dd>
 	</dl>
 
 	<p>TODO: display read-only files</p>

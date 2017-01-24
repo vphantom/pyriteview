@@ -150,6 +150,14 @@ class Issues
             $res = $db->update('issues', $cols, 'WHERE id=?', array($id));
             if ($res !== false) {
                 $res = $id;
+                trigger(
+                    'log',
+                    array(
+                        'action' => 'modified',
+                        'objectType' => 'issue',
+                        'objectId' => $res
+                    )
+                );
             };
         } else {
             $res = $db->insert('issues', $cols);

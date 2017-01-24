@@ -6,7 +6,8 @@
 	{% else %}
 		{{ lib.alert(success, "Une erreur est survenue durant la tentative de sauvegarde.") }}
 	{% endif %}
-{% else %}
+{% endif %}
+
 {% if added or deleted %}
 	{% if success %}
 		{{ lib.alert(success, "Changement de permissions réussi.") }}
@@ -30,7 +31,7 @@
 						type="submit"
 						name="{% if role in user_roles %}del{% else %}add{% endif %}role"
 						value="{{ role }}"
-						class="btn btn-{% if role in user_roles %}success active{% else %}default{% endif %}"
+						class="btn btn-{% if role in user_roles %}info active{% else %}default{% endif %}"
 					>{{ lib.format_role(role, true) }}</button>
 				{% endfor %}
 			</div>
@@ -106,5 +107,3 @@
 		<h3>Historique récente du compte</h3>
 		{% include 'history.html' %}
 	{% endif %}
-
-{% endif %}

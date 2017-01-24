@@ -72,7 +72,7 @@ $().ready(function() {
       ;
     }
   );
-  $('form.form-leftright button, form.form-tight button').each(function() {
+  $('form.form-leftright button, form.form-tight button[type=submit]').each(function() {
     $(this)
       .addClass('btn btn-default')
       .wrap('<div class="form-group"></div>')

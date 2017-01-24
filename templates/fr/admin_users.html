@@ -31,7 +31,11 @@ Pour créer un nouvel usager, utilisez le même <a href="{{ req.base }}/register
 			{% set roles = grab('user_roles', user.id) %}
 			{% set login = grab('user_seen', user.id) %}
 			<tr>
-				<td class="fit">{{ lib.format_user(user) }}</td>
+				<td class="fit">{{ lib.format_user(user) }}
+					{% if not user.active %}
+						<span class="label label-danger"><span class="glyphicon glyphicon-exclamation-sign"></span>désactivé</span>
+					{% endif %}
+				</td>
 				<td class="fit">{{ lib.format_email(user.email) }}</td>
 				<td class="fit">
 					{% for role in roles %}

@@ -1,22 +1,35 @@
+{% if pass('can', 'delete', 'user', user.id) %}
+	<form id="admin_user_ban" method="post" class="form-tight">
+		<div class="input-block col-sm-2">
+			{% if user.active %}
+				<label for="ban">Pour banir cet usager</label>
+				<button id="ban" class="form-control btn btn-default" name="ban" value="1"><span class="fg-err"><span class="glyphicon glyphicon-ban-circle"></span></span> désactiver</button>
+			{% else %}
+				<label for="unban">Pour réinstaurer cet usager</label>
+				<button id="unban" class="form-control btn btn-default" name="unban" value="1"><span class="fg-ok"><span class="glyphicon glyphicon-ok-circle"></span></span> réactiver</button>
+			{% endif %}
+		</div>
+	</form>
+{% endif %}
 <form id="user_prefs" method="post" class="form-tight">
 	{{ filter('form_begin', 'user_prefs') |raw }}
 	{% if user.id != session.user.id and pass('can', 'edit', 'user', user.id) %}
 		<input type="hidden" name="id" value="{{ user.id }}">
 		<div class="form-group">
-			<input data-label="Courriel" type="email" id="email" value="{{ user.email }}" required maxlength="100">
+			<input data-label="Courriel" type="email" id="email" value="{{ user.email }}" required maxlength="100"{% if not user.active %} disabled{% endif %}>
 		</div>
 	{% endif %}
 	<div class="form-group">
-		<input data-colsize="9" data-label="Nom" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100">
-		<select data-colsize="3" data-label="Genre" name="isMale" required>
+		<input data-colsize="9" data-label="Nom" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100"{% if not user.active %} disabled{% endif %}>
+		<select data-colsize="3" data-label="Genre" name="isMale" required{% if not user.active %} disabled{% endif %}>
 			<option disabled>Genre...</option>
 			<option {% if not user.isMale %}selected {% endif %}value="0">Femme</option>
 			<option {% if user.isMale %}selected {% endif %}value="1">Homme</option>
 		</select>
 	</div>
 	<div class="form-group">
-		<input data-label="Titre professionnel" type="text" id="profession" value="{{ user.profession }}" minlength="3" maxlength="100" required>
-		<input data-label="Employeur"           type="text" id="employer" value="{{ user.employer }}" minlength="3" maxlength="100">
+		<input data-label="Titre professionnel" type="text" id="profession" value="{{ user.profession }}" minlength="3" maxlength="100" required{% if not user.active %} disabled{% endif %}>
+		<input data-label="Employeur"           type="text" id="employer" value="{{ user.employer }}" minlength="3" maxlength="100"{% if not user.active %} disabled{% endif %}>
 	</div>
-	<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
+	<button type="submit"{% if not user.active %} disabled{% endif %}><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
 </form>

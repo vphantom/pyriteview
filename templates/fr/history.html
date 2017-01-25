@@ -27,6 +27,9 @@
 						créé
 						{{ lib.format(tx.objectType, tx.objectId) }}
 
+					{% elseif tx.action == 'attached' %}
+						attaché <span class="glyphicon glyphicon-file"></span>{{ tx.newValue }} à {{ lib.format(tx.objectType, tx.objectId) }}
+
 					{% elseif tx.action == 'activated' %}
 						activé
 						{{ lib.format(tx.objectType, tx.objectId) }}

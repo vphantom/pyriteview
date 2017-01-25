@@ -325,6 +325,9 @@ class Articles
 on(
     'route/articles',
     function ($path) {
+        global $PPHP;
+        $config = $PPHP['config']['articles'];
+
         if (!$_SESSION['identified']) return trigger('http_status', 403);
         $req = grab('request');
         $articleId = array_shift($path);
@@ -356,9 +359,9 @@ on(
         // Non-binary request can be for general listing or a specific article
         //
         if ($articleId !== null) {
+            $uploaded = false;
+            $bad_format = true;
             $saved = false;
-            $added = false;
-            $deleted = false;
             $success = false;
             $history = null;
             if (isset($_POST['wordCount'])) {
@@ -370,9 +373,62 @@ on(
                 };
                 $saved = true;
                 $success = pass('article_save', $_POST);
+
+                // Reload to be aware of changes
                 $article = grab('article', $articleId);
             };
             if (is_numeric($articleId)) {
+
+                // Handle file uploads
+                if (isset($req['files']) && isset($req['files']['addfile'])) {
+                    if (!pass('form_validate', 'articles_file')) return trigger('http_status', 440);
+                    if (!(pass('can', 'edit', 'article', $articleId) || pass('can', 'edit', 'issue', $article['issueId']))) return trigger('http_status', 403);
+
+                    $uploaded = true;
+                    $file = $req['files']['addfile'];
+                    if (in_array($file['type'], $config['file_types'])
+                        && in_array($file['extension'], $config['file_extensions'])
+                    ) {
+                        $bad_format = false;
+                        $base = filter('clean_filename', $file['filename']);
+                        $ext = filter('clean_filename', $file['extension']);
+                        $base = "{$config['path']}/{$article['number']}/{$article['id']}/{$base}";
+
+                        if (!file_exists("{$config['path']}/{$article['number']}")) {
+                            mkdir("{$config['path']}/{$article['number']}", 06770);
+                        };
+                        if (!file_exists("{$config['path']}/{$article['number']}/{$article['id']}")) {
+                            mkdir("{$config['path']}/{$article['number']}/{$article['id']}", 06770);
+                        };
+
+                        // Attempt to save the file, avoiding name collisions
+                        $i = 2;
+                        $try = "{$base}.{$ext}";
+                        while (file_exists($try) && $i < 100) {
+                            $try = "{$base}_{$i}.{$ext}";
+                            $i++;
+                        };
+                        if (move_uploaded_file($file['tmp_name'], $try)) {
+                            $success = true;
+                            $pi = pathinfo($try);
+                            trigger(
+                                'log',
+                                array(
+                                    'action' => 'attached',
+                                    'objectType' => 'article',
+                                    'objectId' => $articleId,
+                                    'fieldName' => 'files',
+                                    'newValue' => $pi['basename']
+                                )
+                            );
+                        };
+                    };
+
+                    // Reload to be aware of new files
+                    if ($success) $article = grab('article', $articleId);
+                };
+
+                // View only from this point
                 if (!(pass('can', 'view', 'article', $articleId) || pass('can', 'edit', 'article', $articleId) || pass('can', 'view', 'issue', $article['issueId']))) return trigger('http_status', 403);
 
                 $history = grab(
@@ -389,9 +445,9 @@ on(
                 'articles_edit.html',
                 array(
                     'saved' => $saved,
-                    'added' => $added,
-                    'deleted' => $deleted,
                     'success' => $success,
+                    'uploaded' => $uploaded,
+                    'bad_format' => $bad_format,
                     'article' => $article,
                     'issues' => grab('issues'),
                     'history' => $history

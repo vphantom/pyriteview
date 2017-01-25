@@ -9,12 +9,13 @@
 		{{ lib.alert(success, "Une erreur est survenue durant la tentative de sauvegarde.") }}
 	{% endif %}
 {% endif %}
-
-{% if added or deleted %}
+{% if uploaded %}
 	{% if success %}
-		{{ lib.alert(success, "Changement d'éditeurs réussi.") }}
+		{{ lib.alert(success, "Sauvegarde réussie.") }}
+	{% elseif bad_format %}
+		{{ lib.alert(success, "Ce fichier ne correspond à aucun format accepté.") }}
 	{% else %}
-		{{ lib.alert(success, "Le changement d'éditeurs a échoué (peut-être un double?)") }}
+		{{ lib.alert(success, "Impossible de sauvegarder le nouveau fichier.") }}
 	{% endif %}
 {% endif %}
 
@@ -75,7 +76,7 @@
 				{% for file in article.files %}
 					<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
 				{% endfor %}
-				{{ lib.input_file('addfiles', 'xs') }}
+				{{ lib.input_file('addfile', 'xs') }}
 			</span>
 		</form>
 	{% endif %}

@@ -289,24 +289,28 @@ class Articles
             };
         };
         if ($res !== false) {
-            $oldAuthors = grab('object_users', 'edit', 'article', $res);
-            $deled = array_diff($oldAuthors, $cols['authors']);
-            $added = array_diff($cols['authors'], $oldAuthors);
-            foreach ($added as $author) {
-                trigger('grant', $author, null, 'edit', 'article', $res);
-            };
-            foreach ($deled as $author) {
-                trigger('revoke', $author, null, 'edit', 'article', $res);
+            if (isset($cols['authors'])) {
+                $oldAuthors = grab('object_users', 'edit', 'article', $res);
+                $deled = array_diff($oldAuthors, $cols['authors']);
+                $added = array_diff($cols['authors'], $oldAuthors);
+                foreach ($added as $author) {
+                    trigger('grant', $author, null, 'edit', 'article', $res);
+                };
+                foreach ($deled as $author) {
+                    trigger('revoke', $author, null, 'edit', 'article', $res);
+                };
             };
 
-            $oldPeers = grab('object_users', 'review', 'article', $res);
-            $deled = array_diff($oldPeers, $cols['peers']);
-            $added = array_diff($cols['peers'], $oldPeers);
-            foreach ($added as $peer) {
-                trigger('grant', $peer, null, 'review', 'article', $res);
-            };
-            foreach ($deled as $author) {
-                trigger('revoke', $author, null, 'review', 'article', $res);
+            if (isset($cols['peers'])) {
+                $oldPeers = grab('object_users', 'review', 'article', $res);
+                $deled = array_diff($oldPeers, $cols['peers']);
+                $added = array_diff($cols['peers'], $oldPeers);
+                foreach ($added as $peer) {
+                    trigger('grant', $peer, null, 'review', 'article', $res);
+                };
+                foreach ($deled as $author) {
+                    trigger('revoke', $author, null, 'review', 'article', $res);
+                };
             };
         };
         $db->commit();

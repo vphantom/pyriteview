@@ -48,7 +48,11 @@
 			<span data-label="Numéro" class="input-like">{{ lib.format_issue(article.issueId) }}</span>
 		{% endif %}
 		<input data-label="Nombre de mots" type="number" id="wordCount" value="{{ article.wordCount }}" required>
-		<textarea data-label="Mots-clefs" id="keywords">{{ article.keywords }}</textarea>
+		<select data-label="Mots-clefs" id="keywords[]" placeholder="Entrer 3 à 6 mots-clefs" class="keywords feedback-tags" multiple>
+			{% for keyword in article.keywords %}
+				<option selected>{{ keyword }}
+			{% endfor %}
+		</select>
 		<textarea data-label="Résumé" id="abstract">{{ article.abstract }}</textarea>
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'article', article.issueId) %}
 			{{ lib.select_users('Auteurs', 'author', article.authors) }}
@@ -90,7 +94,7 @@
 	<dl class="dl-horizontal">
 		<dt>Numéro</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
 		<dt>Nombre de mots</dt><dd>{{ article.wordCount }}</dd>
-		<dt>Mots-clefs</dt><dd>{{ article.keywords }}</dd>
+		<dt>Mots-clefs</dt><dd>{{ article.keywords |join(';') }}</dd>
 		<dt>Résumé</dt><dd>{{ article.abstract }}</dd>
 		<dt>Auteurs</dt><dd>
 			{% for author in article.authors %}

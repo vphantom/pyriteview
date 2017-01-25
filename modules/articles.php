@@ -143,6 +143,7 @@ class Articles
             return array();
         };
 
+        $article['keywords'] = explode(';', $article['keywords']);
         return $article;
     }
 
@@ -169,6 +170,7 @@ class Articles
     {
         global $PPHP;
         $db = $PPHP['db'];
+        $res = array();
         $keyword = null;
         $issueId = null;
         $byStatus = false;
@@ -222,7 +224,12 @@ class Articles
             $q->and()->implodeClosed('OR', $search);
         };
         $q->order_by('issues.number DESC, articles.id DESC');
+
         $list = $db->selectArray($q);
+        foreach ($list as $article) {
+            $article['keywords'] = explode(';', $article['keywords']);
+        };
+
         if ($byStatus) {
             $sorted = array();
             foreach ($list as $article) {
@@ -251,6 +258,9 @@ class Articles
         $res = false;
 
         $db->begin();
+        if (isset($cols['keywords']) && is_array($cols['keywords'])) {
+            $cols['keywords'] = implode(';', $cols['keywords']);
+        };
         if (isset($cols['id'])) {
             $id = $cols['id'];
             unset($cols['id']);

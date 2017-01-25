@@ -84,9 +84,9 @@
 	{%- elseif role == 'reader' %}{% set name = 'lecteur' -%}
 	{%- endif -%}
 	{%- if pass('can', 'view', 'role', role) and not flat -%}
-		<a href="{{ req.base }}/admin/roles/{{ role }}"><span class="glyphicon glyphicon-tag"></span>{{ name }}</a>
+		<a href="{{ req.base }}/admin/roles/{{ role }}"><span class="glyphicon glyphicon-education"></span>{{ name }}</a>
 	{%- else -%}
-		<span class="glyphicon glyphicon-tag"></span>{{ name }}
+		<span class="glyphicon glyphicon-education"></span>{{ name }}
 	{%- endif -%}
 {%- endmacro %}
 

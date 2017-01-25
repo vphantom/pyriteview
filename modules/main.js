@@ -172,10 +172,29 @@ $().ready(function() {
     });
   });
 
-  // Selectize on advanced selects
+  // Selectize some advanced selects
+  //
   $('select.advanced').selectize({
     plugins  : ['remove_button'],
     highlight: false
+  });
+  $('select.keywords').selectize({
+    plugins     : ['remove_button'],
+    highlight   : false,
+    delimiter   : ';',
+    create      : true,
+    createOnBlur: true,
+    openOnFocus : false,
+    maxItems    : 6,
+    // Work around default template including the English word "Add"
+    render      : {
+      option_create: function(data, escape) {  // eslint-disable-line camelcase
+        return '<div class="create">+ <strong>'
+          + escape(data.input)
+          + '</strong>&hellip;</div>'
+        ;
+      }
+    }
   });
 
   // Set parsley to found language instead of last loaded

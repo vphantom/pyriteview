@@ -34,7 +34,7 @@ $().ready(function() {
       .addClass('form-horizontal')
     ;
   });
-  $('form.form-leftright input, form.form-leftright select, form.form-leftright textarea, form.form-leftright .input-like')  // eslint-disable-line max-len
+  $('form.form-leftright > input, form.form-leftright > .btn-group, form.form-leftright > select, form.form-leftright > textarea, form.form-leftright > .input-like')  // eslint-disable-line max-len
     .not(excludedInputs)
     .each(function() {
       var id        = $(this).attr('id');
@@ -49,9 +49,12 @@ $().ready(function() {
           .match(/\bfeedback-([a-zA-Z0-9_-]+)\b/)[1];
       }
 
+      if (!$(this).hasClass('btn-group')) {
+        $(this).addClass('form-control');
+      }
+
       $(this)
         .attr('name', id)
-        .addClass('form-control')
         .wrap('<div class="form-group' + fgClasses + '"></div>')
         .parent()
         .prepend(

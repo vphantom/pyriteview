@@ -34,6 +34,23 @@
 		{% if article.id %}
 			<input type="hidden" name="id" value="{{ article.id }}">
 		{% endif %}
+
+		{% if pass('can', 'move', 'article', article.id) %}
+			<div data-label="État" class="btn-group input-like" data-toggle="buttons">
+				<label class="btn btn-default btn-sm active">
+					<input type="radio" name="status" autocomplete="off" value="{{ article.status }}" checked>
+					{{ lib.format_status(article.status) }}
+				</label>
+				<span class="btn btn-default btn-sm active disabled"><span class="glyphicon glyphicon-arrow-right"></span></span>
+				{% for status in config.articles.states_next[article.status]|split(' ') %}
+					<label class="btn btn-default btn-sm">
+						<input type="radio" name="status" autocomplete="off" value="{{ status }}">
+						{{ lib.format_status(status) }}
+					</label>
+				{% endfor %}
+			</div>
+		{% endif %}
+
 		<input data-label="Titre" type="text" id="title" value="{{ article.title }}" required>
 		{% if pass('can', 'move', 'article', article.id) or not article.id %}
 			<select data-label="Numéro" id="issueId" class="feedback-book" required>

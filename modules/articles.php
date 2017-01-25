@@ -255,17 +255,21 @@ class Articles
         if (isset($cols['id'])) {
             $id = $cols['id'];
             unset($cols['id']);
+            $oldStatus = $db->selectAtom('SELECT status FROM articles WHERE id=?', array($id));
             $res = $db->update('articles', $cols, 'WHERE id=?', array($id));
             if ($res !== false) {
                 $res = $id;
-                trigger(
-                    'log',
-                    array(
-                        'action' => 'modified',
-                        'objectType' => 'article',
-                        'objectId' => $res
-                    )
+                $log = array(
+                    'action' => 'modified',
+                    'objectType' => 'article',
+                    'objectId' => $res
                 );
+                if (isset($cols['status']) && $oldStatus !== $cols['status']) {
+                    $log['fieldName'] = 'status';
+                    $log['oldValue'] = $oldStatus;
+                    $log['newValue'] = $cols['status'];
+                };
+                trigger('log', $log);
             };
         } else {
             $res = $db->insert('articles', $cols);

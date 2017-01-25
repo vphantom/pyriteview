@@ -11,7 +11,10 @@
 					{% endif %}
 
 					{% if tx.action == 'modified' %}
-						{% if tx.fieldName %}
+						{% if tx.fieldName == 'status' %}
+							mis {{ lib.format(tx.objectType, tx.objectId) }}
+							{{ lib.format(tx.fieldName, tx.newValue) }}
+						{% elseif tx.fieldName %}
 							changé {{ tx.fieldName }}
 							{% if tx.oldValue %}de '{{ lib.format(tx.fieldName, tx.oldValue) }}'{% endif %}
 							{% if tx.newValue %}à '{{ lib.format(tx.fieldName, tx.newValue) }}'{% endif %}

@@ -50,6 +50,7 @@ class Articles
     {
         global $PPHP;
         $db = $PPHP['db'];
+        $config = $PPHP['config']['articles'];
 
         echo "    Installing articles...";
         $db->begin();
@@ -60,19 +61,9 @@ class Articles
             )
             "
         );
-        $db->exec(
-            "
-            REPLACE INTO articleStatus (name) VALUES
-            ('created'),
-            ('dispatched_review'),
-            ('accepted_with_condition'),
-            ('accepted'),
-            ('printing'),
-            ('published'),
-            ('rejected'),
-            ('deleted')
-            "
-        );
+        foreach ($config['states'] as $status) {
+            $db->exec("REPLACE INTO articleStatus (name) VALUES (?)", array($status));
+        };
         $db->exec(
             "
             CREATE TABLE IF NOT EXISTS 'articles' (

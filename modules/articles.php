@@ -377,6 +377,20 @@ on(
                 // Reload to be aware of changes
                 $article = grab('article', $articleId);
             };
+            if (isset($_GET['unlink'])) {
+                if (!pass('can', 'delete', 'article', $articleId)) return trigger('http_status', 403);
+                $saved = true;
+                $fname = array_shift($path);
+                foreach ($article['files'] as $file) {
+                    if ($file['name'] === $fname) {
+                        $success = unlink($file['dir'] . '/' . $file['name']);
+                        break;
+                    };
+                };
+
+                // Reload to be aware of changes
+                $article = grab('article', $articleId);
+            };
             if (is_numeric($articleId)) {
 
                 // Handle file uploads

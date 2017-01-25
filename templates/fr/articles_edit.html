@@ -74,6 +74,9 @@
 			<input type="hidden" name="id" value="{{ article.id }}">
 			<span data-label="Fichiers" class="input-like">
 				{% for file in article.files %}
+					{% if pass('can', 'delete', 'article', article.id) %}
+						<a href="{{ req.base }}/articles/{{ article.id }}/{{ file.name }}?unlink=1"><span class="fg-err"><span class="glyphicon glyphicon-minus"></span></span></a>
+					{% endif %}
 					<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
 				{% endfor %}
 				{{ lib.input_file('addfile', 'xs') }}

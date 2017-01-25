@@ -1,16 +1,3 @@
-{% if pass('can', 'delete', 'user', user.id) %}
-	<form id="admin_user_ban" method="post" class="form-tight">
-		<div class="input-block col-sm-2">
-			{% if user.active %}
-				<label for="ban">Pour banir cet usager</label>
-				<button id="ban" class="form-control btn btn-default" name="ban" value="1"><span class="fg-err"><span class="glyphicon glyphicon-ban-circle"></span></span> désactiver</button>
-			{% else %}
-				<label for="unban">Pour réinstaurer cet usager</label>
-				<button id="unban" class="form-control btn btn-default" name="unban" value="1"><span class="fg-ok"><span class="glyphicon glyphicon-ok-circle"></span></span> réactiver</button>
-			{% endif %}
-		</div>
-	</form>
-{% endif %}
 <form id="user_prefs" method="post" class="form-tight">
 	{{ filter('form_begin', 'user_prefs') |raw }}
 	{% if user.id != session.user.id and pass('can', 'edit', 'user', user.id) %}
@@ -33,3 +20,18 @@
 	</div>
 	<button type="submit"{% if not user.active %} disabled{% endif %}><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
 </form>
+{% if pass('can', 'delete', 'user', user.id) %}
+	<div class="row">
+		<form id="admin_user_ban" method="post" class="form-tight">
+			<div class="input-block col-sm-2">
+				{% if user.active %}
+					<label for="ban">Pour banir cet usager</label>
+					<button id="ban" class="form-control btn btn-default" name="ban" value="1"><span class="fg-err"><span class="glyphicon glyphicon-ban-circle"></span></span> désactiver</button>
+				{% else %}
+					<label for="unban">Pour réinstaurer cet usager</label>
+					<button id="unban" class="form-control btn btn-default" name="unban" value="1"><span class="fg-ok"><span class="glyphicon glyphicon-ok-circle"></span></span> réactiver</button>
+				{% endif %}
+			</div>
+		</form>
+	</div>
+{% endif %}

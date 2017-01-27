@@ -19,7 +19,13 @@
 	{% endif %}
 {% endif %}
 
-<h2 class="page-header"><span class="glyphicon glyphicon-align-left"></span> {{ article.title|default('Nouvel article') }} <span class="label label-default">{{ lib.format_status(article.status) }}</span></h2>
+<h2 class="page-header">
+	<span class="glyphicon glyphicon-align-left"></span>
+	{{ article.title|default('Nouvel article') }}
+	{% if article.id %}
+		<span class="label label-default">{{ lib.format_status(article.status) }}</span>
+	{% endif %}
+</h2>
 
 {% if article.id %}
 	{% set issueId = article.issueId %}
@@ -35,7 +41,7 @@
 			<input type="hidden" name="id" value="{{ article.id }}">
 		{% endif %}
 
-		{% if pass('can', 'move', 'article', article.id) %}
+		{% if pass('can', 'move', 'article', article.id) and article.id %}
 			<div data-label="État" class="btn-group input-like" data-toggle="buttons">
 				<label class="btn btn-default btn-sm active">
 					<input type="radio" name="status" autocomplete="off" value="{{ article.status }}" checked>

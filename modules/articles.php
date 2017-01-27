@@ -153,6 +153,7 @@ class Articles
      * issueId: Restrict to a specific issue
      * states: Restrict to specific states (string for one, array for many)
      * byStatus: Set true to group results by status code
+     * current: Status in states_wip[] OR status in states_final[] in recent/future issues
      *
      * @param array $args (Optional) Arguments described above
      *
@@ -162,9 +163,11 @@ class Articles
     {
         global $PPHP;
         $db = $PPHP['db'];
+        $config = $PPHP['config']['articles'];
         $res = array();
         $keyword = null;
         $issueId = null;
+        $current = false;
         $byStatus = false;
         $states = array();
 
@@ -183,6 +186,8 @@ class Articles
                     $states[] = $val;
                 };
                 break;
+            case 'current':
+                $current = true;
             case 'byStatus':
                 $byStatus = $val;
                 break;
@@ -207,6 +212,18 @@ class Articles
         };
         if (count($states) > 0) {
             $q->append('AND articles.status IN')->varsClosed($states);
+        };
+        if ($current) {
+            $search = array();
+
+            $search[] = $db->query('articles.status IN')
+                ->varsClosed($config['states_wip']);
+
+            $search[] = $db->query('articles.status IN')
+                ->varsClosed($config['states_final'])
+                ->and("issues.publication > date('now', '-1 month')");
+
+            $q->and()->implodeClosed('OR', $search);
         };
         if ($keyword !== null) {
             $search = array();
@@ -470,21 +487,17 @@ on(
                 )
             );
         } else {
-            $keyword = null;
+            $search = array('byStatus' => true);
             if (isset($_POST['keyword'])) {
-                $keyword = $_POST['keyword'];
+                $search['keyword'] = $_POST['keyword'];
+            } else {
+                $search['current'] = true;
             };
             trigger(
                 'render',
                 'articles.html',
                 array(
-                    'articles' => grab(
-                        'articles',
-                        array(
-                            'keyword' => $keyword,
-                            'byStatus' => true
-                        )
-                    )
+                    'articles' => grab('articles', $search)
                 )
             );
         };

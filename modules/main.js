@@ -49,7 +49,7 @@ $().ready(function() {
           .match(/\bfeedback-([a-zA-Z0-9_-]+)\b/)[1];
       }
 
-      if (!$(this).hasClass('btn-group')) {
+      if (!$(this).hasClass('btn-group') && !$(this).hasClass('input-group')) {
         $(this).addClass('form-control');
       }
 

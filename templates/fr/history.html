@@ -47,6 +47,9 @@
 						{% if tx.oldValue %}from '{{ lib.format(tx.fieldName, tx.oldValue) }}'{% endif %}
 						{% if tx.newValue %}to '{{ lib.format(tx.fieldName, tx.newValue) }}'{% endif %}
 					{% endif %}
+					{% if tx.content and not narrow %}
+						<div class="log-content">{{ tx.content }}</div>
+					{% endif %}
 				</td>
 				<td class="fit">
 					{%- if narrow -%}

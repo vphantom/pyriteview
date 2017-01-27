@@ -84,7 +84,7 @@
 		{% else %}
 			<input type="hidden" name="authors[]" value="{{ session.user.id }}">
 		{% endif %}
-		<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
+		{{ lib.leftright_save(article.id) }}
 	</form>
 
 	{% if article.id %}

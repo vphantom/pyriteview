@@ -71,6 +71,15 @@ input, select, textarea {
 	height: auto !important;
 }
 
+.log-content {
+	padding-left: 10px;
+	padding-right: 20px;
+	margin-left: 20px;
+	color: #666;
+	font-size: 90%;
+	border-left: 3px solid #888;
+}
+
 /* Large sizes */
 .grow-2x { font-size: 2em; }
 .grow-3x { font-size: 3em; }

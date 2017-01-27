@@ -294,6 +294,9 @@ class Articles
                     $log['oldValue'] = $oldStatus;
                     $log['newValue'] = $cols['status'];
                 };
+                if (isset($cols['log'])) {
+                    $log['content'] = $cols['log'];
+                };
                 trigger('log', $log);
             };
         } else {

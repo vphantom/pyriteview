@@ -109,6 +109,7 @@ class Issues
      * Get issues, most recent first
      *
      * Only issues which the current user is allowed to view are returned.
+     * This means unpublished issues and explicitly allowed ones.
      *
      * @param string $title (Optional) Keyword to search in titles
      *
@@ -120,7 +121,14 @@ class Issues
         $db = $PPHP['db'];
 
         $allowed = grab('can_sql', 'id', 'view', 'issue');
-        $q = $db->query('SELECT * FROM issues')->where($allowed);
+        $q = $db->query('SELECT * FROM issues')->where();
+        $q->implodeClosed(
+            'OR',
+            array(
+                $allowed,
+                $db->query("publication > date('now', '-1 day')")
+            )
+        );
         if ($title !== null) {
             $q->and('title LIKE ?', "%{$title}%");
         };

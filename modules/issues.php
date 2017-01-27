@@ -164,14 +164,15 @@ class Issues
             $res = $db->update('issues', $cols, 'WHERE id=?', array($id));
             if ($res !== false) {
                 $res = $id;
-                trigger(
-                    'log',
-                    array(
-                        'action' => 'modified',
-                        'objectType' => 'issue',
-                        'objectId' => $res
-                    )
+                $log = array(
+                    'action' => 'modified',
+                    'objectType' => 'issue',
+                    'objectId' => $res
                 );
+                if (isset($cols['log'])) {
+                    $log['content'] = $cols['log'];
+                };
+                trigger('log', $log);
             };
         } else {
             $res = $db->insert('issues', $cols);

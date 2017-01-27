@@ -21,7 +21,7 @@
 	{% else %}
 		Hors-série
 	{% endif %}
-	<span class="text-muted small">{{ issue.publication }}</span>
+	<small>{{ issue.publication }}</small>
 </h2>
 
 {% if pass('can', 'edit', 'issue', issue.id) and issue.id > 0 %}
@@ -39,7 +39,7 @@
 		<div class="form-group">
 			{{ lib.select_users('Éditeurs', 'editor', issue.editors) }}
 		</div>
-		<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
+		{{ lib.leftright_save(issue.id) }}
 	</form>
 
 	{% if issue.id %}

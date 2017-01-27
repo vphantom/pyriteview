@@ -111,11 +111,11 @@ class Issues
      * Only issues which the current user is allowed to view are returned.
      * This means unpublished issues and explicitly allowed ones.
      *
-     * @param string $title (Optional) Keyword to search in titles
+     * @param string $keyword (Optional) Search in titles and numbers
      *
      * @return array Issues
      */
-    public static function getList($title = null)
+    public static function getList($keyword = null)
     {
         global $PPHP;
         $db = $PPHP['db'];
@@ -129,8 +129,11 @@ class Issues
                 $db->query("publication > date('now', '-1 day')")
             )
         );
-        if ($title !== null) {
-            $q->and('title LIKE ?', "%{$title}%");
+        if ($keyword !== null) {
+            $search = array();
+            $search[] = $db->query('title LIKE ?', "%{$keyword}%");
+            $search[] = $db->query('number LIKE ?', "%{$keyword}%");
+            $q->and()->implodeClosed('OR', $search);
         };
         $q->order_by('number DESC');
         $issues = $db->selectArray($q);

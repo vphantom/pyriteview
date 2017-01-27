@@ -98,6 +98,7 @@ class Issues
             $issue = $db->selectSingleArray("SELECT * FROM issues WHERE id=?", array($id));
             if (is_array($issue)) {
                 $issue['editors'] = grab('object_users', '*', 'issue', $id);
+                $issue['permalink'] = makePermalink($issue['title']);
             };
         };
 
@@ -124,7 +125,12 @@ class Issues
             $q->and('title LIKE ?', "%{$title}%");
         };
         $q->order_by('number DESC');
-        return $db->selectArray($q);
+        $issues = $db->selectArray($q);
+        foreach ($issues as $key => $issue) {
+            // Weird bug with PHP using $list => &$issue
+            $issues[$key]['permalink'] = makePermalink($issue['title']);
+        };
+        return $issues;
     }
 
     /**

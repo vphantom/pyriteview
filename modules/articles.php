@@ -113,6 +113,7 @@ class Articles
         ) {
 
             if ($article !== false) {
+                $article['permalink'] = makePermalink($article['title']);
                 $article['authors'] = grab('object_users', 'edit', 'article', $id);
                 $article['peers'] = grab('object_users', 'review', 'article', $id);
 
@@ -217,8 +218,10 @@ class Articles
         $q->order_by('issues.number DESC, articles.id DESC');
 
         $list = $db->selectArray($q);
-        foreach ($list as $article) {
-            $article['keywords'] = explode(';', $article['keywords']);
+        foreach ($list as $key => $article) {
+            // Weird bug with PHP using $list => &$article
+            $list[$key]['keywords'] = explode(';', $article['keywords']);
+            $list[$key]['permalink'] = makePermalink($article['title']);
         };
 
         if ($byStatus) {

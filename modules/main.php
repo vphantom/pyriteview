@@ -15,6 +15,20 @@
  * @link      https://github.com/vphantom/pyriteview
  */
 
+// Utility functions
+
+/**
+ * Clean up a string to make a permalink
+ *
+ * @param string $string String to clean up
+ *
+ * @return string Cleaned up string
+ */
+function makePermalink($string)
+{
+    return substr(filter('clean_filename', $string), 0, 64);
+}
+
 // Start-up definitions from our support modules
 Issues::bootstrap();
 Articles::bootstrap();

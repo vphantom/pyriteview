@@ -108,6 +108,7 @@ class Articles
         );
         if (pass('can', 'view', 'article', $id)
             || pass('can', 'view', 'issue', $article['issueId'])
+            || pass('can', 'review', 'article', $id)
             || pass('can', 'edit', 'article', $id)
             || pass('can', 'edit', 'issue', $article['issueId'])
         ) {
@@ -200,6 +201,7 @@ class Articles
         $sources = array();
         $sources[] = grab('can_sql', 'issues.id', 'view', 'issue');
         $sources[] = grab('can_sql', 'articles.id', 'view', 'article');
+        $sources[] = grab('can_sql', 'articles.id', 'review', 'article');
         if (pass('has_role', 'author')) {
             $sources[] = grab('can_sql', 'articles.id', 'edit', 'article');
         };
@@ -234,6 +236,9 @@ class Articles
         };
         $q->order_by('issues.number DESC, articles.id DESC');
 
+        if ($PPHP['config']['global']['debug']) {
+            print_r($q);
+        };
         $list = $db->selectArray($q);
         foreach ($list as $key => $article) {
             // Weird bug with PHP using $list => &$article
@@ -462,7 +467,11 @@ on(
                 };
 
                 // View only from this point
-                if (!(pass('can', 'view', 'article', $articleId) || pass('can', 'edit', 'article', $articleId) || pass('can', 'view', 'issue', $article['issueId']))) return trigger('http_status', 403);
+                if (!(pass('can', 'view', 'article', $articleId)
+                    || pass('can', 'review', 'article', $articleId)
+                    || pass('can', 'edit', 'article', $articleId)
+                    || pass('can', 'view', 'issue', $article['issueId']))
+                ) return trigger('http_status', 403);
 
                 $history = grab(
                     'history',

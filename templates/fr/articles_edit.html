@@ -112,20 +112,23 @@
 
 	{% endif %}
 
-{% elseif article.id and (pass('can', 'view', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) %}
+{% elseif article.id and (pass('can', 'view', 'article', article.id) or pass('can', 'review', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) %}
 
 	<dl class="dl-horizontal">
 		<dt>Numéro</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
 		<dt>Nombre de mots</dt><dd>{{ article.wordCount }}</dd>
-		<dt>Mots-clefs</dt><dd>{{ article.keywords |join(';') }}</dd>
+		<dt>Mots-clefs</dt><dd>{{ article.keywords |join(', ') }}</dd>
 		<dt>Résumé</dt><dd>{{ article.abstract }}</dd>
 		<dt>Auteurs</dt><dd>
 			{% for author in article.authors %}
 				{{ lib.format_user(author) }}
 			{% endfor %}
 		</dd>
+		<dt>Fichiers</td><dd>
+			{% for file in article.files %}
+				<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
+			{% endfor %}
+		</dd>
 	</dl>
-
-	<p>TODO: display read-only files</p>
 
 {% endif %}

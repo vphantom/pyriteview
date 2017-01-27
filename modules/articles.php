@@ -361,7 +361,11 @@ on(
         //
         if ($req['binary']) {
             if ($article === false) return trigger('http_status', 404);
-            if (!(pass('can', 'view', 'article', $articleId) || pass('can', 'edit', 'article', $articleId) || pass('can', 'view', 'issue', $article['issueId']))) return trigger('http_status', 403);
+            if (!(pass('can', 'view', 'article', $articleId)
+                || pass('can', 'review', 'article', $articleId)
+                || pass('can', 'edit', 'article', $articleId)
+                || pass('can', 'view', 'issue', $article['issueId']))
+            ) return trigger('http_status', 403);
 
             $fname = array_shift($path);
 

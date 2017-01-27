@@ -31,6 +31,19 @@ h1 .label, h2 .label, h3 .label {
 h1 .label-default, h2 .label-default, h3 .label-default {
 	background-color: #bbb;
 }
+h3 {
+	margin-top: 2em;
+}
+
+div.spaced {
+	margin-bottom: 2em;
+}
+
+tbody.spaced:after {
+	content: '';
+	display: table-row;
+	height: 20px;
+}
 
 /* Assorted text colors, useful for glyphicons */
 .fg-new, .fg-info, .fg-pending, .fg-ok, .fg-stalled, .fg-warn, .fg-err {

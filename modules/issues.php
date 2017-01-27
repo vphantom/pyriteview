@@ -231,7 +231,14 @@ on(
             };
             if (is_numeric($issueId)) {
                 if (!pass('can', 'view', 'issue', $issueId)) return trigger('http_status', 403);
-                $issue = grab('issue', $issueId);
+                if ($issueId == 0) {
+                    // Mock structure for proper display
+                    $issue = array(
+                        'id' => 0
+                    );
+                } else {
+                    $issue = grab('issue', $issueId);
+                };
 
                 $articles = grab(
                     'articles',

@@ -15,9 +15,16 @@
 	{% endif %}
 {% endif %}
 
-<h2 class="page-header"><span class="glyphicon glyphicon-book"></span> {{ issue.number }} {{ issue.title|default('Nouveau numéro') }} <span class="text-muted small">{{ issue.publication }}</span></h2>
+<h2 class="page-header"><span class="glyphicon glyphicon-book"></span> {{ issue.number }}
+	{% if issue.id > 0 %}
+		{{ issue.title|default('Nouveau numéro') }}
+	{% else %}
+		Hors-série
+	{% endif %}
+	<span class="text-muted small">{{ issue.publication }}</span>
+</h2>
 
-{% if pass('can', 'edit', 'issue', issue.id) %}
+{% if pass('can', 'edit', 'issue', issue.id) and issue.id > 0 %}
 
 	<form id="issues_edit" method="post" class="form-tight">
 		{{ filter('form_begin', 'issues_edit') |raw }}
@@ -44,19 +51,15 @@
 
 {% endif %}
 
-{% if issue.id %}
+<h3>Articles</h3>
 
-	<h3>Articles</h3>
-
-	{% if pass('can', 'create', 'article') %}
-		<div>
-			<form action="{{ req.base }}/articles/new" id="article_create" method="post" class="form-inline">
-				<input type="hidden" name="issueId" value="{{ issue.id }}">
-				<button class="btn btn-default" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Créer</button>
-			</form>
-		</div>
-	{% endif %}
-
-	{% include 'articles_list.html' %}
-
+{% if pass('can', 'create', 'article') %}
+	<div>
+		<form action="{{ req.base }}/articles/new" id="article_create" method="post" class="form-inline">
+			<input type="hidden" name="issueId" value="{{ issue.id }}">
+			<button class="btn btn-default" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Créer</button>
+		</form>
+	</div>
 {% endif %}
+
+{% include 'articles_list.html' %}

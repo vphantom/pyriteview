@@ -112,7 +112,11 @@
 			<span class="glyphicon glyphicon-book"></span>{{ issue.number }} {{ issue.title }}
 		{%- endif -%}
 	{%- else -%}
-		<span class="glyphicon glyphicon-book"></span>hors-série
+		{%- if not flat -%}
+			<a href="{{ req.base }}/issues/0"><span class="glyphicon glyphicon-book"></span>Hors-série</a>
+		{%- else -%}
+			<span class="glyphicon glyphicon-book"></span>Hors-série
+		{%- endif -%}
 	{%- endif -%}
 {%- endmacro %}
 

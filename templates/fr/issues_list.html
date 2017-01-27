@@ -7,6 +7,9 @@
 			</tr>
 		</thead>
 		<tbody>
+			{% if pass('has_role', 'editor') or pass('can', 'create', 'issue') %}
+				<tr><td>{{ lib.format_issue(0) }}</td><td class="fit">&nbsp;</td></tr>
+			{% endif %}
 			{% for issue in issues %}
 				<tr>
 					<td>{{ lib.format_issue(issue) }}</td>

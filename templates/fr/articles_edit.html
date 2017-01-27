@@ -75,12 +75,14 @@
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'article', article.issueId) %}
 			{{ lib.select_users('Auteurs', 'author', article.authors) }}
 			{{ lib.select_users('Critiques', 'peer', article.peers) }}
-		{% else %}
+		{% elseif article.id %}
 			<span data-label="Auteurs" class="input-like">
 				{% for author in article.authors %}
 					{{ lib.format_user(author) }}
 				{% endfor %}
 			</span>
+		{% else %}
+			<input type="hidden" name="authors[]" value="{{ session.user.id }}">
 		{% endif %}
 		<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
 	</form>

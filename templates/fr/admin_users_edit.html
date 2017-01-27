@@ -70,6 +70,7 @@
 						<th>Action</th>
 						<th>objectType</th>
 						<th>objectId</th>
+						<th>Resolves to</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -91,11 +92,12 @@
 						</td>
 						<td class="fit">{% if right.action == '*' %}<em>toute action</em>{% else %}{{ right.action }}{% endif %}</td>
 						<td class="fit">{% if right.objectType == '*' %}<em>tout type</em>{% else %}{{ right.objectType }}{% endif %}</td>
-						<td>{% if right.objectId == 0 %}<em>tous</em>{% else %}{{ right.objectId }}{% endif %}</td>
+						<td class="fit">{% if right.objectId == 0 %}<em>tous</em>{% else %}{{ right.objectId }}{% endif %}</td>
+						<td>{{ lib.format(right.objectType, right.objectId) }}</td>
 					</tr>
 					{% endfor %}
-					{% if roles[role]|length == 0 %}
-						<tr><td colspan="4"><em>Aucune permission spéciale</em></td></tr>
+					{% if rights|length == 0 %}
+						<tr><td colspan="5"><em>Aucune permission spéciale</em></td></tr>
 					{% endif %}
 				</tbody>
 			</table>

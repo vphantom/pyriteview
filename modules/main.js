@@ -21,6 +21,16 @@ $().ready(function() {
 
   var excludedInputs = 'input[type=button], input[type=submit], input[type=reset], input[type=hidden], :hidden, .input-like input';  // eslint-disable-line max-len
 
+  // Hide-away fields
+  $('.hideaway-focus').on('focus', function() {
+    $(this)
+      .closest('.hideaway')
+      .css({
+        position: 'relative',
+        left    : 0
+      });
+  });
+
   // Bootstrap-ize forms before enabling Parsley on them
 
   // LARGE FORMS

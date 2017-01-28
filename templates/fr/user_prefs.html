@@ -6,7 +6,8 @@
 	{% else %}
 		{{ lib.alert(success, "Une erreur est survenue durant la sauvegarde.  Mauvais mot de passe, peut-être?") }}
 	{% endif %}
-{% else %}
+	{% exit %}
+{% endif %}
 
 <div class="panel panel-primary">
 	<div class="panel-heading">
@@ -36,6 +37,4 @@
 		</form>
 	</div>
 </div>
-{% endif %}
-
 {% endif %}

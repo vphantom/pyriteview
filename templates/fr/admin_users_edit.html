@@ -16,96 +16,95 @@
 	{% endif %}
 {% endif %}
 
-	<h2 class="page-header"><span class="glyphicon glyphicon-user"></span> {{ user.name }}</h2>
+<h2 class="page-header"><span class="glyphicon glyphicon-user"></span> {{ user.name }}</h2>
 
-	{% if pass('can', 'edit', 'user', user.id) %}
+{% if pass('can', 'edit', 'user', user.id) %}
 
-		{% include 'user_edit.html' %}
+	{% include 'user_edit.html' %}
 
-		<h3>Rôles</h3>
+	<h3>Rôles</h3>
 
-		<form id="admin_user_role" method="post" class="form-horizontal">
-			<div class="btn-group" role="group">
-				{% for role in roles %}
-					<button
-						type="submit"
-						name="{% if role in user_roles %}del{% else %}add{% endif %}role"
-						value="{{ role }}"
-						class="btn btn-{% if role in user_roles %}info active{% else %}default{% endif %}"
-					>{{ lib.format_role(role, true) }}</button>
-				{% endfor %}
-			</div>
-		</form>
-
-		<h3>Permissions</h3>
-
-		<p>
-			<form id="admin_user_acl_add" method="post" class="form-compact">
-				<input type="hidden" name="f" value="add">
-				<strong>Nouvelle:</strong>
-				<select data-label="Action" id="action" required>
-					<option selected disabled>Action...
-					<option value="*">* Toute action
-					{% for action in actions %}
-						<option>{{ action }}
-					{% endfor %}
-				</select>
-				<select data-label="Object Type" id="objectType" required>
-					<option selected disabled>Type...
-					<option value="*">* Tout type
-					{% for objectType in objectTypes %}
-						<option>{{ objectType }}
-					{% endfor %}
-				</select>
-				<input data-label="Object ID" placeholder="Object ID" id="objectId">
-				<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Ajouter</button>
-			</form>
-		</p>
-
-		<div class="table-responsive">
-			<table class="table table-hover table-condensed">
-				<thead>
-					<tr>
-						<th>&nbsp;</th>
-						<th>Action</th>
-						<th>objectType</th>
-						<th>objectId</th>
-						<th>Lien</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for right in rights %}
-					<tr>
-						<td class="fit">
-							{% if (role == 'admin' and right.action == '*') or (role == 'member' and right.action == 'login') %}
-								&nbsp;
-							{% else %}
-								<form id="admin_user_acl_del" class="form-toolbar" method="post">
-									<input type="hidden" name="f" value="del">
-									<input type="hidden" name="role" value="{{ role }}">
-									<input type="hidden" name="action" value="{{ right.action }}">
-									<input type="hidden" name="objectType" value="{{ right.objectType }}">
-									<input type="hidden" name="objectId" value="{{ right.objectId }}">
-									<button type="submit" class="btn btn-link fg-err"><span class="glyphicon glyphicon-minus"></span></button>
-								</form>
-							{% endif %}
-						</td>
-						<td class="fit">{% if right.action == '*' %}<em>toute action</em>{% else %}{{ right.action }}{% endif %}</td>
-						<td class="fit">{% if right.objectType == '*' %}<em>tout type</em>{% else %}{{ right.objectType }}{% endif %}</td>
-						<td class="fit">{% if right.objectId == 0 %}<em>tous</em>{% else %}{{ right.objectId }}{% endif %}</td>
-						<td>{{ lib.format(right.objectType, right.objectId) }}</td>
-					</tr>
-					{% endfor %}
-					{% if rights|length == 0 %}
-						<tr><td colspan="5"><em>Aucune permission spéciale</em></td></tr>
-					{% endif %}
-				</tbody>
-			</table>
+	<form id="admin_user_role" method="post" class="form-horizontal">
+		<div class="btn-group" role="group">
+			{% for role in roles %}
+				<button
+					type="submit"
+					name="{% if role in user_roles %}del{% else %}add{% endif %}role"
+					value="{{ role }}"
+					class="btn btn-{% if role in user_roles %}info active{% else %}default{% endif %}"
+				>{{ lib.format_role(role, true) }}</button>
+			{% endfor %}
 		</div>
+	</form>
 
-	{% endif %}
+	<h3>Permissions</h3>
 
-	{% if pass('can', 'view', 'user', user.id) %}
-		<h3>Historique récente du compte</h3>
-		{% include 'history.html' %}
-	{% endif %}
+	<p>
+		<form id="admin_user_acl_add" method="post" class="form-compact">
+			<input type="hidden" name="f" value="add">
+			<strong>Nouvelle:</strong>
+			<select data-label="Action" id="action" required>
+				<option selected disabled>Action...
+				<option value="*">* Toute action
+				{% for action in actions %}
+					<option>{{ action }}
+				{% endfor %}
+			</select>
+			<select data-label="Object Type" id="objectType" required>
+				<option selected disabled>Type...
+				<option value="*">* Tout type
+				{% for objectType in objectTypes %}
+					<option>{{ objectType }}
+				{% endfor %}
+			</select>
+			<input data-label="Object ID" placeholder="Object ID" id="objectId">
+			<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Ajouter</button>
+		</form>
+	</p>
+
+	<div class="table-responsive">
+		<table class="table table-hover table-condensed">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th>Action</th>
+					<th>objectType</th>
+					<th>objectId</th>
+					<th>Lien</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for right in rights %}
+				<tr>
+					<td class="fit">
+						{% if (role == 'admin' and right.action == '*') or (role == 'member' and right.action == 'login') %}
+							&nbsp;
+						{% else %}
+							<form id="admin_user_acl_del" class="form-toolbar" method="post">
+								<input type="hidden" name="f" value="del">
+								<input type="hidden" name="role" value="{{ role }}">
+								<input type="hidden" name="action" value="{{ right.action }}">
+								<input type="hidden" name="objectType" value="{{ right.objectType }}">
+								<input type="hidden" name="objectId" value="{{ right.objectId }}">
+								<button type="submit" class="btn btn-link fg-err"><span class="glyphicon glyphicon-minus"></span></button>
+							</form>
+						{% endif %}
+					</td>
+					<td class="fit">{% if right.action == '*' %}<em>toute action</em>{% else %}{{ right.action }}{% endif %}</td>
+					<td class="fit">{% if right.objectType == '*' %}<em>tout type</em>{% else %}{{ right.objectType }}{% endif %}</td>
+					<td class="fit">{% if right.objectId == 0 %}<em>tous</em>{% else %}{{ right.objectId }}{% endif %}</td>
+					<td>{{ lib.format(right.objectType, right.objectId) }}</td>
+				</tr>
+				{% endfor %}
+				{% if rights|length == 0 %}
+					<tr><td colspan="5"><em>Aucune permission spéciale</em></td></tr>
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
+{% endif %}
+
+{% if pass('can', 'view', 'user', user.id) %}
+	<h3>Historique récente du compte</h3>
+	{% include 'history.html' %}
+{% endif %}

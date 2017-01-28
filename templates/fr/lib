@@ -206,7 +206,7 @@
 	{%- else -%}
 		<button type="submit">
 	{%- endif -%}
-	<span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
+	<span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder</button>
 	{%- if log -%}
 		</span>
 		<input type="text" name="log" class="form-control" placeholder="Commentaires...">

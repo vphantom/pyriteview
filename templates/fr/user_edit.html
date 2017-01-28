@@ -18,7 +18,7 @@
 		<input data-label="Titre professionnel" type="text" id="profession" value="{{ user.profession }}" minlength="3" maxlength="100" required{% if not user.active %} disabled{% endif %}>
 		<input data-label="Employeur"           type="text" id="employer" value="{{ user.employer }}" minlength="3" maxlength="100"{% if not user.active %} disabled{% endif %}>
 	</div>
-	<button type="submit"{% if not user.active %} disabled{% endif %}><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder changements</button>
+	<button type="submit"{% if not user.active %} disabled{% endif %}><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> Sauvegarder</button>
 </form>
 {% if pass('can', 'delete', 'user', user.id) %}
 	<div class="row">

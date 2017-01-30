@@ -19,7 +19,7 @@
 				<span class="glyphicon glyphicon-align-left"></span> Articles
 				<div class="pull-right">
 					{% if pass('can', 'create', 'article') %}
-						<form action="{{ req.base }}/articles/new" id="article_create" method="post" class="form-inline">
+						<form action="{{ req.base }}/articles/new" id="article_create" method="get" class="form-inline">
 							<button class="btn btn-default btn-xs" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Créer</button>
 						</form>
 					{% endif %}

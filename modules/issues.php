@@ -275,15 +275,16 @@ on(
             );
 
         } else {
-            $title = null;
-            if (isset($_POST['title'])) {
-                $title = $_POST['title'];
+            $keyword = null;
+            if (isset($_POST['keyword'])) {
+                if (!pass('form_validate', 'issue_search')) return trigger('http_status', 440);
+                $keyword = $_POST['keyword'];
             };
             trigger(
                 'render',
                 'issues.html',
                 array(
-                    'issues' => grab('issues', $title)
+                    'issues' => grab('issues', $keyword)
                 )
             );
         };

@@ -3,15 +3,16 @@
 
 <div class="row">
 	<form id="issue_search" method="post" class="form-inline col-sm-6">
+		{{ filter('form_begin', 'issue_search') |raw }}
 		<div class="input-group">
-			<input class="form-control" placeholder="Recherche par titre..." name="title" value="{{ req.post.title }}" minlength="3">
+			<input class="form-control" placeholder="Recherche par titre..." name="keyword" value="{{ req.post.keyword }}" minlength="3">
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
 			</span>
 		</div>
 	</form>
 	{% if pass('can', 'create', 'issue') %}
-		<form action="{{ req.base }}/issues/new" id="issue_create" method="post" class="form-inline col-sm-6">
+		<form action="{{ req.base }}/issues/new" id="issue_create" method="get" class="form-inline col-sm-6">
 			<button class="btn btn-default" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Créer</button>
 		</form>
 	{% endif %}

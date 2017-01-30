@@ -18,6 +18,7 @@
 {% if pass('can', 'edit', 'role') %}
 <p>
 	<form id="admin_role_acl_add" method="post" class="form-compact">
+		{{ filter('form_begin', 'admin_role_acl_add') |raw }}
 		<input type="hidden" name="f" value="add">
 		<strong>Nouveau droit:</strong>
 		<select data-label="Action" id="action" required>
@@ -69,6 +70,7 @@
 										&nbsp;
 									{% else %}
 										<form id="admin_role_acl_del" class="form-toolbar" method="post">
+											{{ filter('form_begin', 'admin_role_acl_del') |raw }}
 											<input type="hidden" name="f" value="del">
 											<input type="hidden" name="role" value="{{ role }}">
 											<input type="hidden" name="action" value="{{ right.action }}">

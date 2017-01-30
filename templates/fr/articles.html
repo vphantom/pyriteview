@@ -3,6 +3,7 @@
 
 <div class="row spaced">
 	<form id="article_search" method="post" class="form-inline col-sm-6">
+		{{ filter('form_begin', 'article_search') |raw }}
 		<div class="input-group">
 			<input class="form-control" placeholder="Recherche par mot-clef..." name="keyword" value="{{ req.post.keyword }}" minlength="3">
 			<span class="input-group-btn">

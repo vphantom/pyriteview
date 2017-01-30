@@ -505,6 +505,7 @@ on(
         } else {
             $search = array('byStatus' => true);
             if (isset($_POST['keyword'])) {
+                if (!pass('form_validate', 'article_search')) return trigger('http_status', 440);
                 $search['keyword'] = $_POST['keyword'];
             } else {
                 $search['current'] = true;

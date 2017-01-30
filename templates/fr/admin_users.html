@@ -11,6 +11,7 @@ Pour créer un nouvel usager, utilisez le même <a href="{{ req.base }}/register
 {% if pass('can', 'view', 'user') %}
 <h3>Liste</h3>
 <form id="user_search" method="post" class="form-compact">
+	{{ filter('form_begin', 'user_search') |raw }}
 	<input data-label="Nom" placeholder="nom partiel" id="name" value="{{ req.post.name }}" minlength="3">
 	<input data-label="Courriel" placeholder="courriel partiel" id="email" value="{{ req.post.email }}" minlength="3">
 	<button type="submit"><span class="glyphicon glyphicon-search"></span> Chercher</button>

@@ -25,6 +25,7 @@
 	<h3>Rôles</h3>
 
 	<form id="admin_user_role" method="post" class="form-horizontal">
+		{{ filter('form_begin', 'admin_user_role') |raw }}
 		<div class="btn-group" role="group">
 			{% for role in roles %}
 				<button
@@ -41,6 +42,7 @@
 
 	<p>
 		<form id="admin_user_acl_add" method="post" class="form-compact">
+			{{ filter('form_begin', 'admin_user_acl_add') |raw }}
 			<input type="hidden" name="f" value="add">
 			<strong>Nouvelle:</strong>
 			<select data-label="Action" id="action" required>
@@ -81,6 +83,7 @@
 							&nbsp;
 						{% else %}
 							<form id="admin_user_acl_del" class="form-toolbar" method="post">
+								{{ filter('form_begin', 'admin_user_acl_del') |raw }}
 								<input type="hidden" name="f" value="del">
 								<input type="hidden" name="role" value="{{ role }}">
 								<input type="hidden" name="action" value="{{ right.action }}">

@@ -56,7 +56,7 @@
 
 	{% if pass('can', 'create', 'article') %}
 		<div>
-			<form action="{{ req.base }}/articles/new" id="article_create" method="post" class="form-inline">
+			<form action="{{ req.base }}/articles/new" id="article_create" method="get" class="form-inline">
 				<input type="hidden" name="issueId" value="{{ issue.id }}">
 				<button class="btn btn-default" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Créer</button>
 			</form>

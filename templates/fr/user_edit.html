@@ -23,6 +23,7 @@
 {% if pass('can', 'delete', 'user', user.id) %}
 	<div class="row">
 		<form id="admin_user_ban" method="post" class="form-tight">
+			{{ filter('form_begin', 'admin_user_ban') |raw }}
 			<div class="input-block col-sm-2">
 				{% if user.active %}
 					<label for="ban">Pour banir cet usager</label>

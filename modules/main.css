@@ -4,6 +4,10 @@ body {
 	padding-top: 70px;
 }
 
+.inline {
+	display: inline-block;
+}
+
 .optional {
 	background-color: #f4f6f8;
 	padding: 0.5em;

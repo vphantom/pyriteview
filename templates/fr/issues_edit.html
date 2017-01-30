@@ -52,16 +52,14 @@
 {% endif %}
 
 {% if issue %}
-	<h3>Articles</h3>
-
-	{% if pass('can', 'create', 'article') %}
-		<div>
-			<form action="{{ req.base }}/articles/new" id="article_create" method="get" class="form-inline">
+	<h3>Articles
+		{% if pass('can', 'create', 'article') %}
+			<form action="{{ req.base }}/articles/new" id="article_create" method="get" class="form-inline inline">
 				<input type="hidden" name="issueId" value="{{ issue.id }}">
-				<button class="btn btn-default" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Créer</button>
+				<button class="btn btn-default btn-xs" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Créer</button>
 			</form>
-		</div>
-	{% endif %}
+		{% endif %}
+	</h3>
 
 	{% include 'articles_list.html' %}
 {% endif %}

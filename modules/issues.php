@@ -217,6 +217,8 @@ class Issues
 on(
     'route/issues',
     function ($path) {
+        $req = grab('request');
+
         if (!$_SESSION['identified']) return trigger('http_status', 403);
 
         $issueId = array_shift($path);
@@ -231,7 +233,8 @@ on(
             if (isset($_POST['number'])) {
                 if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
                 $saved = true;
-                $success = pass('issue_save', $_POST);
+                $success = grab('issue_save', $_POST);
+                if ($success !== false) return trigger('http_redirect', $req['base'] . '/issues/' . $success);
             };
             if (is_numeric($issueId)) {
                 if (!pass('can', 'view', 'issue', $issueId)) return trigger('http_status', 403);

@@ -3,7 +3,7 @@
 	{% if success %}
 		{{ lib.alert(success, "Sauvegarde réussie.") }}
 	{% else %}
-		{{ lib.alert(success, "Une erreur est survenue durant la tentative de sauvegarde.") }}
+		{{ lib.alert(success, "Une erreur est survenue durant la tentative de sauvegarde.  Lors d'une création, notez qu'il est impossible de dupliquer un même numéro ou une même date de publication.") }}
 	{% endif %}
 {% endif %}
 

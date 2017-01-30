@@ -30,7 +30,7 @@
 {% if article.id %}
 	{% set issueId = article.issueId %}
 {% else %}
-	{% set issueId = req.post.issueId %}
+	{% set issueId = req.get.issueId %}
 {% endif %}
 
 {% if pass('can', 'edit', 'article', article.id) or pass('can', 'edit', 'issue', article.issueId) or (pass('can', 'create', 'article') and not article.id) %}

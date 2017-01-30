@@ -403,7 +403,9 @@ on(
                     if (!pass('can', 'create', 'article')) return trigger('http_status', 403);
                 };
                 $saved = true;
-                $success = pass('article_save', $_POST);
+                $success = grab('article_save', $_POST);
+
+                if ($success !== false && !is_numeric($articleId)) return trigger('http_redirect', $req['base'] . '/articles/' . $success);
 
                 // Reload to be aware of changes
                 $article = grab('article', $articleId);

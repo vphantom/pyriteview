@@ -1,0 +1,432 @@
+# PyriteView application strings.
+# Copyright (C) 2016 Stéphane Lavergne
+# This file is distributed under the same license as the PyriteView package.
+# Stéphane Lavergne <lis@imars.com>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PyriteView v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-31 16:47-0500\n"
+"PO-Revision-Date: 2017-01-31 12:04-0500\n"
+"Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
+"Language-Team: PyriteView <lis@imars.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "KB"
+msgstr ""
+
+msgid "MB"
+msgstr ""
+
+msgid "article_unknown"
+msgstr ""
+
+msgid "bytes"
+msgstr ""
+
+msgid "error_activation_body"
+msgstr ""
+
+msgid "error_activation_title"
+msgstr ""
+
+msgid "error_denied_body"
+msgstr ""
+
+msgid "error_denied_title"
+msgstr ""
+
+msgid "error_duplicate_body"
+msgstr ""
+
+msgid "error_duplicate_title"
+msgstr ""
+
+msgid "error_expired_body"
+msgstr ""
+
+msgid "error_expired_title"
+msgstr ""
+
+msgid "error_fileformat"
+msgstr ""
+
+msgid "error_login_body"
+msgstr ""
+
+msgid "error_login_title"
+msgstr ""
+
+msgid "error_notfound_body"
+msgstr ""
+
+msgid "error_notfound_title"
+msgstr ""
+
+msgid "hint_again_password"
+msgstr ""
+
+msgid "hint_ban"
+msgstr ""
+
+msgid "hint_email"
+msgstr ""
+
+msgid "hint_keywords"
+msgstr ""
+
+msgid "hint_new_password"
+msgstr ""
+
+msgid "hint_password_reset"
+msgstr ""
+
+msgid "hint_selectmulti"
+msgstr ""
+
+msgid "hint_unban"
+msgstr ""
+
+msgid "hint_ymd"
+msgstr ""
+
+msgid "info_mailclick"
+msgstr ""
+
+msgid "issue_zero"
+msgstr ""
+
+msgid "label_abstract"
+msgstr ""
+
+msgid "label_action"
+msgstr ""
+
+msgid "label_activate"
+msgstr ""
+
+msgid "label_activated"
+msgstr ""
+
+msgid "label_add"
+msgstr ""
+
+msgid "label_again_password"
+msgstr ""
+
+msgid "label_all"
+msgstr ""
+
+msgid "label_any_action"
+msgstr ""
+
+msgid "label_any_type"
+msgstr ""
+
+msgid "label_attached"
+msgstr ""
+
+msgid "label_authors"
+msgstr ""
+
+msgid "label_changed"
+msgstr ""
+
+msgid "label_changepassword"
+msgstr ""
+
+msgid "label_close"
+msgstr ""
+
+msgid "label_comments"
+msgstr ""
+
+msgid "label_create"
+msgstr ""
+
+msgid "label_created"
+msgstr ""
+
+msgid "label_current_password"
+msgstr ""
+
+msgid "label_deactivate"
+msgstr ""
+
+msgid "label_deactivated"
+msgstr ""
+
+msgid "label_editors"
+msgstr ""
+
+msgid "label_email"
+msgstr ""
+
+msgid "label_emailconfirm"
+msgstr ""
+
+msgid "label_employer"
+msgstr ""
+
+msgid "label_female"
+msgstr ""
+
+msgid "label_files"
+msgstr ""
+
+msgid "label_from"
+msgstr ""
+
+msgid "label_from_ip"
+msgstr ""
+
+msgid "label_gender"
+msgstr ""
+
+msgid "label_has"
+msgstr ""
+
+msgid "label_i"
+msgstr ""
+
+msgid "label_issue"
+msgstr ""
+
+msgid "label_keyword"
+msgstr ""
+
+msgid "label_keywords"
+msgstr ""
+
+msgid "label_last_visit"
+msgstr ""
+
+msgid "label_link"
+msgstr ""
+
+msgid "label_logged_in"
+msgstr ""
+
+msgid "label_login"
+msgstr ""
+
+msgid "label_logout"
+msgstr ""
+
+msgid "label_male"
+msgstr ""
+
+msgid "label_modified"
+msgstr ""
+
+msgid "label_name"
+msgstr ""
+
+msgid "label_navigation"
+msgstr ""
+
+msgid "label_new_file"
+msgstr ""
+
+msgid "label_new_issue"
+msgstr ""
+
+msgid "label_new_password"
+msgstr ""
+
+msgid "label_new_permission"
+msgstr ""
+
+msgid "label_new_right"
+msgstr ""
+
+msgid "label_password_opt"
+msgstr ""
+
+msgid "label_peers"
+msgstr ""
+
+msgid "label_permissions"
+msgstr ""
+
+msgid "label_profession"
+msgstr ""
+
+msgid "label_publication"
+msgstr ""
+
+msgid "label_save"
+msgstr ""
+
+msgid "label_search"
+msgstr ""
+
+msgid "label_since"
+msgstr ""
+
+msgid "label_status"
+msgstr ""
+
+msgid "label_title"
+msgstr ""
+
+msgid "label_to"
+msgstr ""
+
+msgid "label_type"
+msgstr ""
+
+msgid "label_upload"
+msgstr ""
+
+msgid "label_user"
+msgstr ""
+
+msgid "label_wordcount"
+msgstr ""
+
+msgid "no_issues"
+msgstr ""
+
+msgid "no_permission"
+msgstr ""
+
+msgid "password_changed"
+msgstr ""
+
+msgid "password_emailed"
+msgstr ""
+
+msgid "password_invalid"
+msgstr ""
+
+msgid "password_reset"
+msgstr ""
+
+msgid "password_unchanged"
+msgstr ""
+
+msgid "register_failure"
+msgstr ""
+
+msgid "register_success"
+msgstr ""
+
+msgid "role_admin"
+msgstr ""
+
+msgid "role_author"
+msgstr ""
+
+msgid "role_editor"
+msgstr ""
+
+msgid "role_editor-in-chief"
+msgstr ""
+
+msgid "role_member"
+msgstr ""
+
+msgid "role_peer"
+msgstr ""
+
+msgid "role_reader"
+msgstr ""
+
+msgid "save_failure"
+msgstr ""
+
+msgid "save_failure_issue"
+msgstr ""
+
+msgid "save_success"
+msgstr ""
+
+msgid "status_accepted"
+msgstr ""
+
+msgid "status_accepted_with_condition"
+msgstr ""
+
+msgid "status_created"
+msgstr ""
+
+msgid "status_deleted"
+msgstr ""
+
+msgid "status_dispatched_review"
+msgstr ""
+
+msgid "status_printing"
+msgstr ""
+
+msgid "status_published"
+msgstr ""
+
+msgid "status_rejected"
+msgstr ""
+
+msgid "status_unknown"
+msgstr ""
+
+msgid "title_about"
+msgstr ""
+
+msgid "title_articles"
+msgstr ""
+
+msgid "title_change_mail_password"
+msgstr ""
+
+msgid "title_config_info"
+msgstr ""
+
+msgid "title_contacts"
+msgstr ""
+
+msgid "title_dashboard"
+msgstr ""
+
+msgid "title_history"
+msgstr ""
+
+msgid "title_instructions"
+msgstr ""
+
+msgid "title_issues"
+msgstr ""
+
+msgid "title_newarticle"
+msgstr ""
+
+msgid "title_prefs"
+msgstr ""
+
+msgid "title_recent"
+msgstr ""
+
+msgid "title_recent_history"
+msgstr ""
+
+msgid "title_register"
+msgstr ""
+
+msgid "title_roles"
+msgstr ""
+
+msgid "title_users"
+msgstr ""
+
+msgid "title_welcome_to"
+msgstr ""
+
+msgid "user_unknown"
+msgstr ""
+
+msgid "user_zero"
+msgstr ""

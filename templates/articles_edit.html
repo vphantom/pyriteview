@@ -1,27 +1,27 @@
-{{ title('Articles') }}
+{{ title(__('title_articles')) }}
 {% if article.id %}
 	{{ title(article.title) }}
 {% endif %}
 {% if saved %}
 	{% if success %}
-		{{ lib.alert(success, "Sauvegarde réussie.") }}
+		{{ lib.alert(success, __('save_success')) }}
 	{% else %}
-		{{ lib.alert(success, "Une erreur est survenue durant la tentative de sauvegarde.") }}
+		{{ lib.alert(success, __('save_failure')) }}
 	{% endif %}
 {% endif %}
 {% if uploaded %}
 	{% if success %}
-		{{ lib.alert(success, "Sauvegarde réussie.") }}
+		{{ lib.alert(success, __('save_success')) }}
 	{% elseif bad_format %}
-		{{ lib.alert(success, "Ce fichier ne correspond à aucun format accepté.") }}
+		{{ lib.alert(success, __('error_fileformat')) }}
 	{% else %}
-		{{ lib.alert(success, "Impossible de sauvegarder le nouveau fichier.") }}
+		{{ lib.alert(success, __('save_failure')) }}
 	{% endif %}
 {% endif %}
 
 <h2 class="page-header">
 	<span class="glyphicon glyphicon-align-left"></span>
-	{{ article.title|default('Nouvel article') }}
+	{{ article.title|default(__('title_newarticle')) }}
 	{% if article.id %}
 		<span class="label label-default">{{ lib.format_status(article.status) }}</span>
 	{% endif %}
@@ -42,7 +42,7 @@
 		{% endif %}
 
 		{% if pass('can', 'move', 'article', article.id) and article.id %}
-			<div data-label="État" class="btn-group input-like" data-toggle="buttons">
+			<div data-label="{{ __('label_status') }}" class="btn-group input-like" data-toggle="buttons">
 				<label class="btn btn-default btn-sm active">
 					<input type="radio" name="status" autocomplete="off" value="{{ article.status }}" checked>
 					{{ lib.format_status(article.status) }}
@@ -57,32 +57,32 @@
 			</div>
 		{% endif %}
 
-		<input data-label="Titre" type="text" id="title" value="{{ article.title }}" required>
+		<input data-label="{{ __('label_title') }}" type="text" id="title" value="{{ article.title }}" required>
 		{% if pass('can', 'move', 'article', article.id) or not article.id %}
-			<select data-label="Numéro" id="issueId" class="feedback-book" required>
+			<select data-label="{{ __('label_issue') }}" id="issueId" class="feedback-book" required>
 				{% if not article.id %}
-					<option selected disabled>Numéro...
+					<option selected disabled>{{ __('label_issue') }}...
 				{% endif %}
-				<option value="0"{% if article.id and issueId == 0 %} selected{% endif %}>Hors-série
+				<option value="0"{% if article.id and issueId == 0 %} selected{% endif %}>{{ __('issue_zero') }}
 				{% for issue in issues %}
 					<option value="{{ issue.id }}"{% if issue.id == issueId %} selected{% endif %}>{{ issue.number }} {{ issue.title }}
 				{% endfor %}
 			</select>
 		{% else %}
-			<span data-label="Numéro" class="input-like">{{ lib.format_issue(article.issueId) }}</span>
+			<span data-label="{{ __('label_issue') }}" class="input-like">{{ lib.format_issue(article.issueId) }}</span>
 		{% endif %}
-		<input data-label="Nombre de mots" type="number" id="wordCount" value="{{ article.wordCount }}" required>
-		<select data-label="Mots-clefs" id="keywords[]" placeholder="Entrer 3 à 6 mots-clefs" class="keywords feedback-tags" multiple>
+		<input data-label="{{ __('label_wordcount') }}" type="number" id="wordCount" value="{{ article.wordCount }}" required>
+		<select data-label="{{ __('label_keywords') }}" id="keywords[]" placeholder="{{ __('hint_keywords') }}" class="keywords feedback-tags" multiple>
 			{% for keyword in article.keywords %}
 				<option selected>{{ keyword }}
 			{% endfor %}
 		</select>
-		<textarea data-label="Résumé" id="abstract">{{ article.abstract }}</textarea>
+		<textarea data-label="{{ __('label_abstract') }}" id="abstract">{{ article.abstract }}</textarea>
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'article', article.issueId) %}
-			{{ lib.select_users('Auteurs', 'author', article.authors) }}
-			{{ lib.select_users('Critiques', 'peer', article.peers) }}
+			{{ lib.select_users(__('label_authors'), 'author', article.authors) }}
+			{{ lib.select_users(__('label_peers'), 'peer', article.peers) }}
 		{% elseif article.id %}
-			<span data-label="Auteurs" class="input-like">
+			<span data-label="{{ __('label_authors') }}" class="input-like">
 				{% for author in article.authors %}
 					{{ lib.format_user(author) }}
 				{% endfor %}
@@ -97,7 +97,7 @@
 		<form id="articles_file" method="post" class="form-leftright" enctype="multipart/form-data">
 			{{ filter('form_begin', 'articles_file') |raw }}
 			<input type="hidden" name="id" value="{{ article.id }}">
-			<span data-label="Fichiers" class="input-like">
+			<span data-label="{{ __('label_files') }}" class="input-like">
 				{% for file in article.files %}
 					{% if pass('can', 'delete', 'article', article.id) %}
 						<a href="{{ req.base }}/articles/{{ article.id }}/{{ file.name }}?unlink=1"><span class="fg-err"><span class="glyphicon glyphicon-minus"></span></span></a>
@@ -112,7 +112,7 @@
 	{% if article.id %}
 
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
-			<h3>Historique</h3>
+			<h3>{{ __('title_history') }}</h3>
 			{% include 'history.html' %}
 		{% endif %}
 
@@ -121,16 +121,16 @@
 {% elseif article.id and (pass('can', 'view', 'article', article.id) or pass('can', 'review', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) %}
 
 	<dl class="dl-horizontal">
-		<dt>Numéro</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
-		<dt>Nombre de mots</dt><dd>{{ article.wordCount }}</dd>
-		<dt>Mots-clefs</dt><dd>{{ article.keywords |join(', ') }}</dd>
-		<dt>Résumé</dt><dd>{{ article.abstract }}</dd>
-		<dt>Auteurs</dt><dd>
+		<dt>{{ __('label_issue') }}</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
+		<dt>{{ __('label_wordcount') }}</dt><dd>{{ article.wordCount }}</dd>
+		<dt>{{ __('label_keywords') }}</dt><dd>{{ article.keywords |join(', ') }}</dd>
+		<dt>{{ __('label_abstract') }}</dt><dd>{{ article.abstract }}</dd>
+		<dt>{{ __('label_authors') }}</dt><dd>
 			{% for author in article.authors %}
 				{{ lib.format_user(author) }}
 			{% endfor %}
 		</dd>
-		<dt>Fichiers</td><dd>
+		<dt>{{ __('label_files') }}</td><dd>
 			{% for file in article.files %}
 				<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
 			{% endfor %}

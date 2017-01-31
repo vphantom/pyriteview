@@ -1,0 +1,448 @@
+# PyriteView application strings.
+# Copyright (C) 2016 Stéphane Lavergne
+# This file is distributed under the same license as the PyriteView package.
+# Stéphane Lavergne <lis@imars.com>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyriteView v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-31 16:47-0500\n"
+"PO-Revision-Date: 2017-01-31 16:57-0500\n"
+"Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
+"Language-Team: PyriteView <lis@imars.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.10\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "KB"
+msgstr "KO"
+
+msgid "MB"
+msgstr "MO"
+
+msgid "article_unknown"
+msgstr "Article inconnu"
+
+msgid "bytes"
+msgstr "octets"
+
+msgid "error_activation_body"
+msgstr "Le lien d'activation est expiré ou invalide."
+
+msgid "error_activation_title"
+msgstr "Activation du compte infructueuse"
+
+msgid "error_denied_body"
+msgstr "Vos permissions actuelles ne donnent pas accès à cette ressource."
+
+msgid "error_denied_title"
+msgstr "Non-autorisé"
+
+msgid "error_duplicate_body"
+msgstr ""
+"Il semblerait que votre navigateur aie déjà soumis ce formulaire.  Si vous "
+"transmettiez de la nouvelle information, vous pourriez devoir les remplir à "
+"nouveau."
+
+msgid "error_duplicate_title"
+msgstr "Soumission de formulaire en double"
+
+msgid "error_expired_body"
+msgstr "Veuillez vous connecter à nouveau."
+
+msgid "error_expired_title"
+msgstr "Session expirée"
+
+msgid "error_fileformat"
+msgstr "Ce fichier ne correspond à aucun format accepté."
+
+msgid "error_login_body"
+msgstr "L'adresse de courriel et le mot de passe fournis sont incorrects."
+
+msgid "error_login_title"
+msgstr "Connexion impossible"
+
+msgid "error_notfound_body"
+msgstr ""
+"Cette ressource ne peut être trouvée présentement.  Vous pourriez reculer "
+"d'une page à partir d'ici."
+
+msgid "error_notfound_title"
+msgstr "Introuvable"
+
+msgid "hint_again_password"
+msgstr "Encore, pour confirmer"
+
+msgid "hint_email"
+msgstr "Votre courriel vous identifie ici"
+
+msgid "hint_keywords"
+msgstr "Entrer 3 à 6 mots-clefs"
+
+msgid "hint_new_password"
+msgstr "Remplir seulement si vous voulez le modifier"
+
+msgid "hint_password_reset"
+msgstr ""
+"Pour réinitialiser votre mot de passe, vous devez valider votre adresse de "
+"courriel."
+
+msgid "hint_selectmulti"
+msgstr "Cliquer pour chercher ou choisir"
+
+msgid "hint_unban"
+msgstr "Pour réinstaurer cet usager"
+
+msgid "hint_ymd"
+msgstr "AAAA-MM-JJ"
+
+msgid "info_mailclick"
+msgstr ""
+"Presque terminé!  Veuillez cliquer le lien dans votre courriel pour vous "
+"connecter."
+
+msgid "issue_zero"
+msgstr "Hors-série"
+
+msgid "label_abstract"
+msgstr "Résumé"
+
+msgid "label_action"
+msgstr "Action"
+
+msgid "label_activate"
+msgstr "Activer"
+
+msgid "label_activated"
+msgstr "activé"
+
+msgid "label_add"
+msgstr "Ajouter"
+
+msgid "label_again_password"
+msgstr "Répéter mot de passe"
+
+msgid "label_all"
+msgstr "Tous"
+
+msgid "label_any_action"
+msgstr "toute action"
+
+msgid "label_any_type"
+msgstr "tout type"
+
+msgid "label_attached"
+msgstr "attaché"
+
+msgid "label_authors"
+msgstr "Auteurs"
+
+msgid "label_changed"
+msgstr "changé"
+
+msgid "label_changepassword"
+msgstr "Changer mot de passe"
+
+msgid "label_close"
+msgstr "Fermer"
+
+msgid "label_comments"
+msgstr "Commentaires"
+
+msgid "label_create"
+msgstr "Créer"
+
+msgid "label_created"
+msgstr "créé"
+
+msgid "label_current_password"
+msgstr "Mot de passe actuel"
+
+msgid "label_deactivate"
+msgstr "Désactiver"
+
+msgid "label_deactivated"
+msgstr "désactivé"
+
+msgid "label_editors"
+msgstr "Éditeurs"
+
+msgid "label_email"
+msgstr "Courriel"
+
+msgid "label_emailconfirm"
+msgstr "Envoyer courriel de confirmation"
+
+msgid "label_employer"
+msgstr "Employeur"
+
+msgid "label_female"
+msgstr "Femme"
+
+msgid "label_files"
+msgstr "Fichiers"
+
+msgid "label_from"
+msgstr "de"
+
+msgid "label_from_ip"
+msgstr "depuis"
+
+msgid "label_gender"
+msgstr "Genre"
+
+msgid "label_has"
+msgstr "a"
+
+msgid "label_i"
+msgstr "J'ai"
+
+msgid "label_issue"
+msgstr "Numéro"
+
+msgid "label_keyword"
+msgstr "Mot-clef"
+
+msgid "label_keywords"
+msgstr "Mots-clefs"
+
+msgid "label_last_visit"
+msgstr "Dernière visite"
+
+msgid "label_link"
+msgstr "Lien"
+
+msgid "label_logged_in"
+msgstr "connecté au site"
+
+msgid "label_login"
+msgstr "Connexion"
+
+msgid "label_logout"
+msgstr "Déconnexion"
+
+msgid "label_male"
+msgstr "Homme"
+
+msgid "label_modified"
+msgstr "modifié"
+
+msgid "label_name"
+msgstr "Nom"
+
+msgid "label_navigation"
+msgstr "Navigation"
+
+msgid "label_new_file"
+msgstr "Nouveau fichier"
+
+msgid "label_new_issue"
+msgstr "Nouveau numéro"
+
+msgid "label_new_password"
+msgstr "Nouveau mot de passe"
+
+msgid "label_new_permission"
+msgstr "Nouvelle"
+
+msgid "label_new_right"
+msgstr "Nouveau droit"
+
+msgid "label_password_opt"
+msgstr "Mot de passe (facultatif)"
+
+msgid "label_peers"
+msgstr "Pairs"
+
+msgid "label_permissions"
+msgstr "Permissions"
+
+msgid "label_profession"
+msgstr "Titre professionnel"
+
+msgid "label_publication"
+msgstr "Publication"
+
+msgid "label_save"
+msgstr "Sauvegarder"
+
+msgid "label_search"
+msgstr "Chercher"
+
+msgid "label_since"
+msgstr "depuis"
+
+msgid "label_status"
+msgstr "État"
+
+msgid "label_title"
+msgstr "Titre"
+
+msgid "label_to"
+msgstr "à"
+
+msgid "label_type"
+msgstr "Type"
+
+msgid "label_upload"
+msgstr "Transmettre"
+
+msgid "label_user"
+msgstr "Usager"
+
+msgid "label_wordcount"
+msgstr "Nombre de mots"
+
+msgid "no_issues"
+msgstr "Aucun numéro"
+
+msgid "no_permission"
+msgstr "Aucune permission spéciale"
+
+msgid "password_changed"
+msgstr "Merci.  Votre mot de passe a été mis à jour."
+
+msgid "password_emailed"
+msgstr ""
+"Merci.  Si vous avez un compte ici, vous recevrez des instructions par "
+"courriel sous peu."
+
+msgid "password_invalid"
+msgstr ""
+"Désolé, ce lien de réinitialisation de mot de passe est expiré ou invalide."
+
+msgid "password_reset"
+msgstr "Réinitialisation de mot de passe"
+
+msgid "password_unchanged"
+msgstr "Désolé, votre mot de passe n'a pas pu être modifié."
+
+msgid "register_failure"
+msgstr "Une erreur est survenue en tentant de créer votre compte."
+
+msgid "register_success"
+msgstr "Veuillez attendre notre courriel d'instructions."
+
+msgid "role_admin"
+msgstr "administrateur"
+
+msgid "role_author"
+msgstr "auteur"
+
+msgid "role_editor"
+msgstr "éditeur"
+
+msgid "role_editor-in-chief"
+msgstr "éditeur en chef"
+
+msgid "role_member"
+msgstr "membre"
+
+msgid "role_peer"
+msgstr "pair"
+
+msgid "role_reader"
+msgstr "lecteur"
+
+msgid "save_failure"
+msgstr "Une erreur et survenue dans la tentative de sauvegarde."
+
+msgid "save_failure_issue"
+msgstr ""
+"Une erreur est survenue durant la tentative de sauvegarde.  Lors d'une "
+"création, notez qu'il est impossible de dupliquer un même numéro ou une même "
+"date de publication."
+
+msgid "save_success"
+msgstr "Sauvegarde réussie."
+
+msgid "status_accepted"
+msgstr "accepté"
+
+msgid "status_accepted_with_condition"
+msgstr "accepté sous condition"
+
+msgid "status_created"
+msgstr "nouveau"
+
+msgid "status_deleted"
+msgstr "effacé"
+
+msgid "status_dispatched_review"
+msgstr "en évaluation"
+
+msgid "status_printing"
+msgstr "sous presse"
+
+msgid "status_published"
+msgstr "publié"
+
+msgid "status_rejected"
+msgstr "rejeté"
+
+msgid "status_unknown"
+msgstr "état inconnu"
+
+msgid "title_about"
+msgstr "À propos"
+
+msgid "title_articles"
+msgstr "Articles"
+
+msgid "title_change_mail_password"
+msgstr "Modifier courriel ou mot de passe"
+
+msgid "title_config_info"
+msgstr "Configuration et information"
+
+msgid "title_contacts"
+msgstr "Contacts"
+
+msgid "title_dashboard"
+msgstr "Tableau de bord"
+
+msgid "title_history"
+msgstr "Historique"
+
+msgid "title_instructions"
+msgstr "Instructions pour auteurs"
+
+msgid "title_issues"
+msgstr "Numéros"
+
+msgid "title_newarticle"
+msgstr "Nouvel article"
+
+msgid "title_prefs"
+msgstr "Préférences"
+
+msgid "title_recent"
+msgstr "Activités récentes"
+
+msgid "title_recent_history"
+msgstr "Historique Récente"
+
+msgid "title_register"
+msgstr "Inscription"
+
+msgid "title_roles"
+msgstr "Rôles"
+
+msgid "title_users"
+msgstr "Usagers"
+
+msgid "title_welcome_to"
+msgstr "Bienvenue à"
+
+msgid "user_unknown"
+msgstr "Usager inconnu"
+
+msgid "user_zero"
+msgstr "Le système"
+
+msgid "hint_ban"
+msgstr "Pour banir cet usager"

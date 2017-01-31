@@ -1,0 +1,69 @@
+<div class="table-responsive">
+	<table class="table table-hover table-condensed">
+		<tbody>
+			{% for tx in history %}
+			<tr{% if tx.objectType == 'user' and tx.action == 'modified' and (tx.fieldName=='email' or tx.fieldName=='password') %} class="warning"{% endif %}>
+				<td>
+					{% if tx.userId == session.user.id %}
+						{{ __('label_i') }}
+					{% else %}
+						{{ lib.format('user', tx.userId) }}
+						{{ __('label_has') }}
+					{% endif %}
+
+					{% if tx.action == 'modified' %}
+						{% if tx.fieldName == 'status' %}
+							{{ lib.format(tx.fieldName, tx.newValue) }}
+							{{ lib.format(tx.objectType, tx.objectId) }}
+						{% elseif tx.fieldName %}
+							{{ __('label_changed') }}
+							{{ tx.fieldName }}
+							{% if tx.oldValue %}{{ __('label_from') }} '{{ lib.format(tx.fieldName, tx.oldValue) }}'{% endif %}
+							{% if tx.newValue %}{{ __('label_to') }} '{{ lib.format(tx.fieldName, tx.newValue) }}'{% endif %}
+						{% else %}
+							{{ __('label_modified') }}
+							{{ lib.format(tx.objectType, tx.objectId) }}
+						{% endif %}
+
+					{% elseif tx.action == 'login' %}
+						{{ __('label_logged_in') }}
+
+					{% elseif tx.action == 'created' %}
+						{{ __('label_created') }}
+						{% if not (tx.objectType == 'user' and tx.objectId == tx.userId) %}
+							{{ lib.format(tx.objectType, tx.objectId) }}
+						{% endif %}
+
+					{% elseif tx.action == 'attached' %}
+						{{ __('label_attached') }}
+						<span class="glyphicon glyphicon-file"></span>{{ tx.newValue }}
+						{{ __('label_to') }}
+						{{ lib.format(tx.objectType, tx.objectId) }}
+
+					{% elseif tx.action == 'activated' or tx.action == 'deactivated' %}
+						{# Help gettext's msgmerge: __('label_activated') __('label_deactivated') #}
+						{{ __('label_'~tx.action) }}
+						{{ lib.format(tx.objectType, tx.objectId) }}
+
+					{% else %}
+						{{ tx.action }}
+						{{ tx.fieldName }}
+						{% if tx.oldValue %}{{ __('label_from') }} '{{ lib.format(tx.fieldName, tx.oldValue) }}'{% endif %}
+						{% if tx.newValue %}{{ __('label_to') }} '{{ lib.format(tx.fieldName, tx.newValue) }}'{% endif %}
+					{% endif %}
+					{% if tx.content and not narrow %}
+						<div class="log-content">{{ tx.content }}</div>
+					{% endif %}
+				</td>
+				<td class="fit">
+					{%- if narrow -%}
+						<span class="text-muted small">{{ lib.format_timestamp(tx.localtimestamp) }}</span>
+					{%- else -%}
+						{{ lib.format_timestamp(tx.localtimestamp) }} {{ __('label_from_ip') }} {{ lib.format_ip(tx.ip) }}
+					{%- endif -%}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>

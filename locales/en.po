@@ -1,0 +1,438 @@
+# PyriteView application strings.
+# Copyright (C) 2016 Stéphane Lavergne
+# This file is distributed under the same license as the PyriteView package.
+# Stéphane Lavergne <lis@imars.com>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyriteView v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-31 16:47-0500\n"
+"PO-Revision-Date: 2017-01-31 12:12-0500\n"
+"Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
+"Language-Team: PyriteView <lis@imars.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.10\n"
+
+msgid "KB"
+msgstr "KB"
+
+msgid "MB"
+msgstr "MB"
+
+msgid "article_unknown"
+msgstr "Unknown Article"
+
+msgid "bytes"
+msgstr "bytes"
+
+msgid "error_activation_body"
+msgstr "The activation link has expired or is invalid."
+
+msgid "error_activation_title"
+msgstr "Account Activation Failure"
+
+msgid "error_denied_body"
+msgstr "Your current permissions do not include access to this resource."
+
+msgid "error_denied_title"
+msgstr "Not Authorized"
+
+msgid "error_duplicate_body"
+msgstr ""
+"It seems that your browser has already submitted this form.  If you're "
+"sending new information, you might need to fill it out again."
+
+msgid "error_duplicate_title"
+msgstr "Duplicate Form Submission"
+
+msgid "error_expired_body"
+msgstr "Please sign in again."
+
+msgid "error_expired_title"
+msgstr "Session Expired"
+
+msgid "error_fileformat"
+msgstr "This file doesn't match any accepted format."
+
+msgid "error_login_body"
+msgstr "The e-mail address and password supplied are incorrect."
+
+msgid "error_login_title"
+msgstr "Login Failure"
+
+msgid "error_notfound_body"
+msgstr ""
+"This resource cannot currently be found.  You might want to go back one page."
+
+msgid "error_notfound_title"
+msgstr "Not Found"
+
+msgid "hint_again_password"
+msgstr ""
+
+msgid "hint_ban"
+msgstr ""
+
+msgid "hint_email"
+msgstr ""
+
+msgid "hint_keywords"
+msgstr "Enter 3 to 6 keywords"
+
+msgid "hint_new_password"
+msgstr ""
+
+msgid "hint_password_reset"
+msgstr ""
+
+msgid "hint_selectmulti"
+msgstr "Click to search or select"
+
+msgid "hint_unban"
+msgstr ""
+
+msgid "hint_ymd"
+msgstr "YYYY-MM-DD"
+
+msgid "info_mailclick"
+msgstr "Almost done!  Please click the link in your e-mail to complete."
+
+msgid "issue_zero"
+msgstr "Special"
+
+msgid "label_abstract"
+msgstr "Abstract"
+
+msgid "label_action"
+msgstr ""
+
+msgid "label_activate"
+msgstr ""
+
+msgid "label_activated"
+msgstr "activated"
+
+msgid "label_add"
+msgstr ""
+
+msgid "label_again_password"
+msgstr ""
+
+msgid "label_all"
+msgstr ""
+
+msgid "label_any_action"
+msgstr ""
+
+msgid "label_any_type"
+msgstr ""
+
+msgid "label_attached"
+msgstr "attached"
+
+msgid "label_authors"
+msgstr "Authors"
+
+msgid "label_changed"
+msgstr "changed"
+
+msgid "label_changepassword"
+msgstr ""
+
+msgid "label_close"
+msgstr "Close"
+
+msgid "label_comments"
+msgstr "Comments"
+
+msgid "label_create"
+msgstr "Create"
+
+msgid "label_created"
+msgstr "created"
+
+msgid "label_current_password"
+msgstr ""
+
+msgid "label_deactivate"
+msgstr ""
+
+msgid "label_deactivated"
+msgstr "deactivated"
+
+msgid "label_editors"
+msgstr "Editors"
+
+msgid "label_email"
+msgstr "E-Mail"
+
+msgid "label_emailconfirm"
+msgstr ""
+
+msgid "label_employer"
+msgstr ""
+
+msgid "label_female"
+msgstr ""
+
+msgid "label_files"
+msgstr "Files"
+
+msgid "label_from"
+msgstr ""
+
+msgid "label_from_ip"
+msgstr "from"
+
+msgid "label_gender"
+msgstr ""
+
+msgid "label_has"
+msgstr "has"
+
+msgid "label_i"
+msgstr "I"
+
+msgid "label_issue"
+msgstr "Issue"
+
+msgid "label_keyword"
+msgstr "Keyword"
+
+msgid "label_keywords"
+msgstr "Keywords"
+
+msgid "label_last_visit"
+msgstr ""
+
+msgid "label_link"
+msgstr ""
+
+msgid "label_logged_in"
+msgstr "logged in"
+
+msgid "label_login"
+msgstr "Sign in"
+
+msgid "label_logout"
+msgstr "Log out"
+
+msgid "label_male"
+msgstr ""
+
+msgid "label_modified"
+msgstr "modified"
+
+msgid "label_name"
+msgstr ""
+
+msgid "label_navigation"
+msgstr "Navigation"
+
+msgid "label_new_file"
+msgstr "New file"
+
+msgid "label_new_issue"
+msgstr "New issue"
+
+msgid "label_new_password"
+msgstr ""
+
+msgid "label_new_permission"
+msgstr ""
+
+msgid "label_new_right"
+msgstr ""
+
+msgid "label_password_opt"
+msgstr "Password (optional)"
+
+msgid "label_peers"
+msgstr "Peers"
+
+msgid "label_permissions"
+msgstr ""
+
+msgid "label_profession"
+msgstr ""
+
+msgid "label_publication"
+msgstr "Publication"
+
+msgid "label_save"
+msgstr "Save"
+
+msgid "label_search"
+msgstr ""
+
+msgid "label_since"
+msgstr ""
+
+msgid "label_status"
+msgstr "Status"
+
+msgid "label_title"
+msgstr "Title"
+
+msgid "label_to"
+msgstr "to"
+
+msgid "label_type"
+msgstr ""
+
+msgid "label_upload"
+msgstr "Send"
+
+msgid "label_user"
+msgstr ""
+
+msgid "label_wordcount"
+msgstr "Word Count"
+
+msgid "no_issues"
+msgstr "No issues"
+
+msgid "no_permission"
+msgstr ""
+
+msgid "password_changed"
+msgstr ""
+
+msgid "password_emailed"
+msgstr ""
+
+msgid "password_invalid"
+msgstr ""
+
+msgid "password_reset"
+msgstr ""
+
+msgid "password_unchanged"
+msgstr ""
+
+msgid "register_failure"
+msgstr ""
+
+msgid "register_success"
+msgstr ""
+
+msgid "role_admin"
+msgstr "administrator"
+
+msgid "role_author"
+msgstr "author"
+
+msgid "role_editor"
+msgstr "editor"
+
+msgid "role_editor-in-chief"
+msgstr "editor in chief"
+
+msgid "role_member"
+msgstr "member"
+
+msgid "role_peer"
+msgstr "peer"
+
+msgid "role_reader"
+msgstr "reader"
+
+msgid "save_failure"
+msgstr "An error has occurred while attempting to save."
+
+msgid "save_failure_issue"
+msgstr ""
+"An error has occurred while attempting to save.  If creating, note that it "
+"is impossible to duplicate a number or publication date."
+
+msgid "save_success"
+msgstr "Saved successfully."
+
+msgid "status_accepted"
+msgstr "accepted"
+
+msgid "status_accepted_with_condition"
+msgstr "accepted with conditions"
+
+msgid "status_created"
+msgstr "created"
+
+msgid "status_deleted"
+msgstr "deleted"
+
+msgid "status_dispatched_review"
+msgstr "being evaluated"
+
+msgid "status_printing"
+msgstr "being printed"
+
+msgid "status_published"
+msgstr "published"
+
+msgid "status_rejected"
+msgstr "rejected"
+
+msgid "status_unknown"
+msgstr "unknown status"
+
+msgid "title_about"
+msgstr "About us"
+
+msgid "title_articles"
+msgstr "Articles"
+
+msgid "title_change_mail_password"
+msgstr ""
+
+msgid "title_config_info"
+msgstr ""
+
+msgid "title_contacts"
+msgstr "Contacts"
+
+msgid "title_dashboard"
+msgstr "Dashboard"
+
+msgid "title_history"
+msgstr "History"
+
+msgid "title_instructions"
+msgstr "Instructions for authors"
+
+msgid "title_issues"
+msgstr "Issues"
+
+msgid "title_newarticle"
+msgstr "New Article"
+
+msgid "title_prefs"
+msgstr "Preferences"
+
+msgid "title_recent"
+msgstr "Recent Activities"
+
+msgid "title_recent_history"
+msgstr "Recent History"
+
+msgid "title_register"
+msgstr ""
+
+msgid "title_roles"
+msgstr "Roles"
+
+msgid "title_users"
+msgstr "Users"
+
+msgid "title_welcome_to"
+msgstr "Welcome to"
+
+msgid "user_unknown"
+msgstr "Unknown User"
+
+msgid "user_zero"
+msgstr "The System"

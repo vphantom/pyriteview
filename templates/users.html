@@ -1,0 +1,51 @@
+{% use 'blocks.html' %}
+{{ title(__('title_users')) }}
+<h2 class="page-header"><span class="glyphicon glyphicon-user"></span> {{ __('title_users') }}</h2>
+
+{% if pass('can', 'create', 'user') %}{{ block('hint_user_creation') }}{% endif %}
+
+{% if not pass('can', 'view', 'user') %}
+	{% exit %}
+{% endif %}
+
+<p>
+	<form id="user_search" method="post" class="form-compact">
+		{{ filter('form_begin', 'user_search') |raw }}
+		<input data-label="{{ __('label_name') }}" id="name" value="{{ req.post.name }}" minlength="3">
+		<input data-label="{{ __('label_email') }}" id="email" value="{{ req.post.email }}" minlength="3">
+		<button type="submit"><span class="glyphicon glyphicon-search"></span> {{ __('label_search') }}</button>
+	</form>
+</p>
+
+<div class="table-responsive">
+	<table class="table table-hover table-condensed">
+		<thead>
+			<tr>
+				<th>{{ __('label_user') }}</th>
+				<th>{{ __('label_email') }}</th>
+				<th>{{ __('title_roles') }}</th>
+				<th>{{ __('label_last_visit') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in users %}
+			{% set roles = grab('user_roles', user.id) %}
+			{% set login = grab('user_seen', user.id) %}
+			<tr>
+				<td class="fit">{{ lib.format_user(user) }}
+					{% if not user.active %}
+					<span class="label label-danger"><span class="glyphicon glyphicon-exclamation-sign"></span>{{ __('label_deactivated') }}</span>
+					{% endif %}
+				</td>
+				<td class="fit">{{ lib.format_email(user.email) }}</td>
+				<td class="fit">
+					{% for role in roles %}
+						{{ lib.label_role(role) }}
+					{% endfor %}
+				</td>
+				<td>{{ lib.format_timestamp(login.localtimestamp) }}{% if login.ip %} {{ __('label_since') }} {{ lib.format_ip(login.ip) }}{% endif %}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>

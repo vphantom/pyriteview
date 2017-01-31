@@ -1,11 +1,11 @@
-{{ title('Numéros') }}
-<h2 class="page-header"><span class="glyphicon glyphicon-book"></span> Numéros</h2>
+{{ title(__('title_issues')) }}
+<h2 class="page-header"><span class="glyphicon glyphicon-book"></span> {{ __('title_issues') }}</h2>
 
 <div class="row">
 	<form id="issue_search" method="post" class="form-inline col-sm-6">
 		{{ filter('form_begin', 'issue_search') |raw }}
 		<div class="input-group">
-			<input class="form-control" placeholder="Recherche par mot-clef..." name="keyword" value="{{ req.post.keyword }}" minlength="3">
+			<input class="form-control" placeholder="{{ __('label_keyword') }}..." name="keyword" value="{{ req.post.keyword }}" minlength="3">
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
 			</span>
@@ -13,7 +13,7 @@
 	</form>
 	{% if pass('can', 'create', 'issue') %}
 		<form action="{{ req.base }}/issues/new" id="issue_create" method="get" class="form-inline col-sm-6">
-			<button class="btn btn-default" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Créer</button>
+			<button class="btn btn-default" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> {{ __('label_create') }}</button>
 		</form>
 	{% endif %}
 </div>

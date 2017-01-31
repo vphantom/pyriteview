@@ -1,0 +1,40 @@
+{{ title(__('title_dashboard')) }}
+<h2 class="page-header"><span class="glyphicon glyphicon-home"></span> {{ __('title_dashboard') }}</h2>
+
+<div class="row">
+	<div class="col-lg-7">
+
+		<!-- Articles Panel -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-align-left"></span> {{ __('title_articles') }}
+				<div class="pull-right">
+					{% if pass('can', 'create', 'article') %}
+						<form action="{{ req.base }}/articles/new" id="article_create" method="get" class="form-inline">
+							<button class="btn btn-default btn-xs" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> {{ __('label_create') }}</button>
+						</form>
+					{% endif %}
+				</div>
+			</div>
+			<div class="panel-body">
+				{% include 'articles_list.html' %}
+			</div>
+		</div>
+		<!-- /Articles Panel -->
+
+	</div>
+	<div class="col-lg-5">
+
+		<!-- Recent Activity Panel -->
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-list"></span> {{ __('title_recent') }}
+			</div>
+			<div class="panel-body">
+				{% include 'history.html' with {'history': recentHistory, 'narrow': true} %}
+			</div>
+		</div>
+		<!-- /Recent Activity Panel -->
+
+	</div>
+</div>

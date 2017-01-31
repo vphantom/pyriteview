@@ -11,6 +11,10 @@ CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/
 
 JS_TOUCH := $(wildcard modules/*.js)
 
+GETTEXT_TEMPLATES := $(wildcard templates/lib templates/*.html templates/*/lib templates/*/*.html)
+
+DISTRIB_TARGETS := client.css.gz client.js.gz fonts locales/fr.po locales/en.po
+
 help:
 	@echo
 	@echo "  [ Users ]  make init    - First-time initialization"
@@ -57,7 +61,7 @@ dist-clean:
 	rm -f client.js client.js.map client.js.gz
 	rm -fr fonts
 
-distrib:	dist-clean client.css.gz client.js.gz fonts
+distrib:	$(DISTRIB_TARGETS)
 
 fonts:
 	cp -r node_modules/bootstrap/dist/fonts $@
@@ -73,6 +77,18 @@ client.js:	$(JS_TOUCH)
 	$(BROWSERIFY) modules/main.js -d -o bundle.js
 	$(JS) --source-map client.js.map -o client.js -- bundle.js
 	rm -f bundle.js
+
+locales/messages.pot:	$(GETTEXT_TEMPLATES)
+	grep -oh -E '__\([^)~]+\)' $(GETTEXT_TEMPLATES) |sort |uniq >var/tmp.src
+	xgettext --from-code UTF-8 -L Lua -k -k__ -kn_:1,2 --force-po --no-location -o var/tmp.pot var/tmp.src
+	if [ ! -e "$@" ]; then mv var/tmp.pot "$@"; else msgmerge --update $@ var/tmp.pot; fi
+	rm -f var/tmp.src var/tmp.pot
+	touch $@
+
+locales/%.po:	locales/messages.pot $(GETTEXT_TEMPLATES)
+	if [ ! -e "$@" ]; then cp "$<" "$@"; fi
+	msgmerge --update "$@" "$<"
+	touch $@
 
 %.gz: %
 	$(GZIP) $< -c >$@

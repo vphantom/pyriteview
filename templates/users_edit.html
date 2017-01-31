@@ -1,18 +1,9 @@
-{{ title('Administration') }}
-{{ title('Usagers') }}
-{% if saved %}
+{{ title(__('title_users')) }}
+{% if saved or added or deleted %}
 	{% if success %}
-		{{ lib.alert(success, "Sauvegarde réussie.") }}
+		{{ lib.alert(success, __('save_success')) }}
 	{% else %}
-		{{ lib.alert(success, "Une erreur est survenue durant la tentative de sauvegarde.") }}
-	{% endif %}
-{% endif %}
-
-{% if added or deleted %}
-	{% if success %}
-		{{ lib.alert(success, "Changement de permissions réussi.") }}
-	{% else %}
-		{{ lib.alert(success, "Le changement de permission a échoué (peut-être un double?)") }}
+		{{ lib.alert(success, __('save_failure')) }}
 	{% endif %}
 {% endif %}
 
@@ -22,7 +13,7 @@
 
 	{% include 'user_edit.html' %}
 
-	<h3>Rôles</h3>
+	<h3>{{ __('title_roles') }}</h3>
 
 	<form id="admin_user_role" method="post" class="form-horizontal">
 		{{ filter('form_begin', 'admin_user_role') |raw }}
@@ -38,29 +29,29 @@
 		</div>
 	</form>
 
-	<h3>Permissions</h3>
+	<h3>{{ __('label_permissions') }}</h3>
 
 	<p>
 		<form id="admin_user_acl_add" method="post" class="form-compact">
 			{{ filter('form_begin', 'admin_user_acl_add') |raw }}
 			<input type="hidden" name="f" value="add">
-			<strong>Nouvelle:</strong>
+			<strong>{{ __('label_new_permission') }}:</strong>
 			<select data-label="Action" id="action" required>
-				<option selected disabled>Action...
-				<option value="*">* Toute action
+				<option selected disabled>{{ __('label_action') }}...
+				<option value="*">* {{ __('label_any_action') }}
 				{% for action in actions %}
 					<option>{{ action }}
 				{% endfor %}
 			</select>
 			<select data-label="Object Type" id="objectType" required>
-				<option selected disabled>Type...
-				<option value="*">* Tout type
+				<option selected disabled>{{ __('label_type') }}...
+				<option value="*">* {{ __('label_any_type') }}
 				{% for objectType in objectTypes %}
 					<option>{{ objectType }}
 				{% endfor %}
 			</select>
 			<input data-label="Object ID" placeholder="Object ID" id="objectId">
-			<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> Ajouter</button>
+			<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> {{ __('label_add') }}</button>
 		</form>
 	</p>
 
@@ -69,10 +60,10 @@
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
-					<th>Action</th>
-					<th>objectType</th>
+					<th>{{ __('label_action') }}</th>
+					<th>{{ __('label_type') }}</th>
 					<th>objectId</th>
-					<th>Lien</th>
+					<th>{{ __('label_link') }}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -93,14 +84,14 @@
 							</form>
 						{% endif %}
 					</td>
-					<td class="fit">{% if right.action == '*' %}<em>toute action</em>{% else %}{{ right.action }}{% endif %}</td>
-					<td class="fit">{% if right.objectType == '*' %}<em>tout type</em>{% else %}{{ right.objectType }}{% endif %}</td>
-					<td class="fit">{% if right.objectId == 0 %}<em>tous</em>{% else %}{{ right.objectId }}{% endif %}</td>
+					<td class="fit">{% if right.action == '*' %}<em>{{ __('label_any_action') }}</em>{% else %}{{ right.action }}{% endif %}</td>
+					<td class="fit">{% if right.objectType == '*' %}<em>{{ __('label_any_type') }}</em>{% else %}{{ right.objectType }}{% endif %}</td>
+					<td class="fit">{% if right.objectId == 0 %}<em>{{ __('label_all') }}</em>{% else %}{{ right.objectId }}{% endif %}</td>
 					<td>{{ lib.format(right.objectType, right.objectId) }}</td>
 				</tr>
 				{% endfor %}
 				{% if rights|length == 0 %}
-					<tr><td colspan="5"><em>Aucune permission spéciale</em></td></tr>
+					<tr><td colspan="5"><em>{{ __('no_permission') }}</em></td></tr>
 				{% endif %}
 			</tbody>
 		</table>
@@ -108,6 +99,6 @@
 {% endif %}
 
 {% if pass('can', 'view', 'user', user.id) %}
-	<h3>Historique récente du compte</h3>
+<h3>{{ __('title_recent_history') }}</h3>
 	{% include 'history.html' %}
 {% endif %}

@@ -1,0 +1,56 @@
+{% block welcome %}
+	<p>
+		Pour utiliser cette application, vous devez vous connecter à votre
+		compte ici.  Si vous n'avez pas encore de compte, vous devriez vous
+		inscrire.
+	</p>
+
+	<p><a class="btn btn-primary btn-lg" type="button" href="{{ req.base }}/register">Inscription &raquo;</a></p>
+
+	<p>
+		Si vous avez déjà un compte mais avez oublié votre mot de passe,
+		<a href="{{ req.base }}/password_reset">cliquez ici</a>.
+	</p>
+
+	<p>
+		Ou encore, si vous n'avez pas de mot de passe ou préférez ne pas
+		l'utiliser, entrez simplement votre courriel et laissez le mot de passe
+		vide, ci-dessus.
+	</p>
+{% endblock %}
+
+
+{% block hint_role_creation %}
+	<p>
+		Note: l'existence des rôles est déclarée dans votre fichier
+		<code>config.ini</code> à la section <code>acl</code>.
+	</p>
+{% endblock %}
+
+
+{% block hint_user_creation %}
+	<p>
+		Pour créer un nouvel usager, utilisez le même
+		<a href="{{ req.base }}/register">formulaire d'inscription</a>.
+		Vous demeurerez connecté.
+		L'usager recevra une notice par courriel.
+	</p>
+{% endblock %}
+
+
+{% block hint_user_mailpass_change %}
+	<p>
+		Pour votre protection, pour modifier votre adresse de courriel ou votre
+		mot de passe, vous devez entrer votre mot de passe actuel à nouveau.  Un
+		rappel vous sera également transmis par courriel (aux nouvelle et
+		ancienne adresses, s'il y a lieu).
+	</p>
+{% endblock %}
+
+{% block hint_password_creation %}
+	<p>
+		(Facultatif.)  Si vous ne voulez pas confirmer votre courriel à chaque
+		connexion, définissez un mot de passe ci-dessous.  Vous pourrez ensuite
+		l'utiliser pour vous connecter sans autre confirmation.
+	</p>
+{% endblock %}

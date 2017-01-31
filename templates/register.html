@@ -1,0 +1,46 @@
+{% use 'blocks.html' %}
+{{ title(__('title_register')) }}
+{% if created %}
+	{% if success %}
+		{{ lib.alert(success, __('register_success')) }}
+	{% else %}
+		{{ lib.alert(success, __('register_failure')) }}
+	{% endif %}
+	{% exit %}
+{% endif %}
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h2>{{ __('title_register') }}</h2>
+	</div>
+	<div class="panel-body">
+		<form class="form-tight" method="post" id="registration">
+			{{ filter('form_begin', 'registration') |raw }}
+			<div class="form-group">
+				<input data-label="{{ __('label_email') }}" type="email" id="email" placeholder="{{ __('hint_email') }}" maxlength="100" tabindex="1" required>
+			</div>
+			<div class="form-group">
+				<input data-colsize="9" data-label="Nom" type="text" id="name" minlength="3" maxlength="100" tabindex="2" required>
+				<select data-colsize="3" data-label="Genre" name="isMale" tabindex="3" required>
+					<option selected disabled>{{ __('label_gender') }}...</option>
+					<option value="0">{{ __('label_female') }}</option>
+					<option value="1">{{ __('label_male') }}</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<input data-label="{{ __('label_profession') }}" type="text" id="profession" minlength="3" maxlength="100" tabindex="4" required>
+				<input data-label="{{ __('label_employer') }}" type="text" id="employer" minlength="3" maxlength="100" tabindex="5">
+			</div>
+
+			<div class="optional hideaway">
+				{{ block('hint_password_creation') }}
+				<div class="form-group">
+					<input data-label="{{ __('label_new_password') }}" type="password" id="password" minlength="8" maxlength="16" tabindex="6" class="hideaway-focus">
+					<input data-label="{{ __('label_again_password') }}" type="password" id="password2" data-parsley-equalto="#password" data-parsley-validate-if-empty tabindex="7">
+				</div>
+			</div>
+
+			<button type="submit" tabindex="9"><span class="fg-ok"><span class="glyphicon glyphicon-envelope"></span></span> {{ __('label_emailconfirm') }}</button>
+		</form>
+	</div>
+</div>

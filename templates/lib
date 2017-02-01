@@ -57,6 +57,7 @@
 {%- endmacro %}
 
 {% macro format_user(user, flat, nohtml) -%}
+	{%- set req = grab('request') -%}
 	{%- if not user.id and not user == 0 -%}
 		{%- set user = grab('user_resolve', user) -%}
 	{%- endif -%}
@@ -88,6 +89,7 @@
 		__('role_reader')
 	#}
 	{%- set name = __('role_'~role) -%}
+	{%- set req = grab('request') -%}
 	{%- if pass('can', 'view', 'role', role) and not flat -%}
 		<a href="{{ req.base }}/admin/roles/{{ role }}"><span class="glyphicon glyphicon-education"></span>{{ name }}</a>
 	{%- else -%}
@@ -108,6 +110,7 @@
 {%- endmacro %}
 
 {% macro format_issue(issue, flat) -%}
+	{%- set req = grab('request') -%}
 	{%- if not issue.id -%}
 	{%- set issue = grab('issue', issue) -%}
 	{%- endif -%}
@@ -127,6 +130,7 @@
 {%- endmacro %}
 
 {% macro format_article(article, flat) -%}
+	{%- set req = grab('request') -%}
 	{%- if not article.id -%}
 		{%- set article = grab('article', article) -%}
 	{%- endif -%}

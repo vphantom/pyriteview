@@ -109,6 +109,31 @@ input, select, textarea {
 	left: -100%;
 }
 
+/* Selectize for users */
+.name_email_label {
+}
+.name_email_label .name {
+	color: #000;
+}
+.name_email_label .email {
+	color: #888;
+	display: block;
+}
+.name_email_tag {
+}
+.name_email_tag .name {
+	color: #000;
+}
+.name_email_tag .email {
+	color: #888;
+}
+.name_email_tag .email:before {
+	content: '<';
+}
+.name_email_tag .email:after {
+	content: '>';
+}
+
 /* Left menu */
 .nav-sidebar {
 	margin: 0 -21px 20px -20px;

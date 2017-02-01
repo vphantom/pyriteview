@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-01 11:59-0500\n"
+"POT-Creation-Date: 2017-02-01 16:26-0500\n"
 "PO-Revision-Date: 2017-01-31 12:04-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
@@ -86,7 +86,7 @@ msgstr ""
 msgid "hint_password_reset"
 msgstr ""
 
-msgid "hint_selectmulti"
+msgid "hint_selectusers"
 msgstr ""
 
 msgid "hint_unban"
@@ -420,6 +420,9 @@ msgid "title_users"
 msgstr ""
 
 msgid "title_welcome_to"
+msgstr ""
+
+msgid "user_new"
 msgstr ""
 
 msgid "user_unknown"

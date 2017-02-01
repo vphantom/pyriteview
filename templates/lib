@@ -66,11 +66,11 @@
 	{%- else -%}
 		{%- if user != false -%}
 			{%- if pass('can', 'view', 'user', id) and not flat -%}
-				<a href="{{ req.base }}/admin/users/edit?id={{ user.id }}">{% if not user.active %}<s>{% endif %}<span class="glyphicon glyphicon-user"></span>{{ user.name }}{% if not user.active %}</s>{% endif %}</a>
+				<a href="{{ req.base }}/admin/users/edit?id={{ user.id }}">{% if not user.active %}<s>{% endif %}<span class="glyphicon glyphicon-user"></span>{{ user.name|default(__('user_new')) }}{% if not user.active %}</s>{% endif %}</a>
 			{%- elseif nohtml -%}
-				{{ user.name }} &lt;{{ filter('protect_email', user.email) }}&gt;
+				{{ user.name|default(__('user_new')) }} &lt;{{ pass('can', 'view', 'user', id) ? user.email : filter('protect_email', user.email) }}&gt;
 			{%- else -%}
-				{% if not user.active %}<s>{% endif %}<span class="glyphicon glyphicon-user"></span>{{ user.name }}{% if not user.active %}</s>{% endif %}
+				{% if not user.active %}<s>{% endif %}<span class="glyphicon glyphicon-user"></span>{{ user.name|default(__('user_new')) }}{% if not user.active %}</s>{% endif %}
 			{%- endif -%}
 		{%- else -%}
 			<span class="glyphicon glyphicon-user"></span>{{ __('user_unknown') }}
@@ -169,7 +169,7 @@
 {% macro select_users(label, role, selected) %}
 	{% import _self as lib %}
 	<input type="hidden" name="__arrays[]" value="{{ role }}s">
-	<select data-label="{{ label }}" placeholder="{{ __('hint_selectmulti') }}" id="{{ role }}s[]" class="advanced feedback-user" multiple>
+	<select data-label="{{ label }}" placeholder="{{ __('hint_selectusers') }}" id="{{ role }}s[]" class="users{% if pass('can', 'create', 'user') %}-create{% endif %} feedback-user" multiple>
 		{% for user in selected %}
 			<option value="{{ user }}" selected>{{ lib.format_user(user, true, true) }}
 		{% endfor %}

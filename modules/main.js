@@ -5,6 +5,7 @@ var bootstrap = require('bootstrap');  // eslint-disable-line no-unused-vars
 var parsley = require('parsleyjs');  // eslint-disable-line no-unused-vars
 var timeago = require('timeago.js');  // eslint-disable-line no-unused-vars
 var selectize = require('selectize');  // eslint-disable-line no-unused-vars
+var selectizeRender = {};
 
 // Non-English locales for timeago.js
 // (This is necessary so that Browserify bundles them all at build time.)
@@ -20,6 +21,11 @@ $().ready(function() {
   var lang = $('html').attr('lang') || 'en';
 
   var excludedInputs = 'input[type=button], input[type=submit], input[type=reset], input[type=hidden], :hidden, .input-like input';  // eslint-disable-line max-len
+
+  // A valid e-mail for us has: nospaces, '@', nospaces, '.', nospaces
+  // Actual RFC822 implementations are pages long and wouldn't benefit us much.
+  var regexEMail = /^[^@ ]+@[^@ .]+\.[^@ ]+$/;
+  var regexNameEMail = /^([^<]+)<([^@ ]+@[^@ .]+\.[^@ ]+)>$/;
 
   // Hide-away fields
   $('.hideaway-focus').on('focus', function() {
@@ -187,6 +193,14 @@ $().ready(function() {
 
   // Selectize some advanced selects
   //
+  selectizeRender = {
+    option_create: function(data, escape) {  // eslint-disable-line camelcase
+      return '<div class="create">+ <strong>'
+        + escape(data.input)
+        + '</strong>&hellip;</div>'
+      ;
+    }
+  };
   $('select.advanced').selectize({
     plugins  : ['remove_button'],
     highlight: false
@@ -200,13 +214,98 @@ $().ready(function() {
     openOnFocus : false,
     maxItems    : 6,
     // Work around default template including the English word "Add"
-    render      : {
-      option_create: function(data, escape) {  // eslint-disable-line camelcase
-        return '<div class="create">+ <strong>'
-          + escape(data.input)
-          + '</strong>&hellip;</div>'
-        ;
+    render      : selectizeRender
+  });
+
+  /**
+   * Clean up raw item into expected "user" structure
+   *
+   * Input item is expected to have 'text' and 'value' properties from which
+   * 'name' and 'email' properties will be derived if 'email' is missing.
+   * Conversely if 'email' is present but 'value' is not, then 'value' gets
+   * the e-mail address.
+   *
+   * @param {Object} item Data
+   *
+   * @return {Object} Formatted item
+   */
+  function itemToUser(item) {
+    var match;
+
+    item.text = item.text.trim();
+    if (item['email'] === undefined) {
+      match = item.text.trim().match(regexNameEMail);
+      if (match !== null) {
+        item.email = match[2];
+        item.name = match[1];
+      } else {
+        item.email = item.text;
+        item.name = null;
       }
+    }
+    if (item['value'] === undefined
+        || !Number.isInteger(Number(item['value']))
+       ) {
+      item.value = item.email;
+    }
+    return item;
+  }
+  selectizeRender['item'] = function(item, escape) {
+    item = itemToUser(item);
+    return '<div class="name_email_tag">'
+      + (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '')
+      + '<span class="email">' + escape(item.email) + '</span>'
+      + '</div>';
+  };
+  selectizeRender['option'] = function(item, escape) {
+    var label;
+    var caption;
+
+    item = itemToUser(item);
+    label = item.name || item.email;
+    caption = item.name ? item.email : null;
+    return '<div class="name_email_label">'
+      + '<span class="name">' + escape(label) + '</span>'
+      + (caption ? '<span class="email">' + escape(caption) + '</span>' : '')
+      + '</div>';
+  };
+  $('select.users').selectize({
+    plugins  : ['remove_button'],
+    highlight: false,
+    persist  : false,
+    render   : selectizeRender
+  });
+
+  // Creating users
+  $('select.users-create').selectize({
+    plugins     : ['remove_button'],
+    highlight   : false,
+    createOnBlur: true,
+    persist     : false,
+    render      : selectizeRender,
+    createFilter: function(input) {
+      return regexEMail.test(input) || input.match(regexNameEMail) !== null;
+    },
+    create: function(input) {
+      var match = input.match(regexNameEMail);
+
+      if (match !== null) {
+        return {
+          text : input,
+          value: match[2],
+          email: match[2],
+          name : match[1]
+        };
+      }
+      if (regexEMail.test(input)) {
+        return {
+          text : input,
+          value: input,
+          email: input,
+          name : null
+        };
+      }
+      return false;
     }
   });
 

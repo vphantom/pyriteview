@@ -2,20 +2,26 @@
 {{ title(__('title_users')) }}
 <h2 class="page-header"><span class="glyphicon glyphicon-user"></span> {{ __('title_users') }}</h2>
 
-{% if pass('can', 'create', 'user') %}{{ block('hint_user_creation') }}{% endif %}
-
 {% if not pass('can', 'view', 'user') %}
 	{% exit %}
 {% endif %}
 
-<p>
-	<form id="user_search" method="post" class="form-compact">
+<div class="row spaced">
+	<form id="user_search" method="post" class="form-inline col-sm-6">
 		{{ filter('form_begin', 'user_search') |raw }}
-		<input data-label="{{ __('label_name') }}" id="name" value="{{ req.post.name }}" minlength="3">
-		<input data-label="{{ __('label_email') }}" id="email" value="{{ req.post.email }}" minlength="3">
-		<button type="submit"><span class="glyphicon glyphicon-search"></span> {{ __('label_search') }}</button>
+		<div class="input-group">
+			<input class="form-control" placeholder="{{ __('label_keyword') }}..." name="keyword" value="{{ req.post.keyword }}" minlength="3">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+			</span>
+		</div>
 	</form>
-</p>
+	{% if pass('can', 'create', 'user') %}
+		<form action="{{ req.base }}/register" id="article_create" method="post" class="form-inline col-sm-6">
+			<button class="btn btn-default" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> {{ __('label_create') }}</button>
+		</form>
+	{% endif %}
+</div>
 
 <div class="table-responsive">
 	<table class="table table-hover table-condensed">

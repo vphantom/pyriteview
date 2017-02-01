@@ -7,8 +7,8 @@
 		</div>
 	{% endif %}
 	<div class="form-group">
-		<input data-colsize="9" data-label="Nom" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100"{% if not user.active %} disabled{% endif %}>
-		<select data-colsize="3" data-label="Genre" name="isMale" required{% if not user.active %} disabled{% endif %}>
+		<input data-colsize="9" data-label="{{ __('label_name') }}" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100"{% if not user.active %} disabled{% endif %}>
+		<select data-colsize="3" data-label="{{ __('label_gender') }}" name="isMale" required{% if not user.active %} disabled{% endif %}>
 			<option disabled>{{ __('label_gender') }}...</option>
 			<option {% if not user.isMale %}selected {% endif %}value="0">{{ __('label_female') }}</option>
 			<option {% if user.isMale %}selected {% endif %}value="1">{{ __('label_male') }}</option>

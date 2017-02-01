@@ -87,6 +87,7 @@
 				{% for author in article.authors %}
 					{{ lib.format_user(author) }}
 				{% endfor %}
+				&nbsp;
 			</span>
 		{% else %}
 			<input type="hidden" name="authors[]" value="{{ session.user.id }}">

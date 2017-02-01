@@ -162,8 +162,13 @@
 	{% import _self as lib %}
 	<input type="hidden" name="__arrays[]" value="{{ role }}s">
 	<select data-label="{{ label }}" placeholder="{{ __('hint_selectmulti') }}" id="{{ role }}s[]" class="advanced feedback-user" multiple>
+		{% for user in selected %}
+			<option value="{{ user }}" selected>{{ lib.format_user(user, true, true) }}
+		{% endfor %}
 		{% for user in grab('role_users', role) %}
-			<option value="{{ user }}"{% if user in selected %} selected{% endif %}>{{ lib.format_user(user, true, true) }}
+			{% if user not in selected %}
+				<option value="{{ user }}">{{ lib.format_user(user, true, true) }}
+			{% endif %}
 		{% endfor %}
 	</select>
 {% endmacro %}

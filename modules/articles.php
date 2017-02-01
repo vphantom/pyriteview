@@ -491,6 +491,9 @@ on(
                         'order' => 'DESC'
                     )
                 );
+            } else {
+                // New article editor
+                $article['authors'] = array($_SESSION['user']['id']);
             };
             trigger(
                 'render',

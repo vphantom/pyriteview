@@ -87,7 +87,7 @@ locales/messages.pot:	$(GETTEXT_TEMPLATES)
 
 locales/%.po:	locales/messages.pot $(GETTEXT_TEMPLATES)
 	if [ ! -e "$@" ]; then cp "$<" "$@"; fi
-	msgmerge --update "$@" "$<"
+	msgmerge  -N --update "$@" "$<"
 	touch $@
 
 %.gz: %

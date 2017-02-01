@@ -92,6 +92,7 @@
 {%- endmacro %}
 
 {% macro label_role(role, flat) -%}
+	{%- import _self as lib -%}
 	{%- if role == 'member' %}{% set v = 'info' -%}
 	{%- elseif role == 'editor' or role == 'editor-in-chief' %}{% set v = 'success' -%}
 	{%- elseif role == 'admin' %}{% set v = 'danger' -%}
@@ -99,7 +100,7 @@
 	{%- elseif role == 'peer' %}{% set v = 'warning' -%}
 	{%- else %}{% set v = 'default' -%}
 	{%- endif -%}
-	<span class="label label-{{ v }}">{{ _self.format_role(role, flat) }}</span>
+	<span class="label label-{{ v }}">{{ lib.format_role(role, flat) }}</span>
 {%- endmacro %}
 
 {% macro format_issue(issue, flat) -%}
@@ -137,26 +138,28 @@
 {%- endmacro %}
 
 {% macro format(type, value) -%}
+	{%- import _self as lib -%}
 	{%- if type == 'ip' -%}
-		{{ _self.format_ip(value) }}
+		{{ lib.format_ip(value) }}
 	{%- elseif type == 'email' -%}
-		{{ _self.format_email(value) }}
+		{{ lib.format_email(value) }}
 	{%- elseif type == 'status' -%}
-		{{ _self.format_status(value) }}
+		{{ lib.format_status(value) }}
 	{%- elseif type == 'user' -%}
-		{{ _self.format_user(value) }}
+		{{ lib.format_user(value) }}
 	{%- elseif type == 'role' -%}
-		{{ _self.format_role(value) }}
+		{{ lib.format_role(value) }}
 	{%- elseif type == 'issue' -%}
-		{{ _self.format_issue(value) }}
+		{{ lib.format_issue(value) }}
 	{%- elseif type == 'article' -%}
-		{{ _self.format_article(value) }}
+		{{ lib.format_article(value) }}
 	{%- else -%}
 		{{ value }}
 	{%- endif -%}
 {%- endmacro %}
 
 {% macro select_users(label, role, selected) %}
+	{% import _self as lib %}
 	<select data-label="{{ label }}" placeholder="{{ __('hint_selectmulti') }}" id="{{ role }}s[]" class="advanced feedback-user" multiple>
 		{% for user in grab('role_users', role) %}
 			<option value="{{ user }}"{% if user in selected %} selected{% endif %}>{{ lib.format_user(user, true, true) }}

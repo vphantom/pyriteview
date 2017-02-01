@@ -180,6 +180,7 @@ class Issues
         } else {
             $res = $db->insert('issues', $cols);
             if ($res !== false) {
+                trigger('http_status', 201);
                 trigger(
                     'log',
                     array(

@@ -302,6 +302,7 @@ class Articles
         } else {
             $res = $db->insert('articles', $cols);
             if ($res !== false) {
+                trigger('http_status', 201);
                 trigger(
                     'log',
                     array(

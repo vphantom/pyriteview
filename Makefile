@@ -13,17 +13,22 @@ JS_TOUCH := $(wildcard modules/*.js)
 
 GETTEXT_TEMPLATES := $(wildcard templates/lib templates/*.html templates/*/lib templates/*/*.html)
 
-DISTRIB_TARGETS := client.css.gz client.js.gz fonts locales/fr.po locales/en.po
+BUILD_TARGETS := client.css.gz client.js.gz fonts locales/fr.po locales/en.po
+
+BACKUP_TARGETS := var/main.sql var/main.db config.ini
 
 help:
 	@echo
 	@echo "  [ Users ]  make init    - First-time initialization"
+	@echo "  [ Users ]  make backup  - Create config+DB backup file"
+	@echo "  [ Users ]  make archive - Create FULL backup including attachments"
 	@echo
-	@echo "  [ Devel ]  make distrib - Build a new release"
-	@echo "  [ Devel ]  make clean   - Remove all dev files, become a release"
+	@echo "  [ Devel ]  make build   - Rebuild any outdated/missing release files"
+	@echo "  [ Devel ]  make clean   - Remove rebuildable files"
 	@echo
 
 deps:
+	@if ! which zip >/dev/null;  then echo "  **  Please install zip."; exit 1; fi
 	@if ! which gzip >/dev/null; then echo "  **  Please install gzip."; exit 1; fi
 	@if ! which wget >/dev/null; then echo "  **  Please install wget."; exit 1; fi
 	@if ! which php  >/dev/null; then echo "  **  Please install PHP 5+."; exit 1; fi
@@ -54,21 +59,23 @@ dev-update:	update
 	$(NPM) update
 
 clean:
-	rm -fr bin node_modules vendor var
-
-dist-clean:
 	rm -f client.css client.css.map client.css.gz
 	rm -f client.js client.js.map client.js.gz
 	rm -fr fonts
+	rm -f var/backup.zip var/archive.zip
 
-distrib:	$(DISTRIB_TARGETS)
+build:	$(BUILD_TARGETS)
+
+backup:	var/backup.zip
+
+archive:	var/archive.zip
 
 fonts:
 	cp -r node_modules/bootstrap/dist/fonts $@
 
 # Bootstrap hard-codes "../fonts/" which we need to clean up
 client.css:	$(CSS_SRC)
-	$(CSS) --source-map -o $@ $+
+	$(CSS) --source-map -o $@ $^
 	mv $@ $@.tmp
 	cat $@.tmp |sed 's/\.\.\/\(fonts\)/\1/g' >$@
 	rm -f $@.tmp
@@ -90,7 +97,20 @@ locales/%.po:	locales/messages.pot $(GETTEXT_TEMPLATES)
 	msgmerge  -N --update "$@" "$<"
 	touch $@
 
+var/main.sql:	var/main.db
+	sqlite3 $^ .dump |grep -Ev '^(PRAGMA|BEGIN|COMMIT)' >$@
+
+var/backup.zip:	$(BACKUP_TARGETS)
+	rm -f $@
+	zip -r9 $@ $^
+	@echo "    * Backup file is: $@"
+
+var/archive.zip:	$(BACKUP_TARGETS)
+	rm -f $@
+	zip -r9 $@ $^ var/articles/
+	@echo "    * Archive file is: $@"
+
 %.gz: %
 	$(GZIP) $< -c >$@
 
-.PHONY:	help deps clean init dev-init update dev-update dist-clean distrib
+.PHONY:	help deps clean init dev-init update dev-update build backup archive

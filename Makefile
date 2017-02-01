@@ -66,9 +66,9 @@ clean:
 
 build:	$(BUILD_TARGETS)
 
-backup:	var/backup.zip
+backup:	deps var/backup.zip
 
-archive:	var/archive.zip
+archive:	deps var/archive.zip
 
 fonts:
 	cp -r node_modules/bootstrap/dist/fonts $@

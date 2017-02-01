@@ -80,7 +80,7 @@
 			{% endfor %}
 		</select>
 		<textarea data-label="{{ __('label_abstract') }}" id="abstract">{{ article.abstract }}</textarea>
-		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'article', article.issueId) %}
+		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
 			{{ lib.select_users(__('label_authors'), 'author', article.authors) }}
 			{% if session.user.id not in article.authors %}
 				{{ lib.select_users(__('label_peers'), 'peer', article.peers) }}

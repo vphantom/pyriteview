@@ -19,7 +19,7 @@
 		<form id="admin_role_acl_add" method="post" class="form-compact">
 			{{ filter('form_begin', 'admin_role_acl_add') |raw }}
 			<input type="hidden" name="f" value="add">
-			<strong>{{ __('label_new_right') }}</strong>
+			<strong>{{ __('label_new_permission') }}</strong>
 			<select data-label="Action" id="action" required>
 				<option selected disabled>{{ __('label_action') }}...
 				<option value="*">* {{ __('label_any_action') }}

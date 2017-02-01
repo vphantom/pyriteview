@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-31 16:47-0500\n"
-"PO-Revision-Date: 2017-01-31 16:57-0500\n"
+"POT-Creation-Date: 2017-02-01 10:17-0500\n"
+"PO-Revision-Date: 2017-02-01 10:15-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -76,6 +76,9 @@ msgstr "Introuvable"
 
 msgid "hint_again_password"
 msgstr "Encore, pour confirmer"
+
+msgid "hint_ban"
+msgstr "Pour banir cet usager"
 
 msgid "hint_email"
 msgstr "Votre courriel vous identifie ici"
@@ -247,10 +250,7 @@ msgid "label_new_password"
 msgstr "Nouveau mot de passe"
 
 msgid "label_new_permission"
-msgstr "Nouvelle"
-
-msgid "label_new_right"
-msgstr "Nouveau droit"
+msgstr "Nouvelle permission"
 
 msgid "label_password_opt"
 msgstr "Mot de passe (facultatif)"
@@ -269,9 +269,6 @@ msgstr "Publication"
 
 msgid "label_save"
 msgstr "Sauvegarder"
-
-msgid "label_search"
-msgstr "Chercher"
 
 msgid "label_since"
 msgstr "depuis"
@@ -444,5 +441,8 @@ msgstr "Usager inconnu"
 msgid "user_zero"
 msgstr "Le système"
 
-msgid "hint_ban"
-msgstr "Pour banir cet usager"
+#~ msgid "label_new_right"
+#~ msgstr "Nouveau droit"
+
+#~ msgid "label_search"
+#~ msgstr "Chercher"

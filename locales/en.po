@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-31 16:47-0500\n"
-"PO-Revision-Date: 2017-01-31 12:12-0500\n"
+"POT-Creation-Date: 2017-02-01 10:17-0500\n"
+"PO-Revision-Date: 2017-02-01 10:15-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -73,28 +73,28 @@ msgid "error_notfound_title"
 msgstr "Not Found"
 
 msgid "hint_again_password"
-msgstr ""
+msgstr "Again, to confirm"
 
 msgid "hint_ban"
-msgstr ""
+msgstr "To ban this user"
 
 msgid "hint_email"
-msgstr ""
+msgstr "Your e-mail identifies you here"
 
 msgid "hint_keywords"
 msgstr "Enter 3 to 6 keywords"
 
 msgid "hint_new_password"
-msgstr ""
+msgstr "Fill only if you want to change it"
 
 msgid "hint_password_reset"
-msgstr ""
+msgstr "To reset your password, you must confirm your e-mail address."
 
 msgid "hint_selectmulti"
 msgstr "Click to search or select"
 
 msgid "hint_unban"
-msgstr ""
+msgstr "To reestablish this user"
 
 msgid "hint_ymd"
 msgstr "YYYY-MM-DD"
@@ -109,28 +109,28 @@ msgid "label_abstract"
 msgstr "Abstract"
 
 msgid "label_action"
-msgstr ""
+msgstr "Action"
 
 msgid "label_activate"
-msgstr ""
+msgstr "Activate"
 
 msgid "label_activated"
 msgstr "activated"
 
 msgid "label_add"
-msgstr ""
+msgstr "Add"
 
 msgid "label_again_password"
-msgstr ""
+msgstr "Repeat password"
 
 msgid "label_all"
-msgstr ""
+msgstr "All"
 
 msgid "label_any_action"
-msgstr ""
+msgstr "any action"
 
 msgid "label_any_type"
-msgstr ""
+msgstr "any type"
 
 msgid "label_attached"
 msgstr "attached"
@@ -142,7 +142,7 @@ msgid "label_changed"
 msgstr "changed"
 
 msgid "label_changepassword"
-msgstr ""
+msgstr "Change password"
 
 msgid "label_close"
 msgstr "Close"
@@ -157,10 +157,10 @@ msgid "label_created"
 msgstr "created"
 
 msgid "label_current_password"
-msgstr ""
+msgstr "Current password"
 
 msgid "label_deactivate"
-msgstr ""
+msgstr "Deactivate"
 
 msgid "label_deactivated"
 msgstr "deactivated"
@@ -172,25 +172,25 @@ msgid "label_email"
 msgstr "E-Mail"
 
 msgid "label_emailconfirm"
-msgstr ""
+msgstr "Send confirmation e-mail"
 
 msgid "label_employer"
-msgstr ""
+msgstr "Employer"
 
 msgid "label_female"
-msgstr ""
+msgstr "Woman"
 
 msgid "label_files"
 msgstr "Files"
 
 msgid "label_from"
-msgstr ""
+msgstr "from"
 
 msgid "label_from_ip"
 msgstr "from"
 
 msgid "label_gender"
-msgstr ""
+msgstr "Gender"
 
 msgid "label_has"
 msgstr "has"
@@ -208,10 +208,10 @@ msgid "label_keywords"
 msgstr "Keywords"
 
 msgid "label_last_visit"
-msgstr ""
+msgstr "Last visit"
 
 msgid "label_link"
-msgstr ""
+msgstr "Link"
 
 msgid "label_logged_in"
 msgstr "logged in"
@@ -223,13 +223,13 @@ msgid "label_logout"
 msgstr "Log out"
 
 msgid "label_male"
-msgstr ""
+msgstr "Man"
 
 msgid "label_modified"
 msgstr "modified"
 
 msgid "label_name"
-msgstr ""
+msgstr "Name"
 
 msgid "label_navigation"
 msgstr "Navigation"
@@ -241,13 +241,10 @@ msgid "label_new_issue"
 msgstr "New issue"
 
 msgid "label_new_password"
-msgstr ""
+msgstr "New password"
 
 msgid "label_new_permission"
-msgstr ""
-
-msgid "label_new_right"
-msgstr ""
+msgstr "New permission"
 
 msgid "label_password_opt"
 msgstr "Password (optional)"
@@ -256,10 +253,10 @@ msgid "label_peers"
 msgstr "Peers"
 
 msgid "label_permissions"
-msgstr ""
+msgstr "Rights"
 
 msgid "label_profession"
-msgstr ""
+msgstr "Profession"
 
 msgid "label_publication"
 msgstr "Publication"
@@ -267,11 +264,8 @@ msgstr "Publication"
 msgid "label_save"
 msgstr "Save"
 
-msgid "label_search"
-msgstr ""
-
 msgid "label_since"
-msgstr ""
+msgstr "since"
 
 msgid "label_status"
 msgstr "Status"
@@ -283,13 +277,13 @@ msgid "label_to"
 msgstr "to"
 
 msgid "label_type"
-msgstr ""
+msgstr "Type"
 
 msgid "label_upload"
 msgstr "Send"
 
 msgid "label_user"
-msgstr ""
+msgstr "User"
 
 msgid "label_wordcount"
 msgstr "Word Count"
@@ -298,28 +292,30 @@ msgid "no_issues"
 msgstr "No issues"
 
 msgid "no_permission"
-msgstr ""
+msgstr "No special permission"
 
 msgid "password_changed"
-msgstr ""
+msgstr "Thank you. Your password was updated."
 
 msgid "password_emailed"
 msgstr ""
+"Thank you. If you have an account, you will receive an instruction e-mail "
+"shortly."
 
 msgid "password_invalid"
-msgstr ""
+msgstr "Sorry, this password reset link has expired or is invalid."
 
 msgid "password_reset"
-msgstr ""
+msgstr "Password reset"
 
 msgid "password_unchanged"
-msgstr ""
+msgstr "Sorry, your password could not be modified."
 
 msgid "register_failure"
-msgstr ""
+msgstr "An error occurred while attempting to create your account."
 
 msgid "register_success"
-msgstr ""
+msgstr "Please wait for our e-mail with further instructions."
 
 msgid "role_admin"
 msgstr "administrator"
@@ -387,10 +383,10 @@ msgid "title_articles"
 msgstr "Articles"
 
 msgid "title_change_mail_password"
-msgstr ""
+msgstr "Change e-mail or password"
 
 msgid "title_config_info"
-msgstr ""
+msgstr "Configuration and information"
 
 msgid "title_contacts"
 msgstr "Contacts"
@@ -420,7 +416,7 @@ msgid "title_recent_history"
 msgstr "Recent History"
 
 msgid "title_register"
-msgstr ""
+msgstr "Registration"
 
 msgid "title_roles"
 msgstr "Roles"
@@ -436,3 +432,9 @@ msgstr "Unknown User"
 
 msgid "user_zero"
 msgstr "The System"
+
+#~ msgid "label_new_right"
+#~ msgstr "New permission"
+
+#~ msgid "label_search"
+#~ msgstr "Search"

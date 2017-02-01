@@ -9,7 +9,11 @@
 {% endmacro %}
 
 {% macro format_timestamp(timestamp) %}
-<span class="timeago" datetime="{{ timestamp }}">{{ timestamp }}</span>
+	{%- if timestamp -%}
+		<span class="timeago" datetime="{{ timestamp }}">{{ timestamp }}</span>
+	{%- else -%}
+		{{ __('label_never') }}
+	{%- endif -%}
 {% endmacro %}
 
 {% macro format_ip(ip) -%}

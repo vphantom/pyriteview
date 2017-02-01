@@ -73,6 +73,7 @@
 			<span data-label="{{ __('label_issue') }}" class="input-like">{{ lib.format_issue(article.issueId) }}</span>
 		{% endif %}
 		<input data-label="{{ __('label_wordcount') }}" type="number" id="wordCount" value="{{ article.wordCount }}" required>
+		<input type="hidden" name="__arrays[]" value="keywords">
 		<select data-label="{{ __('label_keywords') }}" id="keywords[]" placeholder="{{ __('hint_keywords') }}" class="keywords feedback-tags" multiple>
 			{% for keyword in article.keywords %}
 				<option selected>{{ keyword }}

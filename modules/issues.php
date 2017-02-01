@@ -231,10 +231,10 @@ on(
             $success = false;
             $history = null;
             $articles = array();
-            if (isset($_POST['number'])) {
+            if (isset($req['post']['number'])) {
                 if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
                 $saved = true;
-                $success = grab('issue_save', $_POST);
+                $success = grab('issue_save', $req['post']);
                 if ($success !== false) return trigger('http_redirect', $req['base'] . '/issues/' . $success);
             };
             if (is_numeric($issueId)) {
@@ -280,9 +280,9 @@ on(
 
         } else {
             $keyword = null;
-            if (isset($_POST['keyword'])) {
+            if (isset($req['post']['keyword'])) {
                 if (!pass('form_validate', 'issue_search')) return trigger('http_status', 440);
-                $keyword = $_POST['keyword'];
+                $keyword = $req['post']['keyword'];
             };
             trigger(
                 'render',

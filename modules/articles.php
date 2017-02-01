@@ -396,7 +396,7 @@ on(
             $saved = false;
             $success = false;
             $history = null;
-            if (isset($_POST['wordCount'])) {
+            if (isset($req['post']['wordCount'])) {
                 if (!pass('form_validate', 'articles_edit')) return trigger('http_status', 440);
                 if (is_numeric($articleId)) {
                     if (!(pass('can', 'edit', 'article', $articleId) || pass('can', 'edit', 'issue', $article['issueId']))) return trigger('http_status', 403);
@@ -404,14 +404,14 @@ on(
                     if (!pass('can', 'create', 'article')) return trigger('http_status', 403);
                 };
                 $saved = true;
-                $success = grab('article_save', $_POST);
+                $success = grab('article_save', $req['post']);
 
                 if ($success !== false && !is_numeric($articleId)) return trigger('http_redirect', $req['base'] . '/articles/' . $success);
 
                 // Reload to be aware of changes
                 $article = grab('article', $articleId);
             };
-            if (isset($_GET['unlink'])) {
+            if (isset($req['get']['unlink'])) {
                 if (!pass('can', 'delete', 'article', $articleId)) return trigger('http_status', 403);
                 $saved = true;
                 $fname = array_shift($path);
@@ -507,9 +507,9 @@ on(
             );
         } else {
             $search = array('byStatus' => true);
-            if (isset($_POST['keyword'])) {
+            if (isset($req['post']['keyword'])) {
                 if (!pass('form_validate', 'article_search')) return trigger('http_status', 440);
-                $search['keyword'] = $_POST['keyword'];
+                $search['keyword'] = $req['post']['keyword'];
             } else {
                 $search['current'] = true;
             };

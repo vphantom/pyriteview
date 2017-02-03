@@ -1,26 +1,32 @@
 <form id="user_prefs" method="post" class="form-tight">
-	{{ filter('form_begin', 'user_prefs') |raw }}
-	{% if user.id != session.user.id and pass('can', 'edit', 'user', user.id) %}
+	{% if modal %}
+		<input type="hidden" name="email" value="">
+	{% else %}
+		{{ filter('form_begin', 'user_prefs') |raw }}
+	{% endif %}
+	{% if not modal and user.id != session.user.id and pass('can', 'edit', 'user', user.id) %}
 		<input type="hidden" name="id" value="{{ user.id }}">
 		<div class="form-group">
-			<input data-label="{{ __('label_email') }}" type="email" id="email" value="{{ user.email }}" required maxlength="100"{% if not user.active %} disabled{% endif %}>
+			<input data-label="{{ __('label_email') }}" type="email" id="email" value="{{ user.email }}" required maxlength="100"{% if not modal and not user.active %} disabled{% endif %}>
 		</div>
 	{% endif %}
 	<div class="form-group">
-		<input data-colsize="9" data-label="{{ __('label_name') }}" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100"{% if not user.active %} disabled{% endif %}>
-		<select data-colsize="3" data-label="{{ __('label_gender') }}" name="isMale" required{% if not user.active %} disabled{% endif %}>
-			<option disabled>{{ __('label_gender') }}...</option>
-			<option {% if not user.isMale %}selected {% endif %}value="0">{{ __('label_female') }}</option>
-			<option {% if user.isMale %}selected {% endif %}value="1">{{ __('label_male') }}</option>
+		<input data-colsize="9" data-label="{{ __('label_name') }}" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100"{% if not modal and not user.active %} disabled{% endif %}>
+		<select data-colsize="3" data-label="{{ __('label_gender') }}" name="isMale" required{% if not modal and not user.active %} disabled{% endif %}>
+			<option disabled{% if not user.id %} selected{% endif %}>{{ __('label_gender') }}...</option>
+			<option {% if user.id and not user.isMale %}selected {% endif %}value="0">{{ __('label_female') }}</option>
+			<option {% if user.id and user.isMale %}selected {% endif %}value="1">{{ __('label_male') }}</option>
 		</select>
 	</div>
 	<div class="form-group">
-		<input data-label="{{ __('label_profession') }}" type="text" id="profession" value="{{ user.profession }}" minlength="3" maxlength="100" required{% if not user.active %} disabled{% endif %}>
-		<input data-label="{{ __('label_employer') }}" type="text" id="employer" value="{{ user.employer }}" minlength="3" maxlength="100"{% if not user.active %} disabled{% endif %}>
+		<input data-label="{{ __('label_profession') }}" type="text" id="profession" value="{{ user.profession }}" minlength="3" maxlength="100" required{% if not modal and not user.active %} disabled{% endif %}>
+		<input data-label="{{ __('label_employer') }}" type="text" id="employer" value="{{ user.employer }}" minlength="3" maxlength="100"{% if not modal and not user.active %} disabled{% endif %}>
 	</div>
-	<button type="submit"{% if not user.active %} disabled{% endif %}><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> {{ __('label_save') }}</button>
+	{% if not modal %}
+		<button type="submit"{% if not user.active %} disabled{% endif %}><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> {{ __('label_save') }}</button>
+	{% endif %}
 </form>
-{% if pass('can', 'delete', 'user', user.id) %}
+{% if not modal and pass('can', 'delete', 'user', user.id) %}
 	<div class="row">
 		<form id="admin_user_ban" method="post" class="form-tight">
 			{{ filter('form_begin', 'admin_user_ban') |raw }}

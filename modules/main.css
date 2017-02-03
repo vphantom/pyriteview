@@ -128,7 +128,7 @@ input, select, textarea {
 	color: #888;
 }
 .name_email_tag .email:before {
-	content: '<';
+	content: ' <';
 }
 .name_email_tag .email:after {
 	content: '>';

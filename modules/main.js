@@ -20,7 +20,7 @@ $().ready(function() {
   // (Default is just in case we miss it.  It _should_ always be set.)
   var lang = $('html').attr('lang') || 'en';
 
-  var excludedInputs = 'input[type=button], input[type=submit], input[type=reset], input[type=hidden], :hidden, .input-like input';  // eslint-disable-line max-len
+  var excludedInputs = 'input[type=button], input[type=submit], input[type=reset], input[type=hidden], .input-like input';  // eslint-disable-line max-len
 
   // A valid e-mail for us has: nospaces, '@', nospaces, '.', nospaces
   // Actual RFC822 implementations are pages long and wouldn't benefit us much.
@@ -288,9 +288,10 @@ $().ready(function() {
     },
     create: function(input) {
       var match = input.match(regexNameEMail);
+      var opt = false;
 
       if (match !== null) {
-        return {
+        opt = {
           text : input,
           value: match[2],
           email: match[2],
@@ -298,14 +299,82 @@ $().ready(function() {
         };
       }
       if (regexEMail.test(input)) {
-        return {
+        opt = {
           text : input,
           value: input,
           email: input,
           name : null
         };
       }
-      return false;
+
+      return opt;
+    },
+    onOptionAdd: function(value, data) {
+      var sel = this;
+      var form = $('#myModal form');
+
+      // Not much works unless we let Selectize finish first.
+      setTimeout(function() {
+        form.find('input').val(null);
+        form.find('select').prop('selectedIndex', 0);
+        form.parsley().reset();
+
+        $('#myModal .modal-title .text').text(value);
+        $('#myModal input[name=email]').val(value);
+
+        $('#myModal').modal({
+          backdrop: 'static',
+          keyboard: false,
+          show    : true
+        });
+        setTimeout(
+          function() {
+            form
+              .find('input:visible, select:visible')
+              .first()
+              .focus();
+          },
+          350
+        );
+
+        $('#myModal .modal-footer button').on('click', function() {
+          var outform = $($('#myModal').attr('data-appends'));
+          var outbase = $('#myModal').attr('data-append-base');
+          var outkey  = $('#myModal').attr('data-append-key');
+          var outdata = {};
+
+          if (form.parsley().validate()) {
+            $(this).off('click');
+            form.serializeArray().forEach(function(item) {
+              outdata[item.name] = item.value;
+            });
+            outkey = outdata[outkey];
+
+            data['name'] = outdata['name'];
+
+            Object.keys(outdata).forEach(function(key) {
+              outform.append(
+                $('<input />')
+                  .attr('type', 'hidden')
+                  .attr('name', outbase + '[' + outkey + '][' + key + ']')
+                  .attr('value', outdata[key])
+              );
+            });
+
+            // Destroy the popover before its element disappears.
+            // tag.popover('destroy');
+            $('#myModal').modal('hide');
+
+            // Force a refresh of our items where refreshItems() won't.
+            // Thanks to: https://github.com/selectize/selectize.js/issues/1162
+            // sel.clearCache();
+            sel.updateOption(value, sel.options[value]);
+
+            // Work around strange bug which reopens the select after creation
+            sel.close();
+          }
+        });
+      });
     }
   });
 
@@ -317,6 +386,7 @@ $().ready(function() {
   // ...and http://jimmybonney.com/articles/parsley_js_twitter_bootstrap/
   // CAUTION: $.fn.parsley.defaults({...}) was IGNORED.
   $('form').parsley({
+    // exclude :hidden for non-modal forms?
     excluded    : excludedInputs + ', [disabled]',
     successClass: 'has-success',
     errorClass  : 'has-error',

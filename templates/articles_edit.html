@@ -36,6 +36,24 @@
 
 {% if pass('can', 'edit', 'article', article.id) or pass('can', 'edit', 'issue', article.issueId) or (pass('can', 'create', 'article') and not article.id) %}
 
+	<div class="modal" id="myModal" data-appends="#articles_edit" data-append-base="userdata" data-append-key="email" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-vertical">
+			<div class="modal-dialog modal-middle" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-user"></span> <span class="text"></span></h4>
+					</div>
+					<div class="modal-body">
+						{% include 'user_edit.html' with {'modal': true} %}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> {{ __('label_add') }}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<form id="articles_edit" method="post" class="form-leftright">
 		{{ filter('form_begin', 'articles_edit') |raw }}
 		{% if article.id %}

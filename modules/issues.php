@@ -235,7 +235,8 @@ on(
                 if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
                 $saved = true;
                 $success = grab('issue_save', $req['post']);
-                if ($success !== false) return trigger('http_redirect', $req['base'] . '/issues/' . $success);
+                $issue = grab('issue', $issueId);
+                if ($success !== false) return trigger('http_redirect', $req['base'] . '/issues/' . $success . '/' . $issue['permalink']);
             };
             if (is_numeric($issueId)) {
                 if (!pass('can', 'view', 'issue', $issueId)) return trigger('http_status', 403);

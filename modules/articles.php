@@ -460,7 +460,7 @@ on(
                     };
                 };
 
-                if ($created) return trigger('http_redirect', $req['base'] . '/articles/' . $articleId);
+                if ($created) return trigger('http_redirect', $req['base'] . '/articles/' . $articleId . '/' . $article['permalink']);
 
                 // Refresh to discover new files
                 if ($uploaded) {
@@ -477,6 +477,8 @@ on(
                         break;
                     };
                 };
+
+                if ($success) return trigger('http_redirect', $req['base'] . '/articles/' . $articleId . '/' . $article['permalink']);
 
                 // Reload to be aware of changes
                 $article = grab('article', $articleId);

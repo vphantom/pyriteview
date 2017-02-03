@@ -3,18 +3,18 @@
 {% if article.id %}
 	{{ title(article.title) }}
 {% endif %}
-{% if saved %}
-	{% if success %}
-		{{ lib.alert(success, __('save_success')) }}
-	{% else %}
-		{{ lib.alert(success, __('save_failure')) }}
-	{% endif %}
-{% endif %}
+
 {% if uploaded %}
+	{% if file_success %}
+		{{ lib.alert(file_success, __('save_success')) }}
+	{% elseif bad_format %}
+		{{ lib.alert(file_success, __('error_fileformat')) }}
+	{% else %}
+		{{ lib.alert(file_success, __('save_failure')) }}
+	{% endif %}
+{% elseif saved %}
 	{% if success %}
 		{{ lib.alert(success, __('save_success')) }}
-	{% elseif bad_format %}
-		{{ lib.alert(success, __('error_fileformat')) }}
 	{% else %}
 		{{ lib.alert(success, __('save_failure')) }}
 	{% endif %}
@@ -54,7 +54,7 @@
 		</div>
 	</div>
 
-	<form id="articles_edit" method="post" class="form-leftright">
+	<form id="articles_edit" method="post" class="form-leftright" enctype="multipart/form-data">
 		{{ filter('form_begin', 'articles_edit') |raw }}
 		{% if article.id %}
 			<input type="hidden" name="id" value="{{ article.id }}">
@@ -113,24 +113,18 @@
 		{% else %}
 			<input type="hidden" name="authors[]" value="{{ session.user.id }}">
 		{% endif %}
+		<span data-label="{{ __('label_files') }}" class="input-like">
+			{% for file in article.files %}
+				{% if pass('can', 'delete', 'article', article.id) %}
+					<a href="{{ req.base }}/articles/{{ article.id }}/{{ file.name }}?unlink=1"><span class="fg-err"><span class="glyphicon glyphicon-minus"></span></span></a>
+				{% endif %}
+				<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
+			{% endfor %}
+			{{ lib.input_files('addfile', 'xs') }}
+		</span>
 		{{ lib.leftright_save(article.id) }}
 	</form>
 
-	{% if article.id %}
-		<form id="articles_file" method="post" class="form-leftright" enctype="multipart/form-data">
-			{{ filter('form_begin', 'articles_file') |raw }}
-			<input type="hidden" name="id" value="{{ article.id }}">
-			<span data-label="{{ __('label_files') }}" class="input-like">
-				{% for file in article.files %}
-					{% if pass('can', 'delete', 'article', article.id) %}
-						<a href="{{ req.base }}/articles/{{ article.id }}/{{ file.name }}?unlink=1"><span class="fg-err"><span class="glyphicon glyphicon-minus"></span></span></a>
-					{% endif %}
-					<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
-				{% endfor %}
-				{{ lib.input_file('addfile', 'xs') }}
-			</span>
-		</form>
-	{% endif %}
 
 	{% if article.id %}
 

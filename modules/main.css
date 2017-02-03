@@ -88,6 +88,10 @@ input, select, textarea {
 	height: auto !important;
 }
 
+.fileupload-multiple {
+	margin-bottom: 3px;
+}
+
 .log-content {
 	padding-left: 10px;
 	padding-right: 20px;

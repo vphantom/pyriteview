@@ -182,12 +182,24 @@
 {% endmacro %}
 
 {% macro input_file(id, size) %}
-	<div class="btn-group{% if size %} btn-group-{{ size }}{% endif %}" role="group">
+	<div class="fileupload-single btn-group{% if size %} btn-group-{{ size }}{% endif %}" role="group">
 		<label for="{{ id }}" class="btn btn-default btn-file{% if size %} btn-{{ size }}{% endif %}">
-			<span class="glyphicon glyphicon-plus"></span> {{ __('label_new_file') }}... <input type="file" id="{{ id }}" name="{{ id }}" class="hidden">
+			<span class="glyphicon glyphicon-plus"></span> {{ __('label_new_file') }}...
+			<input type="file" name="{{ id }}" id="{{ id }}" class="hidden">
 		</label>
-		<span class="btn btn-default{% if size %} btn-{{ size }}{% endif %} disabled" id="{{ id }}_name"></span>
-		<button type="submit" class="btn btn-default{% if size %} btn-{{ size }}{% endif %} disabled" disabled id="{{ id }}_submit"><span class="fg-ok"><span class="glyphicon glyphicon-upload"></span></span> {{ __('label_upload') }}</button>
+		<span class="file-name btn btn-default{% if size %} btn-{{ size }}{% endif %} disabled"></span>
+		<button type="submit" class="btn btn-default{% if size %} btn-{{ size }}{% endif %} disabled" disabled><span class="fg-ok"><span class="glyphicon glyphicon-upload"></span></span> {{ __('label_upload') }}</button>
+	</div>
+{% endmacro %}
+
+{% macro input_files(id, size) %}
+	<div class="fileupload-multiple btn-group{% if size %} btn-group-{{ size }}{% endif %}" data-basename="{{ id }}" data-i="0" role="group">
+		<label class="btn btn-default btn-file{% if size %} btn-{{ size }}{% endif %}">
+			<span class="filelabel-add"><span class="glyphicon glyphicon-plus fg-ok"></span> {{ __('label_new_file') }}...</span>
+			<span class="filelabel-change"><span class="glyphicon glyphicon-file"></span> {{ __('label_file') }}:</span>
+			<input type="file" class="hidden">
+		</label>
+		<span class="file-name btn btn-default{% if size %} btn-{{ size }}{% endif %} disabled"></span>
 	</div>
 {% endmacro %}
 

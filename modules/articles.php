@@ -389,10 +389,12 @@ on(
         // Non-binary request can be for general listing or a specific article
         //
         if ($articleId !== null) {
+            $created = false;
             $uploaded = false;
             $bad_format = true;
             $saved = false;
             $success = false;
+            $file_success = false;
             $history = null;
             if (isset($req['post']['wordCount'])) {
                 if (!pass('form_validate', 'articles_edit')) return trigger('http_status', 440);
@@ -409,34 +411,16 @@ on(
                 $saved = true;
                 $success = grab('article_save', $req['post']);
 
-                if ($success !== false && !is_numeric($articleId)) return trigger('http_redirect', $req['base'] . '/articles/' . $success);
-
-                // Reload to be aware of changes
+                if ($success !== false && !is_numeric($articleId)) {
+                    $articleId = $success;
+                    $created = true;
+                }
+                // Refresh to discover changes/creation before file handling
                 $article = grab('article', $articleId);
-            };
-            if (isset($req['get']['unlink'])) {
-                if (!pass('can', 'delete', 'article', $articleId)) return trigger('http_status', 403);
-                $saved = true;
-                $fname = array_shift($path);
-                foreach ($article['files'] as $file) {
-                    if ($file['name'] === $fname) {
-                        $success = unlink($file['dir'] . '/' . $file['name']);
-                        break;
-                    };
-                };
-
-                // Reload to be aware of changes
-                $article = grab('article', $articleId);
-            };
-            if (is_numeric($articleId)) {
 
                 // Handle file uploads
-                if (isset($req['files']) && isset($req['files']['addfile'])) {
-                    if (!pass('form_validate', 'articles_file')) return trigger('http_status', 440);
-                    if (!(pass('can', 'edit', 'article', $articleId) || pass('can', 'edit', 'issue', $article['issueId']))) return trigger('http_status', 403);
-
+                foreach ($req['files'] as $file) {
                     $uploaded = true;
-                    $file = $req['files']['addfile'];
                     if (in_array($file['type'], $config['file_types'])
                         && in_array($file['extension'], $config['file_extensions'])
                     ) {
@@ -460,7 +444,7 @@ on(
                             $i++;
                         };
                         if (move_uploaded_file($file['tmp_name'], $try)) {
-                            $success = true;
+                            $file_success = true;
                             $pi = pathinfo($try);
                             trigger(
                                 'log',
@@ -474,10 +458,31 @@ on(
                             );
                         };
                     };
-
-                    // Reload to be aware of new files
-                    if ($success) $article = grab('article', $articleId);
                 };
+
+                if ($created) return trigger('http_redirect', $req['base'] . '/articles/' . $articleId);
+
+                // Refresh to discover new files
+                if ($uploaded) {
+                    $article = grab('article', $articleId);
+                };
+            };
+            if (isset($req['get']['unlink'])) {
+                if (!pass('can', 'delete', 'article', $articleId)) return trigger('http_status', 403);
+                $saved = true;
+                $fname = array_shift($path);
+                foreach ($article['files'] as $file) {
+                    if ($file['name'] === $fname) {
+                        $success = unlink($file['dir'] . '/' . $file['name']);
+                        break;
+                    };
+                };
+
+                // Reload to be aware of changes
+                $article = grab('article', $articleId);
+            };
+            if (is_numeric($articleId)) {
+
 
                 // View only from this point
                 if (!(pass('can', 'view', 'article', $articleId)
@@ -504,6 +509,7 @@ on(
                 array(
                     'saved' => $saved,
                     'success' => $success,
+                    'file_success' => $file_success,
                     'uploaded' => $uploaded,
                     'bad_format' => $bad_format,
                     'article' => $article,

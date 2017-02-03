@@ -175,19 +175,63 @@ $().ready(function() {
   });
 
   // Styled file inputs
-  $('label input[type="file"]').each(function() {
-    var id = $(this).attr('id');
+  //
 
-    $('#' + id + '_name').hide();
+  // Single with probable submit button
+  $('.fileupload-single input[type="file"]').each(function() {
+    var widget = $(this).closest('.fileupload-single');
+    var nameTag = widget.find('.file-name');
+    var button = widget.find('button[type="submit"], input[type="submit"]');
+
+    nameTag.hide();
     $(this).on('change', function() {
-      $('#' + id + '_name')
+      nameTag
         .text($(this).val())
         .show()
       ;
-      $('#' + id + '_submit')
+      button
         .removeClass('disabled')
         .attr('disabled', false)
       ;
+    });
+  });
+
+  // Multiple
+  $('.fileupload-multiple input[type="file"]').each(function() {
+    var wid = $(this).closest('.fileupload-multiple');
+    var id = wid.attr('data-basename') + '_' + wid.attr('data-i');
+
+    wid.find('.file-name, .filelabel-change').hide();
+    wid.find('label').attr('for', id);
+    $(this)
+      .attr('name', id)
+      .attr('id', id)
+    ;
+
+    $(this).on('change', function() {
+      var widget = $(this).closest('.fileupload-multiple');
+      var newWidget = widget.clone(true, true);
+      var newInput = newWidget.find('input[type="file"]');
+      var newId;
+
+      newWidget.attr('data-i', parseInt(newWidget.attr('data-i'), 10) + 1);
+      newId = newWidget.attr('data-basename')
+        + '_'
+        + newWidget.attr('data-i')
+      ;
+      newWidget.find('label').attr('for', newId);
+      newInput
+        .attr('name', newId)
+        .attr('id', newId)
+        .val(null)
+      ;
+
+      widget.find('.file-name')
+        .text($(this).val())
+        .show()
+      ;
+      widget.find('.filelabel-add, .filelabel-change').toggle();
+      widget.after('<br />', newWidget);
     });
   });
 

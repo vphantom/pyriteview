@@ -407,7 +407,9 @@ on(
                     $req['post']['userdata'] = array();
                 };
                 $req['post']['authors'] = grab('clean_userids', $req['post']['authors'], $req['post']['userdata']);
-                $req['post']['peers']   = grab('clean_userids', $req['post']['peers'], $req['post']['userdata']);
+                if (isset($req['post']['peers'])) {
+                    $req['post']['peers']   = grab('clean_userids', $req['post']['peers'], $req['post']['userdata']);
+                };
                 $saved = true;
                 $success = grab('article_save', $req['post']);
 

@@ -3,6 +3,7 @@ NPM        := npm
 SQLITE     := sqlite3
 CSS        := node_modules/.bin/cleancss --skip-rebase
 BROWSERIFY := node_modules/.bin/browserify
+EXORCIST   := node_modules/.bin/exorcist
 JS         := node_modules/.bin/uglifyjs >/dev/null --compress --mangle
 JSLINT     := node_modules/.bin/eslint --fix
 GZIP       := gzip -f -n -k -9
@@ -62,7 +63,7 @@ dev-update:	update
 
 clean:
 	rm -f client.css client.css.map client.css.gz
-	rm -f client.js client.js.map client.js.gz
+	rm -f build.js build.js.map client.js client.js.map client.js.gz
 	rm -fr fonts
 	rm -f var/backup.zip var/archive.zip
 
@@ -83,8 +84,9 @@ client.css:	$(CSS_SRC)
 	rm -f $@.tmp
 
 client.js:	$(JS_TOUCH)
-	$(BROWSERIFY) modules/main.js -d -o build.js
-	$(JS) --source-map client.js.map -o client.js -- build.js
+	$(BROWSERIFY) modules/main.js -d |$(EXORCIST) build.js.map >build.js
+	$(JS) --in-source-map build.js.map --source-map client.js.map -o client.js -- build.js
+	rm -f build.js build.js.map
 
 locales/messages.pot:	$(GETTEXT_TEMPLATES)
 	grep -oh -E '__\([^)~]+\)' $(GETTEXT_TEMPLATES) |sort |uniq >var/tmp.src

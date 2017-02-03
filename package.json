@@ -23,6 +23,7 @@
     "browserify": "^13.1.1",
     "clean-css": "^3.4.20",
     "eslint": "^3.9.1",
+    "exorcist": "^0.4.0",
     "jquery": "^2.2.4",
     "parsleyjs": "^2.6.0",
     "selectize": "^0.12.4",

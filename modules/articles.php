@@ -311,10 +311,6 @@ class Articles
                         'objectId' => $res
                     )
                 );
-                if (pass('has_role', 'author')) {
-                    // Authors need explicit rights to their creations
-                    trigger('grant', $_SESSION['user']['id'], null, 'edit', 'article', $res);
-                };
             };
         };
         if ($res !== false) {
@@ -323,6 +319,7 @@ class Articles
                 $deled = array_diff($oldAuthors, $cols['authors']);
                 $added = array_diff($cols['authors'], $oldAuthors);
                 foreach ($added as $author) {
+                    trigger('grant', $author, 'author');
                     trigger('grant', $author, null, 'edit', 'article', $res);
                 };
                 foreach ($deled as $author) {
@@ -335,6 +332,7 @@ class Articles
                 $deled = array_diff($oldPeers, $cols['peers']);
                 $added = array_diff($cols['peers'], $oldPeers);
                 foreach ($added as $peer) {
+                    trigger('grant', $peer, 'peer');
                     trigger('grant', $peer, null, 'review', 'article', $res);
                 };
                 foreach ($deled as $author) {
@@ -403,6 +401,11 @@ on(
                 } else {
                     if (!pass('can', 'create', 'article')) return trigger('http_status', 403);
                 };
+                if (!isset($req['post']['userdata'])) {
+                    $req['post']['userdata'] = array();
+                };
+                $req['post']['authors'] = grab('clean_userids', $req['post']['authors'], $req['post']['userdata']);
+                $req['post']['peers']   = grab('clean_userids', $req['post']['peers'], $req['post']['userdata']);
                 $saved = true;
                 $success = grab('article_save', $req['post']);
 

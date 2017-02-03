@@ -7,7 +7,9 @@ JS         := node_modules/.bin/uglifyjs >/dev/null --compress --mangle
 JSLINT     := node_modules/.bin/eslint --fix
 GZIP       := gzip -f -n -k -9
 
-CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css node_modules/selectize/dist/css/selectize.css node_modules/selectize/dist/css/selectize.bootstrap3.css $(wildcard modules/*.css)
+CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css \
+	node_modules/selectize/dist/css/selectize.css node_modules/selectize/dist/css/selectize.bootstrap3.css \
+	$(wildcard modules/*.css)
 
 JS_TOUCH := $(wildcard modules/*.js)
 
@@ -81,9 +83,8 @@ client.css:	$(CSS_SRC)
 	rm -f $@.tmp
 
 client.js:	$(JS_TOUCH)
-	$(BROWSERIFY) modules/main.js -d -o bundle.js
-	$(JS) --source-map client.js.map -o client.js -- bundle.js
-	rm -f bundle.js
+	$(BROWSERIFY) modules/main.js -d -o build.js
+	$(JS) --source-map client.js.map -o client.js -- build.js
 
 locales/messages.pot:	$(GETTEXT_TEMPLATES)
 	grep -oh -E '__\([^)~]+\)' $(GETTEXT_TEMPLATES) |sort |uniq >var/tmp.src

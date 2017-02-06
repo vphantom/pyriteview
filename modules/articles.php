@@ -122,15 +122,18 @@ class Articles
                  * Try to open config.articles.path '/' article.number '/' article.id as directory
                  */
                 $article['files'] = array();
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 foreach (glob("{$config['path']}/{$article['number']}/{$article['id']}/*.*") as $fname) {
                     $bytes = filesize($fname);
                     $pi = pathinfo($fname);
                     $article['files'][] = array(
                         'dir' => $pi['dirname'],
                         'name' => $pi['basename'],
-                        'bytes' => $bytes
+                        'bytes' => $bytes,
+                        'type' => finfo_file($finfo, $fname)
                     );
                 };
+                finfo_close($finfo);
             };
         } else {
             return array();
@@ -373,8 +376,7 @@ on(
 
             foreach ($article['files'] as $file) {
                 if ($file['name'] === $fname) {
-                    header('Content-Type: application/octet-stream');
-                    header('Content-Disposition: attachment; filename="'.$fname.'"');
+                    header('Content-Type: ' . $file['type']);
                     header('Expires: 0');
                     header('Cache-Control: must-revalidate');
                     header('Pragma: public');

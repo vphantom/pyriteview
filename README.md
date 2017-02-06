@@ -2,11 +2,11 @@
 
 Article versioning hub for peer-reviewed publications.
 
-This simple hub allows publication editors, single edition editors, article authors as well as third-party reviewers to come together to centralize the peer-reviewing workflow.  It was developed as a multilingual application in English and French, and 100% of linguistic content is in templates, so translating to new languages should be fairly easy.
+This simple hub allows publication editors, single edition editors, article authors as well as third-party reviewers to come together to centralize the peer-reviewing workflow.  It was developed as a multilingual application in English and French, and 100% of linguistic content is in templates and dedicated "locale" files, so translating to new languages should be very easy.
 
 ### Why the name "Pyrite"?
 
-"PyriteView" is a play on the words "Peer Review".  The [PyritePHP](https://github.com/vphantom/pyrite-php) framework which it uses was originally created specifically for this application.
+"PyriteView" is a bilingual play on the words "Peer Review".  The [PyritePHP](https://github.com/vphantom/pyrite-php) framework which it uses was originally created specifically for this application.
 
 ### CURRENTLY UNDER ACTIVE DEVELOPMENT!
 
@@ -14,7 +14,9 @@ As of December 2016, PyriteView is under active development towards its initial 
 
 ## Usage
 
-TODO
+After installation, just point your browser to your freshly configured server and log in using the account you just created.
+
+**Power user login:** if you want to use your password instead of e-mail validation, just hit the _TAB_ key after typing your e-mail address, which will reveal the password field.
 
 
 ## Installation
@@ -100,10 +102,41 @@ You will also need to make sure that your web server or PHP process has read-wri
 
 While the structure of the framework isn't upgradeable since it consisted of a simple starting point for your own application, the bulk of the core components is safely packaged in NPM and Packagist (Composer).  Therefore, `make update` should provide all the bug fixes you'll need down the road.
 
+## Acknowledgements
+
+This application would not have been possible within a reasonable time frame without the help of the following:
+
+### Server-side
+
+* The PHP language
+* The SQLite database engine
+* The Sphido Events library to facilitate event-driven design
+* The Twig PHP templating library
+* The 100% PHP Gettext implementation
+
+### Client-side
+
+#### Frameworks
+
+* jQuery 2
+* Twitter Bootstrap 3, including its gracious Glyphicon license
+
+#### Utilities
+
+* ParsleyJS to validate forms client-side
+* Selectize to create rich, interactive form inputs
+* Timeago to display human-readable timestamp descriptions
+
+### Build Tools
+
+* Browserify
+* Clean-CSS
+* Uglify-JS
+
 
 ## Developers
 
-See [Developers](DEVELOPERS.md).  For more information on the framework used to build this application, see related project [PyritePHP](https://github.com/vphantom/pyrite-php).
+For more information on the framework used to build this application, see related project [PyritePHP](https://github.com/vphantom/pyrite-php).
 
 
 ## GNU Affero GPL v3.0 License

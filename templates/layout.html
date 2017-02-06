@@ -16,7 +16,7 @@
 
 {% block body %}
 		{% if req.redirect %}
-		<meta http-equiv="refresh" content="0; url={{ req.redirect }}">
+			<meta http-equiv="refresh" content="{% if config.global.debug %}5{% else %}0{% endif %}; url={{ req.redirect }}">
 		{% endif %}
 		<title>{{ title }}</title>
 	</head>

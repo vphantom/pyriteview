@@ -7,13 +7,14 @@ EXORCIST   := node_modules/.bin/exorcist
 JS         := node_modules/.bin/uglifyjs >/dev/null --compress --mangle
 JSLINT     := node_modules/.bin/eslint --fix
 GZIP       := gzip -f -n -k -9
+LANGUAGES  := `sed '/^languages\s*=/!d; s/^languages\s*=\s*"\([^"]*\)"\s*$$/\1/' config.ini |head -n1`
 
 CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css \
 	node_modules/selectize/dist/css/selectize.css node_modules/selectize/dist/css/selectize.bootstrap3.css \
 	$(wildcard vendor/vphantom/pyritephp-core/assets/*.css) \
 	$(wildcard modules/*.css)
 
-JS_SRC := pyritephp.js $(wildcard modules/*.js)
+JS_SRC := pyritephp.js locales/loader.js $(wildcard modules/*.js)
 
 GETTEXT_TEMPLATES := $(wildcard templates/lib templates/*.html templates/*/lib templates/*/*.html)
 
@@ -85,7 +86,7 @@ client.css:	$(CSS_SRC)
 	rm -f $@.tmp
 
 client.js:	$(JS_SRC)
-	$(BROWSERIFY) pyritephp.js modules/main.js -d |$(EXORCIST) build.js.map >build.js
+	$(BROWSERIFY) $^  -d |$(EXORCIST) build.js.map >build.js
 	$(JS) --in-source-map build.js.map --source-map client.js.map -o client.js -- build.js
 	rm -f build.js build.js.map
 
@@ -103,6 +104,15 @@ locales/%.po:	locales/messages.pot $(GETTEXT_TEMPLATES)
 	if [ ! -e "$@" ]; then cp "$<" "$@"; fi
 	msgmerge  -N --update "$@" "$<"
 	touch $@
+
+locales/loader.js:	config.ini
+	@echo "'use strict';" >$@
+	@for LANG in $(LANGUAGES); do \
+		if [ $$LANG != 'en' ]; then \
+			echo "global.__timeago.register('$${LANG}', require('timeago.js/locales/$${LANG}'));" >>$@ ; \
+			echo "require('parsleyjs/dist/i18n/$${LANG}');" >>$@ ; \
+		fi ; \
+	done
 
 var/main.sql:	var/main.db
 	sqlite3 $^ .dump |grep -Ev '^(PRAGMA|BEGIN|COMMIT)' >$@

@@ -1,4 +1,5 @@
 locales/*~
+locales/loader.js
 bin
 node_modules
 pyritephp.js

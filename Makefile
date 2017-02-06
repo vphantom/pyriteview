@@ -10,9 +10,10 @@ GZIP       := gzip -f -n -k -9
 
 CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css \
 	node_modules/selectize/dist/css/selectize.css node_modules/selectize/dist/css/selectize.bootstrap3.css \
+	$(wildcard vendor/vphantom/pyritephp-core/assets/*.css) \
 	$(wildcard modules/*.css)
 
-JS_TOUCH := $(wildcard modules/*.js)
+JS_SRC := pyritephp.js $(wildcard modules/*.js)
 
 GETTEXT_TEMPLATES := $(wildcard templates/lib templates/*.html templates/*/lib templates/*/*.html)
 
@@ -83,10 +84,13 @@ client.css:	$(CSS_SRC)
 	cat $@.tmp |sed 's/\.\.\/\(fonts\)/\1/g' >$@
 	rm -f $@.tmp
 
-client.js:	$(JS_TOUCH)
-	$(BROWSERIFY) modules/main.js -d |$(EXORCIST) build.js.map >build.js
+client.js:	$(JS_SRC)
+	$(BROWSERIFY) pyritephp.js modules/main.js -d |$(EXORCIST) build.js.map >build.js
 	$(JS) --in-source-map build.js.map --source-map client.js.map -o client.js -- build.js
 	rm -f build.js build.js.map
+
+pyritephp.js:	vendor/vphantom/pyritephp-core/assets/pyritephp.js
+	cp $^ $@
 
 locales/messages.pot:	$(GETTEXT_TEMPLATES)
 	grep -oh -E '__\([^)~]+\)' $(GETTEXT_TEMPLATES) |sort |uniq >var/tmp.src

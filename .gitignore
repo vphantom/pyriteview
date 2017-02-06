@@ -1,5 +1,6 @@
 locales/*~
 bin
 node_modules
+pyritephp.js
 var
 vendor

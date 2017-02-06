@@ -11,7 +11,7 @@ LANGUAGES  := `sed '/^languages\s*=/!d; s/^languages\s*=\s*"\([^"]*\)"\s*$$/\1/'
 
 CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css \
 	node_modules/selectize/dist/css/selectize.css node_modules/selectize/dist/css/selectize.bootstrap3.css \
-	$(wildcard vendor/vphantom/pyritephp-core/assets/*.css) \
+	$(wildcard vendor/vphantom/pyritephp/assets/*.css) \
 	$(wildcard modules/*.css)
 
 JS_SRC := pyritephp.js locales/loader.js $(wildcard modules/*.js)

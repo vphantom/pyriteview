@@ -23,7 +23,7 @@ After installation, just point your browser to your freshly configured server an
 
 ### Download
 
-To get the latest stable release, download and unpack a [release archive file](releases/).
+To get the latest stable release, download and unpack a [release archive file](https://github.com/vphantom/pyriteview/releases).
 
 ### Requirements
 

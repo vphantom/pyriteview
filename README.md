@@ -130,7 +130,7 @@ This application would not have been possible within a reasonable time frame wit
 
 ## Developers
 
-For more information on the framework used to build this application, see related project [PyritePHP](https://github.com/vphantom/pyrite-php).
+For more information on the framework used to build this application, see related project [PyritePHP](https://github.com/vphantom/pyritephp).
 
 
 ## GNU Affero GPL v3.0 License

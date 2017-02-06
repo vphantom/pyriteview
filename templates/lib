@@ -37,12 +37,12 @@
 {% macro format_status(status) -%}
 	{%- if status == 'created' -%}
 		<span class="glyphicon glyphicon-star fg-new"></span> {{ __('status_created') }}
-	{%- elseif status == 'dispatched_review' -%}
-		<span class="glyphicon glyphicon-time fg-pending"></span> {{ __('status_dispatched_review') }}
-	{%- elseif status == 'accepted_with_condition' -%}
-		<span class="glyphicon glyphicon-flag fg-stalled"></span> {{ __('status_accepted_with_condition') }}
-	{%- elseif status == 'accepted' -%}
-		<span class="glyphicon glyphicon-ok fg-ok"></span> {{ __('status_accepted') }}
+	{%- elseif status == 'reviewing' -%}
+		<span class="glyphicon glyphicon-time fg-pending"></span> {{ __('status_reviewing') }}
+	{%- elseif status == 'revision' -%}
+		<span class="glyphicon glyphicon-flag fg-stalled"></span> {{ __('status_revision') }}
+	{%- elseif status == 'approved' -%}
+		<span class="glyphicon glyphicon-ok fg-ok"></span> {{ __('status_approved') }}
 	{%- elseif status == 'printing' -%}
 		<span class="glyphicon glyphicon-flag fg-stalled"></span> {{ __('status_printing') }}
 	{%- elseif status == 'published' -%}

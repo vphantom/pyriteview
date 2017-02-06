@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 12:24-0500\n"
-"PO-Revision-Date: 2017-02-03 14:03-0500\n"
+"POT-Creation-Date: 2017-02-06 16:37-0500\n"
+"PO-Revision-Date: 2017-02-06 16:46-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -356,11 +356,11 @@ msgstr ""
 msgid "save_success"
 msgstr "Saved successfully."
 
-msgid "status_accepted"
-msgstr "accepted"
+msgid "status_revision"
+msgstr "asked revisions"
 
-msgid "status_accepted_with_condition"
-msgstr "accepted with conditions"
+msgid "status_approved"
+msgstr "approved"
 
 msgid "status_created"
 msgstr "created"
@@ -368,17 +368,17 @@ msgstr "created"
 msgid "status_deleted"
 msgstr "deleted"
 
-msgid "status_dispatched_review"
-msgstr "being evaluated"
-
 msgid "status_printing"
-msgstr "being printed"
+msgstr "sent to press"
 
 msgid "status_published"
 msgstr "published"
 
 msgid "status_rejected"
 msgstr "rejected"
+
+msgid "status_reviewing"
+msgstr "sent for review"
 
 msgid "status_unknown"
 msgstr "unknown status"

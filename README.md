@@ -6,11 +6,11 @@ This simple hub allows publication editors, single edition editors, article auth
 
 ### Why the name "Pyrite"?
 
-"PyriteView" is a bilingual play on the words "Peer Review".  The [PyritePHP](https://github.com/vphantom/pyrite-php) framework which it uses was originally created specifically for this application.
+"PyriteView" is a bilingual play on the words "Peer Review".  The [PyritePHP](https://github.com/vphantom/pyritephp) framework which it uses was originally created specifically for this application.
 
 ### CURRENTLY UNDER ACTIVE DEVELOPMENT!
 
-As of December 2016, PyriteView is under active development towards its initial features list.  You should probably wait until we release version 1.0 before looking too much into this.
+As of February 2017, PyriteView is under active development towards its initial features list.  You should probably wait until we release version 1.0 before looking too much into this.
 
 ## Usage
 
@@ -21,13 +21,27 @@ After installation, just point your browser to your freshly configured server an
 
 ## Installation
 
+### Download
+
+To get the latest stable release, download and unpack a [release archive file](releases/).
+
 ### Requirements
 
-* PHP 5.x or later
+* PHP 5.5 or later
 * PHP extension modules: mbstring, mcrypt, pdo_sqlite, readline
 * SQLite 3
 * Typical Linux command line tools: make, wget, gzip
 * A web server of course
+
+### Configuration
+
+Edit `config.ini` to change any defaults as needed.
+
+### Create directories and empty database
+
+Run `make init`.  This will automatically download and set up PHP's Composer package manager, then use it to download runtime dependencies locally.  Finally, it will create the database tables and the administrative user so you can log into your new installation.  You will be prompted on the command line for an e-mail address and password to use for that unrestricted account.  (**NOTE:** This prompt requires PHP's `readline`, so *it will not work on Windows*.)
+
+You will also need to make sure that your web server or PHP process has read-write access to the `var/` directory where the database, logs and template cache are stored.
 
 ### Web Server Configuration
 
@@ -76,26 +90,6 @@ url.rewrite-if-not-file (
     "^/(.*)$" => "/index.php/$1"
 )
 ```
-
-### First-time initialization
-
-#### Download
-
-Clone or unzip this repository into the document root of the web site this will become.  Alternatively, you can use Composer to create this root directory for you, for example if you want to create `foo/`:
-
-```sh
-$ composer create-project vphantom/pyriteview foo
-```
-
-#### Configure
-
-Edit `config.ini` to change any defaults as needed.
-
-#### Create directories and empty database
-
-Run `make init`.  This will automatically download and set up PHP's Composer package manager, then use it to download runtime dependencies locally.  Finally, it will create the database tables and the administrative user so you can log into your new installation.  You will be prompted on the command line for an e-mail address and password to use for that unrestricted account.  (**NOTE:** This prompt requires PHP's `readline`, so *it will not work on Windows*.)
-
-You will also need to make sure that your web server or PHP process has read-write access to the `var/` directory where the database, logs and template cache are stored.
 
 
 ## Updating

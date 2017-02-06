@@ -19,11 +19,6 @@ GETTEXT_TEMPLATES := $(wildcard templates/lib templates/*.html templates/*/lib t
 
 BUILD_TARGETS := client.css.gz client.js.gz fonts locales/fr.po locales/en.po
 
-BUILD_FILES := client.css.gz client.css client.js.gz client.js favicon.* fonts \
-	locales/*.po locales/*.pot \
-	modules/*.php templates \
-	README.md LICENSE.txt Makefile config.ini composer.*
-
 BACKUP_TARGETS := var/main.sql var/main.db config.ini
 
 help:
@@ -74,9 +69,6 @@ clean:
 	rm -f var/backup.zip var/archive.zip
 
 build:	$(BUILD_TARGETS)
-	rm -f build.zip build.tar.gz
-	zip -r9 build.zip $(BUILD_FILES)
-	tar -zcf build.tar.gz $(BUILD_FILES)
 
 backup:	deps var/backup.zip
 

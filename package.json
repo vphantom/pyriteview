@@ -27,6 +27,7 @@
     "jquery": "^2.2.4",
     "parsleyjs": "^2.6.0",
     "selectize": "^0.12.4",
+    "summernote": "^0.8.2",
     "timeago.js": "^2.0.3",
     "uglify-js": "^2.7.4"
   }

@@ -9,8 +9,12 @@ JSLINT     := node_modules/.bin/eslint --fix
 GZIP       := gzip -f -n -k -9
 LANGUAGES  := `sed '/^languages\s*=/!d; s/^languages\s*=\s*"\([^"]*\)"\s*$$/\1/' config.ini |head -n1`
 
+FONT_SRC := $(wildcard node_modules/bootstrap/dist/fonts/*.*) \
+	$(wildcard node_modules/summernote/dist/font/*.*)
+
 CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css \
 	node_modules/selectize/dist/css/selectize.css node_modules/selectize/dist/css/selectize.bootstrap3.css \
+	node_modules/summernote/dist/summernote.css \
 	$(wildcard vendor/vphantom/pyritephp/assets/*.css) \
 	$(wildcard modules/*.css)
 
@@ -75,14 +79,16 @@ backup:	deps var/backup.zip
 
 archive:	deps var/archive.zip
 
-fonts:
-	cp -r node_modules/bootstrap/dist/fonts $@
+fonts:	$(FONT_SRC)
+	mkdir -p fonts
+	cp $^ $@/
 
 # Bootstrap hard-codes "../fonts/" which we need to clean up
+# Similarly, Summertime hard-codes "font/" whereas we need "fonts/"
 client.css:	$(CSS_SRC)
 	$(CSS) --source-map -o $@ $^
 	mv $@ $@.tmp
-	cat $@.tmp |sed 's/\.\.\/\(fonts\)/\1/g' >$@
+	cat $@.tmp |sed 's/url(font/url(fonts/g; s/\.\.\/\(fonts\)/\1/g' >$@
 	rm -f $@.tmp
 
 client.js:	$(JS_SRC)
@@ -107,10 +113,12 @@ locales/%.po:	locales/messages.pot $(GETTEXT_TEMPLATES)
 
 locales/loader.js:	config.ini
 	@echo "'use strict';" >$@
-	@for LANG in $(LANGUAGES); do \
+	@declare -A LOCALES=(["ar"]="ar-AR" ["bg"]="bg-BG" ["ca"]="ca-ES" ["cs"]="cs-CZ" ["da"]="da-DK" ["de"]="de-DE" ["es"]="es-ES" ["fa"]="fa-IR" ["fi"]="fi-FI" ["fr"]="fr-FR" ["gl"]="gl-ES" ["he"]="he-IL" ["hr"]="hr-HR" ["hu"]="hu-HU" ["id"]="id-ID" ["it"]="it-IT" ["ja"]="ja-JP" ["ko"]="ko-KR" ["lt"]="lt-LT" ["nb"]="nb-NO" ["nl"]="nl-NL" ["pl"]="pl-PL" ["pt"]="pt-PT" ["ro"]="ro-RO" ["ru"]="ru-RU" ["sk"]="sk-SK" ["sl"]="sl-SI" ["sv"]="sv-SE" ["th"]="th-TH" ["tr"]="tr-TR" ["uk"]="uk-UA" ["vi"]="vi-VN" ["zh"]="zh-CN"); \
+	for LANG in $(LANGUAGES); do \
 		if [ $$LANG != 'en' ]; then \
 			echo "global.__timeago.register('$${LANG}', require('timeago.js/locales/$${LANG}'));" >>$@ ; \
 			echo "require('parsleyjs/dist/i18n/$${LANG}');" >>$@ ; \
+			echo "require('summernote/lang/summernote-$${LOCALES[$$LANG]}');" >>$@ ; \
 		fi ; \
 	done
 

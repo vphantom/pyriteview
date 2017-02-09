@@ -112,6 +112,12 @@
 	{%- endif -%}
 	<span class="label label-{{ v }}">{{ lib.format_role(role, flat) }}</span>
 {%- endmacro %}
+{% macro label_roles(roles, flat) %}
+	{% import _self as lib %}
+	{% for role in roles %}
+		{{ lib.label_role(role, flat) }}
+	{% endfor %}
+{% endmacro %}
 
 {% macro format_issue(issue, flat) -%}
 	{%- set req = grab('request') -%}

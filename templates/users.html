@@ -45,11 +45,7 @@
 					{% endif %}
 				</td>
 				<td class="fit">{{ lib.format_email(user.email) }}</td>
-				<td class="fit">
-					{% for role in roles %}
-						{{ lib.label_role(role) }}
-					{% endfor %}
-				</td>
+				<td class="fit">{{ lib.label_roles(roles) }}</td>
 				<td>{{ lib.format_timestamp(login.localtimestamp) }}{% if login.ip %} {{ __('label_since') }} {{ lib.format_ip(login.ip) }}{% endif %}</td>
 			</tr>
 			{% endfor %}

@@ -58,10 +58,14 @@
 
 {% macro format_user(user, flat, nohtml) -%}
 	{%- set req = grab('request') -%}
-	{%- if not user.id and not user == 0 -%}
-		{%- set user = grab('user_resolve', user) -%}
+	{%- if not user.id -%}
+		{%- if user == 0 -%}
+			{%- set user = {id: 0} -%}
+		{%- else -%}
+			{%- set user = grab('user_resolve', user) -%}
+		{%- endif -%}
 	{%- endif -%}
-	{%- if user == 0 -%}
+	{%- if user and user.id == 0 -%}
 		<span class="glyphicon glyphicon-user"></span>{{ __('user_zero') }}
 	{%- else -%}
 		{%- if user != false -%}

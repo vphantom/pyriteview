@@ -5,17 +5,16 @@
 		inscrire.
 	</p>
 
-	<p><a class="btn btn-primary btn-lg" type="button" href="{{ req.base }}/register">Inscription &raquo;</a></p>
+	<p><a class="btn btn-primary btn-lg" type="button" href="{{ req.base }}/register">{{ __('title_register') }} &raquo;</a></p>
+
+	<p>
+		Si votre compte n'a pas de mot de passe ou vous préférez ne pas
+		l'utiliser, entrez simplement votre courriel ci-dessus.
+	</p>
 
 	<p>
 		Si vous avez déjà un compte mais avez oublié votre mot de passe,
 		<a href="{{ req.base }}/password_reset">cliquez ici</a>.
-	</p>
-
-	<p>
-		Ou encore, si vous n'avez pas de mot de passe ou préférez ne pas
-		l'utiliser, entrez simplement votre courriel et laissez le mot de passe
-		vide, ci-dessus.
 	</p>
 {% endblock %}
 

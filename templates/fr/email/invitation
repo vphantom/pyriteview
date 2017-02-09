@@ -2,21 +2,6 @@
 Invitation à joindre {{ config.global.name }}
 {% endblock %}
 
-
-{% block text %}
-Bonjour,
-
-Vous êtes invités à vous joindre à {{ config.global.name }}, où ce courriel a été ajouté.
-Veuillez copier et coller le lien ci-dessous dans votre navigateur pour
-accéder à votre nouveau compte:
-
-{{ req.protocol }}://{{ req.host }}/
-
-Merci,
-{{ config.global.name }}
-{% endblock %}
-
-
 {% block html %}
 <p>Bonjour,</p>
 <p>

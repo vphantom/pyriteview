@@ -2,27 +2,6 @@
 {{ config.global.name }} - Confirmation de compte
 {% endblock %}
 
-
-{% block text %}
-Bonjour,
-
-Ce message est pour confirmer que vous contrôlez bien cette adresse de
-courriel.  Si vous avez fait cette demande, copiez et collez le lien
-ci-dessous dans votre navigateur pour continuer:
-
-{{ req.protocol }}://{{ req.host }}/{{ validation_link |raw }}
-
-Si vous n'avez pas demandé cette vérification, vous pouvez sans danger ignorer
-ce message.  Pour en savoir plus sur l'adresse IP d'où provient cette demande,
-consultez:
-
-http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}
-
-Merci,
-{{ config.global.name }}
-{% endblock %}
-
-
 {% block html %}
 <p>Hello,</p>
 <p>

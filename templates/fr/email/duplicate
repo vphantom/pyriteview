@@ -2,29 +2,6 @@
 {{ config.global.name }} - Compte déjà existant
 {% endblock %}
 
-
-{% block text %}
-Bonjour,
-
-Ce message est pour vous informer que vous ou quelqu'un d'autre avez tenté de
-créer un compte pour cette adresse de courriel, mais il existe déjà.  Si vous
-avez fait cette demande, peut-être avez-vous simplement oublié votre mot de
-passe?  Dans ce cas, copiez et collez le lien ci-dessous dans votre navigateur
-pour réinitialiser votre mot de passe:
-
-{{ req.protocol }}://{{ req.host }}/password_reset
-
-Si vous n'avez pas demandé cette vérification, vous pouvez sans danger ignorer
-ce message.  Pour en savoir plus sur l'adresse IP d'où provient cette demande,
-consultez:
-
-http://www.ip-adress.com/ip_tracer/{{ req.remote_addr }}
-
-Merci,
-{{ config.global.name }}
-{% endblock %}
-
-
 {% block html %}
 <p>Bonjour,</p>
 <p>

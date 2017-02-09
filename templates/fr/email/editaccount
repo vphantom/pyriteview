@@ -2,22 +2,6 @@
 {{ config.global.name }} - Modifications au compte
 {% endblock %}
 
-
-{% block text %}
-Bonjour,
-
-Ce message est pour vous informer que l'adresse de courriel et/ou le mot de
-passe de votre compte ont été modifiés.  Vous n'avez pas d'autre action à
-prendre.
-
-Si vous n'avez pas demandé cette modification, veuillez nous contacter sans
-tarder pour nous permettre de regarder ce qui s'est passé.
-
-Merci,
-{{ config.global.name }}
-{% endblock %}
-
-
 {% block html %}
 <p>Bonjour,</p>
 <p>

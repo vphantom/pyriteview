@@ -30,7 +30,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
-						{% if session.outbox|length > 0 %}
+						{% if pass('can', 'edit', 'email') and session.outbox|length > 0 %}
 							<span class="badge badge-hamburger">{{ session.outbox|length }}</span>
 						{% endif %}
 					</button>
@@ -44,31 +44,33 @@
 					</ul>
 					{% if session.identified %}
 					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="{{ req.base }}/outbox" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-envelope"></span>{% if session.outbox|length > 0 %}<span class="badge badge-subscript">{{ session.outbox|length }}</span>{% endif %} <span class="caret"></span></a>
-							<ul class="dropdown-menu dropdown-messages">
-								{% for email in session.outbox %}
+						{% if pass('can', 'edit', 'email') %}
+							<li class="dropdown">
+								<a href="{{ req.base }}/outbox" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-envelope"></span>{% if session.outbox|length > 0 %}<span class="badge badge-subscript">{{ session.outbox|length }}</span>{% endif %} <span class="caret"></span></a>
+								<ul class="dropdown-menu dropdown-messages">
+									{% for email in session.outbox %}
+										<li>
+											<a href="{{ req.base }}/outbox/{{ email.id }}">
+												<div>
+													<strong>{{ lib.format_user(email.recipients[0], true) }}</strong>
+													<span class="pull-right text-muted">
+														<em>{{ lib.format_timestamp(email.localmodified) }}</em>
+													</span>
+												</div>
+												<div>{{ email.subject }}</div>
+											</a>
+										</li>
+										<li class="divider"></li>
+									{% endfor %}
 									<li>
-										<a href="{{ req.base }}/outbox/{{ email.id }}">
-											<div>
-												<strong>{{ lib.format_user(email.recipients[0], true) }}</strong>
-												<span class="pull-right text-muted">
-													<em>{{ lib.format_timestamp(email.localmodified) }}</em>
-												</span>
-											</div>
-											<div>{{ email.subject }}</div>
+										<a class="text-center" href="{{ req.base }}/outbox">
+											<strong>{{ __('title_outbox') }}</strong>
+											<span class="glyphicon glyphicon-chevron-right"></span>
 										</a>
 									</li>
-									<li class="divider"></li>
-								{% endfor %}
-								<li>
-									<a class="text-center" href="{{ req.base }}/outbox">
-										<strong>{{ __('title_outbox') }}</strong>
-										<span class="glyphicon glyphicon-chevron-right"></span>
-									</a>
-								</li>
-							</ul>
-						</li>
+								</ul>
+							</li>
+						{% endif %}
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ session.user.name }} <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
 							<ul class="dropdown-menu">

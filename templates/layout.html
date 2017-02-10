@@ -29,6 +29,9 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
+						{% if session.mailq|length > 0 %}
+							<span class="badge badge-hamburger">{{ session.mailq|length }}</span>
+						{% endif %}
 					</button>
 					<a class="navbar-brand" href="{{ req.base }}/">{{ config.global.name }}</a>
 				</div>
@@ -40,6 +43,31 @@
 					</ul>
 					{% if session.identified %}
 					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="{{ req.base }}/outbox" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-envelope"></span>{% if session.mailq|length > 0 %}<span class="badge badge-subscript">{{ session.mailq|length }}</span>{% endif %} <span class="caret"></span></a>
+							<ul class="dropdown-menu dropdown-messages">
+								{% for email in session.mailq %}
+									<li>
+										<a href="{{ req.base }}/outbox/{{ email.id }}">
+											<div>
+												<strong>{{ lib.format_user(email.to[0], true) }}</strong>
+												<span class="pull-right text-muted">
+													<em>{{ lib.format_timestamp(email.modified) }}</em>
+												</span>
+											</div>
+											<div>{{ email.subject }}</div>
+										</a>
+									</li>
+									<li class="divider"></li>
+								{% endfor %}
+								<li>
+									<a class="text-center" href="{{ req.base }}/outbox">
+										<strong>{{ __('title_outbox') }}</strong>
+										<span class="glyphicon glyphicon-chevron-right"></span>
+									</a>
+								</li>
+							</ul>
+						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ session.user.name }} <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
 							<ul class="dropdown-menu">

@@ -1,0 +1,49 @@
+{% import 'lib' as lib %}
+{% use 'blocks.html' %}
+{{ title(__('title_outbox')) }}
+{% if sent %}
+	{% if success %}
+		{{ lib.alert(success, __('send_success')) }}
+	{% else %}
+		{{ lib.alert(success, __('send_failure')) }}
+	{% endif %}
+{% endif %}
+
+<h2 class="page-header"><span class="glyphicon glyphicon-envelope"></span> {{ __('title_outbox') }}</h2>
+
+{% if not pass('can', 'edit', 'email') %}
+	{% exit %}
+{% endif %}
+
+{{ block('hint_outbox') }}
+
+{% if session.mailq %}
+	{% include 'outbox_list.html' with {'emails': session.mailq} %}
+{% endif %}
+
+{% if email %}
+	<form id="outbox_edit" method="post" class="form-tight">
+		{{ filter('form_begin', 'outbox_edit') |raw }}
+		{% if email.id %}
+			<input type="hidden" name="id" value="{{ email.id }}">
+		{% endif %}
+		<div class="form-group">
+			{{ lib.select_users(__('email_to'), false, email.to) }}
+		</div>
+		<div class="form-group">
+			{{ lib.select_users(__('email_cc'), false, email.cc) }}
+		</div>
+		<div class="form-group">
+			{{ lib.select_users(__('email_bcc'), false, email.bcc) }}
+		</div>
+		<div class="form-group">
+			<input data-colsize="12" data-label="{{ __('label_subject') }}" type="text" id="subject" required>
+		</div>
+		<div class="form-group">
+			<div class="input-block col-sm-12">
+				<textarea name="content" class="rich-edit">{{ email.content }}</textarea>
+			</div>
+		</div>
+		<button type="submit"><span class="glyphicon glyphicon-send fg-ok"></span> {{ __('label_send') }}</button>
+	</form>
+{% endif %}

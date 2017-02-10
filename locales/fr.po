@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-08 11:38-0500\n"
-"PO-Revision-Date: 2017-02-08 12:40-0500\n"
+"POT-Creation-Date: 2017-02-10 09:25-0500\n"
+"PO-Revision-Date: 2017-02-10 09:50-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -29,6 +29,15 @@ msgstr "Article inconnu"
 
 msgid "bytes"
 msgstr "octets"
+
+msgid "email_bcc"
+msgstr "Copie carbone invisible"
+
+msgid "email_cc"
+msgstr "Copie carbone"
+
+msgid "email_to"
+msgstr "Destinataires"
 
 msgid "error_activation_body"
 msgstr "Le lien d'activation est expiré ou invalide."
@@ -278,11 +287,17 @@ msgstr "Publication"
 msgid "label_save"
 msgstr "Sauvegarder"
 
+msgid "label_send"
+msgstr "Envoyer"
+
 msgid "label_since"
 msgstr "depuis"
 
 msgid "label_status"
 msgstr "État"
+
+msgid "label_subject"
+msgstr "Sujet"
 
 msgid "label_title"
 msgstr "Titre"
@@ -301,6 +316,9 @@ msgstr "Usager"
 
 msgid "label_wordcount"
 msgstr "Nombre de mots"
+
+msgid "no_emails"
+msgstr "Aucun message"
 
 msgid "no_issues"
 msgstr "Aucun numéro"
@@ -365,6 +383,12 @@ msgstr ""
 msgid "save_success"
 msgstr "Sauvegarde réussie."
 
+msgid "send_failure"
+msgstr "Une erreur est survenue dans la tentative d'envoi du message."
+
+msgid "send_success"
+msgstr "Envoi réussi."
+
 msgid "status_approved"
 msgstr "approuvé"
 
@@ -422,6 +446,9 @@ msgstr "Numéros"
 msgid "title_newarticle"
 msgstr "Nouvel article"
 
+msgid "title_outbox"
+msgstr "Boîte d'envoi"
+
 msgid "title_prefs"
 msgstr "Préférences"
 
@@ -451,6 +478,9 @@ msgstr "Usager inconnu"
 
 msgid "user_zero"
 msgstr "Le système"
+
+#~ msgid "title_mail"
+#~ msgstr "Courriel"
 
 #~ msgid "hint_selectmulti"
 #~ msgstr "Cliquer pour chercher ou choisir"

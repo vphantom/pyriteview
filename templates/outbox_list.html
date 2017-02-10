@@ -1,0 +1,18 @@
+{% import 'lib' as lib %}
+{% set currentEmail = email.id |default(0) %}
+<div class="table-responsive inbox">
+	<table class="table table-condensed table-hover">
+		<tbody>
+			{% for email in emails %}
+				<tr{% if email.id == currentEmail %} class="warning"{% endif %}>
+					<td class="col-sm-3"><div class="window"><a href="{{ req.base }}/outbox/{{ email.id }}">{{ lib.format_users(email.to, true) }}</a></div></td>
+					<td class="widest"><div class="window"><a href="{{ req.base }}/outbox/{{ email.id }}">{{ lib.label_roles(email.roles, true) }} {{ email.subject }}</a></div></td>
+					<td class="time">{{ lib.format_timestamp(email.modified) }}</td>
+				</tr>
+			{% endfor %}
+			{% if rights|length == 0 %}
+				<tr><td colspan="3"><em>{{ __('no_emails') }}</em></td></tr>
+			{% endif %}
+		</tbody>
+	</table>
+</div>

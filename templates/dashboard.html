@@ -5,6 +5,19 @@
 <div class="row">
 	<div class="col-lg-7">
 
+		{% if session.mailq and session.mailq|length > 0 %}
+			<!-- Outbox Panel -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a href="{{ req.base }}/outbox"><span class="glyphicon glyphicon-envelope"></span> {{ __('title_outbox') }}</a>
+				</div>
+				<div class="panel-body">
+					{% include 'outbox_list.html' with {'emails': session.mailq} %}
+				</div>
+			</div>
+			<!-- /Outbox Panel -->
+		{% endif %}
+
 		<!-- Articles Panel -->
 		<div class="panel panel-default">
 			<div class="panel-heading">

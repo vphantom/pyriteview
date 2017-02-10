@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-08 11:38-0500\n"
+"POT-Creation-Date: 2017-02-10 09:25-0500\n"
 "PO-Revision-Date: 2017-01-31 12:04-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
@@ -27,6 +27,15 @@ msgid "article_unknown"
 msgstr ""
 
 msgid "bytes"
+msgstr ""
+
+msgid "email_bcc"
+msgstr ""
+
+msgid "email_cc"
+msgstr ""
+
+msgid "email_to"
 msgstr ""
 
 msgid "error_activation_body"
@@ -266,10 +275,16 @@ msgstr ""
 msgid "label_save"
 msgstr ""
 
+msgid "label_send"
+msgstr ""
+
 msgid "label_since"
 msgstr ""
 
 msgid "label_status"
+msgstr ""
+
+msgid "label_subject"
 msgstr ""
 
 msgid "label_title"
@@ -288,6 +303,9 @@ msgid "label_user"
 msgstr ""
 
 msgid "label_wordcount"
+msgstr ""
+
+msgid "no_emails"
 msgstr ""
 
 msgid "no_issues"
@@ -347,6 +365,12 @@ msgstr ""
 msgid "save_success"
 msgstr ""
 
+msgid "send_failure"
+msgstr ""
+
+msgid "send_success"
+msgstr ""
+
 msgid "status_approved"
 msgstr ""
 
@@ -402,6 +426,9 @@ msgid "title_issues"
 msgstr ""
 
 msgid "title_newarticle"
+msgstr ""
+
+msgid "title_outbox"
 msgstr ""
 
 msgid "title_prefs"

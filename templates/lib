@@ -81,6 +81,12 @@
 		{%- endif -%}
 	{%- endif -%}
 {%- endmacro %}
+{% macro format_users(users, flat, nohtml) %}
+	{% import _self as lib %}
+	{% for user in users %}
+		{{ lib.format_user(user, flat, nohtml) }}
+	{% endfor %}
+{% endmacro %}
 
 {% macro format_role(role, flat) -%}
 	{# Help gettext's msgmerge:

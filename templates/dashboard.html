@@ -7,7 +7,7 @@
 
 		{% if session.outbox and session.outbox|length > 0 %}
 			<!-- Outbox Panel -->
-			<div class="panel panel-default">
+			<div class="panel panel-danger">
 				<div class="panel-heading">
 					<a href="{{ req.base }}/outbox"><span class="glyphicon glyphicon-envelope"></span> {{ __('title_outbox') }}</a>
 				</div>

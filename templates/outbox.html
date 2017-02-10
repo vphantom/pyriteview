@@ -15,9 +15,8 @@
 	{% exit %}
 {% endif %}
 
-{{ block('hint_outbox') }}
-
-{% if session.outbox %}
+{% if session.outbox and not email %}
+	{{ block('hint_outbox') }}
 	{% include 'outbox_list.html' with {'emails': session.outbox} %}
 {% endif %}
 
@@ -28,20 +27,20 @@
 			<input type="hidden" name="id" value="{{ email.id }}">
 		{% endif %}
 		<div class="form-group">
-			{{ lib.select_users(__('email_to'), false, email.to) }}
+			{{ lib.select_users(__('email_to'), false, email.recipients) }}
 		</div>
 		<div class="form-group">
-			{{ lib.select_users(__('email_cc'), false, email.cc) }}
+			{{ lib.select_users(__('email_cc'), false, email.ccs) }}
 		</div>
 		<div class="form-group">
-			{{ lib.select_users(__('email_bcc'), false, email.bcc) }}
+			{{ lib.select_users(__('email_bcc'), false, email.bccs) }}
 		</div>
 		<div class="form-group">
-			<input data-colsize="12" data-label="{{ __('label_subject') }}" type="text" id="subject" required>
+			<input data-colsize="12" data-label="{{ __('label_subject') }}" type="text" id="subject" value="{{ email.subject }}" required>
 		</div>
 		<div class="form-group">
 			<div class="input-block col-sm-12">
-				<textarea name="content" class="rich-edit">{{ email.content }}</textarea>
+				<textarea name="content" class="rich-edit">{{ email.html }}</textarea>
 			</div>
 		</div>
 		<button type="submit"><span class="glyphicon glyphicon-send fg-ok"></span> {{ __('label_send') }}</button>

@@ -189,11 +189,13 @@
 		{% for user in selected %}
 			<option value="{{ user }}" selected>{{ lib.format_user(user, true, true) }}
 		{% endfor %}
-		{% for user in grab('role_users', role) %}
-			{% if user not in selected %}
-				<option value="{{ user }}">{{ lib.format_user(user, true, true) }}
-			{% endif %}
-		{% endfor %}
+		{% if role %}
+			{% for user in grab('role_users', role) %}
+				{% if user not in selected %}
+					<option value="{{ user }}">{{ lib.format_user(user, true, true) }}
+				{% endif %}
+			{% endfor %}
+		{% endif %}
 	</select>
 {% endmacro %}
 

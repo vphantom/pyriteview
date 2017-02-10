@@ -17,8 +17,8 @@
 
 {{ block('hint_outbox') }}
 
-{% if session.mailq %}
-	{% include 'outbox_list.html' with {'emails': session.mailq} %}
+{% if session.outbox %}
+	{% include 'outbox_list.html' with {'emails': session.outbox} %}
 {% endif %}
 
 {% if email %}

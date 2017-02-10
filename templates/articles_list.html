@@ -4,7 +4,7 @@
 		{% for status in config.articles.states %}
 			{% if articles[status] |length > 0 %}
 				<tbody class="spaced">
-					<tr class="table-section panel-default"><td colspan="2" class="panel-heading">{{ lib.format_status(status) }}</td></tr>
+					<tr class="table-section panel-info"><td colspan="2" class="panel-heading">{{ lib.format_status(status) }}</td></tr>
 					{% for article in articles[status] %}
 						<tr>
 							<td class="fit">{{ article.number |default(__('issue_zero')) }}</td>

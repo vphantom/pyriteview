@@ -182,10 +182,10 @@
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro select_users(label, role, selected) %}
+{% macro select_users(label, role, selected, nocreate) %}
 	{% import _self as lib %}
 	<input type="hidden" name="__arrays[]" value="{{ role }}s">
-	<select data-label="{{ label }}" placeholder="{{ __('hint_selectusers') }}" id="{{ role }}s[]" class="users{% if pass('can', 'create', 'user') %}-create{% endif %} feedback-user" multiple>
+	<select data-label="{{ label }}" placeholder="{{ __('hint_selectusers') }}" id="{{ role }}s[]" class="users{% if not nocreate and pass('can', 'create', 'user') %}-create{% endif %} feedback-user" multiple>
 		{% for user in selected %}
 			<option value="{{ user }}" selected>{{ lib.format_user(user, true, true) }}
 		{% endfor %}

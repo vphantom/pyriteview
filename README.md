@@ -1,5 +1,7 @@
 # PyriteView
 
+[![license](https://img.shields.io/github/license/vphantom/pyriteview.svg?style=plastic)]() [![GitHub release](https://img.shields.io/github/release/vphantom/pyriteview.svg?style=plastic)]()
+
 Article versioning hub for peer-reviewed publications.
 
 This simple hub allows publication editors, single edition editors, article authors as well as third-party reviewers to come together to centralize the peer-reviewing workflow.  It was developed as a multilingual application in English and French, and 100% of linguistic content is in templates and dedicated "locale" files, so translating to new languages should be very easy.
@@ -7,10 +9,6 @@ This simple hub allows publication editors, single edition editors, article auth
 ### Why the name "Pyrite"?
 
 "PyriteView" is a bilingual play on the words "Peer Review".  The [PyritePHP](https://github.com/vphantom/pyritephp) framework which it uses was originally created specifically for this application.
-
-### CURRENTLY UNDER ACTIVE DEVELOPMENT!
-
-As of February 2017, PyriteView is under active development towards its initial features list.  You should probably wait until we release version 1.0 before looking too much into this.
 
 ## Usage
 

@@ -8,7 +8,24 @@
 	{% endif %}
 {% endif %}
 
-<h2 class="page-header"><span class="glyphicon glyphicon-user"></span> {{ user.name }}</h2>
+<h2 class="page-header"><span class="glyphicon glyphicon-user"></span> {{ user.name }}
+	{% if not modal and pass('can', 'delete', 'user', user.id) %}
+		<div class="pull-right">
+			<form id="admin_user_ban" method="post" class="form-tight">
+				{{ filter('form_begin', 'admin_user_ban') |raw }}
+				<div class="input-block col-sm-2">
+					{% if user.active %}
+					<label for="ban">{{ __('hint_ban') }}</label>
+						<button id="ban" class="form-control btn btn-default" name="ban" value="1"><span class="fg-err"><span class="glyphicon glyphicon-ban-circle"></span></span> {{ __('label_deactivate') }}</button>
+					{% else %}
+					<label for="unban">{{ __('hint_unban') }}</label>
+						<button id="unban" class="form-control btn btn-default" name="unban" value="1"><span class="fg-ok"><span class="glyphicon glyphicon-ok-circle"></span></span> {{ __('label_activate') }}</button>
+					{% endif %}
+				</div>
+			</form>
+		</div>
+	{% endif %}
+</h2>
 
 {% if pass('can', 'edit', 'user', user.id) %}
 

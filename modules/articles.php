@@ -139,7 +139,7 @@ class Articles
             return array();
         };
 
-        $article['keywords'] = explode(';', $article['keywords']);
+        $article['keywords'] = dejoin(';', $article['keywords']);
         return $article;
     }
 
@@ -245,7 +245,7 @@ class Articles
         $list = $db->selectArray($q);
         foreach ($list as $key => $article) {
             // Weird bug with PHP using $list => &$article
-            $list[$key]['keywords'] = explode(';', $article['keywords']);
+            $list[$key]['keywords'] = dejoin(';', $article['keywords']);
             $list[$key]['permalink'] = makePermalink($article['title']);
         };
 

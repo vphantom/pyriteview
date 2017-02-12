@@ -117,6 +117,10 @@ class Articles
                 $article['permalink'] = makePermalink($article['title']);
                 $article['authors'] = grab('object_users', 'edit', 'article', $id);
                 $article['peers'] = grab('object_users', 'review', 'article', $id);
+                $article['editors'] = grab('object_users', '*', 'issue', $article['issueId']);
+                if (count($article['editors']) < 1) {
+                    $article['editors'] = grab('role_users', 'editor-in-chief');
+                };
 
                 /*
                  * Try to open config.articles.path '/' article.number '/' article.id as directory
@@ -421,6 +425,24 @@ on(
                 }
                 // Refresh to discover changes/creation before file handling
                 $article = grab('article', $articleId);
+
+                // Only send if updated, not created, and we're an author
+                if ($success
+                    && is_numeric($articleId)
+                    && in_array($_SESSION['user']['id'], $article['authors'])
+                ) {
+                    trigger(
+                        'sendmail',
+                        $article['authors'],
+                        $article['editors'],
+                        $article['peers'],
+                        'editarticle',
+                        array(
+                            'article' => $article,
+                            'log' => $req['post']['log']
+                        )
+                    );
+                };
 
                 // Handle file uploads
                 foreach ($req['files'] as $file) {

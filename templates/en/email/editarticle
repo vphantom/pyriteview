@@ -1,0 +1,23 @@
+{% block subject %}
+Article modified: {{ article.title |truncate(64, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Hello,</p>
+<p>
+This message is to inform you that article
+<a href="{{ req.protocol }}://{{ req.host }}{{ req.base }}/article/{{ article.id }}/{{ article.permalink }}">{{ article.title |truncate(64, true) }}</a>
+was modified by {{ lib.format_user(session.user, true, true) }}.
+</p>
+{% if log %}
+<p>A comment has been noted:</p>
+<blockquote>
+{{ log }}
+</blockquote>
+{% endif %}
+<p>
+Thank you,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

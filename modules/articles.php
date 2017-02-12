@@ -440,7 +440,8 @@ on(
                         array(
                             'article' => $article,
                             'log' => $req['post']['log']
-                        )
+                        ),
+                        true  // Author-editors could see Bcc
                     );
                 };
 

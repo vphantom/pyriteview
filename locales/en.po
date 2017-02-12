@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-12 07:26-0500\n"
-"PO-Revision-Date: 2017-02-12 07:26-0500\n"
+"POT-Creation-Date: 2017-02-12 11:51-0500\n"
+"PO-Revision-Date: 2017-02-12 11:51-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -29,6 +29,12 @@ msgstr "Unknown Article"
 
 msgid "bytes"
 msgstr "bytes"
+
+msgid "delete_failure"
+msgstr "An error has occurred while attempting to delete."
+
+msgid "delete_success"
+msgstr "Deleted successfully."
 
 msgid "email_bcc"
 msgstr "Blind Carbon Copy"
@@ -177,6 +183,9 @@ msgstr "Deactivate"
 
 msgid "label_deactivated"
 msgstr "deactivated"
+
+msgid "label_delete"
+msgstr "Delete"
 
 msgid "label_editors"
 msgstr "Editors"

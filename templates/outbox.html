@@ -7,6 +7,12 @@
 	{% else %}
 		{{ lib.alert(success, __('send_failure')) }}
 	{% endif %}
+{% elseif deleted %}
+	{% if success %}
+		{{ lib.alert(success, __('delete_success')) }}
+	{% else %}
+		{{ lib.alert(success, __('delete_failure')) }}
+	{% endif %}
 {% endif %}
 
 <h2 class="page-header">
@@ -58,6 +64,11 @@
 				<textarea name="html" class="rich-edit">{{ email.html }}</textarea>
 			</div>
 		</div>
-		<button type="submit"><span class="glyphicon glyphicon-send fg-ok"></span> {{ __('label_send') }}</button>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-send fg-ok"></span> {{ __('label_send') }}</button>
+				<button type="submit" class="btn btn-default" name="delete" value="1"><span class="glyphicon glyphicon-trash fg-err"></span> {{ __('label_delete') }}</button>
+			</div>
+		</div>
 	</form>
 {% endif %}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-12 07:26-0500\n"
-"PO-Revision-Date: 2017-02-12 07:27-0500\n"
+"POT-Creation-Date: 2017-02-12 11:51-0500\n"
+"PO-Revision-Date: 2017-02-12 11:52-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -29,6 +29,12 @@ msgstr "Article inconnu"
 
 msgid "bytes"
 msgstr "octets"
+
+msgid "delete_failure"
+msgstr "Une erreur est survenue dans la tentative d'effacement."
+
+msgid "delete_success"
+msgstr "Effacement réussi."
 
 msgid "email_bcc"
 msgstr "Copie carbone invisible"
@@ -184,6 +190,9 @@ msgstr "Désactiver"
 
 msgid "label_deactivated"
 msgstr "désactivé"
+
+msgid "label_delete"
+msgstr "Effacer"
 
 msgid "label_editors"
 msgstr "Éditeurs"

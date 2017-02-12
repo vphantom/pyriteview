@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-12 07:26-0500\n"
+"POT-Creation-Date: 2017-02-12 11:51-0500\n"
 "PO-Revision-Date: 2017-01-31 12:04-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
@@ -27,6 +27,12 @@ msgid "article_unknown"
 msgstr ""
 
 msgid "bytes"
+msgstr ""
+
+msgid "delete_failure"
+msgstr ""
+
+msgid "delete_success"
 msgstr ""
 
 msgid "email_bcc"
@@ -171,6 +177,9 @@ msgid "label_deactivate"
 msgstr ""
 
 msgid "label_deactivated"
+msgstr ""
+
+msgid "label_delete"
 msgstr ""
 
 msgid "label_editors"

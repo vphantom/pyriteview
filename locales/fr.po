@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 08:03-0500\n"
-"PO-Revision-Date: 2017-02-11 08:04-0500\n"
+"POT-Creation-Date: 2017-02-12 07:08-0500\n"
+"PO-Revision-Date: 2017-02-12 07:08-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -143,6 +143,9 @@ msgstr "Répéter mot de passe"
 msgid "label_all"
 msgstr "Tous"
 
+msgid "label_all_users"
+msgstr "Voir tous les usagers"
+
 msgid "label_any_action"
 msgstr "toute action"
 
@@ -268,6 +271,9 @@ msgstr "Nouveau mot de passe"
 
 msgid "label_new_permission"
 msgstr "Nouvelle permission"
+
+msgid "label_not_all_users"
+msgstr "Voir seulement moi"
 
 msgid "label_password_opt"
 msgstr "Mot de passe (facultatif)"

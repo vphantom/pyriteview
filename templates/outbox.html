@@ -9,7 +9,18 @@
 	{% endif %}
 {% endif %}
 
-<h2 class="page-header"><span class="glyphicon glyphicon-envelope"></span> {{ __('title_outbox') }}</h2>
+<h2 class="page-header">
+	<span class="glyphicon glyphicon-envelope"></span> {{ __('title_outbox') }}
+	{% if pass('has_role', 'admin') and not email %}
+		<div class="pull-right">
+			{% if all %}
+				<a href="{{ req.base }}/outbox" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-sunglasses fg-ok"></span> {{ __('label_not_all_users') }}</a>
+			{% else %}
+				<a href="{{ req.base }}/outbox/all" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-sunglasses fg-err"></span> {{ __('label_all_users') }}</a>
+			{% endif %}
+		</div>
+	{% endif %}
+</h2>
 
 {% if not pass('can', 'edit', 'email') %}
 	{% exit %}
@@ -17,7 +28,7 @@
 
 {% if not email %}
 	{{ block('hint_outbox') }}
-	{% include 'outbox_list.html' with {'emails': session.outbox} %}
+	{% include 'outbox_list.html' %}
 {% endif %}
 
 {% if email %}
@@ -29,12 +40,16 @@
 		<div class="form-group">
 			{{ lib.select_users(__('email_to'), 'recipient', email.recipients, true) }}
 		</div>
-		<div class="form-group">
-			{{ lib.select_users(__('email_cc'), 'cc', email.ccs, true) }}
-		</div>
-		<div class="form-group">
-			{{ lib.select_users(__('email_bcc'), 'bcc', email.bccs, true) }}
-		</div>
+		{% if email.ccs|length > 0 %}
+			<div class="form-group">
+				{{ lib.select_users(__('email_cc'), 'cc', email.ccs, true) }}
+			</div>
+			{% endif %}
+		{% if email.bccs|length > 0 %}
+			<div class="form-group">
+				{{ lib.select_users(__('email_bcc'), 'bcc', email.bccs, true) }}
+			</div>
+		{% endif %}
 		<div class="form-group">
 			<input data-colsize="12" data-label="{{ __('label_subject') }}" type="text" id="subject" value="{{ email.subject }}" required>
 		</div>

@@ -44,7 +44,7 @@
 					</ul>
 					{% if session.identified %}
 					<ul class="nav navbar-nav navbar-right">
-						{% if pass('can', 'edit', 'email') and session.outbox|length > 0 %}
+						{% if pass('has_role', 'admin') or (pass('can', 'edit', 'email') and session.outbox|length > 0) %}
 							<li class="dropdown">
 								<a href="{{ req.base }}/outbox" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-envelope"></span>{% if session.outbox|length > 0 %}<span class="badge badge-subscript">{{ session.outbox|length }}</span>{% endif %} <span class="caret"></span></a>
 								<ul class="dropdown-menu dropdown-messages">

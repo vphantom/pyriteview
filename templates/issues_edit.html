@@ -34,7 +34,7 @@
 		{% endif %}
 		<div class="form-group">
 			<input data-colsize="2" data-label="{{ __('label_volume') }}" type="text" id="number" value="{{ issue.volume }}" required maxlength="16"{% if issue.id %} disabled{% endif %}>
-			<input data-colsize="2" data-label="{{ __('label_issue') }}" type="text" id="number" value="{{ issue.number }}" required maxlength="16"{% if issue.id %} disabled{% endif %}>
+			<input data-colsize="2" data-label="{{ __('label_issueId') }}" type="text" id="number" value="{{ issue.number }}" required maxlength="16"{% if issue.id %} disabled{% endif %}>
 			<input data-colsize="2" data-label="{{ __('label_publication') }} ({{ __('hint_ymd') }})" type="text" id="publication" value="{{ issue.publication }}" maxlength="10" minlength="10">
 			<input data-colsize="6" data-label="{{ __('label_title') }}" type="text" id="title" value="{{ issue.title }}" required>
 		</div>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 09:18-0500\n"
-"PO-Revision-Date: 2017-02-14 09:18-0500\n"
+"POT-Creation-Date: 2017-02-14 15:47-0500\n"
+"PO-Revision-Date: 2017-02-14 15:46-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -230,7 +230,7 @@ msgstr "a"
 msgid "label_i"
 msgstr "J'ai"
 
-msgid "label_issue"
+msgid "label_issueId"
 msgstr "Numéro"
 
 msgid "label_keyword"
@@ -334,6 +334,9 @@ msgstr "Usager"
 
 msgid "label_volume"
 msgstr "Volume"
+
+msgid "label_wordCount"
+msgstr "Nombre de mots"
 
 msgid "label_wordcount"
 msgstr "Nombre de mots"
@@ -502,6 +505,9 @@ msgstr "Usager inconnu"
 
 msgid "user_zero"
 msgstr "Le système"
+
+#~ msgid "label_issue"
+#~ msgstr "Numéro"
 
 #~ msgid "title_mail"
 #~ msgstr "Courriel"

@@ -302,6 +302,7 @@ class Articles
             $id = $cols['id'];
             unset($cols['id']);
             $oldArticle = self::get($id);
+            $oldArticle['keywords'] = implode(';', $oldArticle['keywords']);  // This is for comparison only
             $res = $db->update('articles', $cols, 'WHERE id=?', array($id));
             if ($res !== false) {
 
@@ -319,20 +320,32 @@ class Articles
                     );
                 };
 
-                $log = array(
-                    'action' => 'modified',
-                    'objectType' => 'article',
-                    'objectId' => $id
-                );
-                if (isset($cols['status']) && $oldArticle['status'] !== $cols['status']) {
-                    $log['fieldName'] = 'status';
-                    $log['oldValue'] = $oldArticle['status'];
-                    $log['newValue'] = $cols['status'];
-                };
+                // Log each modified interesting column
+                $log = null;
                 if (isset($cols['log'])) {
-                    $log['content'] = $cols['log'];
+                    // Only log comments in first of a series of transactions
+                    $log = $cols['log'];
+                    $cols['log'] = null;
+                    unset($cols['log']);
                 };
-                trigger('log', $log);
+                foreach (array('issueId', 'status', 'wordCount', 'title', 'keywords', 'abstract') as $col) {
+                    if (isset($cols[$col]) && $oldArticle[$col] !== $cols[$col]) {
+                        trigger(
+                            'log',
+                            array(
+                                'action' => 'modified',
+                                'objectType' => 'article',
+                                'objectId' => $id,
+                                'fieldName' => $col,
+                                'oldValue' => substr($oldArticle[$col], 0, 250),
+                                'newValue' => substr($cols[$col], 0, 250),
+                                'content' => $log
+                            )
+                        );
+                        $log = null;
+                    };
+                };
+
             };
         } else {
             $res = $db->insert('articles', $cols);

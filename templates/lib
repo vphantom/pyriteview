@@ -10,7 +10,7 @@
 
 {% macro format_timestamp(timestamp) %}
 	{%- if timestamp -%}
-		<span class="timeago" datetime="{{ timestamp }}">{{ timestamp }}</span>
+		<span class="timeago" title="{{ timestamp }}" datetime="{{ timestamp }}">{{ timestamp }}</span>
 	{%- else -%}
 		{{ __('label_never') }}
 	{%- endif -%}
@@ -124,6 +124,17 @@
 		{{ lib.label_role(role, flat) }}
 	{% endfor %}
 {% endmacro %}
+
+{% macro label_field(field) -%}
+	{# Help gettext's msgmerge:
+	   __('label_issueId')
+		__('label_wordCount')
+		__('label_title')
+		__('label_keywords')
+		__('label_abstract')
+	#}
+	{{ __('label_'~field) }}
+{%- endmacro %}
 
 {% macro format_issue(issue, flat) -%}
 	{%- set req = grab('request') -%}

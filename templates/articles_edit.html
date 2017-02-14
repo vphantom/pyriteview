@@ -78,9 +78,9 @@
 
 		<input data-label="{{ __('label_title') }}" type="text" id="title" value="{{ article.title }}" required>
 		{% if pass('can', 'move', 'article', article.id) or not article.id %}
-			<select data-label="{{ __('label_issue') }}" id="issueId" class="feedback-book" required>
+			<select data-label="{{ __('label_issueId') }}" id="issueId" class="feedback-book" required>
 				{% if not article.id %}
-					<option selected disabled>{{ __('label_issue') }}...
+					<option selected disabled>{{ __('label_issueId') }}...
 				{% endif %}
 				<option value="0"{% if article.id and issueId == 0 %} selected{% endif %}>{{ __('issue_zero') }}
 				{% for issue in issues %}
@@ -88,7 +88,7 @@
 				{% endfor %}
 			</select>
 		{% else %}
-			<span data-label="{{ __('label_issue') }}" class="input-like">{{ lib.format_issue(article.issueId) }}</span>
+			<span data-label="{{ __('label_issueId') }}" class="input-like">{{ lib.format_issue(article.issueId) }}</span>
 		{% endif %}
 		<input data-label="{{ __('label_wordcount') }}" type="number" id="wordCount" value="{{ article.wordCount }}" required>
 		<input type="hidden" name="__arrays[]" value="keywords">
@@ -138,8 +138,8 @@
 {% elseif article.id and (pass('can', 'view', 'article', article.id) or pass('can', 'review', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) %}
 
 	<dl class="dl-horizontal">
-		<dt>{{ __('label_issue') }}</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
-		<dt>{{ __('label_wordcount') }}</dt><dd>{{ article.wordCount }}</dd>
+		<dt>{{ __('label_issueId') }}</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
+		<dt>{{ __('label_wordCount') }}</dt><dd>{{ article.wordCount }}</dd>
 		<dt>{{ __('label_keywords') }}</dt><dd>{{ article.keywords |join(', ') }}</dd>
 		<dt>{{ __('label_abstract') }}</dt><dd>{{ article.abstract }}</dd>
 		<dt>{{ __('label_authors') }}</dt><dd>

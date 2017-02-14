@@ -3,8 +3,11 @@
 	<table class="table table-hover table-condensed">
 		<tbody>
 			{% for tx in history %}
+		{% if loop.first or tx.timestamp != lastTime %}
 			<tr{% if tx.objectType == 'user' and tx.action == 'modified' and (tx.fieldName=='email' or tx.fieldName=='password') %} class="warning"{% endif %}>
 				<td>
+		{% endif %}
+					<div class="log-part">
 					{% if tx.userId == session.user.id %}
 						{{ __('label_i') }}
 					{% else %}
@@ -18,9 +21,9 @@
 							{{ lib.format(tx.objectType, tx.objectId) }}
 						{% elseif tx.fieldName %}
 							{{ __('label_changed') }}
-							{{ tx.fieldName }}
-							{% if tx.oldValue %}{{ __('label_from') }} '{{ lib.format(tx.fieldName, tx.oldValue) }}'{% endif %}
-							{% if tx.newValue %}{{ __('label_to') }} '{{ lib.format(tx.fieldName, tx.newValue) }}'{% endif %}
+							<code>{{ lib.label_field(tx.fieldName) }}</code>
+							{% if tx.oldValue %}{{ __('label_from') }} <em>"{{ lib.format(tx.fieldName, tx.oldValue) }}"</em>{% endif %}
+							{% if tx.newValue %}{{ __('label_to') }} <em>"{{ lib.format(tx.fieldName, tx.newValue) }}"</em>{% endif %}
 						{% else %}
 							{{ __('label_modified') }}
 							{{ lib.format(tx.objectType, tx.objectId) }}
@@ -67,8 +70,10 @@
 					{% if tx.content and not narrow %}
 						<div class="log-content">{{ tx.content }}</div>
 					{% endif %}
+				</div>
+		{% if loop.last or tx.timestamp != history[loop.index].timestamp %}
 				</td>
-				<td class="fit">
+				<td class="text-right fit">
 					{%- if narrow -%}
 						<span class="text-muted small">{{ lib.format_timestamp(tx.localtimestamp) }}</span>
 					{%- else -%}
@@ -76,6 +81,8 @@
 					{%- endif -%}
 				</td>
 			</tr>
+		{% endif %}
+		{% set lastTime = tx.timestamp %}
 			{% endfor %}
 		</tbody>
 	</table>

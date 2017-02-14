@@ -42,6 +42,10 @@ input, select, textarea {
 	color: #333 !important;  /* Bootstrap 3's #555 is excessively low-contrast */
 }
 
+textarea {
+	min-height: 6em;
+}
+
 /* Left menu */
 .nav-sidebar {
 	margin: 0 -21px 20px -20px;

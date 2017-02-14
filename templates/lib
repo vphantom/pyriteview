@@ -132,9 +132,9 @@
 	{%- endif -%}
 	{%- if issue != false -%}
 		{%- if pass('can', 'view', 'issue', issue.id) and not flat -%}
-			<a href="{{ req.base }}/issues/{{ issue.id }}/{{ issue.permalink }}"><span class="glyphicon glyphicon-book"></span>{{ issue.number }} {{ issue.title }}</a>
+			<a href="{{ req.base }}/issues/{{ issue.id }}/{{ issue.permalink }}"><span class="glyphicon glyphicon-book"></span>{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}</a>
 		{%- else -%}
-			<span class="glyphicon glyphicon-book"></span>{{ issue.number }} {{ issue.title }}
+			<span class="glyphicon glyphicon-book"></span>{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}
 		{%- endif -%}
 	{%- else -%}
 		{%- if not flat -%}

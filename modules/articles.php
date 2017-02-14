@@ -100,7 +100,7 @@ class Articles
 
         $article = $db->selectSingleArray(
             "
-            SELECT articles.*, issues.number FROM articles
+            SELECT articles.*, issues.volume, issues.number FROM articles
             LEFT JOIN issues ON issues.id=articles.issueId
             WHERE articles.id=?
             ",
@@ -123,11 +123,11 @@ class Articles
                 };
 
                 /*
-                 * Try to open config.articles.path '/' article.number '/' article.id as directory
+                 * Try to open config.articles.path '/' article.volume '.' article.number '/' article.id as directory
                  */
                 $article['files'] = array();
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                foreach (glob("{$config['path']}/{$article['number']}/{$article['id']}/*.*") as $fname) {
+                foreach (glob("{$config['path']}/{$article['volume']}.{$article['number']}/{$article['id']}/*.*") as $fname) {
                     $bytes = filesize($fname);
                     $pi = pathinfo($fname);
                     $article['files'][] = array(
@@ -152,8 +152,8 @@ class Articles
      *
      * Only articles which the current user is allowed to view are returned.
      *
-     * A convenience virtual column 'number' is fetched from the issues table
-     * as well in addition to 'issueId'.
+     * Convenience virtual columns 'volume' and 'number' are fetched from the
+     * issues table as well in addition to 'issueId'.
      *
      * The following keys may be defined in $args:
      *
@@ -202,7 +202,7 @@ class Articles
             };
         };
 
-        $q = $db->query('SELECT articles.*, issues.number FROM articles');
+        $q = $db->query('SELECT articles.*, issues.volume, issues.number FROM articles');
         $q->left_join('issues ON issues.id=articles.issueId');
         $q->where();
         $sources = array();
@@ -241,7 +241,7 @@ class Articles
             $search[] = $db->query('articles.abstract LIKE ?', "%{$keyword}%");
             $q->and()->implodeClosed('OR', $search);
         };
-        $q->order_by('issues.number DESC, articles.id DESC');
+        $q->order_by('issues.volume DESC, issues.number DESC, articles.id DESC');
 
         if ($PPHP['config']['global']['debug']) {
             print_r($q);
@@ -454,13 +454,13 @@ on(
                         $bad_format = false;
                         $base = filter('clean_filename', $file['filename']);
                         $ext = filter('clean_filename', $file['extension']);
-                        $base = "{$config['path']}/{$article['number']}/{$article['id']}/{$base}";
+                        $base = "{$config['path']}/{$article['volume']}.{$article['number']}/{$article['id']}/{$base}";
 
-                        if (!file_exists("{$config['path']}/{$article['number']}")) {
-                            mkdir("{$config['path']}/{$article['number']}", 06770);
+                        if (!file_exists("{$config['path']}/{$article['volume']}.{$article['number']}")) {
+                            mkdir("{$config['path']}/{$article['volume']}.{$article['number']}", 06770);
                         };
-                        if (!file_exists("{$config['path']}/{$article['number']}/{$article['id']}")) {
-                            mkdir("{$config['path']}/{$article['number']}/{$article['id']}", 06770);
+                        if (!file_exists("{$config['path']}/{$article['volume']}.{$article['number']}/{$article['id']}")) {
+                            mkdir("{$config['path']}/{$article['volume']}.{$article['number']}/{$article['id']}", 06770);
                         };
 
                         // Attempt to save the file, avoiding name collisions

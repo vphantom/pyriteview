@@ -7,7 +7,7 @@
 					<tr class="table-section panel-info"><td colspan="2" class="panel-heading">{{ lib.format_status(status) }}</td></tr>
 					{% for article in articles[status] %}
 						<tr>
-							<td class="fit">{{ article.number |default(__('issue_zero')) }}</td>
+							<td class="fit">{{ article.volume ? article.volume~'.' : '' }}{{ article.number |default(__('issue_zero')) }}</td>
 							<td>{{ lib.format_article(article) }}</td>
 						</tr>
 					{% endfor %}

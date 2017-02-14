@@ -84,7 +84,7 @@
 				{% endif %}
 				<option value="0"{% if article.id and issueId == 0 %} selected{% endif %}>{{ __('issue_zero') }}
 				{% for issue in issues %}
-					<option value="{{ issue.id }}"{% if issue.id == issueId %} selected{% endif %}>{{ issue.number }} {{ issue.title }}
+					<option value="{{ issue.id }}"{% if issue.id == issueId %} selected{% endif %}>{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}
 				{% endfor %}
 			</select>
 		{% else %}

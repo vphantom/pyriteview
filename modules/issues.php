@@ -58,8 +58,10 @@ class Issues
             CREATE TABLE IF NOT EXISTS 'issues' (
                 id          INTEGER PRIMARY KEY AUTOINCREMENT,
                 publication DATE NOT NULL DEFAULT '1980-01-01',
-                number      VARCHAR(16),
-                title       VARCHAR(255)
+                volume      VARCHAR(16) NOT NULL DEFAULT '',
+                number      VARCHAR(16) NOT NULL DEFAULT '',
+                title       VARCHAR(255) NOT NULL DEFAULT '',
+                description TEXT NOT NULL DEFAULT ''
             )
             "
         );
@@ -67,12 +69,6 @@ class Issues
             "
             CREATE UNIQUE INDEX IF NOT EXISTS 'idx_issues_publication'
             ON issues (publication)
-            "
-        );
-        $db->exec(
-            "
-            CREATE UNIQUE INDEX IF NOT EXISTS 'idx_issues_number'
-            ON issues (number)
             "
         );
         $db->commit();
@@ -111,7 +107,7 @@ class Issues
      * Only issues which the current user is allowed to view are returned.
      * This means unpublished issues and explicitly allowed ones.
      *
-     * @param string $keyword (Optional) Search in titles and numbers
+     * @param string $keyword (Optional) Search in all columns
      *
      * @return array Issues
      */
@@ -131,11 +127,13 @@ class Issues
         );
         if ($keyword !== null) {
             $search = array();
-            $search[] = $db->query('title LIKE ?', "%{$keyword}%");
+            $search[] = $db->query('volume LIKE ?', "%{$keyword}%");
             $search[] = $db->query('number LIKE ?', "%{$keyword}%");
+            $search[] = $db->query('title LIKE ?', "%{$keyword}%");
+            $search[] = $db->query('description LIKE ?', "%{$keyword}%");
             $q->and()->implodeClosed('OR', $search);
         };
-        $q->order_by('number DESC');
+        $q->order_by('volume DESC, number DESC');
         $issues = $db->selectArray($q);
         foreach ($issues as $key => $issue) {
             // Weird bug with PHP using $list => &$issue
@@ -231,7 +229,7 @@ on(
             $success = false;
             $history = null;
             $articles = array();
-            if (isset($req['post']['number'])) {
+            if (isset($req['post']['title'])) {
                 if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
                 $saved = true;
                 $success = grab('issue_save', $req['post']);

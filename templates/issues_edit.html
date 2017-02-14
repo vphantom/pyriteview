@@ -16,7 +16,7 @@
 	{% endif %}
 {% endif %}
 
-<h2 class="page-header"><span class="glyphicon glyphicon-book"></span> {{ issue.number }}
+<h2 class="page-header"><span class="glyphicon glyphicon-book"></span> {{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }}
 	{% if issue %}
 		{{ issue.title|default(__('issue_zero')) }}
 	{% else %}
@@ -33,12 +33,18 @@
 			<input type="hidden" name="id" value="{{ issue.id }}">
 		{% endif %}
 		<div class="form-group">
+			<input data-colsize="2" data-label="{{ __('label_volume') }}" type="text" id="number" value="{{ issue.volume }}" required maxlength="16">
 			<input data-colsize="2" data-label="{{ __('label_issue') }}" type="text" id="number" value="{{ issue.number }}" required maxlength="16">
-			<input data-colsize="3" data-label="{{ __('label_publication') }} ({{ __('hint_ymd') }})" type="text" id="publication" value="{{ issue.publication }}" maxlength="10" minlength="10">
-			<input data-colsize="7" data-label="{{ __('label_title') }}" type="text" id="title" value="{{ issue.title }}" required>
+			<input data-colsize="2" data-label="{{ __('label_publication') }} ({{ __('hint_ymd') }})" type="text" id="publication" value="{{ issue.publication }}" maxlength="10" minlength="10">
+			<input data-colsize="6" data-label="{{ __('label_title') }}" type="text" id="title" value="{{ issue.title }}" required>
 		</div>
 		<div class="form-group">
 			{{ lib.select_users(__('label_editors'), 'editor', issue.editors) }}
+		</div>
+		<div class="form-group">
+			<div class="input-block col-sm-12">
+				<textarea name="description" class="rich-edit">{{ issue.description }}</textarea>
+			</div>
 		</div>
 		{{ lib.leftright_save(issue and issue.id > 0) }}
 	</form>
@@ -51,6 +57,9 @@
 {% endif %}
 
 {% if issue %}
+	{% if not pass('can', 'edit', 'issue', issue.id) %}
+		{{ issue.description |raw }}
+	{% endif %}
 	<h3>{{ __('title_articles') }}
 		{% if pass('can', 'create', 'article') %}
 			<form action="{{ req.base }}/articles/new" id="article_create" method="get" class="form-inline inline">

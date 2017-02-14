@@ -171,18 +171,36 @@ class Issues
         if (isset($cols['id'])) {
             $id = $cols['id'];
             unset($cols['id']);
+            $oldIssue = self::get($id);
             $res = $db->update('issues', $cols, 'WHERE id=?', array($id));
             if ($res !== false) {
                 $res = $id;
-                $log = array(
-                    'action' => 'modified',
-                    'objectType' => 'issue',
-                    'objectId' => $res
-                );
+                // Log each modified interesting column
+                $log = null;
                 if (isset($cols['log'])) {
-                    $log['content'] = $cols['log'];
+                    // Only log comments in first of a series of transactions
+                    $log = $cols['log'];
+                    $cols['log'] = null;
+                    unset($cols['log']);
                 };
-                trigger('log', $log);
+                foreach (array('volume', 'number', 'publication', 'title', 'description') as $col) {
+                    if (isset($cols[$col]) && $oldIssue[$col] !== $cols[$col]) {
+                        trigger(
+                            'log',
+                            array(
+                                'action' => 'modified',
+                                'objectType' => 'issue',
+                                'objectId' => $id,
+                                'fieldName' => $col,
+                                'oldValue' => ($col === 'description' ? filter('html_to_text', $oldIssue[$col]) : $oldIssue[$col]),
+                                'newValue' => ($col === 'description' ? filter('html_to_text', $cols[$col]) : $cols[$col]),
+                                'content' => $log
+                            )
+                        );
+                        $log = null;
+                    };
+                };
+
             };
         } else {
             $res = $db->insert('issues', $cols);
@@ -237,6 +255,7 @@ on(
             $deleted = false;
             $success = false;
             $history = null;
+            $history_id = $issueId;
             $articles = array();
             if (isset($req['post']['title'])) {
                 if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
@@ -282,6 +301,8 @@ on(
                     'success' => $success,
                     'issue' => $issue,
                     'history' => $history,
+                    'history_type' => 'issue',
+                    'history_id' => $history_id,
                     'articles' => $articles
                 )
             );

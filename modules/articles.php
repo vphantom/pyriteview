@@ -337,8 +337,8 @@ class Articles
                                 'objectType' => 'article',
                                 'objectId' => $id,
                                 'fieldName' => $col,
-                                'oldValue' => substr($oldArticle[$col], 0, 250),
-                                'newValue' => substr($cols[$col], 0, 250),
+                                'oldValue' => $oldArticle[$col],
+                                'newValue' => $cols[$col],
                                 'content' => $log
                             )
                         );
@@ -443,6 +443,7 @@ on(
             $success = false;
             $file_success = false;
             $history = null;
+            $history_id = $articleId;
             if (isset($req['post']['wordCount'])) {
                 if (!pass('form_validate', 'articles_edit')) return trigger('http_status', 440);
                 if (is_numeric($articleId)) {
@@ -584,7 +585,9 @@ on(
                     'bad_format' => $bad_format,
                     'article' => $article,
                     'issues' => grab('issues'),
-                    'history' => $history
+                    'history' => $history,
+                    'history_type' => 'article',
+                    'history_id' => $history_id
                 )
             );
         } else {

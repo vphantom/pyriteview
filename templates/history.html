@@ -18,12 +18,18 @@
 					{% if tx.action == 'modified' %}
 						{% if tx.fieldName == 'status' %}
 							{{ lib.format(tx.fieldName, tx.newValue) }}
-							{{ lib.format(tx.objectType, tx.objectId) }}
+							{% if history_type != tx.objectType or history_id != tx.objectId %}
+								{{ lib.format(tx.objectType, tx.objectId) }}
+							{% endif %}
 						{% elseif tx.fieldName %}
 							{{ __('label_changed') }}
 							<code>{{ lib.label_field(tx.fieldName) }}</code>
-							{% if tx.oldValue %}{{ __('label_from') }} <em>"{{ lib.format(tx.fieldName, tx.oldValue) }}"</em>{% endif %}
-							{% if tx.newValue %}{{ __('label_to') }} <em>"{{ lib.format(tx.fieldName, tx.newValue) }}"</em>{% endif %}
+							{% if tx.oldValue %}{{ __('label_from') }} <em>"{{ lib.format(tx.fieldName, tx.oldValue) |truncate(64, true) }}"</em>{% endif %}
+							{% if tx.newValue %}{{ __('label_to') }} <em>"{{ lib.format(tx.fieldName, tx.newValue) |truncate(64, true) }}"</em>{% endif %}
+							{% if history_type != tx.objectType or history_id != tx.objectId %}
+								{{ __('label_in') }}
+								{{ lib.format(tx.objectType, tx.objectId) }}
+							{% endif %}
 						{% else %}
 							{{ __('label_modified') }}
 							{{ lib.format(tx.objectType, tx.objectId) }}
@@ -41,8 +47,10 @@
 					{% elseif tx.action == 'attached' %}
 						{{ __('label_attached') }}
 						<span class="glyphicon glyphicon-file"></span>{{ tx.newValue }}
-						{{ __('label_to') }}
-						{{ lib.format(tx.objectType, tx.objectId) }}
+						{% if history_type != tx.objectType or history_id != tx.objectId %}
+							{{ __('label_to') }}
+							{{ lib.format(tx.objectType, tx.objectId) }}
+						{% endif %}
 
 					{% elseif tx.action == 'sent' %}
 						{% set email = grab('outbox_email', tx.objectId) %}

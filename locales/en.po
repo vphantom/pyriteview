@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 15:47-0500\n"
-"PO-Revision-Date: 2017-02-14 15:45-0500\n"
+"POT-Creation-Date: 2017-02-14 16:14-0500\n"
+"PO-Revision-Date: 2017-02-14 16:15-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -187,6 +187,9 @@ msgstr "deactivated"
 msgid "label_delete"
 msgstr "Delete"
 
+msgid "label_description"
+msgstr "Description"
+
 msgid "label_editors"
 msgstr "Editors"
 
@@ -222,6 +225,9 @@ msgstr "has"
 
 msgid "label_i"
 msgstr "I"
+
+msgid "label_in"
+msgstr "in"
 
 msgid "label_issueId"
 msgstr "Issue"
@@ -276,6 +282,9 @@ msgstr "New permission"
 
 msgid "label_not_all_users"
 msgstr "View only myself"
+
+msgid "label_number"
+msgstr "Number"
 
 msgid "label_password_opt"
 msgstr "Password (optional)"

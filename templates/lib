@@ -132,6 +132,10 @@
 		__('label_title')
 		__('label_keywords')
 		__('label_abstract')
+		__('label_volume')
+		__('label_number')
+		__('label_publication')
+		__('label_description')
 	#}
 	{{ __('label_'~field) }}
 {%- endmacro %}

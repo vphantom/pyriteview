@@ -21,14 +21,14 @@
   "devDependencies": {
     "bootstrap": "^3.3.7",
     "browserify": "^13.1.1",
-    "clean-css": "^3.4.20",
-    "eslint": "^3.9.1",
+    "clean-css": "^3.4.24",
+    "eslint": "^3.15.0",
     "exorcist": "^0.4.0",
     "jquery": "^2.2.4",
     "parsleyjs": "^2.6.0",
     "selectize": "^0.12.4",
     "summernote": "^0.8.2",
-    "timeago.js": "^2.0.3",
+    "timeago.js": "^2.0.5",
     "uglify-js": "^2.7.4"
   }
 }

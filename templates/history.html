@@ -21,6 +21,13 @@
 							{% if history_type != tx.objectType or history_id != tx.objectId %}
 								{{ lib.format(tx.objectType, tx.objectId) }}
 							{% endif %}
+						{% elseif tx.fieldName == 'issueId' %}
+							{{ __('label_moved') }}
+							{% if history_type != tx.objectType or history_id != tx.objectId %}
+								{{ lib.format(tx.objectType, tx.objectId) }}
+							{% endif %}
+							{{ __('label_from') }} {{ lib.format_issue(tx.oldValue) }}
+							{{ __('label_to') }} {{ lib.format_issue(tx.newValue) }}
 						{% elseif tx.fieldName %}
 							{{ __('label_changed') }}
 							<code>{{ lib.label_field(tx.fieldName) }}</code>

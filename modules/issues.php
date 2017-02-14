@@ -80,6 +80,9 @@ class Issues
      *
      * Only works if the current user is allowed to view it.
      *
+     * Special column "issue" is created, set to one of "{$volume}.{$number}",
+     * $number or "0" depending on their values.
+     *
      * @param int $id Which issue to load
      *
      * @return array|bool Issue (associative) or false on failure
@@ -93,6 +96,12 @@ class Issues
         if (pass('can', 'view', 'issue', $id)) {
             $issue = $db->selectSingleArray("SELECT * FROM issues WHERE id=?", array($id));
             if (is_array($issue)) {
+                if ($issue['number'] !== '') {
+                    $issue['issue'] = ($issue['volume'] !== '' ? $issue['volume'] . '.' : '') . $issue['number'];
+                } else {
+                    $issue['issue'] = '0';
+                };
+
                 $issue['editors'] = grab('object_users', '*', 'issue', $id);
                 $issue['permalink'] = makePermalink($issue['title']);
             };

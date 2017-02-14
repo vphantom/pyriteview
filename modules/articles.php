@@ -87,6 +87,10 @@ class Articles
      *
      * Only works if the current user is allowed to view it.
      *
+     * Special columns volume, number and issue are added to describe the
+     * issue in which the article currently belongs.  The issue is either
+     * "{$volume}.{$number}", $number or "0" depending on their values.
+     *
      * @param int $id Which article to load
      *
      * @return array|bool Article (associative) or false on failure
@@ -114,6 +118,7 @@ class Articles
         ) {
 
             if ($article !== false) {
+                $article['keywords'] = dejoin(';', $article['keywords']);
                 $article['permalink'] = makePermalink($article['title']);
                 $article['authors'] = grab('object_users', 'edit', 'article', $id);
                 $article['peers'] = grab('object_users', 'review', 'article', $id);
@@ -123,11 +128,16 @@ class Articles
                 };
 
                 /*
-                 * Try to open config.articles.path '/' article.volume '.' article.number '/' article.id as directory
+                 * Try to open config.articles.path '/' article.issue '/' article.id as directory
                  */
                 $article['files'] = array();
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                foreach (glob("{$config['path']}/{$article['volume']}.{$article['number']}/{$article['id']}/*.*") as $fname) {
+                if ($article['number'] !== '') {
+                    $article['issue'] = ($article['volume'] !== '' ? $article['volume'] . '.' : '') . $article['number'];
+                } else {
+                    $article['issue'] = '0';
+                };
+                foreach (glob("{$config['path']}/{$article['issue']}/{$article['id']}/*.*") as $fname) {
                     $bytes = filesize($fname);
                     $pi = pathinfo($fname);
                     $article['files'][] = array(
@@ -143,7 +153,6 @@ class Articles
             return array();
         };
 
-        $article['keywords'] = dejoin(';', $article['keywords']);
         return $article;
     }
 
@@ -152,8 +161,8 @@ class Articles
      *
      * Only articles which the current user is allowed to view are returned.
      *
-     * Convenience virtual columns 'volume' and 'number' are fetched from the
-     * issues table as well in addition to 'issueId'.
+     * Convenience virtual columns 'volume', 'number' and 'issue' are fetched
+     * from the issues table as well in addition to 'issueId'.
      *
      * The following keys may be defined in $args:
      *
@@ -251,6 +260,11 @@ class Articles
             // Weird bug with PHP using $list => &$article
             $list[$key]['keywords'] = dejoin(';', $article['keywords']);
             $list[$key]['permalink'] = makePermalink($article['title']);
+            if ($article['number'] !== '') {
+                $list[$key]['issue'] = ($article['volume'] !== '' ? $article['volume'] . '.' : '') . $article['number'];
+            } else {
+                $list[$key]['issue'] = '0';
+            };
         };
 
         if ($byStatus) {
@@ -287,18 +301,32 @@ class Articles
         if (isset($cols['id'])) {
             $id = $cols['id'];
             unset($cols['id']);
-            $oldStatus = $db->selectAtom('SELECT status FROM articles WHERE id=?', array($id));
+            $oldArticle = self::get($id);
             $res = $db->update('articles', $cols, 'WHERE id=?', array($id));
             if ($res !== false) {
-                $res = $id;
+
+                if ($oldArticle['issueId'] !== $cols['issueId'] && count($oldArticle['files']) > 0) {
+                    // Move files directory if issue was reassigned
+                    $config = $PPHP['config']['articles'];
+                    $issue = grab('issue', $cols['issueId']);
+                    $issuePath = $config['path'] . '/' . $issue['issue'];
+                    if (!file_exists($issuePath)) {
+                        mkdir($issuePath, 06770);
+                    };
+                    rename(
+                        "{$config['path']}/{$oldArticle['issue']}/{$id}",
+                        "{$config['path']}/{$issue['issue']}/{$id}"
+                    );
+                };
+
                 $log = array(
                     'action' => 'modified',
                     'objectType' => 'article',
-                    'objectId' => $res
+                    'objectId' => $id
                 );
-                if (isset($cols['status']) && $oldStatus !== $cols['status']) {
+                if (isset($cols['status']) && $oldArticle['status'] !== $cols['status']) {
                     $log['fieldName'] = 'status';
-                    $log['oldValue'] = $oldStatus;
+                    $log['oldValue'] = $oldArticle['status'];
                     $log['newValue'] = $cols['status'];
                 };
                 if (isset($cols['log'])) {
@@ -454,13 +482,13 @@ on(
                         $bad_format = false;
                         $base = filter('clean_filename', $file['filename']);
                         $ext = filter('clean_filename', $file['extension']);
-                        $base = "{$config['path']}/{$article['volume']}.{$article['number']}/{$article['id']}/{$base}";
+                        $base = "{$config['path']}/{$article['issue']}/{$article['id']}/{$base}";
 
-                        if (!file_exists("{$config['path']}/{$article['volume']}.{$article['number']}")) {
-                            mkdir("{$config['path']}/{$article['volume']}.{$article['number']}", 06770);
+                        if (!file_exists("{$config['path']}/{$article['issue']}")) {
+                            mkdir("{$config['path']}/{$article['issue']}", 06770);
                         };
-                        if (!file_exists("{$config['path']}/{$article['volume']}.{$article['number']}/{$article['id']}")) {
-                            mkdir("{$config['path']}/{$article['volume']}.{$article['number']}/{$article['id']}", 06770);
+                        if (!file_exists("{$config['path']}/{$article['issue']}/{$article['id']}")) {
+                            mkdir("{$config['path']}/{$article['issue']}/{$article['id']}", 06770);
                         };
 
                         // Attempt to save the file, avoiding name collisions

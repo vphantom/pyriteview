@@ -3,16 +3,7 @@
 {% if article.id %}
 	{{ title(article.title) }}
 {% endif %}
-
-{% if uploaded %}
-	{% if file_success %}
-		{{ lib.alert(file_success, __('save_success')) }}
-	{% elseif bad_format %}
-		{{ lib.alert(file_success, __('error_fileformat')) }}
-	{% else %}
-		{{ lib.alert(file_success, __('save_failure')) }}
-	{% endif %}
-{% elseif saved %}
+{% if saved %}
 	{% if success %}
 		{{ lib.alert(success, __('save_success')) }}
 	{% else %}

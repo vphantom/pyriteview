@@ -3,7 +3,7 @@
 	<table class="table table-hover table-condensed">
 		<tbody>
 			{% for tx in history %}
-		{% if loop.first or tx.timestamp != lastTime %}
+		{% if loop.first or tx.timestamp|slice(0,18) != lastTime %}
 			<tr{% if tx.objectType == 'user' and tx.action == 'modified' and (tx.fieldName=='email' or tx.fieldName=='password') %} class="warning"{% endif %}>
 				<td>
 		{% endif %}
@@ -86,7 +86,7 @@
 						<div class="log-content">{{ tx.content }}</div>
 					{% endif %}
 				</div>
-		{% if loop.last or tx.timestamp != history[loop.index].timestamp %}
+		{% if loop.last or tx.timestamp|slice(0,18) != history[loop.index].timestamp|slice(0,18) %}
 				</td>
 				<td class="text-right fit">
 					{%- if narrow -%}
@@ -97,7 +97,7 @@
 				</td>
 			</tr>
 		{% endif %}
-		{% set lastTime = tx.timestamp %}
+		{% set lastTime = tx.timestamp|slice(0,18) %}
 			{% endfor %}
 		</tbody>
 	</table>

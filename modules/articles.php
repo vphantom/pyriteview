@@ -39,6 +39,7 @@ class Articles
         on('articles',             'Articles::getList');
         on('article',              'Articles::get');
         on('article_save',         'Articles::save');
+        on('article_version_save', 'Articles::saveVersion');
     }
 
     /**
@@ -416,7 +417,6 @@ class Articles
             $issue = '0';
             if (count($files) > 0) {
                 $issue = self::_getIssueName($res);
-                var_dump($issue);
             };
             foreach ($files as $file) {
                 $uploaded = true;
@@ -465,7 +465,7 @@ class Articles
                 };
             };
             if (count($newFiles) > 0) {
-                self::_saveVersion($res, $newFiles);
+                self::saveVersion($res, $newFiles);
             };
 
         };
@@ -475,24 +475,39 @@ class Articles
     }
 
     /**
-     * Create a new version for article
+     * Save a version for an article
      *
-     * @param int   $articleId The article
-     * @param array $files     List of [name,bytes,type] arrays
+     * If $ver is supplied, that specific version is updated and $articleId is
+     * ignored.
+     *
+     * @param int      $articleId The article
+     * @param array    $files     List of [name,bytes,type] arrays
+     * @param int|null $ver       (Optional) Version ID
      *
      * @return int|bool New ID on success, false on failure
      */
-    private static function _saveVersion($articleId, $files)
+    public static function saveVersion($articleId, $files, $ver = null)
     {
         global $PPHP;
         $db = $PPHP['db'];
-        return $db->insert(
-            'articleVersions',
-            array(
-                'articleId' => $articleId,
-                'files'     => json_encode($files)
-            )
-        );
+        if ($ver !== null) {
+            return $db->update(
+                'articleVersions',
+                array(
+                    'files' => json_encode($files)
+                ),
+                'WHERE id=?',
+                array($ver)
+            );
+        } else {
+            return $db->insert(
+                'articleVersions',
+                array(
+                    'articleId' => $articleId,
+                    'files'     => json_encode($files)
+                )
+            );
+        };
     }
 }
 
@@ -606,10 +621,18 @@ on(
                 if (!pass('can', 'delete', 'article', $articleId)) return trigger('http_status', 403);
                 $saved = true;
                 $fname = array_shift($path);
-                foreach ($article['files'] as $file) {
-                    if ($file['name'] === $fname) {
-                        $success = unlink($article['files_dir'] . '/' . $file['name']);
-                        break;
+                foreach ($article['versions'] as $version) {
+                    foreach ($version['files'] as $key => $file) {
+                        if ($file['name'] === $fname
+                            && file_exists($article['files_dir'] . '/' . $file['name'])
+                        ) {
+                            $success = unlink($article['files_dir'] . '/' . $file['name']);
+                            if ($success) {
+                                unset($version['files'][$key]);
+                                trigger('article_version_save', null, $version['files'], $version['id']);
+                            };
+                            break;
+                        };
                     };
                 };
 

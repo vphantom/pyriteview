@@ -76,6 +76,39 @@ class Issues
     }
 
     /**
+     * Compute issue nickname
+     *
+     * For compatibility with special non-existent issue zero, returns "0" if
+     * anything failed along the way.
+     *
+     * @param int|array $in Issue ID or instance
+     *
+     * @return string Issue "issue" nickname
+     */
+    public static function getIssueName($in)
+    {
+        global $PPHP;
+        $db = $PPHP['db'];
+        $out = '0';
+
+        if (!is_array($in)) {
+            $in = $db->selectSingleArray(
+                "
+                SELECT volume, number FROM issues WHERE id=?
+                ",
+                array($in)
+            );
+        };
+        if (!is_array($in)) {
+            return $out;
+        };
+        if ($in['number']) {
+            $out = ($in['volume'] ? $in['volume'] . '.' : '') . $in['number'];
+        };
+        return $out;
+    }
+
+    /**
      * Get an issue
      *
      * Only works if the current user is allowed to view it.
@@ -96,12 +129,7 @@ class Issues
         if (pass('can', 'view', 'issue', $id)) {
             $issue = $db->selectSingleArray("SELECT * FROM issues WHERE id=?", array($id));
             if (is_array($issue)) {
-                if ($issue['number'] !== '') {
-                    $issue['issue'] = ($issue['volume'] !== '' ? $issue['volume'] . '.' : '') . $issue['number'];
-                } else {
-                    $issue['issue'] = '0';
-                };
-
+                $issue['issue'] = self::getIssueName($issue);
                 $issue['editors'] = grab('object_users', '*', 'issue', $id);
                 $issue['permalink'] = makePermalink($issue['title']);
             };
@@ -269,7 +297,8 @@ on(
                 if ($issueId == 0) {
                     // Mock structure for proper display
                     $issue = array(
-                        'id' => 0
+                        'id' => 0,
+                        'number' => '0'
                     );
                 } else {
                     $issue = grab('issue', $issueId);

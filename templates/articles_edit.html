@@ -113,15 +113,25 @@
 		{% else %}
 			<input type="hidden" name="authors[]" value="{{ session.user.id }}">
 		{% endif %}
-		<span data-label="{{ __('label_files') }}" class="input-like">
-			{% for file in article.files %}
-				{% if pass('can', 'delete', 'article', article.id) %}
-					<a href="{{ req.base }}/articles/{{ article.id }}/{{ file.name }}?unlink=1"><span class="fg-err"><span class="glyphicon glyphicon-minus"></span></span></a>
-				{% endif %}
-				<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
+		<div data-label="{{ __('label_files') }}" class="input-like" id="file-list">
+			{% set vid = 1 %}
+			{% for version in article.versions %}
+				<a class="list-group-item small" data-toggle="collapse" data-target="#version-{{ version.id }}" data-parent="#file-list"><strong>{{ __('label_version') }} {{ vid }}</strong> <em>{{ lib.format_timestamp(version.localcreated) }}</em></a>
+				<div id="version-{{ version.id }}" class="collapse{{ loop.last ? ' in' : '' }}">
+					{% for file in version.files %}
+						{% if pass('can', 'delete', 'article', article.id) %}
+							<a href="{{ req.base }}/articles/{{ article.id }}/{{ file.name }}?unlink=1&amp;version={{ version.id }}"><span class="fg-err"><span class="glyphicon glyphicon-minus"></span></span></a>
+						{% endif %}
+						<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
+					{% endfor %}
+				</div>
+				{% set vid = vid + 1 %}
 			{% endfor %}
+			{% if article.versions|length > 0 %}
+				<a class="list-group-item small"><strong>{{ __('label_new_version') }}:</strong></a>
+			{% endif %}
 			{{ lib.input_files('addfile', 'xs') }}
-		</span>
+		</div>
 		{{ lib.leftright_save(article.id) }}
 	</form>
 

@@ -419,7 +419,6 @@ class Articles
                 $issue = self::_getIssueName($res);
             };
             foreach ($files as $file) {
-                $uploaded = true;
                 if (in_array($file['type'], $config['file_types'])
                     && in_array($file['extension'], $config['file_extensions'])
                 ) {
@@ -442,7 +441,6 @@ class Articles
                         $i++;
                     };
                     if (move_uploaded_file($file['tmp_name'], $try)) {
-                        $file_success = true;
                         $pi = pathinfo($try);
                         $newFiles[] = array(
                             'name'  => $pi['basename'],
@@ -560,11 +558,9 @@ on(
         //
         if ($articleId !== null) {
             $created = false;
-            $uploaded = false;
             $bad_format = true;
             $saved = false;
             $success = false;
-            $file_success = false;
             $history = null;
             $history_id = $articleId;
             if (isset($req['post']['wordCount'])) {
@@ -611,11 +607,6 @@ on(
                 };
 
                 if ($created) return trigger('http_redirect', $req['base'] . '/articles/' . $articleId . '/' . $article['permalink']);
-
-                // Refresh to discover new files
-                if ($uploaded) {
-                    $article = grab('article', $articleId);
-                };
             };
             if (isset($req['get']['unlink'])) {
                 if (!pass('can', 'delete', 'article', $articleId)) return trigger('http_status', 403);
@@ -669,8 +660,6 @@ on(
                 array(
                     'saved' => $saved,
                     'success' => $success,
-                    'file_success' => $file_success,
-                    'uploaded' => $uploaded,
                     'bad_format' => $bad_format,
                     'article' => $article,
                     'issues' => grab('issues'),

@@ -90,6 +90,27 @@ class Articles
             )
             "
         );
+        $db->exec(
+            "
+            CREATE TABLE 'reviews' (
+                id        INTEGER PRIMARY KEY AUTOINCREMENT,
+                versionId INTEGER NOT NULL DEFAULT '0',
+                peerId    INTEGER NOT NULL DEFAULT '0',
+                created   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                deadline  date NOT NULL DEFAULT '2000-01-01',
+                status    VARCHAR(32) NOT NULL DEFAULT 'created',
+                FOREIGN KEY(versionId) REFERENCES articleVersions(id),
+                FOREIGN KEY(peerId)    REFERENCES users(id),
+                FOREIGN KEY(status)    REFERENCES articleStatus(name)
+            )
+
+            "
+        );
+        $db->exec(
+            "
+            CREATE UNIQUE INDEX idx_reviews_versions_peers ON reviews (versionId, peerId)
+            "
+        );
         $db->commit();
         echo "    done!\n";
     }

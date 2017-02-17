@@ -92,7 +92,7 @@
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
 			{{ lib.select_users(__('label_authors'), 'author', article.authors) }}
 			{% if session.user.id not in article.authors %}
-				{{ lib.select_users(__('label_peers'), 'peer', article.peers) }}
+				<p>TODO: peers</p>
 			{% endif %}
 		{% elseif article.id %}
 			<span data-label="{{ __('label_authors') }}" class="input-like">
@@ -136,7 +136,7 @@
 
 	{% endif %}
 
-{% elseif article.id and (pass('can', 'view', 'article', article.id) or pass('can', 'review', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) %}
+{% elseif article.id and (pass('can', 'view', 'article', article.id) or pass('can', 'view', 'issue', article.issueId)) %}
 
 	<dl class="dl-horizontal">
 		<dt>{{ __('label_issueId') }}</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>

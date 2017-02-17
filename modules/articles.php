@@ -159,7 +159,6 @@ class Articles
         );
         if (pass('can', 'view', 'article', $id)
             || pass('can', 'view', 'issue', $article['issueId'])
-            || pass('can', 'review', 'article', $id)
             || pass('can', 'edit', 'article', $id)
             || pass('can', 'edit', 'issue', $article['issueId'])
         ) {
@@ -168,7 +167,6 @@ class Articles
                 $article['keywords'] = dejoin(';', $article['keywords']);
                 $article['permalink'] = makePermalink($article['title']);
                 $article['authors'] = grab('object_users', 'edit', 'article', $id);
-                $article['peers'] = grab('object_users', 'review', 'article', $id);
                 $article['editors'] = grab('object_users', '*', 'issue', $article['issueId']);
                 if (count($article['editors']) < 1) {
                     $article['editors'] = grab('role_users', 'editor-in-chief');
@@ -250,7 +248,6 @@ class Articles
         $sources = array();
         $sources[] = grab('can_sql', 'issues.id', 'view', 'issue');
         $sources[] = grab('can_sql', 'articles.id', 'view', 'article');
-        $sources[] = grab('can_sql', 'articles.id', 'review', 'article');
         if (pass('has_role', 'author')) {
             $sources[] = grab('can_sql', 'articles.id', 'edit', 'article');
         };
@@ -399,19 +396,6 @@ class Articles
                 };
             };
 
-            if (isset($cols['peers'])) {
-                $oldPeers = grab('object_users', 'review', 'article', $res);
-                $deled = array_diff($oldPeers, $cols['peers']);
-                $added = array_diff($cols['peers'], $oldPeers);
-                foreach ($added as $peer) {
-                    trigger('grant', $peer, 'peer');
-                    trigger('grant', $peer, null, 'review', 'article', $res);
-                };
-                foreach ($deled as $author) {
-                    trigger('revoke', $author, null, 'review', 'article', $res);
-                };
-            };
-
             // Handle file uploads
             $newFiles = array();
             $issue = '0';
@@ -527,7 +511,6 @@ on(
         if ($req['binary']) {
             if ($article === false) return trigger('http_status', 404);
             if (!(pass('can', 'view', 'article', $articleId)
-                || pass('can', 'review', 'article', $articleId)
                 || pass('can', 'edit', 'article', $articleId)
                 || pass('can', 'view', 'issue', $article['issueId']))
             ) return trigger('http_status', 403);
@@ -574,9 +557,6 @@ on(
                     $req['post']['userdata'] = array();
                 };
                 $req['post']['authors'] = grab('clean_userids', $req['post']['authors'], $req['post']['userdata']);
-                if (isset($req['post']['peers'])) {
-                    $req['post']['peers']   = grab('clean_userids', $req['post']['peers'], $req['post']['userdata']);
-                };
                 $saved = true;
                 $success = grab('article_save', $req['post'], $req['files']);
 
@@ -596,7 +576,7 @@ on(
                         'sendmail',
                         $article['authors'],
                         $article['editors'],
-                        $article['peers'],
+                        null,
                         'editarticle',
                         array(
                             'article' => $article,
@@ -637,7 +617,6 @@ on(
 
                 // View only from this point
                 if (!(pass('can', 'view', 'article', $articleId)
-                    || pass('can', 'review', 'article', $articleId)
                     || pass('can', 'edit', 'article', $articleId)
                     || pass('can', 'view', 'issue', $article['issueId']))
                 ) return trigger('http_status', 403);

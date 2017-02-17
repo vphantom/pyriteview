@@ -1,0 +1,26 @@
+{% import 'lib' as lib %}
+<div class="table-responsive">
+	<table class="table table-condensed">
+		{% for status in config.reviews.states_wip %}
+			{% if reviews[status] |length > 0 %}
+				{# Help gettext's msgmerge:
+					__('title_peer_created')
+					__('title_peer_reviewing')
+				#}
+				<tbody class="spaced">
+					<tr class="panel-info"><td colspan="2" class="panel-heading">{{ __('title_peer_'~status) }}</td></tr>
+					<tr>
+						<th>{{ __('label_deadline') }}</th>
+						<th>{{ __('title_articles') }}</th>
+					</tr>
+					{% for review in reviews[status] %}
+						<tr>
+							<td class="fit">{{ review.deadline }}</td>
+							<td>{{ lib.format_article(review.articleId) }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			{% endif %}
+		{% endfor %}
+	</table>
+</div>

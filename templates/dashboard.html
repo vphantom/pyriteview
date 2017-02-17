@@ -18,6 +18,20 @@
 			<!-- /Outbox Panel -->
 		{% endif %}
 
+		{% set reviews = grab('peer_reviews') %}
+		{% if reviews|length > 0 %}
+			<!-- Reviews Panel -->
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<span class="glyphicon glyphicon-eye-open"></span> {{ __('title_reviews') }}
+				</div>
+				<div class="panel-body">
+					{% include 'review_list.html' %}
+				</div>
+			</div>
+			<!-- /Reviews Panel -->
+		{% endif %}
+
 		<!-- Articles Panel -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">

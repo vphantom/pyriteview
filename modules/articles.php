@@ -40,6 +40,7 @@ class Articles
         on('article',              'Articles::get');
         on('article_save',         'Articles::save');
         on('article_version_save', 'Articles::saveVersion');
+        on('peer_reviews',         'Articles::getPeerReviews');
     }
 
     /**
@@ -511,6 +512,36 @@ class Articles
                 )
             );
         };
+    }
+
+    /**
+     * Get work-in-progress reviews for current user
+     *
+     * The resulting array is keyed by status (thus 'created' and 'reviewing'
+     * keys per config.ini's reviews.states_wip[]) then sorted by due date,
+     * chronologically.
+     *
+     * @return array WIP reviews
+     */
+    public static function getPeerReviews()
+    {
+        global $PPHP;
+        $db = $PPHP['db'];
+        $config = $PPHP['config']['reviews'];
+        $res = array();
+
+        $q = $db->query('SELECT reviews.*, articleVersions.articleId FROM reviews');
+        $q->left_join('articleVersions')->on('articleVersions.id = reviews.versionId');
+        $q->where('peerId = ?', $_SESSION['user']['id']);
+        $q->and('status IN')->varsClosed($config['states_wip']);
+        $q->order_by('deadline ASC');
+        $reviews = $db->selectArray($q);
+
+        foreach ($reviews as $review) {
+            $res[$review['status']][] = $review;
+        };
+
+        return $res;
     }
 }
 

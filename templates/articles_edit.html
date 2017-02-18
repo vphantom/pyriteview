@@ -149,7 +149,7 @@
 			{% endfor %}
 		</dd>
 		<dt>{{ __('label_files') }}</td><dd>
-			{% for file in article.files %}
+			{% for file in article.versions|last.files %}
 				<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
 			{% endfor %}
 		</dd>

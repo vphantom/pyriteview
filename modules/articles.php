@@ -579,8 +579,10 @@ class Articles
         $q->order_by('deadline ASC');
         $reviews = $db->selectArray($q);
 
-        foreach ($reviews as $review) {
-            $res[$review['status']][] = $review;
+        if ($reviews !== false) {
+            foreach ($reviews as $review) {
+                $res[$review['status']][] = $review;
+            };
         };
 
         return $res;

@@ -170,6 +170,7 @@ class Articles
         $db = $PPHP['db'];
         $config = $PPHP['config']['articles'];
         $article = false;
+        $isPeer = false;
 
         $article = $db->selectSingleArray(
             "
@@ -179,10 +180,34 @@ class Articles
             ",
             array($id)
         );
+
+        // Process up to the point where we can determine if the user is
+        // allowed access to this article.  This means getting reviews.
+        $article['versions'] = $db->selectArray(
+            "
+            SELECT articleVersions.*, datetime(articleVersions.created, 'localtime') AS localcreated, reviews.id AS isPeer
+            FROM articleVersions
+            LEFT JOIN reviews ON reviews.versionId=articleVersions.id AND reviews.peerId=?
+            WHERE articleVersions.articleId=?
+            ORDER BY id ASC
+            ",
+            array($_SESSION['user']['id'], $article['id'])
+        );
+        if (!is_array($article['versions'])) {
+            $article['versions'] = array();
+        };
+        foreach ($article['versions'] as $key => $version) {
+            $article['versions'][$key]['files'] = json_decode($version['files'], true);
+            if ($version['isPeer']) {
+                $isPeer = true;
+            };
+        };
+        $article['isPeer'] = $isPeer;
         if (pass('can', 'view', 'article', $id)
             || pass('can', 'view', 'issue', $article['issueId'])
             || pass('can', 'edit', 'article', $id)
             || pass('can', 'edit', 'issue', $article['issueId'])
+            || $isPeer
         ) {
 
             if ($article !== false) {
@@ -194,13 +219,7 @@ class Articles
                     $article['editors'] = grab('role_users', 'editor-in-chief');
                 };
                 $article['issue'] = self::_getIssueName($article);
-
-                // Versions
                 $article['files_dir'] = "{$config['path']}/{$article['issue']}/{$article['id']}";
-                $article['versions'] = $db->selectArray("SELECT *, datetime(created, 'localtime') AS localcreated FROM articleVersions WHERE articleId=? ORDER BY id ASC", array($article['id']));
-                foreach ($article['versions'] as $key => $version) {
-                    $article['versions'][$key]['files'] = json_decode($version['files'], true);
-                };
             };
         } else {
             return array();
@@ -301,6 +320,9 @@ class Articles
         if (pass('has_role', 'author')) {
             $sources[] = grab('can_sql', 'articles.id', 'edit', 'article');
         };
+        if (pass('has_role', 'peer')) {
+            $sources[] = $db->query('reviews.peerId=?', $_SESSION['user']['id']);
+        };
         $q->implodeClosed('OR', $sources);
         if (pass('has_role', 'reader')) {
             $q->and("articles.status='published'");
@@ -317,9 +339,9 @@ class Articles
             $search[] = $db->query('articles.status IN')
                 ->varsClosed($config['articles']['states_wip']);
 
-            $search[] = $db->query('articles.status IN')
+            $search[] = $db->query('(articles.status IN')
                 ->varsClosed($config['articles']['states_final'])
-                ->and("issues.publication > date('now', '-1 month')");
+                ->and("issues.publication > date('now', '-1 month') )");
 
             $q->and()->implodeClosed('OR', $search);
         };
@@ -612,7 +634,8 @@ on(
             if ($article === false) return trigger('http_status', 404);
             if (!(pass('can', 'view', 'article', $articleId)
                 || pass('can', 'edit', 'article', $articleId)
-                || pass('can', 'view', 'issue', $article['issueId']))
+                || pass('can', 'view', 'issue', $article['issueId'])
+                || $article['isPeer'])
             ) return trigger('http_status', 403);
 
             $fname = array_shift($path);
@@ -718,7 +741,8 @@ on(
                 // View only from this point
                 if (!(pass('can', 'view', 'article', $articleId)
                     || pass('can', 'edit', 'article', $articleId)
-                    || pass('can', 'view', 'issue', $article['issueId']))
+                    || pass('can', 'view', 'issue', $article['issueId'])
+                    || $article['isPeer'])
                 ) return trigger('http_status', 403);
 
                 $history = grab(

@@ -8,6 +8,31 @@
 </div>
 {% endmacro %}
 
+{% macro counter(glyphicon, context, count, text, target) %}
+	<div class="col-lg-3 col-md-6">
+		<div class="panel panel-{{ context }}">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<span class="glyphicon glyphicon-{{ glyphicon }} grow-5x"></span>
+					</div>
+					<div class="col-xs-9 text-right">
+						<div class="grow-3x">{{ count }}</div>
+						<div>{{ text }}</div>
+					</div>
+				</div>
+			</div>
+			<a href="{{ target }}">
+				<div class="panel-footer">
+					<span class="pull-left">{{ __('label_view_details') }}</span>
+					<span class="pull-right"><span class="glyphicon glyphicon-circle-arrow-right"></span></span>
+					<div class="clearfix"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+{% endmacro %}
+
 {% macro format_timestamp(timestamp) %}
 	{%- if timestamp -%}
 		<span class="timeago" title="{{ timestamp }}" datetime="{{ timestamp }}">{{ timestamp }}</span>

@@ -3,6 +3,18 @@
 <h2 class="page-header"><span class="glyphicon glyphicon-home"></span> {{ __('title_dashboard') }}</h2>
 
 <div class="row">
+	{% if noreviews|length > 0 %}
+		{{ lib.counter('align-left', 'red', noreviews|length, __('title_no_reviews'), req.base~'/articles?filter=noreviews') }}
+	{% endif %}
+	{% if miapeers|length > 0 %}
+		{{ lib.counter('eye-close', 'orange', miapeers|length, __('title_mia_peers'), req.base~'/articles?filter=miapeers') }}
+	{% endif %}
+	{% if latereviews|length > 0 %}
+		{{ lib.counter('eye-open', 'orange', latereviews|length, __('title_late_reviews'), req.base~'/articles?filter=latereviews') }}
+	{% endif %}
+</div>
+
+<div class="row">
 	<div class="col-lg-7">
 
 		{% if session.outbox and session.outbox|length > 0 %}
@@ -18,7 +30,6 @@
 			<!-- /Outbox Panel -->
 		{% endif %}
 
-		{% set reviews = grab('peer_reviews') %}
 		{% if reviews|length > 0 %}
 			<!-- Reviews Panel -->
 			<div class="panel panel-primary">

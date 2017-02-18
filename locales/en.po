@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 12:39-0500\n"
-"PO-Revision-Date: 2017-02-15 12:39-0500\n"
+"POT-Creation-Date: 2017-02-18 09:47-0500\n"
+"PO-Revision-Date: 2017-02-18 09:48-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -71,10 +71,6 @@ msgstr "Please sign in again."
 msgid "error_expired_title"
 msgstr "Session Expired"
 
-msgid "error_fileformat"
-msgstr ""
-"Some files couldn't be saved because they don't match any accepted format."
-
 msgid "error_login_body"
 msgstr "The e-mail address and password supplied are incorrect."
 
@@ -123,6 +119,9 @@ msgstr "Special"
 
 msgid "label_abstract"
 msgstr "Abstract"
+
+msgid "label_accept"
+msgstr "Accept"
 
 msgid "label_action"
 msgstr "Action"
@@ -183,6 +182,12 @@ msgstr "Deactivate"
 
 msgid "label_deactivated"
 msgstr "deactivated"
+
+msgid "label_deadline"
+msgstr "Deadline"
+
+msgid "label_decline"
+msgstr "Decline"
 
 msgid "label_delete"
 msgstr "Delete"
@@ -343,6 +348,9 @@ msgstr "User"
 msgid "label_version"
 msgstr "Version"
 
+msgid "label_view_details"
+msgstr "See details"
+
 msgid "label_volume"
 msgstr "Volume"
 
@@ -479,11 +487,26 @@ msgstr "Instructions for authors"
 msgid "title_issues"
 msgstr "Issues"
 
+msgid "title_late_reviews"
+msgstr "Late peers"
+
+msgid "title_mia_peers"
+msgstr "Undecided peers"
+
 msgid "title_newarticle"
 msgstr "New Article"
 
+msgid "title_no_reviews"
+msgstr "Peerless articles"
+
 msgid "title_outbox"
 msgstr "Outbox"
+
+msgid "title_peer_created"
+msgstr "Do you accept to review these articles?"
+
+msgid "title_peer_reviewing"
+msgstr "Articles awaiting your review:"
 
 msgid "title_prefs"
 msgstr "Preferences"
@@ -496,6 +519,9 @@ msgstr "Recent History"
 
 msgid "title_register"
 msgstr "Registration"
+
+msgid "title_reviews"
+msgstr "Reviews"
 
 msgid "title_roles"
 msgstr "Roles"
@@ -514,6 +540,10 @@ msgstr "Unknown User"
 
 msgid "user_zero"
 msgstr "The System"
+
+#~ msgid "error_fileformat"
+#~ msgstr ""
+#~ "Some files couldn't be saved because they don't match any accepted format."
 
 #~ msgid "label_issue"
 #~ msgstr "Issue"

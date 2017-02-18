@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 12:39-0500\n"
+"POT-Creation-Date: 2017-02-18 09:47-0500\n"
 "PO-Revision-Date: 2017-01-31 12:04-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
@@ -68,9 +68,6 @@ msgstr ""
 msgid "error_expired_title"
 msgstr ""
 
-msgid "error_fileformat"
-msgstr ""
-
 msgid "error_login_body"
 msgstr ""
 
@@ -117,6 +114,9 @@ msgid "issue_zero"
 msgstr ""
 
 msgid "label_abstract"
+msgstr ""
+
+msgid "label_accept"
 msgstr ""
 
 msgid "label_action"
@@ -177,6 +177,12 @@ msgid "label_deactivate"
 msgstr ""
 
 msgid "label_deactivated"
+msgstr ""
+
+msgid "label_deadline"
+msgstr ""
+
+msgid "label_decline"
 msgstr ""
 
 msgid "label_delete"
@@ -338,6 +344,9 @@ msgstr ""
 msgid "label_version"
 msgstr ""
 
+msgid "label_view_details"
+msgstr ""
+
 msgid "label_volume"
 msgstr ""
 
@@ -470,10 +479,25 @@ msgstr ""
 msgid "title_issues"
 msgstr ""
 
+msgid "title_late_reviews"
+msgstr ""
+
+msgid "title_mia_peers"
+msgstr ""
+
 msgid "title_newarticle"
 msgstr ""
 
+msgid "title_no_reviews"
+msgstr ""
+
 msgid "title_outbox"
+msgstr ""
+
+msgid "title_peer_created"
+msgstr ""
+
+msgid "title_peer_reviewing"
 msgstr ""
 
 msgid "title_prefs"
@@ -486,6 +510,9 @@ msgid "title_recent_history"
 msgstr ""
 
 msgid "title_register"
+msgstr ""
+
+msgid "title_reviews"
 msgstr ""
 
 msgid "title_roles"

@@ -50,19 +50,26 @@ on(
             $historyFilter['userId'] = $_SESSION['user']['id'];
         };
         $states = array();
+        $current = true;
         if (!pass('has_role', 'author')) {
             $states = $PPHP['config']['articles']['states_wip'];
+            $current = false;
         };
         trigger(
             'render',
             'dashboard.html',
             array(
+                'reviews' => grab('peer_reviews'),
                 'recentHistory' => grab('history', $historyFilter),
+                'noreviews' => grab('articles', array('current' => true, 'noReviews' => true)),
+                'miapeers' => grab('articles', array('current' => true, 'miaPeers' => true)),
+                'latereviews' => grab('articles', array('current' => true, 'lateReviews' => true)),
                 'articles' => grab(
                     'articles',
                     array(
                         'byStatus' => true,
-                        'states' => $states
+                        'states' => $states,
+                        'current' => $current
                     )
                 )
             )

@@ -8,15 +8,23 @@
 					__('title_peer_reviewing')
 				#}
 				<tbody class="spaced">
-					<tr class="panel-info"><td colspan="2" class="panel-heading">{{ __('title_peer_'~status) }}</td></tr>
+					<tr class="panel-info"><td colspan="3" class="panel-heading">{{ __('title_peer_'~status) }}</td></tr>
 					<tr>
 						<th>{{ __('label_deadline') }}</th>
-						<th>{{ __('title_articles') }}</th>
+						<th colspan="2">{{ __('title_articles') }}</th>
 					</tr>
 					{% for review in reviews[status] %}
 						<tr>
 							<td class="fit">{{ review.deadline }}</td>
 							<td>{{ lib.format_article(review.articleId) }}</td>
+							<td class="fit">
+								{% if status == 'created' %}
+									<form action="{{ req.base }}/update_review" id="update_review" method="post" class="form-inline">
+										<button class="btn btn-default btn-xs" type="submit"><span class="glyphicon glyphicon-ok fg-ok"></span> {{ __('label_accept') }}</button>
+										<button class="btn btn-default btn-xs" type="submit"><span class="glyphicon glyphicon-remove fg-err"></span> {{ __('label_decline') }}</button>
+									</form>
+								{% endif %}
+							</td>
 						</tr>
 					{% endfor %}
 				</tbody>

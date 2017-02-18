@@ -18,4 +18,17 @@
 	{% endif %}
 </div>
 
+{% if req.get.filter %}
+	<h3>
+		{% if req.get.filter == 'noreviews' %}
+			{{ __('title_no_reviews') }}
+		{% elseif req.get.filter == 'miapeers' %}
+			{{ __('title_mia_peers') }}
+		{% elseif req.get.filter == 'latereviews' %}
+			{{ __('title_late_reviews') }}
+		{% endif %}
+	</h3>
+{% endif %}
+
+
 {% include 'articles_list.html' %}

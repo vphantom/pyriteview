@@ -224,6 +224,9 @@ class Articles
      * states: Restrict to specific states (string for one, array for many)
      * byStatus: Set true to group results by status code
      * current: Status in states_wip[] OR status in states_final[] in recent/future issues
+     * noReviews: None of the article's versions have any reviews
+     * miaPeers: Some of the article's reviews aren't accepted beyond time limit
+     * lateReviews: Some of the article's reviews aren't done by deadline
      *
      * @param array $args (Optional) Arguments described above
      *
@@ -233,12 +236,15 @@ class Articles
     {
         global $PPHP;
         $db = $PPHP['db'];
-        $config = $PPHP['config']['articles'];
+        $config = $PPHP['config'];
         $res = array();
         $keyword = null;
         $issueId = null;
         $current = false;
         $byStatus = false;
+        $noReviews = false;
+        $miaPeers = false;
+        $lateReviews = false;
         $states = array();
 
         foreach ($args as $key => $val) {
@@ -256,8 +262,18 @@ class Articles
                     $states[] = $val;
                 };
                 break;
+            case 'noReviews':
+                $noReviews = true;
+                break;
+            case 'miaPeers':
+                $miaPeers = true;
+                break;
+            case 'lateReviews':
+                $lateReviews = true;
+                break;
             case 'current':
                 $current = true;
+                break;
             case 'byStatus':
                 $byStatus = $val;
                 break;
@@ -266,6 +282,18 @@ class Articles
 
         $q = $db->query('SELECT articles.*, issues.volume, issues.number FROM articles');
         $q->left_join('issues ON issues.id=articles.issueId');
+        if ($noReviews || $miaPeers || $lateReviews) {
+            // Get last version for each article
+            $q->left_join(
+                '
+                articleVersions ON articleVersions.id=(
+                    SELECT MAX(id) FROM articleVersions WHERE articleId=articles.id
+                )
+                '
+            );
+            // Get reviews for chosen version
+            $q->left_join('reviews ON reviews.versionId=articleVersions.id');
+        };
         $q->where();
         $sources = array();
         $sources[] = grab('can_sql', 'issues.id', 'view', 'issue');
@@ -287,10 +315,10 @@ class Articles
             $search = array();
 
             $search[] = $db->query('articles.status IN')
-                ->varsClosed($config['states_wip']);
+                ->varsClosed($config['articles']['states_wip']);
 
             $search[] = $db->query('articles.status IN')
-                ->varsClosed($config['states_final'])
+                ->varsClosed($config['articles']['states_final'])
                 ->and("issues.publication > date('now', '-1 month')");
 
             $q->and()->implodeClosed('OR', $search);
@@ -302,9 +330,23 @@ class Articles
             $search[] = $db->query('articles.abstract LIKE ?', "%{$keyword}%");
             $q->and()->implodeClosed('OR', $search);
         };
+        if ($noReviews) {
+            $q->and('reviews.id IS NULL');
+            $q->group_by('articles.id');  // Allowed with ORDER BY in SQLite
+        };
+        if ($miaPeers) {
+            $q->and('reviews.id IS NOT NULL');
+            $q->and("reviews.status = 'created'");
+            $q->and("reviews.created < date('now', '-{$config['reviews']['accept_days']} days')");
+        };
+        if ($lateReviews) {
+            $q->and('reviews.id IS NOT NULL');
+            $q->and("reviews.status = 'reviewing'");
+            $q->and("reviews.deadline < date('now')");
+        };
         $q->order_by('issues.volume DESC, issues.number DESC, articles.id DESC');
 
-        if ($PPHP['config']['global']['debug']) {
+        if ($config['global']['debug']) {
             print_r($q);
         };
         $list = $db->selectArray($q);
@@ -315,7 +357,7 @@ class Articles
             $list[$key]['issue'] = self::_getIssueName($article);
         };
 
-        if ($byStatus) {
+        if ($byStatus === true) {
             $sorted = array();
             foreach ($list as $article) {
                 $sorted[$article['status']][] = $article;
@@ -704,6 +746,21 @@ on(
             if (isset($req['post']['keyword'])) {
                 if (!pass('form_validate', 'article_search')) return trigger('http_status', 440);
                 $search['keyword'] = $req['post']['keyword'];
+            } elseif (isset($req['get']['filter'])) {
+                switch ($req['get']['filter']) {
+                case 'noreviews':
+                    $search['current'] = true;
+                    $search['noReviews'] = true;
+                    break;
+                case 'miapeers':
+                    $search['current'] = true;
+                    $search['miaPeers'] = true;
+                    break;
+                case 'latereviews':
+                    $search['current'] = true;
+                    $search['lateReviews'] = true;
+                    break;
+                };
             } else {
                 $search['current'] = true;
             };

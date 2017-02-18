@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 12:39-0500\n"
-"PO-Revision-Date: 2017-02-15 12:39-0500\n"
+"POT-Creation-Date: 2017-02-18 09:47-0500\n"
+"PO-Revision-Date: 2017-02-18 09:47-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -72,11 +72,6 @@ msgstr "Veuillez vous connecter à nouveau."
 msgid "error_expired_title"
 msgstr "Session expirée"
 
-msgid "error_fileformat"
-msgstr ""
-"Certains fichiers n'ont pu être sauvegardés parce qu'ils ne correspondent à "
-"aucun format accepté."
-
 msgid "error_login_body"
 msgstr "L'adresse de courriel et le mot de passe fournis sont incorrects."
 
@@ -130,6 +125,9 @@ msgstr "Hors-série"
 
 msgid "label_abstract"
 msgstr "Résumé"
+
+msgid "label_accept"
+msgstr "Accepter"
 
 msgid "label_action"
 msgstr "Action"
@@ -190,6 +188,12 @@ msgstr "Désactiver"
 
 msgid "label_deactivated"
 msgstr "désactivé"
+
+msgid "label_deadline"
+msgstr "Date limite"
+
+msgid "label_decline"
+msgstr "Refuser"
 
 msgid "label_delete"
 msgstr "Effacer"
@@ -350,6 +354,9 @@ msgstr "Usager"
 msgid "label_version"
 msgstr "Version"
 
+msgid "label_view_details"
+msgstr "Voir détails"
+
 msgid "label_volume"
 msgstr "Volume"
 
@@ -488,11 +495,26 @@ msgstr "Instructions pour auteurs"
 msgid "title_issues"
 msgstr "Numéros"
 
+msgid "title_late_reviews"
+msgstr "Pairs en retard"
+
+msgid "title_mia_peers"
+msgstr "Pairs indécis"
+
 msgid "title_newarticle"
 msgstr "Nouvel article"
 
+msgid "title_no_reviews"
+msgstr "Articles sans pair"
+
 msgid "title_outbox"
 msgstr "Boîte d'envoi"
+
+msgid "title_peer_created"
+msgstr "Acceptez-vous d'évaluer ces articles?"
+
+msgid "title_peer_reviewing"
+msgstr "Articles en attente de votre évaluation:"
 
 msgid "title_prefs"
 msgstr "Préférences"
@@ -505,6 +527,9 @@ msgstr "Historique Récente"
 
 msgid "title_register"
 msgstr "Inscription"
+
+msgid "title_reviews"
+msgstr "Évaluations"
 
 msgid "title_roles"
 msgstr "Rôles"
@@ -523,6 +548,11 @@ msgstr "Usager inconnu"
 
 msgid "user_zero"
 msgstr "Le système"
+
+#~ msgid "error_fileformat"
+#~ msgstr ""
+#~ "Certains fichiers n'ont pu être sauvegardés parce qu'ils ne correspondent "
+#~ "à aucun format accepté."
 
 #~ msgid "label_issue"
 #~ msgstr "Numéro"

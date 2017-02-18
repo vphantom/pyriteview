@@ -626,7 +626,7 @@ on(
         if (!$_SESSION['identified']) return trigger('http_status', 403);
         $req = grab('request');
         $articleId = array_shift($path);
-        $article = grab('article', $articleId);
+        $article = (is_numeric($articleId) ? grab('article', $articleId) : false);
 
         // A binary request is necessarily for a file within an article
         //

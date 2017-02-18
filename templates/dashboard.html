@@ -43,23 +43,25 @@
 			<!-- /Reviews Panel -->
 		{% endif %}
 
-		<!-- Articles Panel -->
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<span class="glyphicon glyphicon-align-left"></span> {{ __('title_articles') }}
-				{% if pass('can', 'create', 'article') %}
-					<div class="pull-right">
-						<form action="{{ req.base }}/articles/new" id="article_create" method="get" class="form-inline">
-							<button class="btn btn-default btn-xs" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> {{ __('label_create') }}</button>
-						</form>
-					</div>
-				{% endif %}
+		{% if articles|length > 0 %}
+			<!-- Articles Panel -->
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<span class="glyphicon glyphicon-align-left"></span> {{ __('title_articles') }}
+					{% if pass('can', 'create', 'article') %}
+						<div class="pull-right">
+							<form action="{{ req.base }}/articles/new" id="article_create" method="get" class="form-inline">
+								<button class="btn btn-default btn-xs" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> {{ __('label_create') }}</button>
+							</form>
+						</div>
+					{% endif %}
+				</div>
+				<div class="panel-body">
+					{% include 'articles_list.html' %}
+				</div>
 			</div>
-			<div class="panel-body">
-				{% include 'articles_list.html' %}
-			</div>
-		</div>
-		<!-- /Articles Panel -->
+			<!-- /Articles Panel -->
+		{% endif %}
 
 	</div>
 	<div class="col-lg-5">

@@ -85,6 +85,7 @@
 				</tr>
 			</thead>
 			<tbody>
+				{% set aclDelNonce = filter('form_begin', 'admin_user_acl_del') %}
 				{% for right in rights %}
 				<tr>
 					<td class="fit">
@@ -92,7 +93,7 @@
 							&nbsp;
 						{% else %}
 							<form id="admin_user_acl_del" class="form-toolbar" method="post">
-								{{ filter('form_begin', 'admin_user_acl_del') |raw }}
+								{{ aclDelNonce |raw }}
 								<input type="hidden" name="f" value="del">
 								<input type="hidden" name="role" value="{{ role }}">
 								<input type="hidden" name="action" value="{{ right.action }}">

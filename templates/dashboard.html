@@ -2,7 +2,7 @@
 {{ title(__('title_dashboard')) }}
 <h2 class="page-header"><span class="glyphicon glyphicon-home"></span> {{ __('title_dashboard') }}</h2>
 
-{% if pass('can', 'edit', 'email') %}
+{% if pass('can', 'delete', 'article') %}
 	<div class="row">
 		{% if noreviews|length > 0 %}
 			{{ lib.counter('align-left', 'red', noreviews|length, __('title_no_reviews'), req.base~'/articles?filter=noreviews') }}

@@ -350,6 +350,10 @@ class Articles
             print_r($q);
         };
         $list = $db->selectArray($q);
+        if ($list === false) {
+            return array();
+        };
+
         foreach ($list as $key => $article) {
             // Weird bug with PHP using $list => &$article
             $list[$key]['keywords'] = dejoin(';', $article['keywords']);

@@ -140,6 +140,13 @@
 
 	<dl class="dl-horizontal">
 		<dt>{{ __('label_issueId') }}</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
+		{% if article.isPeer %}
+			<dt>{{ __('label_editors') }}</dt><dd>
+				{% for editor in article.editors %}
+					{{ lib.format_user(editor, true, false, true) }}
+				{% endfor %}
+			</dd>
+		{% endif %}
 		<dt>{{ __('label_wordCount') }}</dt><dd>{{ article.wordCount }}</dd>
 		<dt>{{ __('label_keywords') }}</dt><dd>{{ article.keywords |join(', ') }}</dd>
 		<dt>{{ __('label_abstract') }}</dt><dd>{{ article.abstract }}</dd>

@@ -41,6 +41,7 @@ class Articles
         on('article_save',         'Articles::save');
         on('article_version_save', 'Articles::saveVersion');
         on('peer_reviews',         'Articles::getPeerReviews');
+        on('review_save',          'Articles::saveReview');
     }
 
     /**
@@ -201,6 +202,15 @@ class Articles
             if ($version['isPeer']) {
                 $isPeer = true;
             };
+            $article['versions'][$key]['reviews'] = $db->selectArray(
+                "
+                SELECT *, CAST(round(julianday(deadline) - julianday('now')) AS INTEGER) AS daysLeft
+                FROM reviews
+                WHERE versionId=?
+                ORDER BY deadline ASC
+                ",
+                array($version['id'])
+            );
         };
         $article['isPeer'] = $isPeer;
         if (pass('can', 'view', 'article', $id)
@@ -613,6 +623,51 @@ class Articles
 
         return $res;
     }
+
+    /**
+     * Save/create review(s)
+     *
+     * @param array $cols Columns to set
+     *
+     * @return bool Whether it succeeded
+     */
+    public static function saveReview($cols)
+    {
+        global $PPHP;
+        $db = $PPHP['db'];
+        $config = $PPHP['config']['reviews'];
+
+        if (isset($cols['peers']) && isset($cols['versionId'])) {
+            // We're creating new reviews, one per peer
+            // Return false if any of the inserts fails
+            $success = true;
+            $db->begin();
+            foreach ($cols['peers'] as $peer) {
+                $cols['peerId'] = $peer;
+                if ($db->insert('reviews', $cols) === false) {
+                    $success = false;
+                    break;
+                };
+            };
+            if ($success) {
+                $db->commit();
+            } else {
+                $db->rollback();
+            };
+            return $success;
+        };
+
+        if (isset($cols['status']) && isset($cols['id'])) {
+            // We're updating a review
+            $id = $cols['id'];
+            unset($cols['id']);
+            $res = $db->update('reviews', $cols, 'WHERE id=?', array($id)) !== false;
+            if ($res) {
+                // FIXME: Log this joyous occasion!
+                // Current user has 'status'ed his review of article ['articleId']
+            };
+        };
+    }
 }
 
 // Routes
@@ -621,7 +676,6 @@ on(
     'route/articles',
     function ($path) {
         global $PPHP;
-        $config = $PPHP['config']['articles'];
 
         if (!$_SESSION['identified']) return trigger('http_status', 403);
         $req = grab('request');
@@ -737,6 +791,29 @@ on(
             };
             if (is_numeric($articleId)) {
 
+                if (isset($req['post']['review'])) {
+                    if (!pass('form_validate', 'review')) return trigger('http_status', 440);
+                    $saved = true;
+                    if (!(pass('can', 'delete', 'article', $articleId)
+                        || pass('can', 'edit', 'issue', $article['issueId'])
+                        || $article['isPeer'])
+                    ) return trigger('http_status', 403);
+                    if (!isset($req['post']['userdata'])) {
+                        $req['post']['userdata'] = array();
+                    };
+                    if (isset($req['post']['peers'])) {
+                        $req['post']['peers'] = grab('clean_userids', $req['post']['peers'], $req['post']['userdata']);
+                    };
+                    if (count($article['versions']) > 0) {
+                        $req['post']['versionId'] = $article['versions'][count($article['versions'])-1]['id'];
+                    };
+                    $req['post']['articleId'] = $articleId;
+                    // This handles create and update
+                    $success = grab('review_save', $req['post']);
+                    if ($success) {
+                        $article = grab('article', $articleId);
+                    };
+                };
 
                 // View only from this point
                 if (!(pass('can', 'view', 'article', $articleId)
@@ -757,6 +834,7 @@ on(
                 // New article editor
                 $article['authors'] = array($_SESSION['user']['id']);
             };
+            $deadline = (new DateTime())->modify($PPHP['config']['reviews']['deadline_modifier'])->format('Y-m-d');
             trigger(
                 'render',
                 'articles_edit.html',
@@ -768,7 +846,8 @@ on(
                     'issues' => grab('issues'),
                     'history' => $history,
                     'history_type' => 'article',
-                    'history_id' => $history_id
+                    'history_id' => $history_id,
+                    'deadline' => $deadline
                 )
             );
         } else {

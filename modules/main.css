@@ -38,6 +38,24 @@ tr.table-section {
 	text-transform: uppercase;
 }
 
+/* Slightly blur "deleted" table rows */
+tr.deleted {
+	text-shadow: 0 0 2px #999;
+	color: transparent !important;
+}
+tr.deleted a {
+	text-shadow: 0 0 1.5px #93daf7;
+	color: transparent !important;
+}
+tr.deleted:hover {
+	text-shadow: none;
+	color: #333 !important;
+}
+tr.deleted:hover a, tr.deleted a:hover {
+	text-shadow: none;
+	color: #337ab7 !important;
+}
+
 input, select, textarea {
 	color: #333 !important;  /* Bootstrap 3's #555 is excessively low-contrast */
 }

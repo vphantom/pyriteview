@@ -27,12 +27,12 @@
 
 {% if pass('can', 'edit', 'article', article.id) or pass('can', 'edit', 'issue', article.issueId) or (pass('can', 'create', 'article') and not article.id) %}
 
-	<div class="modal" id="myModal" data-appends="#articles_edit" data-append-base="userdata" data-append-key="email" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal" id="user-modal" data-append-base="userdata" data-append-key="email" tabindex="-1" role="dialog" aria-labelledby="user-modal-label">
 		<div class="modal-vertical">
 			<div class="modal-dialog modal-middle" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-user"></span> <span class="text"></span></h4>
+						<h4 class="modal-title" id="user-modal-label"><span class="glyphicon glyphicon-user"></span> <span class="text"></span></h4>
 					</div>
 					<div class="modal-body">
 						{% include 'user_edit.html' with {'modal': true} %}
@@ -91,9 +91,6 @@
 		<textarea data-label="{{ __('label_abstract') }}" id="abstract">{{ article.abstract }}</textarea>
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
 			{{ lib.select_users(__('label_authors'), 'author', article.authors) }}
-			{% if session.user.id not in article.authors %}
-				<p>TODO: peers</p>
-			{% endif %}
 		{% elseif article.id %}
 			<span data-label="{{ __('label_authors') }}" class="input-like">
 				{% for author in article.authors %}
@@ -130,6 +127,56 @@
 	{% if article.id %}
 
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
+		{% if (session.user.id not in article.authors) and article.versions|length > 0 %}
+				<h3>{{ __('title_reviews') }}</h3>
+				<form class="form-tight" method="post">
+					{{ filter('form_begin', 'review') |raw }}
+					<input type="hidden" name="review" value="1">
+					<div class="form-group">
+						{{ lib.select_users(__('label_peers'), 'peer') }}
+						<input data-colsize="2" data-label="{{ __('label_deadline') }} ({{ __('hint_ymd') }})" type="text" id="deadline" value="{{ deadline }}" maxlength="10" minlength="10">
+						<div class="input-block col-sm-2">
+							<button type="submit" name="submit" class="btn btn-default no-label"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> {{ __('label_add') }}</button>
+						</div>
+					</div>
+				</form>
+				<div class="table-responsive">
+					<table class="table table-condensed">
+						<thead>
+							<th>{{ __('label_version') }}</th>
+							<th>{{ __('label_status') }}</th>
+							<th>{{ __('label_files') }}</th>
+							<th>{{ __('label_peer') }}</th>
+							<th class="text-right">{{ __('label_deadline') }}</th>
+						</thead>
+						<tbody>
+							{% set vid = 1 %}
+							{% for version in article.versions %}
+								{% for review in version.reviews %}
+								<tr class="{{
+									review.daysLeft < 0 and review.status not in config.reviews.states_final
+									? ' danger'
+									: (review.status in config.reviews.states_final ? ' success' : ' active')
+								}}{{ review.status == 'deleted' ? ' deleted' : '' }}">
+									<td class="fit">{{ vid }}</td>
+									<td class="fit">{{ lib.format_status(review.status) }}</td>
+									<td class="fit"></td>
+									<td>{{ lib.format_user(review.peerId) }}</td>
+									<td class="fit text-right">
+										{% if review.daysLeft < 0 and review.status not in config.reviews.states_final %}
+											<strong><span class="glyphicon glyphicon-exclamation-sign fg-err"></span> {{ review.deadline }}</strong>
+										{% else %}
+											{{ review.deadline }}
+										{% endif %}
+									</td>
+								</tr>
+								{% endfor %}
+								{% set vid = vid + 1 %}
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% endif %}
 			<h3>{{ __('title_history') }}</h3>
 			{% include 'history.html' %}
 		{% endif %}
@@ -161,5 +208,7 @@
 			{% endfor %}
 		</dd>
 	</dl>
+
+	<p>TODO: If I'm a reviewer on the latest version, show my UI for said review.</p>
 
 {% endif %}

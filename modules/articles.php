@@ -222,7 +222,10 @@ class Articles
                 };
             };
         };
-        $article['isPeer'] = $article['versions'][count($article['versions'])-1]['isPeer'];
+        $article['isPeer'] = count($article['versions']) > 0
+            ? $article['versions'][count($article['versions'])-1]['isPeer']
+            : false
+        ;
         if (pass('can', 'view', 'article', $id)
             || pass('can', 'view', 'issue', $article['issueId'])
             || pass('can', 'edit', 'article', $id)

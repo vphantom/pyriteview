@@ -59,23 +59,46 @@
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro format_status(status) -%}
+{% macro format_status(status, act) -%}
+	{# Help gettext's msgmerge:
+		__('status_created')
+		__('status_reviewing')
+		__('status_revision')
+		__('status_approved')
+		__('status_printing')
+		__('status_published')
+		__('status_rejected')
+		__('status_deleted')
+		__('status_change_created')
+		__('status_change_reviewing')
+		__('status_change_revision')
+		__('status_change_approved')
+		__('status_change_printing')
+		__('status_change_published')
+		__('status_change_rejected')
+		__('status_change_deleted')
+	#}
+	{%- if act -%}
+		{% set label = __('status_change_'~status) %}
+	{%- else -%}
+		{% set label = __('status_'~status) %}
+	{%- endif -%}
 	{%- if status == 'created' -%}
-		<span class="glyphicon glyphicon-star fg-new"></span> {{ __('status_created') }}
+		<span class="glyphicon glyphicon-star fg-new"></span> {{ label }}
 	{%- elseif status == 'reviewing' -%}
-		<span class="glyphicon glyphicon-time fg-pending"></span> {{ __('status_reviewing') }}
+		<span class="glyphicon glyphicon-time fg-pending"></span> {{ label }}
 	{%- elseif status == 'revision' -%}
-		<span class="glyphicon glyphicon-flag fg-stalled"></span> {{ __('status_revision') }}
+		<span class="glyphicon glyphicon-flag fg-stalled"></span> {{ label }}
 	{%- elseif status == 'approved' -%}
-		<span class="glyphicon glyphicon-ok fg-ok"></span> {{ __('status_approved') }}
+		<span class="glyphicon glyphicon-ok fg-ok"></span> {{ label }}
 	{%- elseif status == 'printing' -%}
-		<span class="glyphicon glyphicon-flag fg-stalled"></span> {{ __('status_printing') }}
+		<span class="glyphicon glyphicon-flag fg-stalled"></span> {{ label }}
 	{%- elseif status == 'published' -%}
-		<span class="glyphicon glyphicon-lock fg-ok"></span> {{ __('status_published') }}
+		<span class="glyphicon glyphicon-lock fg-ok"></span> {{ label }}
 	{%- elseif status == 'rejected' -%}
-		<span class="glyphicon glyphicon-remove fg-err"></span> {{ __('status_rejected') }}
+		<span class="glyphicon glyphicon-remove fg-err"></span> {{ label }}
 	{%- elseif status == 'deleted' -%}
-		<span class="glyphicon glyphicon-trash fg-err"></span> {{ __('status_deleted') }}
+		<span class="glyphicon glyphicon-trash fg-err"></span> {{ label }}
 	{%- else -%}
 		<span class="glyphicon glyphicon-question-sign fg-err"></span> {{ __('status_unknown') }}
 	{%- endif -%}
@@ -244,23 +267,23 @@
 	</select>
 {% endmacro %}
 
-{% macro input_file(id, size) %}
+{% macro input_file(id, size, required) %}
 	<div class="fileupload-single btn-group{% if size %} btn-group-{{ size }}{% endif %}" role="group">
 		<label for="{{ id }}" class="btn btn-default btn-file{% if size %} btn-{{ size }}{% endif %}">
 			<span class="glyphicon glyphicon-plus"></span> {{ __('label_new_file') }}...
-			<input type="file" name="{{ id }}" id="{{ id }}" class="hidden">
+			<input type="file" name="{{ id }}" id="{{ id }}" class="hidden"{{ required ? ' required' : '' }}>
 		</label>
 		<span class="file-name btn btn-default{% if size %} btn-{{ size }}{% endif %} disabled"></span>
 		<button type="submit" class="btn btn-default{% if size %} btn-{{ size }}{% endif %} disabled" disabled><span class="fg-ok"><span class="glyphicon glyphicon-upload"></span></span> {{ __('label_upload') }}</button>
 	</div>
 {% endmacro %}
 
-{% macro input_files(id, size) %}
+{% macro input_files(id, size, required) %}
 	<div class="fileupload-multiple btn-group{% if size %} btn-group-{{ size }}{% endif %}" data-basename="{{ id }}" data-i="0" role="group">
 		<label class="btn btn-default btn-file{% if size %} btn-{{ size }}{% endif %}">
 			<span class="filelabel-add"><span class="glyphicon glyphicon-plus fg-ok"></span> {{ __('label_new_file') }}...</span>
 			<span class="filelabel-change"><span class="glyphicon glyphicon-file"></span> {{ __('label_file') }}:</span>
-			<input type="file" class="hidden">
+			<input type="file" class="hidden"{{ required ? ' required' : '' }}>
 		</label>
 		<span class="file-name btn btn-default{% if size %} btn-{{ size }}{% endif %} disabled"></span>
 	</div>

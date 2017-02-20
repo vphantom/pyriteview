@@ -101,6 +101,7 @@ class Articles
                 created   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 deadline  date NOT NULL DEFAULT '2000-01-01',
                 status    VARCHAR(32) NOT NULL DEFAULT 'created',
+                files     BLOB NOT NULL DEFAULT '',
                 FOREIGN KEY(versionId) REFERENCES articleVersions(id),
                 FOREIGN KEY(peerId)    REFERENCES users(id),
                 FOREIGN KEY(status)    REFERENCES articleStatus(name)
@@ -159,7 +160,10 @@ class Articles
      *
      * Special column versions contains version sub-information.  For each,
      * special column 'localcreated' contains the local conversion of the UTC
-     * 'created'.
+     * 'created' and 'isPeer' is set if one review is for the current user.
+     *
+     * As a convenience, if THE LAST VERSION has 'isPeer', it is also set for
+     * the entire article.
      *
      * @param int $id Which article to load
      *
@@ -171,7 +175,6 @@ class Articles
         $db = $PPHP['db'];
         $config = $PPHP['config']['articles'];
         $article = false;
-        $isPeer = false;
 
         $article = $db->selectSingleArray(
             "
@@ -197,12 +200,13 @@ class Articles
         if (!is_array($article['versions'])) {
             $article['versions'] = array();
         };
-        foreach ($article['versions'] as $key => $version) {
-            $article['versions'][$key]['files'] = json_decode($version['files'], true);
-            if ($version['isPeer']) {
-                $isPeer = true;
+        // The following is quite ugly with $vkey/$rkey but it's to edit in place.
+        foreach ($article['versions'] as $vkey => $version) {
+            $article['versions'][$vkey]['files'] = json_decode($version['files'], true);
+            if (!is_array($article['versions'][$vkey]['files'])) {
+                $article['versions'][$vkey]['files'] = array();
             };
-            $article['versions'][$key]['reviews'] = $db->selectArray(
+            $article['versions'][$vkey]['reviews'] = $db->selectArray(
                 "
                 SELECT *, CAST(round(julianday(deadline) - julianday('now')) AS INTEGER) AS daysLeft
                 FROM reviews
@@ -211,13 +215,19 @@ class Articles
                 ",
                 array($version['id'])
             );
+            foreach ($article['versions'][$vkey]['reviews'] as $rkey => $review) {
+                $article['versions'][$vkey]['reviews'][$rkey]['files'] = json_decode($review['files'], true);
+                if (!is_array($article['versions'][$vkey]['reviews'][$rkey]['files'])) {
+                    $article['versions'][$vkey]['reviews'][$rkey]['files'] = array();
+                };
+            };
         };
-        $article['isPeer'] = $isPeer;
+        $article['isPeer'] = $article['versions'][count($article['versions'])-1]['isPeer'];
         if (pass('can', 'view', 'article', $id)
             || pass('can', 'view', 'issue', $article['issueId'])
             || pass('can', 'edit', 'article', $id)
             || pass('can', 'edit', 'issue', $article['issueId'])
-            || $isPeer
+            || $article['isPeer']
         ) {
 
             if ($article !== false) {
@@ -405,6 +415,53 @@ class Articles
     }
 
     /**
+     * Attach a new file to an article
+     *
+     * @param int   $articleId Article ID
+     * @param array $file      File upload, usually from grab('request')['files'][...]
+     *
+     * @return array|bool Associative with: name, bytes, type OR false on failure
+     */
+    private static function _attach($articleId, $file)
+    {
+        global $PPHP;
+        $config = $PPHP['config']['articles'];
+
+        if (in_array($file['type'], $config['file_types'])
+            && in_array($file['extension'], $config['file_extensions'])
+        ) {
+            $issue = self::_getIssueName($articleId);
+            $bad_format = false;
+            $ext = filter('clean_filename', $file['extension']);
+            $base = "{$config['path']}/{$issue}/{$articleId}/" . filter('clean_filename', $file['filename']);
+
+            if (!file_exists("{$config['path']}/{$issue}")) {
+                mkdir("{$config['path']}/{$issue}", 06770);
+            };
+            if (!file_exists("{$config['path']}/{$issue}/{$articleId}")) {
+                mkdir("{$config['path']}/{$issue}/{$articleId}", 06770);
+            };
+
+            // Attempt to save the file, avoiding name collisions
+            $i = 2;
+            $try = "{$base}.{$ext}";
+            while (file_exists($try) && $i < 100) {
+                $try = "{$base}_{$i}.{$ext}";
+                $i++;
+            };
+            if (move_uploaded_file($file['tmp_name'], $try)) {
+                $pi = pathinfo($try);
+                return array(
+                    'name'  => $pi['basename'],
+                    'bytes' => $file['size'],
+                    'type'  => $file['type']
+                );
+            };
+        };
+        return false;
+    }
+
+    /**
      * Save/create an article
      *
      * Additional key 'id' specifies that we're trying to update an existing
@@ -498,52 +555,22 @@ class Articles
 
             // Handle file uploads
             $newFiles = array();
-            $issue = '0';
-            if (count($files) > 0) {
-                $issue = self::_getIssueName($res);
-            };
             foreach ($files as $file) {
-                if (in_array($file['type'], $config['file_types'])
-                    && in_array($file['extension'], $config['file_extensions'])
-                ) {
-                    $bad_format = false;
-                    $ext = filter('clean_filename', $file['extension']);
-                    $base = "{$config['path']}/{$issue}/{$res}/" . filter('clean_filename', $file['filename']);
-
-                    if (!file_exists("{$config['path']}/{$issue}")) {
-                        mkdir("{$config['path']}/{$issue}", 06770);
-                    };
-                    if (!file_exists("{$config['path']}/{$issue}/{$res}")) {
-                        mkdir("{$config['path']}/{$issue}/{$res}", 06770);
-                    };
-
-                    // Attempt to save the file, avoiding name collisions
-                    $i = 2;
-                    $try = "{$base}.{$ext}";
-                    while (file_exists($try) && $i < 100) {
-                        $try = "{$base}_{$i}.{$ext}";
-                        $i++;
-                    };
-                    if (move_uploaded_file($file['tmp_name'], $try)) {
-                        $pi = pathinfo($try);
-                        $newFiles[] = array(
-                            'name'  => $pi['basename'],
-                            'bytes' => $file['size'],
-                            'type'  => $file['type']
-                        );
-                        trigger(
-                            'log',
-                            array(
-                                'action' => 'attached',
-                                'objectType' => 'article',
-                                'objectId' => $res,
-                                'fieldName' => 'files',
-                                'newValue' => $pi['basename'],
-                                'content' => $cols['log']
-                            )
-                        );
-                        $cols['log'] = null;
-                    };
+                $newFile = self::_attach($res, $file);
+                if ($newFile !== false) {
+                    $newFiles[] = $newFile;
+                    trigger(
+                        'log',
+                        array(
+                            'action' => 'attached',
+                            'objectType' => 'article',
+                            'objectId' => $res,
+                            'fieldName' => 'files',
+                            'newValue' => $newFile['name'],
+                            'content' => $cols['log']
+                        )
+                    );
+                    $cols['log'] = null;
                 };
             };
             if (count($newFiles) > 0) {
@@ -627,11 +654,12 @@ class Articles
     /**
      * Save/create review(s)
      *
-     * @param array $cols Columns to set
+     * @param array      $cols  Columns to set
+     * @param array|null $files (Optional) List of [name,bytes,type] arrays
      *
      * @return bool Whether it succeeded
      */
-    public static function saveReview($cols)
+    public static function saveReview($cols, $files = array())
     {
         global $PPHP;
         $db = $PPHP['db'];
@@ -648,6 +676,16 @@ class Articles
                     $success = false;
                     break;
                 };
+                // Log, which will be part of the rolled back transaction if we fail.
+                trigger(
+                    'log',
+                    array(
+                        'objectType' => 'article',
+                        'objectId' => $cols['articleId'],
+                        'action' => 'invited',
+                        'newValue' => $peer
+                    )
+                );
             };
             if ($success) {
                 $db->commit();
@@ -657,15 +695,49 @@ class Articles
             return $success;
         };
 
-        if (isset($cols['status']) && isset($cols['id'])) {
+        if (isset($cols['id'])) {
             // We're updating a review
             $id = $cols['id'];
             unset($cols['id']);
+
+            $db->begin();
+
+            // Handle file uploads
+            $newFiles = array();
+            foreach ($files as $file) {
+                $newFile = self::_attach($cols['articleId'], $file);
+                if ($newFile !== false) {
+                    $newFiles[] = $newFile;
+                };
+            };
+            if (count($newFiles) > 0) {
+                $oldFiles = $db->selectAtom('SELECT files FROM reviews WHERE id=?', array($id));
+                if ($oldFiles) {
+                    $oldFiles = json_decode($oldFiles);
+                };
+                if (!is_array($oldFiles)) {
+                    $oldFiles = array();
+                };
+                array_merge_indexed($oldFiles, $newFiles);
+                $cols['files'] = json_encode($oldFiles);
+            };
+
             $res = $db->update('reviews', $cols, 'WHERE id=?', array($id)) !== false;
             if ($res) {
-                // FIXME: Log this joyous occasion!
-                // Current user has 'status'ed his review of article ['articleId']
+                trigger(
+                    'log',
+                    array(
+                        'objectType' => 'article',
+                        'objectId' => $cols['articleId'],
+                        'action' => 'reviewed',
+                        'newValue' => $cols['status'],
+                        'content' => (isset($cols['log']) && $cols['log'] !== '' ? $cols['log'] : null)
+                    )
+                );
             };
+
+            $db->commit();
+            return $res !== false;
         };
     }
 }
@@ -694,19 +766,29 @@ on(
 
             $fname = array_shift($path);
 
+            // Look for it explicitly to avoid exploit surprises
+            $files = array();
             foreach ($article['versions'] as $version) {
                 foreach ($version['files'] as $file) {
-                    if ($file['name'] === $fname
-                        && file_exists($article['files_dir'] . '/' . $file['name'])
-                    ) {
-                        header('Content-Type: ' . $file['type']);
-                        header('Expires: 0');
-                        header('Cache-Control: must-revalidate');
-                        header('Pragma: public');
-                        header('Content-Length: ' . $file['bytes']);
-                        readfile($article['files_dir'] . '/' . $file['name']);
-                        exit;
+                    array_push($files, $file);
+                };
+                foreach ($version['reviews'] as $review) {
+                    foreach ($review['files'] as $file) {
+                        array_push($files, $file);
                     };
+                };
+            };
+            foreach ($files as $file) {
+                if ($file['name'] === $fname
+                    && file_exists($article['files_dir'] . '/' . $file['name'])
+                ) {
+                    header('Content-Type: ' . $file['type']);
+                    header('Expires: 0');
+                    header('Cache-Control: must-revalidate');
+                    header('Pragma: public');
+                    header('Content-Length: ' . $file['bytes']);
+                    readfile($article['files_dir'] . '/' . $file['name']);
+                    exit;
                 };
             };
             // The http_status event is actually too late in binary mode.
@@ -809,7 +891,7 @@ on(
                     };
                     $req['post']['articleId'] = $articleId;
                     // This handles create and update
-                    $success = grab('review_save', $req['post']);
+                    $success = grab('review_save', $req['post'], $req['files']);
                     if ($success) {
                         $article = grab('article', $articleId);
                     };

@@ -59,6 +59,27 @@
 							{{ lib.format(tx.objectType, tx.objectId) }}
 						{% endif %}
 
+					{% elseif tx.action == 'invited' %}
+						{{ __('label_invited_peer') }}
+						{{ lib.format_user(tx.newValue) }}
+
+					{% elseif tx.action == 'reviewed' %}
+						{% if tx.newValue == 'reviewing' %}
+							{{ __('label_review_accepted') }}
+						{% elseif tx.newValue == 'deleted' %}
+							{{ __('label_review_declined') }}
+						{% else %}
+							{# Help gettext's msgmerge:
+								__('label_review_revision')
+								__('label_review_approved')
+								__('label_review_rejected')
+							#}
+							{{ __('label_review_'~tx.newValue) }}
+						{% endif %}
+						{% if history_type != tx.objectType or history_id != tx.objectId %}
+							{{ lib.format(tx.objectType, tx.objectId) }}
+						{% endif %}
+
 					{% elseif tx.action == 'sent' %}
 						{% set email = grab('outbox_email', tx.objectId) %}
 						{{ __('label_sent') }}

@@ -64,6 +64,18 @@ textarea {
 	min-height: 6em;
 }
 
+.dropdown.buttons {
+	width: auto;
+}
+.dropdown.buttons .dropdown-menu {
+	padding: 2px;
+	margin: 0;
+}
+.dropdown.buttons input {
+	width: 100%;
+	min-width: 20em;
+}
+
 /* Left menu */
 .nav-sidebar {
 	margin: 0 -21px 20px -20px;

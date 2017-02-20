@@ -1,4 +1,5 @@
 {% import 'lib' as lib %}
+{% use 'blocks.html' %}
 {{ title(__('title_articles')) }}
 {% if article.id %}
 	{{ title(article.title) }}
@@ -14,12 +15,10 @@
 <h2 class="page-header">
 	<span class="glyphicon glyphicon-align-left"></span>
 	{{ article.title|default(__('title_newarticle')) }}
-	{% if article.id %}
-		<span class="label label-default">{{ lib.format_status(article.status) }}</span>
-	{% endif %}
 </h2>
 
 {% if article.id %}
+	{% set form_begin_review = filter('form_begin', 'review') %}
 	{% set issueId = article.issueId %}
 {% else %}
 	{% set issueId = req.get.issueId %}
@@ -61,10 +60,12 @@
 				{% for status in config.articles.states_next[article.status]|split(' ') %}
 					<label class="btn btn-default btn-sm">
 						<input type="radio" name="status" autocomplete="off" value="{{ status }}">
-						{{ lib.format_status(status) }}
+						{{ lib.format_status(status, true) }}
 					</label>
 				{% endfor %}
 			</div>
+		{% else %}
+			<span data-label="{{ __('label_status') }}" class="input-like">{{ lib.format_status(article.status) }}</span>
 		{% endif %}
 
 		<input data-label="{{ __('label_title') }}" type="text" id="title" value="{{ article.title }}" required>
@@ -127,10 +128,10 @@
 	{% if article.id %}
 
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
-		{% if (session.user.id not in article.authors) and article.versions|length > 0 %}
+			{% if (session.user.id not in article.authors) and article.versions|length > 0 %}
 				<h3>{{ __('title_reviews') }}</h3>
 				<form class="form-tight" method="post">
-					{{ filter('form_begin', 'review') |raw }}
+					{{ form_begin_review |raw }}
 					<input type="hidden" name="review" value="1">
 					<div class="form-group">
 						{{ lib.select_users(__('label_peers'), 'peer') }}
@@ -140,28 +141,55 @@
 						</div>
 					</div>
 				</form>
-				<div class="table-responsive">
-					<table class="table table-condensed">
-						<thead>
-							<th>{{ __('label_version') }}</th>
-							<th>{{ __('label_status') }}</th>
-							<th>{{ __('label_files') }}</th>
-							<th>{{ __('label_peer') }}</th>
-							<th class="text-right">{{ __('label_deadline') }}</th>
-						</thead>
-						<tbody>
-							{% set vid = 1 %}
-							{% for version in article.versions %}
-								{% for review in version.reviews %}
+				<table class="table table-condensed">
+					<thead>
+						<th>{{ __('label_version') }}</th>
+						<th>{{ __('label_status') }}</th>
+						<th>{{ __('label_peer') }} [{{ __('label_files') }}]</th>
+						<th class="text-right">{{ __('label_deadline') }}</th>
+					</thead>
+					<tbody>
+						{% set vid = 1 %}
+						{% for version in article.versions %}
+							{% for review in version.reviews %}
+								{% set nexts = config.reviews.states_next[review.status]|split(' ') %}
+								{# Work around same bug as PHP... stupid! #}
+								{% if nexts[0] == '' %}{% set nexts = [] %}{% endif %}
 								<tr class="{{
 									review.daysLeft < 0 and review.status not in config.reviews.states_final
 									? ' danger'
 									: (review.status in config.reviews.states_final ? ' success' : ' active')
 								}}{{ review.status == 'deleted' ? ' deleted' : '' }}">
 									<td class="fit">{{ vid }}</td>
-									<td class="fit">{{ lib.format_status(review.status) }}</td>
-									<td class="fit"></td>
-									<td>{{ lib.format_user(review.peerId) }}</td>
+									<td class="fit">
+										{% if nexts|length > 0 %}
+											<form id="review" method="post" class="form-inline inline">
+												{{ form_begin_review |raw }}
+												<input type="hidden" name="review" value="1">
+												<input type="hidden" name="id" value="{{ review.id }}">
+												<div class="dropdown buttons">
+													<button class="btn btn-default btn-xs dropdown-toggle" type="button" id="status-{{ review.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ lib.format_status(review.status) }} <span class="caret"></span></button>
+													<div class="dropdown-menu" aria-labelledby="status-{{ review.id }}">
+														<div class="dropdown-header">{{ __('label_change_status') }}:</div>
+														{% for status in config.reviews.states_next[review.status]|split(' ') %}
+															<button class="btn btn-default btn-xs" type="submit" name="status" value="{{ status }}">{{ lib.format_status(status, true) }}</button>
+														{% endfor %}
+													</div>
+												</div>
+											</form>
+										{% else %}
+											{{ lib.format_status(review.status) }}
+										{% endif %}
+									</td>
+									<td>{{ lib.format_user(review.peerId) }}
+										{% if review.files|length > 0 %}
+										[
+											{% for file in review.files %}
+												<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a>
+											{% endfor %}
+										]
+										{% endif %}
+									</td>
 									<td class="fit text-right">
 										{% if review.daysLeft < 0 and review.status not in config.reviews.states_final %}
 											<strong><span class="glyphicon glyphicon-exclamation-sign fg-err"></span> {{ review.deadline }}</strong>
@@ -170,12 +198,11 @@
 										{% endif %}
 									</td>
 								</tr>
-								{% endfor %}
-								{% set vid = vid + 1 %}
 							{% endfor %}
-						</tbody>
-					</table>
-				</div>
+							{% set vid = vid + 1 %}
+						{% endfor %}
+					</tbody>
+				</table>
 			{% endif %}
 			<h3>{{ __('title_history') }}</h3>
 			{% include 'history.html' %}
@@ -194,6 +221,7 @@
 				{% endfor %}
 			</dd>
 		{% endif %}
+		<dt>{{ __('label_status') }}</dt><dd>{{ lib.format_status(article.status) }}</dd>
 		<dt>{{ __('label_wordCount') }}</dt><dd>{{ article.wordCount }}</dd>
 		<dt>{{ __('label_keywords') }}</dt><dd>{{ article.keywords |join(', ') }}</dd>
 		<dt>{{ __('label_abstract') }}</dt><dd>{{ article.abstract }}</dd>
@@ -209,6 +237,35 @@
 		</dd>
 	</dl>
 
-	<p>TODO: If I'm a reviewer on the latest version, show my UI for said review.</p>
+	{% if article.isPeer %}
+		{% set review = false %}
+		{% for r in article.versions|last.reviews %}
+			{% if r.peerId == session.user.id %}
+				{% set review = r %}
+			{% endif %}
+		{% endfor %}
+		{% if review.id and (review.status == 'created' or review.status == 'reviewing') %}
+			<h3>{{ __('title_review') }}</h3>
+			<form id="peer_review" method="post" enctype="multipart/form-data">
+				{{ form_begin_review |raw }}
+				<input type="hidden" name="review" value="1">
+				<input type="hidden" name="id" value="{{ review.id }}">
+
+				{% if review.status == 'created' %}
+					<h4>{{ __('hint_review_accept') }}:</h4>
+					<button class="btn btn-default" type="submit" name="status" value="reviewing"><span class="glyphicon glyphicon-ok fg-ok"></span> {{ __('label_accept') }}</button>
+					<h4>{{ __('hint_review_decline') }}:</h4>
+					<div><input type="text" name="log" value="" placeholder="{{ __('hint_suggestions') }}" class="form-control"></div>
+					<button class="btn btn-default" type="submit" name="status" value="deleted"><span class="glyphicon glyphicon-remove fg-err"></span> {{ __('label_decline') }}</button>
+				{% else %}
+					{{ block('hint_review') }}
+					<div>{{ lib.input_files('addfile', 'xs', true) }}</div>
+					{% for status in config.reviews.states_next[review.status]|split(' ') %}
+						<button class="btn btn-default" type="submit" name="status" value="{{ status }}">{{ lib.format_status(status, true) }}</button>
+					{% endfor %}
+				{% endif %}
+			</form>
+		{% endif %}
+	{% endif %}
 
 {% endif %}

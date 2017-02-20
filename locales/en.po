@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-19 10:41-0500\n"
-"PO-Revision-Date: 2017-02-19 10:41-0500\n"
+"POT-Creation-Date: 2017-02-20 08:52-0500\n"
+"PO-Revision-Date: 2017-02-20 08:54-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -102,8 +102,17 @@ msgstr "Fill only if you want to change it"
 msgid "hint_password_reset"
 msgstr "To reset your password, you must confirm your e-mail address."
 
+msgid "hint_review_accept"
+msgstr "Accept to evaluate this article later"
+
+msgid "hint_review_decline"
+msgstr "Decline to evaluate this article"
+
 msgid "hint_selectusers"
 msgstr "Click to choose, search or create"
+
+msgid "hint_suggestions"
+msgstr "Suggestions of other evaluators"
 
 msgid "hint_unban"
 msgstr "Reestablish user"
@@ -122,6 +131,9 @@ msgstr "Abstract"
 
 msgid "label_accept"
 msgstr "Accept"
+
+msgid "label_accept_decline"
+msgstr "Accept or decline"
 
 msgid "label_action"
 msgstr "Action"
@@ -155,6 +167,9 @@ msgstr "attached"
 
 msgid "label_authors"
 msgstr "Authors"
+
+msgid "label_change_status"
+msgstr "Change status to"
 
 msgid "label_changed"
 msgstr "changed"
@@ -234,6 +249,9 @@ msgstr "I"
 msgid "label_in"
 msgstr "in"
 
+msgid "label_invited_peer"
+msgstr "invited peer"
+
 msgid "label_issueId"
 msgstr "Issue"
 
@@ -277,7 +295,7 @@ msgid "label_never"
 msgstr "never"
 
 msgid "label_new_file"
-msgstr "New file"
+msgstr "Attach file"
 
 msgid "label_new_issue"
 msgstr "New issue"
@@ -314,6 +332,21 @@ msgstr "Profession"
 
 msgid "label_publication"
 msgstr "Publication"
+
+msgid "label_review_accepted"
+msgstr "accepted to review"
+
+msgid "label_review_approved"
+msgstr "approved"
+
+msgid "label_review_declined"
+msgstr "refused to review"
+
+msgid "label_review_rejected"
+msgstr "rejected"
+
+msgid "label_review_revision"
+msgstr "asked to revise"
 
 msgid "label_save"
 msgstr "Save"
@@ -439,6 +472,30 @@ msgstr "Sent successfully."
 msgid "status_approved"
 msgstr "approved"
 
+msgid "status_change_approved"
+msgstr "Approve"
+
+msgid "status_change_created"
+msgstr "Reset"
+
+msgid "status_change_deleted"
+msgstr "Delete"
+
+msgid "status_change_printing"
+msgstr "Send to press"
+
+msgid "status_change_published"
+msgstr "Publish"
+
+msgid "status_change_rejected"
+msgstr "Reject"
+
+msgid "status_change_reviewing"
+msgstr "Send for review"
+
+msgid "status_change_revision"
+msgstr "Ask revisions"
+
 msgid "status_created"
 msgstr "created"
 
@@ -522,6 +579,9 @@ msgstr "Recent History"
 
 msgid "title_register"
 msgstr "Registration"
+
+msgid "title_review"
+msgstr "Review"
 
 msgid "title_reviews"
 msgstr "Reviews"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-19 10:41-0500\n"
-"PO-Revision-Date: 2017-02-19 11:26-0500\n"
+"POT-Creation-Date: 2017-02-20 08:52-0500\n"
+"PO-Revision-Date: 2017-02-20 08:56-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -106,8 +106,17 @@ msgstr ""
 "Pour réinitialiser votre mot de passe, vous devez valider votre adresse de "
 "courriel."
 
+msgid "hint_review_accept"
+msgstr "Accepter d'évaluer l'article plus tard"
+
+msgid "hint_review_decline"
+msgstr "Refuser d'évaluer l'article"
+
 msgid "hint_selectusers"
 msgstr "Cliquer pour choisir, chercher ou créer"
+
+msgid "hint_suggestions"
+msgstr "Suggestions d'autres évaluateurs"
 
 msgid "hint_unban"
 msgstr "Réinstaurer usager"
@@ -128,6 +137,9 @@ msgstr "Résumé"
 
 msgid "label_accept"
 msgstr "Accepter"
+
+msgid "label_accept_decline"
+msgstr "Accepter ou refuser"
 
 msgid "label_action"
 msgstr "Action"
@@ -161,6 +173,9 @@ msgstr "attaché"
 
 msgid "label_authors"
 msgstr "Auteurs"
+
+msgid "label_change_status"
+msgstr "Changer l'état"
 
 msgid "label_changed"
 msgstr "changé"
@@ -240,6 +255,9 @@ msgstr "J'ai"
 msgid "label_in"
 msgstr "dans"
 
+msgid "label_invited_peer"
+msgstr "invité le pair"
+
 msgid "label_issueId"
 msgstr "Numéro"
 
@@ -283,7 +301,7 @@ msgid "label_never"
 msgstr "jamais"
 
 msgid "label_new_file"
-msgstr "Nouveau fichier"
+msgstr "Attacher fichier"
 
 msgid "label_new_issue"
 msgstr "Nouveau numéro"
@@ -320,6 +338,21 @@ msgstr "Titre professionnel"
 
 msgid "label_publication"
 msgstr "Publication"
+
+msgid "label_review_accepted"
+msgstr "accepté d'évaluer"
+
+msgid "label_review_approved"
+msgstr "approuvé"
+
+msgid "label_review_declined"
+msgstr "refusé d'évaluer"
+
+msgid "label_review_rejected"
+msgstr "rejeté"
+
+msgid "label_review_revision"
+msgstr "demandé de réviser"
 
 msgid "label_save"
 msgstr "Sauvegarder"
@@ -447,6 +480,30 @@ msgstr "Envoi réussi."
 msgid "status_approved"
 msgstr "approuvé"
 
+msgid "status_change_approved"
+msgstr "Approuver"
+
+msgid "status_change_created"
+msgstr "Réinitialiser"
+
+msgid "status_change_deleted"
+msgstr "Effacer"
+
+msgid "status_change_printing"
+msgstr "Mettre sous presse"
+
+msgid "status_change_published"
+msgstr "Publier"
+
+msgid "status_change_rejected"
+msgstr "Rejeter"
+
+msgid "status_change_reviewing"
+msgstr "Envoyer en évaluation"
+
+msgid "status_change_revision"
+msgstr "Demander révision"
+
 msgid "status_created"
 msgstr "nouveau"
 
@@ -463,7 +520,7 @@ msgid "status_rejected"
 msgstr "rejeté"
 
 msgid "status_reviewing"
-msgstr "envoyé en critique"
+msgstr "envoyé en évaluation"
 
 msgid "status_revision"
 msgstr "demandé révision"
@@ -530,6 +587,9 @@ msgstr "Historique Récente"
 
 msgid "title_register"
 msgstr "Inscription"
+
+msgid "title_review"
+msgstr "Évaluation"
 
 msgid "title_reviews"
 msgstr "Évaluations"

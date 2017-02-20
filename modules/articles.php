@@ -479,8 +479,9 @@ class Articles
     {
         global $PPHP;
         $db = $PPHP['db'];
-        $config = $PPHP['config']['articles'];
+        $config = $PPHP['config'];
         $res = false;
+        $oldArticle = false;
 
         $db->begin();
         if (isset($cols['keywords']) && is_array($cols['keywords'])) {
@@ -498,13 +499,13 @@ class Articles
                 if ($oldArticle['issueId'] !== $cols['issueId'] && count($oldArticle['versions']) > 0) {
                     // Move files directory if issue was reassigned
                     $issue = grab('issue', $cols['issueId']);
-                    $issuePath = $config['path'] . '/' . $issue['issue'];
+                    $issuePath = $config['articles']['path'] . '/' . $issue['issue'];
                     if (!file_exists($issuePath)) {
                         mkdir($issuePath, 06770);
                     };
                     rename(
-                        "{$config['path']}/{$oldArticle['issue']}/{$id}",
-                        "{$config['path']}/{$issue['issue']}/{$id}"
+                        "{$config['articles']['path']}/{$oldArticle['issue']}/{$id}",
+                        "{$config['articles']['path']}/{$issue['issue']}/{$id}"
                     );
                 };
 
@@ -577,7 +578,20 @@ class Articles
                 };
             };
             if (count($newFiles) > 0) {
-                self::saveVersion($res, $newFiles);
+                $newVersion = self::saveVersion($res, $newFiles);
+                if ($oldArticle && $newVersion) {
+                    // Update work-in-progress reviews to latest versionId
+                    $versionIds = array();
+                    foreach ($oldArticle['versions'] as $version) {
+                        $versionIds[] = $version['id'];
+                    };
+                    $q = $db->query('UPDATE reviews SET versionId=?', $newVersion);
+                    $q->where('versionId IN')->varsClosed($versionIds);
+                    $q->and('status IN')->varsClosed($config['reviews']['states_wip']);
+                    // Not saving result as this is a "best effort" maintenance attempt.
+                    print_r($q);
+                    $db->exec($q);
+                };
             };
 
         };

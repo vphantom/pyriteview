@@ -144,9 +144,9 @@
 				<table class="table table-condensed">
 					<thead>
 						<th>{{ __('label_version') }}</th>
+						<th class="text-center">{{ __('label_deadline') }}</th>
 						<th>{{ __('label_status') }}</th>
 						<th>{{ __('label_peer') }} [{{ __('label_files') }}]</th>
-						<th class="text-right">{{ __('label_deadline') }}</th>
 					</thead>
 					<tbody>
 						{% set vid = 1 %}
@@ -160,7 +160,29 @@
 									? ' danger'
 									: (review.status in config.reviews.states_final ? ' success' : ' active')
 								}}{{ review.status == 'deleted' ? ' deleted' : '' }}">
-									<td class="fit">{{ vid }}</td>
+									<td class="fit text-right">{{ vid }}</td>
+									<td class="fit text-right">
+										{% if review.daysLeft < 0 and review.status not in config.reviews.states_final %}
+											<span class="glyphicon glyphicon-exclamation-sign fg-err"></span>
+										{% endif %}
+										{% if review.status in config.reviews.states_final %}
+											{{ review.deadline }}
+										{% else %}
+											<form id="review" method="post" class="form-inline inline">
+												{{ form_begin_review |raw }}
+												<input type="hidden" name="review" value="1">
+												<input type="hidden" name="id" value="{{ review.id }}">
+												<div class="dropdown buttons inline">
+													<span class="dropdown-toggle" id="deadline-{{ review.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ review.deadline }} <span class="caret"></span></span>
+													<div class="dropdown-menu" aria-labelledby="deadline-{{ review.id }}">
+														<div class="dropdown-header">{{ __('label_change_deadline') }}:</div>
+														<div><input type="text" name="deadline" class="form-control" value="{{ review.deadline }}"></div>
+														<button class="btn btn-default btn-xs" type="submit"><span class="glyphicon glyphicon-ok fg-ok"></span> {{ __('label_save') }}</button>
+													</div>
+												</div>
+											</form>
+										{% endif %}
+									</td>
 									<td class="fit">
 										{% if nexts|length > 0 %}
 											<form id="review" method="post" class="form-inline inline">
@@ -168,7 +190,7 @@
 												<input type="hidden" name="review" value="1">
 												<input type="hidden" name="id" value="{{ review.id }}">
 												<div class="dropdown buttons">
-													<button class="btn btn-default btn-xs dropdown-toggle" type="button" id="status-{{ review.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ lib.format_status(review.status) }} <span class="caret"></span></button>
+													<span class="dropdown-toggle" id="status-{{ review.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ lib.format_status(review.status) }} <span class="caret"></span></span>
 													<div class="dropdown-menu" aria-labelledby="status-{{ review.id }}">
 														<div class="dropdown-header">{{ __('label_change_status') }}:</div>
 														{% for status in config.reviews.states_next[review.status]|split(' ') %}
@@ -188,13 +210,6 @@
 												<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a>
 											{% endfor %}
 										]
-										{% endif %}
-									</td>
-									<td class="fit text-right">
-										{% if review.daysLeft < 0 and review.status not in config.reviews.states_final %}
-											<strong><span class="glyphicon glyphicon-exclamation-sign fg-err"></span> {{ review.deadline }}</strong>
-										{% else %}
-											{{ review.deadline }}
 										{% endif %}
 									</td>
 								</tr>

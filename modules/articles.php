@@ -726,7 +726,7 @@ class Articles
             };
 
             $res = $db->update('reviews', $cols, 'WHERE id=?', array($id)) !== false;
-            if ($res) {
+            if ($res && isset($col['status'])) {
                 trigger(
                     'log',
                     array(

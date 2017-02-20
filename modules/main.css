@@ -76,6 +76,10 @@ textarea {
 	min-width: 20em;
 }
 
+.dropdown-toggle {
+	cursor: pointer;
+}
+
 /* Left menu */
 .nav-sidebar {
 	margin: 0 -21px 20px -20px;

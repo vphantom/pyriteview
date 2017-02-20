@@ -96,6 +96,7 @@ client.js:	$(JS_SRC)
 	$(JS) --in-source-map build.js.map --source-map client.js.map -o client.js -- build.js
 	rm -f build.js build.js.map
 
+# Copying here so that Node/Browserify doesn't fall all over itself on paths
 pyritephp.js:	vendor/vphantom/pyritephp/assets/pyritephp.js
 	cp $^ $@
 

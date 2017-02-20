@@ -52,7 +52,7 @@ Here are sample configurations for major server software:
 ```
 RewriteEngine on
 
-RewriteRule ^(bin|lib|modules|node_modules|templates|var|vendor) - [F,L,NC]
+RewriteRule ^(bin|locales|modules|node_modules|templates|var|vendor) - [F,L,NC]
 
 RewriteRule ^$ /index.php [L]
 
@@ -64,7 +64,7 @@ RewriteRule ^(.+) /index.php/$1 [L]
 #### Nginx
 
 ```
-location ~ /(bin|lib|modules|node_modules|templates|var|vendor) {
+location ~ /(bin|locales|modules|node_modules|templates|var|vendor) {
     deny all;
     return 404;
 }

@@ -27,6 +27,8 @@
 
 {% if (issue and issue.id > 0 and pass('can', 'edit', 'issue', issue.id)) or (not issue and pass('can', 'create', 'issue')) %}
 
+	{{ lib.modal() }}
+
 	<form id="issues_edit" method="post" class="form-tight">
 		{{ filter('form_begin', 'issues_edit') |raw }}
 		{% if issue.id %}

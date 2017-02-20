@@ -287,6 +287,7 @@ on(
             $articles = array();
             if (isset($req['post']['title'])) {
                 if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
+                $req['post']['editors'] = grab('clean_userids', $req['post']['editors'], $req['post']['userdata']);
                 $saved = true;
                 $success = grab('issue_save', $req['post']);
                 $issue = $success ? grab('issue', $success) : null;

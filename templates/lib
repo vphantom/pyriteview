@@ -255,12 +255,12 @@
 	<input type="hidden" name="__arrays[]" value="{{ role }}s">
 	<select data-label="{{ label }}" placeholder="{{ __('hint_selectusers') }}" id="{{ role }}s[]" class="users{% if not nocreate and pass('can', 'create', 'user') %}-create{% endif %} feedback-user" multiple>
 		{% for user in selected %}
-			<option value="{{ user }}" selected>{{ lib.format_user(user, true, true) }}
+			<option value="{{ user }}" selected>{{ lib.format_user(user, true, true, true) }}
 		{% endfor %}
 		{% if role %}
 			{% for user in grab('role_users', role) %}
 				{% if user not in selected %}
-					<option value="{{ user }}">{{ lib.format_user(user, true, true) }}
+					<option value="{{ user }}">{{ lib.format_user(user, true, true, true) }}
 				{% endif %}
 			{% endfor %}
 		{% endif %}

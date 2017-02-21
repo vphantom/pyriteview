@@ -120,7 +120,7 @@
 			{%- if pass('can', 'view', 'user', id) and not flat -%}
 				<a href="{{ req.base }}/admin/users/edit?id={{ user.id }}">{% if not user.active %}<s>{% endif %}<span class="glyphicon glyphicon-user"></span>{{ user.name|default(__('user_new')) }}{% if not user.active %}</s>{% endif %}</a>
 			{%- elseif nohtml -%}
-				{{ user.name|default(__('user_new')) }} &lt;{{ pass('can', 'view', 'user', id) ? user.email : filter('protect_email', user.email) }}&gt;
+				{{ user.name|default(__('user_new')) }}{% if withmail %} &lt;{{ pass('can', 'view', 'user', id) ? user.email : filter('protect_email', user.email) }}&gt;{% endif %}
 			{%- else -%}
 				{% if not user.active %}<s>{% endif %}<span class="glyphicon glyphicon-user"></span>{{ user.name|default(__('user_new')) }}{% if withmail %} &lt;<a href="mailto:{{ user.email }}">{{ user.email }}</a>&gt;{% endif %}{% if not user.active %}</s>{% endif %}
 			{%- endif -%}
@@ -129,10 +129,10 @@
 		{%- endif -%}
 	{%- endif -%}
 {%- endmacro %}
-{% macro format_users(users, flat, nohtml) %}
+{% macro format_users(users, flat, nohtml, withmail) %}
 	{% import _self as lib %}
 	{% for user in users %}
-		{{ lib.format_user(user, flat, nohtml) }}
+		{{ lib.format_user(user, flat, nohtml, withmail) }}
 	{% endfor %}
 {% endmacro %}
 

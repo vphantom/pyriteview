@@ -1,0 +1,24 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Évaluation en retard pour: {{ lib.format_article(article, true, true) |truncate(64, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Bonjour,</p>
+<p>
+Veuillez noter que nous n'avons pas reçu votre évaluation de l'article
+"{{ lib.format_article(article, true, true) }}"
+qui était attendue au plus tard le {{ deadline }}.
+</p>
+<p>
+Vous pouvez encore la compléter aujourd'hui à:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/">{{ req.protocol }}://{{ req.host }}/</a>
+</p>
+<p>
+Merci,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

@@ -41,6 +41,7 @@ class Articles
         on('article_save',         'Articles::save');
         on('article_version_save', 'Articles::saveVersion');
         on('peer_reviews',         'Articles::getPeerReviews');
+        on('admin_reviews',        'Articles::adminReviews');
         on('review_save',          'Articles::saveReview');
     }
 
@@ -689,10 +690,10 @@ class Articles
         $res = array();
 
         $q = $db->query('SELECT reviews.*, articleVersions.articleId FROM reviews');
-        $q->left_join('articleVersions')->on('articleVersions.id = reviews.versionId');
-        $q->where('peerId = ?', $_SESSION['user']['id']);
-        $q->and('status IN')->varsClosed($config['states_wip']);
-        $q->order_by('deadline ASC');
+        $q->left_join('articleVersions ON articleVersions.id = reviews.versionId');
+        $q->where('reviews.peerId = ?', $_SESSION['user']['id']);
+        $q->and('reviews.status IN')->varsClosed($config['states_wip']);
+        $q->order_by('reviews.deadline ASC');
         $reviews = $db->selectArray($q);
 
         if ($reviews !== false) {
@@ -702,6 +703,47 @@ class Articles
         };
 
         return $res;
+    }
+
+    /**
+     * Superuser list of reviews
+     *
+     * The resulting array lists all known reviews of the specified states,
+     * which belong to articles of the specified states.
+     *
+     * Some convenience keys are added to the DB result:
+     *
+     * articleId: Joined from the associated version
+     * age: Integer number of days since 'created'
+     * daysLeft: Integer number of days until 'deadline'
+     *
+     * @param array|null $reviewStates  Review states to restrict to
+     * @param array|null $articleStates Article states to restrict to
+     *
+     * @return array List of reviews
+     */
+    public static function adminReviews($reviewStates, $articleStates)
+    {
+        global $PPHP;
+        $db = $PPHP['db'];
+
+        $q = $db->query(
+            "
+            SELECT
+                reviews.*,
+                articles.id AS articleId,
+                CAST(round(julianday('now') - julianday(reviews.created)) AS INTEGER) AS age,
+                CAST(round(julianday(reviews.deadline) - julianday('now')) AS INTEGER) AS daysLeft
+            FROM reviews
+            "
+        );
+        $q->left_join('articleVersions ON articleVersions.id=reviews.versionId');
+        $q->left_join('articles ON articles.id=articleVersions.articleId');
+        $q->where('reviews.status IN')->varsClosed($reviewStates);
+        $q->and('articles.status IN')->varsClosed($articleStates);
+
+        $out = $db->selectArray($q);
+        return ($out !== false ? $out : array());
     }
 
     /**
@@ -1095,5 +1137,105 @@ on(
             );
         };
 
+    }
+);
+
+// This should be triggered exactly once per day
+// CAUTION: THIS IS A STATE-LESS IMPLEMENTATION.  MESSAGES WOULD BE SENT
+// MULTIPLE TIMES IF TRIGGERED MORE THAN ONCE DAILY!
+on(
+    'daily',
+    function () {
+        global $PPHP;
+        $config = $PPHP['config'];
+        $maxAge = $config['reviews']['accept_days'];
+
+        // Nagging peers who haven't accepted/declined
+        $reviews = grab(
+            'admin_reviews',
+            array('created'),
+            $config['articles']['states_wip']
+        );
+        foreach ($reviews as $review) {
+            if ($review['age'] > 1
+                && $review['age'] < $maxAge
+                && $review['age'] % 3 === 0
+            ) {
+                trigger(
+                    'send_invite',
+                    'invitation_peer_noanswer',
+                    $review['peerId'],
+                    array(
+                        'article' => $review['articleId']
+                    ),
+                    null,
+                    true
+                );
+            } elseif ($review['age'] > $maxAge) {
+                trigger('review_save', array('id' => $review['id'], 'status' => 'deleted'));
+                trigger(
+                    'log',
+                    array(
+                        'objectType' => 'article',
+                        'objectId' => $review['articleId'],
+                        'action' => 'reviewed',
+                        'newValue' => $cols['status']
+                    )
+                );
+                $article = grab('article', $review['articleId']);
+                trigger(
+                    'sendmail',
+                    $review['peerId'],
+                    ($article !== false && isset($article['editors']) ? $article['editors'] : null),
+                    null,
+                    'review_expired',
+                    array(
+                        'article' => $review['articleId']
+                    ),
+                    true
+                );
+            };
+        };
+
+        // Nagging peers who are near/after reviewing deadline
+        $reviews = grab(
+            'admin_reviews',
+            array('reviewing'),
+            $config['articles']['states_wip']
+        );
+
+        foreach ($reviews as $review) {
+            // NOTE: Because nagging is stateless, sadly here we rely on
+            // the fact that this event runs exactly once per day.
+            if ($review['daysLeft'] == $config['reviews']['lastcall_days']) {
+                trigger(
+                    'send_invite',
+                    'invitation_peer_reminder',
+                    $review['peerId'],
+                    array(
+                        'article' => $review['articleId'],
+                        'deadline' => $review['deadline']
+                    ),
+                    null,
+                    true
+                );
+            } elseif ($review['daysLeft'] == 0
+                || $review['daysLeft'] == $config['reviews']['max_late_days']
+            ) {
+                $article = grab('article', $review['articleId']);
+                trigger(
+                    'sendmail',
+                    $review['peerId'],
+                    ($article !== false && isset($article['editors']) ? $article['editors'] : null),
+                    null,
+                    'review_overdue',
+                    array(
+                        'article' => $review['articleId'],
+                        'deadline' => $review['deadline']
+                    ),
+                    true
+                );
+            };
+        };
     }
 );

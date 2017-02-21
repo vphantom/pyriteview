@@ -1,0 +1,24 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Reminder to review: {{ lib.format_article(article, true, true) |truncate(64, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Hello,</p>
+<p>
+This is a simple reminder that we need your review of the article
+"{{ lib.format_article(article, true, true) }}"
+by {{ deadline }}.
+</p>
+<p>
+You may complete your review now at:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/{{ validation_link }}</a>
+</p>
+<p>
+Thank you,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

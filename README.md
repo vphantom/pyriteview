@@ -41,6 +41,14 @@ Run `make init`.  This will automatically download and set up PHP's Composer pac
 
 You will also need to make sure that your web server or PHP process has read-write access to the `var/` directory where the database, logs and template cache are stored.
 
+### Crontab
+
+The same user as your web server (in order to have access to `var/`) should trigger the 'daily' event every day.  For example, at 4:07 AM:
+
+```crontab
+7	4	*	*	*	/usr/bin/php /web/pyriteview/index.php --trigger daily
+```
+
 ### Web Server Configuration
 
 In order to produce clean, technology-agnostic URLs such as `http://www.yourdomain.com/articles/127`, you need to tell your web server to internally redirect requests for non-existent files to `/index.php`, which will look in `PATH_INFO` for details.  We also want to prevent access to private files.

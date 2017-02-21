@@ -1,0 +1,24 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Late review for: {{ lib.format_article(article, true, true) |truncate(64, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Hello,</p>
+<p>
+Please note that we have not received your review of the article
+"{{ lib.format_article(article, true, true) }}"
+which was expected on {{ deadline}} at the latest.
+</p>
+<p>
+You may still complete it today at:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/">{{ req.protocol }}://{{ req.host }}/</a>
+</p>
+<p>
+Thank you,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Invitation expired for: {{ lib.format_article(article, true, true) |truncate(64, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Hello,</p>
+<p>
+You had been invited to review the article
+"{{ lib.format_article(article, true, true) }}"
+to appear in {{ config.global.name }}.
+</p>
+<p>
+As we have not received positive nor negative communication from you, this
+invitation has now expired.
+Please note that it would've been very useful for us to know explicitly of
+your unavailability, so that we could've moved on sooner in our search of
+available experts.
+</p>
+<p>
+Thank you,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

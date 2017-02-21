@@ -53,7 +53,7 @@ init:	deps bin/composer
 	$(COMPOSER) install
 	@mkdir -p var/twig_cache var/sessions var/articles
 	if [ ! -f var/main.db ]; then $(SQLITE) /dev/null '.save var/main.db'; fi
-	php -f index.php
+	php index.php --trigger install
 
 dev-init:	deps
 	@if ! which npm  >/dev/null; then echo "  **  Please install NPM, part of NodeJS."; exit 1; fi

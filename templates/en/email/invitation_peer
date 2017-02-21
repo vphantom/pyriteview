@@ -1,0 +1,25 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Invitation to review: {{ lib.format_article(article, true, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Hello,</p>
+<p>
+You are invited to come review as an expert, article
+"{{ lib.format_article(article, true, true) }}"
+which was submitted to {{ config.global.name }}.
+</p>
+<p>
+Please let us know about your interest to perform this evaluation at the
+following link:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/en/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/en/{{ validation_link }}</a>
+</p>
+<p>
+Thank you,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

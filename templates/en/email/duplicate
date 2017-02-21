@@ -11,7 +11,7 @@ this request, then perhaps you simply forgot your password?  If so, click the
 following link to reset your password:
 </p>
 <p>
-<a href="{{ req.protocol }}://{{ req.host }}/password_reset">{{ req.protocol }}://{{ req.host }}/password_reset</a>
+<a href="{{ req.protocol }}://{{ req.host }}/en/password_reset">{{ req.protocol }}://{{ req.host }}/en/password_reset</a>
 </p>
 <p>
 If you have not requested this verification, you can safely discard this

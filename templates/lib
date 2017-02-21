@@ -188,7 +188,7 @@
 	{{ __('label_'~field) }}
 {%- endmacro %}
 
-{% macro format_issue(issue, flat) -%}
+{% macro format_issue(issue, flat, nohtml) -%}
 	{%- set req = grab('request') -%}
 	{%- if not issue.id -%}
 		{%- set issue = grab('issue', issue) -%}
@@ -197,18 +197,18 @@
 		{%- if pass('can', 'view', 'issue', issue.id) and not flat -%}
 			<a href="{{ req.base }}/issues/{{ issue.id }}/{{ issue.permalink }}"><span class="glyphicon glyphicon-book"></span>{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}</a>
 		{%- else -%}
-			<span class="glyphicon glyphicon-book"></span>{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}
+			{% if not nohtml %}<span class="glyphicon glyphicon-book"></span>{% endif %}{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}
 		{%- endif -%}
 	{%- else -%}
 		{%- if pass('can', 'view', 'issue', issue.id) and not flat -%}
 			<a href="{{ req.base }}/issues/0"><span class="glyphicon glyphicon-book"></span>{{ __('issue_zero') }}</a>
 		{%- else -%}
-			<span class="glyphicon glyphicon-book"></span>{{ __('issue_zero') }}
+			{%- if not nohtml %}<span class="glyphicon glyphicon-book"></span>{% endif %}{{ __('issue_zero') }}
 		{%- endif -%}
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro format_article(article, flat) -%}
+{% macro format_article(article, flat, nohtml) -%}
 	{%- set req = grab('request') -%}
 	{%- if not article.id -%}
 		{%- set article = grab('article', article) -%}
@@ -222,10 +222,10 @@
 			) and not flat -%}
 			<a href="{{ req.base }}/articles/{{ article.id }}/{{ article.permalink }}"><span class="glyphicon glyphicon-align-left"></span>{{ article.title }}</a>
 		{%- else -%}
-			<span class="glyphicon glyphicon-align-left"></span>{{ article.title }}
+			{%- if not nohtml %}<span class="glyphicon glyphicon-align-left"></span>{% endif %}{{ article.title }}
 		{%- endif -%}
 	{%- else -%}
-		<span class="glyphicon glyphicon-align-left"></span>{{ __('article_unknown') }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-align-left"></span>{% endif %}{{ __('article_unknown') }}
 	{%- endif -%}
 {%- endmacro %}
 

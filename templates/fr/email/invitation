@@ -6,10 +6,10 @@ Invitation à joindre {{ config.global.name }}
 <p>Bonjour,</p>
 <p>
 Vous êtes invités à vous joindre à {{ config.global.name }}, où ce courriel a été ajouté.
-Veuillez cliquer le lien ci-dessous pour accéder à votre nouveau compte:
+Vous pouvez cliquer le lien ci-dessous pour accéder à votre nouveau compte:
 </p>
 <p>
-<a href="{{ req.protocol }}://{{ req.host }}/">{{ req.protocol }}://{{ req.host }}/</a>
+<a href="{{ req.protocol }}://{{ req.host }}/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/{{ validation_link }}</a>
 </p>
 <p>
 Merci,

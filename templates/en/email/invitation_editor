@@ -1,0 +1,21 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Invitation to edit: {{ lib.format_issue(issue, true, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Hello,</p>
+<p>
+You are invited to join {{ config.global.name }}, where this e-mail was added,
+to edit issue "{{ lib.format_issue(issue, true, true) }}".
+You can click the following link to access it immediately:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/en/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/en/{{ validation_link }}</a>
+</p>
+<p>
+Thank you,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

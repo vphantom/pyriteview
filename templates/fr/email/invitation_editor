@@ -1,0 +1,21 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Invitation à éditer: {{ lib.format_issue(issue, true, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Bonjour,</p>
+<p>
+Vous êtes invités à vous joindre à {{ config.global.name }}, où ce courriel a
+été ajouté, pour éditer le numéro "{{ lib.format_issue(issue, true, true) }}".
+Vous pouvez cliquer le lien ci-dessous pour y accéder immédiatement:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/{{ validation_link }}</a>
+</p>
+<p>
+Merci,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

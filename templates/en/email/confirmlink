@@ -9,7 +9,7 @@ This message is to confirm that you control this e-mail address.  If you made
 this request, click the following link to continue:
 </p>
 <p>
-<a href="{{ req.protocol }}://{{ req.host }}/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/{{ validation_link }}</a>
+<a href="{{ req.protocol }}://{{ req.host }}/en/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/en/{{ validation_link }}</a>
 </p>
 <p>
 If you have not requested this verification, you can safely discard this

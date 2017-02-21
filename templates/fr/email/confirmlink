@@ -3,7 +3,7 @@
 {% endblock %}
 
 {% block html %}
-<p>Hello,</p>
+<p>Bonjour,</p>
 <p>
 Ce message est pour confirmer que vous contrôlez bien cette adresse de
 courriel.  Si vous avez fait cette demande, cliquez le lien ci-dessous pour

@@ -194,6 +194,13 @@ class Issues
         global $PPHP;
         $db = $PPHP['db'];
         $res = false;
+        $log = null;
+
+        if (isset($cols['log'])) {
+            // Only log comments in first of a series of transactions
+            $log = $cols['log'];
+            unset($cols['log']);
+        };
 
         $db->begin();
         if (isset($cols['id'])) {
@@ -204,13 +211,6 @@ class Issues
             if ($res !== false) {
                 $res = $id;
                 // Log each modified interesting column
-                $log = null;
-                if (isset($cols['log'])) {
-                    // Only log comments in first of a series of transactions
-                    $log = $cols['log'];
-                    $cols['log'] = null;
-                    unset($cols['log']);
-                };
                 foreach (array('volume', 'number', 'publication', 'title', 'description') as $col) {
                     if (isset($cols[$col]) && $oldIssue[$col] !== $cols[$col]) {
                         trigger(
@@ -255,10 +255,42 @@ class Issues
             foreach ($added as $editor) {
                 trigger('grant', $editor, 'editor');
                 trigger('grant', $editor, null, '*', 'issue', $res);
+                trigger(
+                    'log',
+                    array(
+                        'objectType' => 'issue',
+                        'objectId' => $res,
+                        'action' => 'invited',
+                        'fieldName' => 'editors',
+                        'newValue' => $editor,
+                        'content' => $log
+                    )
+                );
+                $log = null;
+                trigger(
+                    'send_invite',
+                    'invitation_editor',
+                    $editor,
+                    array(
+                        'issue' => $res
+                    )
+                );
             };
 
             foreach ($deled as $editor) {
                 trigger('revoke', $editor, null, '*', 'issue', $res);
+                trigger(
+                    'log',
+                    array(
+                        'objectType' => 'issue',
+                        'objectId' => $res,
+                        'action' => 'uninvited',
+                        'fieldName' => 'editors',
+                        'newValue' => $editor,
+                        'content' => $log
+                    )
+                );
+                $log = null;
             };
         };
         $db->commit();

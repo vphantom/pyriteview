@@ -60,7 +60,27 @@
 						{% endif %}
 
 					{% elseif tx.action == 'invited' %}
-						{{ __('label_invited_peer') }}
+						{% if tx.fieldName == 'peers' %}
+							{{ __('label_invited_peer') }}
+						{% elseif tx.fieldName == 'authors' %}
+							{{ __('label_invited_author') }}
+						{% elseif tx.fieldName == 'editors' %}
+							{{ __('label_invited_editor') }}
+						{% else %}
+							???
+						{% endif %}
+						{{ lib.format_user(tx.newValue) }}
+
+					{% elseif tx.action == 'uninvited' %}
+						{% if tx.fieldName == 'peers' %}
+							{{ __('label_uninvited_peer') }}
+						{% elseif tx.fieldName == 'authors' %}
+							{{ __('label_uninvited_author') }}
+						{% elseif tx.fieldName == 'editors' %}
+							{{ __('label_uninvited_editor') }}
+						{% else %}
+							???
+						{% endif %}
 						{{ lib.format_user(tx.newValue) }}
 
 					{% elseif tx.action == 'reviewed' %}

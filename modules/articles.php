@@ -551,9 +551,37 @@ class Articles
                 foreach ($added as $author) {
                     trigger('grant', $author, 'author');
                     trigger('grant', $author, null, 'edit', 'article', $res);
+                    trigger(
+                        'log',
+                        array(
+                            'objectType' => 'article',
+                            'objectId' => $res,
+                            'action' => 'invited',
+                            'fieldName' => 'authors',
+                            'newValue' => $author
+                        )
+                    );
+                    trigger(
+                        'send_invite',
+                        'invitation_author',
+                        $author,
+                        array(
+                            'article' => $res
+                        )
+                    );
                 };
                 foreach ($deled as $author) {
                     trigger('revoke', $author, null, 'edit', 'article', $res);
+                    trigger(
+                        'log',
+                        array(
+                            'objectType' => 'article',
+                            'objectId' => $res,
+                            'action' => 'uninvited',
+                            'fieldName' => 'authors',
+                            'newValue' => $author
+                        )
+                    );
                 };
             };
 
@@ -693,14 +721,23 @@ class Articles
                     $success = false;
                     break;
                 };
-                // Log, which will be part of the rolled back transaction if we fail.
+                // Log and e-mail, which will be part of the rolled back transaction if we fail.
                 trigger(
                     'log',
                     array(
                         'objectType' => 'article',
                         'objectId' => $cols['articleId'],
                         'action' => 'invited',
+                        'fieldName' => 'peers',
                         'newValue' => $peer
+                    )
+                );
+                trigger(
+                    'send_invite',
+                    'invitation_peer',
+                    $peer,
+                    array(
+                        'article' => $cols['articleId']
                     )
                 );
             };

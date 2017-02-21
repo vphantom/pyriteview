@@ -5,11 +5,11 @@ Invitation to join {{ config.global.name }}
 {% block html %}
 <p>Hello,</p>
 <p>
-You are invited to join {{ config.global.name }}, where this e-mail address has just been added.
+You are invited to join {{ config.global.name }}, where this e-mail address has been added.
 Please click the following link to access your new account:
 </p>
 <p>
-<a href="{{ req.protocol }}://{{ req.host }}/">{{ req.protocol }}://{{ req.host }}/</a>
+<a href="{{ req.protocol }}://{{ req.host }}/en/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/en/{{ validation_link }}</a>
 </p>
 <p>
 Thank you,

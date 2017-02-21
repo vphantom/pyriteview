@@ -1,0 +1,22 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Vous êtes auteur de: {{ lib.format_article(article, true, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Bonjour,</p>
+<p>
+Vous avez été ajouté comme auteur de l'article
+"{{ lib.format_article(article, true, true) }}"
+qui a été soumis à {{ config.global.name }}.
+Vous pouvez cliquer le lien ci-dessous pour y accéder immédiatement:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/{{ validation_link }}</a>
+</p>
+<p>
+Merci,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

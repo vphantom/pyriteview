@@ -1,0 +1,25 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Invitation à évaluer: {{ lib.format_article(article, true, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Bonjour,</p>
+<p>
+Vous êtes invités à venir évaluer en tant qu'expert l'article
+"{{ lib.format_article(article, true, true) }}"
+qui a été soumis à {{ config.global.name }}.
+</p>
+<p>
+Nous vous prions de bien vouloir nous faire part de votre intérêt à effectuer
+cette évaluation à la page ci-dessous:
+</p>
+<p>
+<a href="{{ req.protocol }}://{{ req.host }}/{{ validation_link }}">{{ req.protocol }}://{{ req.host }}/{{ validation_link }}</a>
+</p>
+<p>
+Merci,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

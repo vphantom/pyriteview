@@ -242,7 +242,7 @@ class Articles
                 // Authors do not have the editor role for this specific article.
                 foreach ($article['editors'] as $key => $editor) {
                     if (in_array($editor, $article['authors'])) {
-                        unset($article['editors'][$key];
+                        unset($article['editors'][$key]);
                     };
                 };
                 if (count($article['editors']) < 1) {

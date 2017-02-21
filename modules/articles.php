@@ -717,6 +717,20 @@ class Articles
             $db->begin();
             foreach ($cols['peers'] as $peer) {
                 $cols['peerId'] = $peer;
+                $alreadyPeer = $db->selectAtom(
+                    "
+                    SELECT reviews.id FROM reviews
+                    LEFT JOIN articleVersions ON articleVersions.id=reviews.versionId
+                    WHERE
+                    articleVersions.articleId=?
+                    AND reviews.peerId=?
+                    LIMIT 1
+                    ",
+                    array(
+                        $cols['articleId'],
+                        $peer
+                    )
+                );
                 if ($db->insert('reviews', $cols) === false) {
                     $success = false;
                     break;
@@ -734,7 +748,7 @@ class Articles
                 );
                 trigger(
                     'send_invite',
-                    'invitation_peer',
+                    'invitation_peer' . ($alreadyPeer ? '_again' : ''),
                     $peer,
                     array(
                         'article' => $cols['articleId']

@@ -253,6 +253,7 @@ class Issues
             $added = array_diff($cols['editors'], $oldEditors);
 
             foreach ($added as $editor) {
+                trigger('grant', $editor, 'editor');
                 trigger('grant', $editor, null, '*', 'issue', $res);
             };
 
@@ -287,6 +288,9 @@ on(
             $articles = array();
             if (isset($req['post']['title'])) {
                 if (!pass('form_validate', 'issues_edit')) return trigger('http_status', 440);
+                if (!isset($req['post']['userdata'])) {
+                    $req['post']['userdata'] = array();
+                };
                 $req['post']['editors'] = grab('clean_userids', $req['post']['editors'], $req['post']['userdata']);
                 $saved = true;
                 $success = grab('issue_save', $req['post']);

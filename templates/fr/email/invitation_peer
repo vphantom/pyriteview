@@ -1,6 +1,6 @@
 {% block subject %}
 {% import 'lib' as lib %}
-Invitation à évaluer: {{ lib.format_article(article, true, true) }}
+Invitation à évaluer: {{ lib.format_article(article, true, true) |truncate(64, true) }}
 {% endblock %}
 
 {% block html %}

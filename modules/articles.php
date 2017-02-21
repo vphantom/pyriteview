@@ -238,9 +238,17 @@ class Articles
                 $article['permalink'] = makePermalink($article['title']);
                 $article['authors'] = grab('object_users', 'edit', 'article', $id);
                 $article['editors'] = grab('object_users', '*', 'issue', $article['issueId']);
+
+                // Authors do not have the editor role for this specific article.
+                foreach ($article['editors'] as $key => $editor) {
+                    if (in_array($editor, $article['authors'])) {
+                        unset($article['editors'][$key];
+                    };
+                };
                 if (count($article['editors']) < 1) {
                     $article['editors'] = grab('role_users', 'editor-in-chief');
                 };
+
                 $article['issue'] = self::_getIssueName($article);
                 $article['files_dir'] = "{$config['path']}/{$article['issue']}/{$article['id']}";
             };
@@ -770,6 +778,8 @@ class Articles
 
             $db->begin();
 
+            $oldReview = $db->selectSingleArray('SELECT * FROM reviews WHERE id=?', array($id));
+
             // Handle file uploads
             $newFiles = array();
             foreach ($files as $file) {
@@ -779,7 +789,7 @@ class Articles
                 };
             };
             if (count($newFiles) > 0) {
-                $oldFiles = $db->selectAtom('SELECT files FROM reviews WHERE id=?', array($id));
+                $oldFiles = $oldReview['files'];
                 if ($oldFiles) {
                     $oldFiles = json_decode($oldFiles);
                 };
@@ -802,6 +812,59 @@ class Articles
                         'content' => (isset($cols['log']) && $cols['log'] !== '' ? $cols['log'] : null)
                     )
                 );
+                if ($oldReview['peerId'] == $_SESSION['user']['id']) {
+                    $article = grab('article', $cols['articleId']);
+                    switch ($cols['status']) {
+                    case 'reviewing':
+                        // Peer accepted
+                        trigger(
+                            'sendmail',
+                            $article['editors'],
+                            null,
+                            null,
+                            'review_agreed',
+                            array(
+                                'peerId' => $oldReview['peerId'],
+                                'article' => $cols['articleId']
+                            )
+                        );
+                        break;
+                    case 'deleted':
+                        // Peer declined
+                        trigger(
+                            'sendmail',
+                            $article['editors'],
+                            null,
+                            null,
+                            'review_declined',
+                            array(
+                                'peerId' => $oldReview['peerId'],
+                                'article' => $cols['articleId']
+                            )
+                        );
+                        break;
+                    case 'revision':
+                    case 'approved':
+                    case 'rejected':
+                        // Peer filed a review
+                        // Note that an article's editors excludes authors, so
+                        // revealing who the peer is here is OK.
+                        trigger(
+                            'sendmail',
+                            $article['editors'],
+                            $oldReview['peerId'],
+                            null,
+                            'review_complete',
+                            array(
+                                'peerId' => $oldReview['peerId'],
+                                'article' => $cols['articleId'],
+                                'status' => $cols['status']
+                            )
+                        );
+                        break;
+                    // No default
+                    };
+                };
             };
 
             $db->commit();

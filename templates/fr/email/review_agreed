@@ -1,0 +1,17 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Rôle d'évaluateur accepté par {{ lib.format_user(peerId, true, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Bonjour,</p>
+<p>
+{{ lib.format_user(peerId, true, true) }} qui était recruté pour évaluer
+l'article "{{ lib.format_article(article, true, true) }}" a accepté son rôle.
+</p>
+<p>
+Merci,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

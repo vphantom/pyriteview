@@ -1,6 +1,6 @@
 {% block subject %}
 {% import 'lib' as lib %}
-Vous êtes auteur de: {{ lib.format_article(article, true, true) }}
+Vous êtes auteur de: {{ lib.format_article(article, true, true) |truncate(64, true) }}
 {% endblock %}
 
 {% block html %}

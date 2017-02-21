@@ -1,0 +1,17 @@
+{% block subject %}
+{% import 'lib' as lib %}
+Peer review role accepted by {{ lib.format_user(peerId, true, true) }}
+{% endblock %}
+
+{% block html %}
+{% import 'lib' as lib %}
+<p>Hello,</p>
+<p>
+{{ lib.format_user(peerId, true, true) }} who was recruited to review
+article "{{ lib.format_article(article, true, true) }}" accepted this role.
+</p>
+<p>
+Thank you,
+<br>{{ config.global.name }}
+</p>
+{% endblock %}

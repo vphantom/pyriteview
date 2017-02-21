@@ -59,7 +59,7 @@
 	{%- endif -%}
 {%- endmacro %}
 
-{% macro format_status(status, act) -%}
+{% macro format_status(status, act, nohtml) -%}
 	{# Help gettext's msgmerge:
 		__('status_created')
 		__('status_reviewing')
@@ -84,23 +84,23 @@
 		{% set label = __('status_'~status) %}
 	{%- endif -%}
 	{%- if status == 'created' -%}
-		<span class="glyphicon glyphicon-star fg-new"></span> {{ label }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-star fg-new"></span> {% endif %}{{ label }}
 	{%- elseif status == 'reviewing' -%}
-		<span class="glyphicon glyphicon-time fg-pending"></span> {{ label }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-time fg-pending"></span> {% endif %}{{ label }}
 	{%- elseif status == 'revision' -%}
-		<span class="glyphicon glyphicon-flag fg-stalled"></span> {{ label }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-flag fg-stalled"></span> {% endif %}{{ label }}
 	{%- elseif status == 'approved' -%}
-		<span class="glyphicon glyphicon-ok fg-ok"></span> {{ label }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-ok fg-ok"></span> {% endif %}{{ label }}
 	{%- elseif status == 'printing' -%}
-		<span class="glyphicon glyphicon-flag fg-stalled"></span> {{ label }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-flag fg-stalled"></span> {% endif %}{{ label }}
 	{%- elseif status == 'published' -%}
-		<span class="glyphicon glyphicon-lock fg-ok"></span> {{ label }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-lock fg-ok"></span> {% endif %}{{ label }}
 	{%- elseif status == 'rejected' -%}
-		<span class="glyphicon glyphicon-remove fg-err"></span> {{ label }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-remove fg-err"></span> {% endif %}{{ label }}
 	{%- elseif status == 'deleted' -%}
-		<span class="glyphicon glyphicon-trash fg-err"></span> {{ label }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-trash fg-err"></span> {% endif %}{{ label }}
 	{%- else -%}
-		<span class="glyphicon glyphicon-question-sign fg-err"></span> {{ __('status_unknown') }}
+		{%- if not nohtml %}<span class="glyphicon glyphicon-question-sign fg-err"></span> {% endif %}{{ __('status_unknown') }}
 	{%- endif -%}
 {%- endmacro %}
 

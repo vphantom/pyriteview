@@ -1,6 +1,6 @@
 {% block subject %}
 {% import 'lib' as lib %}
-Invitation to review again: {{ lib.format_article(article, true, true) }}
+Invitation to review again: {{ lib.format_article(article, true, true) |truncate(64, true) }}
 {% endblock %}
 
 {% block html %}

@@ -7,7 +7,7 @@ EXORCIST   := node_modules/.bin/exorcist
 JS         := node_modules/.bin/uglifyjs >/dev/null --compress --mangle
 JSLINT     := node_modules/.bin/eslint --fix
 GZIP       := gzip -f -n -k -9
-LANGUAGES  := `sed '/^languages\s*=/!d; s/^languages\s*=\s*"\([^"]*\)"\s*$$/\1/' config.ini |head -n1`
+LANGUAGES  := `sed '/^languages\s*=/!d; s/^languages\s*=\s*"\([^"]*\)"\s*$$/\1/' var/config.ini |head -n1`
 
 FONT_SRC := $(wildcard node_modules/bootstrap/dist/fonts/*.*) \
 	$(wildcard node_modules/summernote/dist/font/*.*)

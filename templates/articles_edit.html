@@ -130,7 +130,8 @@
 						<th>{{ __('label_version') }}</th>
 						<th class="text-center">{{ __('label_deadline') }}</th>
 						<th>{{ __('label_status') }}</th>
-						<th>{{ __('label_peer') }} [{{ __('label_files') }}]</th>
+						<th>{{ __('label_peer') }}</th>
+						<th>{{ __('label_files') }}</th>
 					</thead>
 					<tbody>
 						{% set vid = 1 %}
@@ -150,7 +151,7 @@
 											<span class="glyphicon glyphicon-exclamation-sign fg-err"></span>
 										{% endif %}
 										{% if review.status in config.reviews.states_final %}
-											{{ review.deadline }}
+											{{ review.deadline }} <span class="caret spacing"></span>
 										{% else %}
 											<form id="review" method="post" class="form-inline inline">
 												{{ form_begin_review |raw }}
@@ -187,14 +188,11 @@
 											{{ lib.format_status(review.status) }}
 										{% endif %}
 									</td>
-									<td>{{ lib.format_user(review.peerId) }}
-										{% if review.files|length > 0 %}
-										[
-											{% for file in review.files %}
-												<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a>
-											{% endfor %}
-										]
-										{% endif %}
+									<td class="fit">{{ lib.format_user(review.peerId) }}</td>
+									<td>
+										{% for file in review.files %}
+											<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a>
+										{% endfor %}
 									</td>
 								</tr>
 							{% endfor %}

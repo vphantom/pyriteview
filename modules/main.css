@@ -80,6 +80,10 @@ textarea {
 	cursor: pointer;
 }
 
+.spacing {
+	color: transparent !important;
+}
+
 /* Left menu */
 .nav-sidebar {
 	margin: 0 -21px 20px -20px;

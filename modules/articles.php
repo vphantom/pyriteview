@@ -491,6 +491,11 @@ class Articles
         $config = $PPHP['config'];
         $res = false;
         $oldArticle = false;
+        $log = null;
+        if (isset($cols['log'])) {
+            $log = $cols['log'];
+            unset($cols['log']);
+        };
 
         $db->begin();
         if (isset($cols['keywords']) && is_array($cols['keywords'])) {
@@ -530,10 +535,10 @@ class Articles
                                 'fieldName' => $col,
                                 'oldValue' => $oldArticle[$col],
                                 'newValue' => $cols[$col],
-                                'content' => (isset($cols['log']) && $cols['log'] !== '' ? $cols['log'] : null)
+                                'content' => $log
                             )
                         );
-                        $cols['log'] = null;
+                        $log = null;
                     };
                 };
 
@@ -567,9 +572,11 @@ class Articles
                             'objectId' => $res,
                             'action' => 'invited',
                             'fieldName' => 'authors',
-                            'newValue' => $author
+                            'newValue' => $author,
+                            'content' => $log
                         )
                     );
+                    $log = null;
                     trigger(
                         'send_invite',
                         'invitation_author',
@@ -588,9 +595,11 @@ class Articles
                             'objectId' => $res,
                             'action' => 'uninvited',
                             'fieldName' => 'authors',
-                            'newValue' => $author
+                            'newValue' => $author,
+                            'content' => $log
                         )
                     );
+                    $log = null;
                 };
             };
 
@@ -608,10 +617,10 @@ class Articles
                             'objectId' => $res,
                             'fieldName' => 'files',
                             'newValue' => $newFile['name'],
-                            'content' => (isset($cols['log']) && $cols['log'] !== '' ? $cols['log'] : null)
+                            'content' => $log
                         )
                     );
-                    $cols['log'] = null;
+                    $log = null;
                 };
             };
             if (count($newFiles) > 0) {
@@ -759,6 +768,11 @@ class Articles
         global $PPHP;
         $db = $PPHP['db'];
         $config = $PPHP['config']['reviews'];
+        $log = null;
+        if (isset($cols['log'])) {
+            $log = $cols['log'];
+            unset($cols['log']);
+        };
 
         if (isset($cols['peers']) && isset($cols['versionId'])) {
             // We're creating new reviews, one per peer
@@ -793,9 +807,11 @@ class Articles
                         'objectId' => $cols['articleId'],
                         'action' => 'invited',
                         'fieldName' => 'peers',
-                        'newValue' => $peer
+                        'newValue' => $peer,
+                        'content' => $log
                     )
                 );
+                $log = null;
                 trigger(
                     'send_invite',
                     'invitation_peer' . ($alreadyPeer ? '_again' : ''),
@@ -851,9 +867,10 @@ class Articles
                         'objectId' => $cols['articleId'],
                         'action' => 'reviewed',
                         'newValue' => $cols['status'],
-                        'content' => (isset($cols['log']) && $cols['log'] !== '' ? $cols['log'] : null)
+                        'content' => $log
                     )
                 );
+                $log = null;
                 if ($oldReview['peerId'] == $_SESSION['user']['id']) {
                     $article = grab('article', $cols['articleId']);
                     switch ($cols['status']) {

@@ -530,7 +530,7 @@ class Articles
                                 'fieldName' => $col,
                                 'oldValue' => $oldArticle[$col],
                                 'newValue' => $cols[$col],
-                                'content' => $cols['log']
+                                'content' => (isset($cols['log']) && $cols['log'] !== '' ? $cols['log'] : null)
                             )
                         );
                         $cols['log'] = null;
@@ -608,7 +608,7 @@ class Articles
                             'objectId' => $res,
                             'fieldName' => 'files',
                             'newValue' => $newFile['name'],
-                            'content' => $cols['log']
+                            'content' => (isset($cols['log']) && $cols['log'] !== '' ? $cols['log'] : null)
                         )
                     );
                     $cols['log'] = null;

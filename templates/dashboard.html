@@ -45,7 +45,7 @@
 			<!-- /Reviews Panel -->
 		{% endif %}
 
-		{% if articles|length > 0 %}
+		{% if articles|length > 0 or pass('has_role', 'author') %}
 			<!-- Articles Panel -->
 			<div class="panel panel-primary">
 				<div class="panel-heading">

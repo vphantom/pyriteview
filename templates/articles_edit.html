@@ -48,7 +48,7 @@
 					</label>
 				{% endfor %}
 			</div>
-		{% else %}
+		{% elseif article.id %}
 			<span data-label="{{ __('label_status') }}" class="input-like">{{ lib.format_status(article.status) }}</span>
 		{% endif %}
 
@@ -243,6 +243,7 @@
 		{% endfor %}
 		{% if review.id and (review.status == 'created' or review.status == 'reviewing') %}
 			<h3>{{ __('title_review') }}</h3>
+			<p>{{ __('label_review_deadline') }}: {{ review.deadline }}</p>
 			<form id="peer_review" method="post" enctype="multipart/form-data">
 				{{ form_begin_review |raw }}
 				<input type="hidden" name="review" value="1">

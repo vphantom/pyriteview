@@ -10,6 +10,33 @@ This simple hub allows publication editors, single edition editors, article auth
 
 "PyriteView" is a bilingual play on the words "Peer Review".  The [PyritePHP](https://github.com/vphantom/pyritephp) framework which it uses was originally created specifically for this application.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Usage](#usage)
+- [Installation](#installation)
+  - [Download](#download)
+  - [Requirements](#requirements)
+  - [Configuration](#configuration)
+  - [Create directories and empty database](#create-directories-and-empty-database)
+  - [Crontab](#crontab)
+  - [Web Server Configuration](#web-server-configuration)
+    - [Apache](#apache)
+    - [Nginx](#nginx)
+    - [Lighttpd](#lighttpd)
+- [Updating](#updating)
+- [Acknowledgements](#acknowledgements)
+  - [Server-side](#server-side)
+  - [Client-side](#client-side)
+    - [Frameworks](#frameworks)
+    - [Utilities](#utilities)
+  - [Build Tools](#build-tools)
+- [Developers](#developers)
+- [GNU Affero GPL v3.0 License](#gnu-affero-gpl-v30-license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Usage
 
 After installation, just point your browser to your freshly configured server and log in using the account you just created.

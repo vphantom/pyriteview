@@ -75,7 +75,7 @@ class Articles
                 issueId     INTEGER NOT NULL DEFAULT '0',
                 status      VARCHAR(64) NOT NULL DEFAULT 'created',
                 wordCount   INTEGER NOT NULL DEFAULT '0',
-                title       VARCHAR(255),
+                title       VARCHAR(255) NOT NULL DEFAULT '',
                 keywords    TEXT NOT NULL DEFAULT '',
                 abstract    TEXT NOT NULL DEFAULT '',
                 FOREIGN KEY(status) REFERENCES articleStatus(name)

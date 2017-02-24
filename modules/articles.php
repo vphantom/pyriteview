@@ -1159,7 +1159,8 @@ on(
                 'render',
                 'articles.html',
                 array(
-                    'articles' => grab('articles', $search)
+                    'articles' => grab('articles', $search),
+                    'reviews' => grab('peer_reviews')
                 )
             );
         };

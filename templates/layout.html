@@ -114,7 +114,7 @@
 						{% if pass('can_any', 'view', 'issue') %}
 							<li><a href="{{ req.base }}/issues"{% if req.path starts with 'issues' %} class="active"{% endif %}><span class="glyphicon glyphicon-book"></span> {{ __('title_issues') }}</a></li>
 						{% endif %}
-						{% if pass('can_any', 'view', 'article') or pass('has_role', 'peer') %}
+						{% if pass('can_any', 'view', 'article') or pass('can_any', 'edit', 'article') or pass('has_role', 'peer') %}
 							<li><a href="{{ req.base }}/articles"{% if req.path starts with 'articles' %} class="active"{% endif %}><span class="glyphicon glyphicon-align-left"></span> {{ __('title_articles') }}</a></li>
 						{% endif %}
 						{% if pass('can', 'move', 'article') %}

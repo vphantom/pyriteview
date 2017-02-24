@@ -654,7 +654,6 @@ class Articles
                     $q->where('versionId IN')->varsClosed($versionIds);
                     $q->and('status IN')->varsClosed($config['reviews']['states_wip']);
                     // Not saving result as this is a "best effort" maintenance attempt.
-                    print_r($q);
                     $db->exec($q);
                 };
             };
@@ -970,6 +969,7 @@ on(
         $req = grab('request');
         $articleId = array_shift($path);
         $article = (is_numeric($articleId) ? grab('article', $articleId) : false);
+        if ($article !== false && empty($article)) return trigger('http_status', 404);
 
         // A binary request is necessarily for a file within an article
         //
@@ -1046,6 +1046,7 @@ on(
                 // Only send if updated, not created, and we're an author
                 if ($success
                     && is_numeric($articleId)
+                    && !empty($article)
                     && in_array($_SESSION['user']['id'], $article['authors'])
                 ) {
                     trigger(

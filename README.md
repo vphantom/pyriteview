@@ -78,7 +78,12 @@ The same user as your web server (in order to have access to `var/`) should trig
 
 ### Web Server Configuration
 
-In order to produce clean, technology-agnostic URLs such as `http://www.yourdomain.com/articles/127`, you need to tell your web server to internally redirect requests for non-existent files to `/index.php`, which will look in `PATH_INFO` for details.  We also want to prevent access to private files.
+In order to produce clean, technology-agnostic URLs such as `http://www.yourdomain.com/articles/127`, you need to tell your web server to internally redirect requests for non-existent files to `/index.php`, which will look in `PATH_INFO` for details.  We also want to prevent access to private files.  You should also double-check that your php.ini allows file uploads with something like this:
+
+```
+upload_max_filesize = 8M
+post_max_size = 25M
+```
 
 Here are sample configurations for major server software:
 
@@ -99,6 +104,12 @@ RewriteRule ^(.+) /index.php/$1 [L]
 #### Nginx
 
 ```
+http {
+	...
+	client_max_body_size 34m;
+	...
+}
+
 location ~ /(bin|locales|modules|node_modules|templates|var|vendor) {
     deny all;
     return 404;

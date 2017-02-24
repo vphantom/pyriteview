@@ -1,0 +1,107 @@
+{% import 'lib' as lib %}
+{% import _self as self %}
+{{ title(__('title_editing_report')) }}
+<h2 class="page-header"><span class="glyphicon glyphicon-stats"></span> {{ __('title_editing_report') }}</h2>
+
+{% if not pass('can', 'edit', 'issue') %}
+	{% exit %}
+{% endif %}
+
+<p>
+	<form id="editing_report" method="post" class="form-compact">
+		{{ filter('form_begin', 'editing_report') |raw }}
+		<strong>{{ __('label_begin') }}</strong>
+		<input type="text" name="begin" value="{{ req.post.begin |default(date_earlier) }}" minlength="10" maxlength="10" required>
+		<strong>{{ __('label_end') }}</strong>
+		<input type="text" name="end" value="{{ req.post.end |default(date_now) }}" minlength="10" maxlength="10" required>
+		<button type="submit" class="hidden-print"><span class="glyphicon glyphicon-search"></span> {{ __('label_generate') }}</button>
+	</form>
+</p>
+
+<div class="report">
+	{% for issueId, articles in issues %}
+		<h3>{{ lib.format_issue(issueId, true, true) }}</h3>
+		{% for article in articles %}
+			<table class="table">
+				<thead>
+					<tr class="panel-default"><th colspan="5" class="panel-heading">{{ article.title }}</th></tr>
+				</thead>
+				<tbody>
+					{% if article.authors|length > 0 %}
+						<tr>
+							<td colspan="5">
+								{% for author in article.authors %}
+									<span class="user-identity">{{ self.format_user_full(author) }}</span>
+								{% endfor %}
+							</td>
+						</tr>
+					{% endif %}
+					{% if article.versions|length > 0 %}
+						<tr>
+							<td colspan="5">
+								{{ __('label_versions') }}:
+								{% set ver = 1 %}
+								{% for version in article.versions %}
+									<span class="version">{{ ver }}. {{ version.created|slice(0,10) }}</span>
+									{% set ver = ver + 1 %}
+								{% endfor %}
+							</td>
+						</tr>
+					{% endif %}
+					{% if article.statusChanges|length > 0 %}
+						<tr>
+							<td colspan="5">
+								{% for tx in article.statusChanges %}
+									<span class="status-change">{{ lib.format_status(tx.newValue) }} {{ __('label_on') }} {{ tx.timestamp|slice(0,10) }}</span>
+								{% endfor %}
+							</td>
+						</tr>
+					{% endif %}
+					{% if article.hasReviews %}
+						<tr>
+							<th>{{ __('label_version') }}</th>
+							<th>{{ __('label_peer') }}</th>
+							<th>{{ __('label_invited') }}</th>
+							<th class="text-title">{{ __('label_accepted') }}</th>
+							<th>{{ __('label_verdict') }}</th>
+						</tr>
+						{% set ver = 1 %}
+						{% for version in article.versions %}
+							{% for review in version.reviews %}
+								<tr>
+									<td>{{ ver }}</td>
+									<td>{{ self.format_user_full(review.peerId) }}</td>
+									<td class="text-nowrap">{{ review.created|slice(0,10) }}</td>
+									<td class="text-nowrap">
+										{% if review.status == 'deleted' %}
+											{{ __('label_declined') }}
+										{% else %}
+											{{ review.agreed|slice(0,10) }}
+										{% endif %}
+									</td>
+									<td class="text-nowrap">
+										{% if review.status in config.reviews.states_final and review.status != 'deleted' %}
+											{{ lib.format_status(review.status) }}
+											{{ __('label_on') }}
+											{{ review.completed|slice(0,10) }}
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+							{% set ver = ver + 1 %}
+						{% endfor %}
+					{% endif %}
+				</tbody>
+			</table>
+		{% endfor %}
+	{% endfor %}
+</div>
+
+{% macro format_user_full(id) -%}
+	{%- set user = grab('user_resolve', id) -%}
+	{%- if user != false -%}
+		<u>{{ user.name }}</u> ({{ user.profession }}
+		{%- if user.employer -%}, <em>{{ user.employer }}</em>{%- endif -%}
+		)
+	{%- endif -%}
+{%- endmacro %}

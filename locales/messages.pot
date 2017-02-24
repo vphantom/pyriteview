@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-21 09:18-0500\n"
+"POT-Creation-Date: 2017-02-24 09:34-0500\n"
 "PO-Revision-Date: 2017-01-31 12:04-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
@@ -131,6 +131,9 @@ msgstr ""
 msgid "label_accept_decline"
 msgstr ""
 
+msgid "label_accepted"
+msgstr ""
+
 msgid "label_action"
 msgstr ""
 
@@ -162,6 +165,9 @@ msgid "label_attached"
 msgstr ""
 
 msgid "label_authors"
+msgstr ""
+
+msgid "label_begin"
 msgstr ""
 
 msgid "label_change_deadline"
@@ -203,6 +209,9 @@ msgstr ""
 msgid "label_decline"
 msgstr ""
 
+msgid "label_declined"
+msgstr ""
+
 msgid "label_delete"
 msgstr ""
 
@@ -219,6 +228,9 @@ msgid "label_emailconfirm"
 msgstr ""
 
 msgid "label_employer"
+msgstr ""
+
+msgid "label_end"
 msgstr ""
 
 msgid "label_female"
@@ -239,6 +251,9 @@ msgstr ""
 msgid "label_gender"
 msgstr ""
 
+msgid "label_generate"
+msgstr ""
+
 msgid "label_has"
 msgstr ""
 
@@ -246,6 +261,9 @@ msgid "label_i"
 msgstr ""
 
 msgid "label_in"
+msgstr ""
+
+msgid "label_invited"
 msgstr ""
 
 msgid "label_invited_author"
@@ -320,6 +338,9 @@ msgstr ""
 msgid "label_number"
 msgstr ""
 
+msgid "label_on"
+msgstr ""
+
 msgid "label_password_opt"
 msgstr ""
 
@@ -342,6 +363,9 @@ msgid "label_review_accepted"
 msgstr ""
 
 msgid "label_review_approved"
+msgstr ""
+
+msgid "label_review_deadline"
 msgstr ""
 
 msgid "label_review_declined"
@@ -395,7 +419,13 @@ msgstr ""
 msgid "label_user"
 msgstr ""
 
+msgid "label_verdict"
+msgstr ""
+
 msgid "label_version"
+msgstr ""
+
+msgid "label_versions"
 msgstr ""
 
 msgid "label_view_details"
@@ -548,6 +578,9 @@ msgstr ""
 msgid "title_dashboard"
 msgstr ""
 
+msgid "title_editing_report"
+msgstr ""
+
 msgid "title_history"
 msgstr ""
 
@@ -588,6 +621,9 @@ msgid "title_recent_history"
 msgstr ""
 
 msgid "title_register"
+msgstr ""
+
+msgid "title_reports"
 msgstr ""
 
 msgid "title_review"

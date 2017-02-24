@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-21 09:18-0500\n"
-"PO-Revision-Date: 2017-02-21 09:22-0500\n"
+"POT-Creation-Date: 2017-02-24 09:34-0500\n"
+"PO-Revision-Date: 2017-02-24 09:35-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -135,6 +135,9 @@ msgstr "Accept"
 msgid "label_accept_decline"
 msgstr "Accept or decline"
 
+msgid "label_accepted"
+msgstr "accepted"
+
 msgid "label_action"
 msgstr "Action"
 
@@ -167,6 +170,9 @@ msgstr "attached"
 
 msgid "label_authors"
 msgstr "Authors"
+
+msgid "label_begin"
+msgstr "From"
 
 msgid "label_change_deadline"
 msgstr "Change deadline"
@@ -207,6 +213,9 @@ msgstr "Deadline"
 msgid "label_decline"
 msgstr "Decline"
 
+msgid "label_declined"
+msgstr "refused"
+
 msgid "label_delete"
 msgstr "Delete"
 
@@ -224,6 +233,9 @@ msgstr "Send confirmation e-mail"
 
 msgid "label_employer"
 msgstr "Employer"
+
+msgid "label_end"
+msgstr "until"
 
 msgid "label_female"
 msgstr "Woman"
@@ -243,6 +255,9 @@ msgstr "from"
 msgid "label_gender"
 msgstr "Gender"
 
+msgid "label_generate"
+msgstr "Generate"
+
 msgid "label_has"
 msgstr "has"
 
@@ -251,6 +266,9 @@ msgstr "I"
 
 msgid "label_in"
 msgstr "in"
+
+msgid "label_invited"
+msgstr "Invited"
 
 msgid "label_invited_author"
 msgstr "invited author"
@@ -324,6 +342,9 @@ msgstr "View only myself"
 msgid "label_number"
 msgstr "Number"
 
+msgid "label_on"
+msgstr "on"
+
 msgid "label_password_opt"
 msgstr "Password (optional)"
 
@@ -347,6 +368,9 @@ msgstr "accepted to review"
 
 msgid "label_review_approved"
 msgstr "approved"
+
+msgid "label_review_deadline"
+msgstr "Review needed by"
 
 msgid "label_review_declined"
 msgstr "refused to review"
@@ -399,8 +423,14 @@ msgstr "Send"
 msgid "label_user"
 msgstr "User"
 
+msgid "label_verdict"
+msgstr "Verdict"
+
 msgid "label_version"
 msgstr "Version"
+
+msgid "label_versions"
+msgstr "Versions"
 
 msgid "label_view_details"
 msgstr "See details"
@@ -556,6 +586,9 @@ msgstr "Contacts"
 msgid "title_dashboard"
 msgstr "Dashboard"
 
+msgid "title_editing_report"
+msgstr "Editing Report"
+
 msgid "title_history"
 msgstr "History"
 
@@ -598,6 +631,9 @@ msgstr "Recent History"
 msgid "title_register"
 msgstr "Registration"
 
+msgid "title_reports"
+msgstr "Reports"
+
 msgid "title_review"
 msgstr "Review"
 
@@ -621,6 +657,12 @@ msgstr "Unknown User"
 
 msgid "user_zero"
 msgstr "The System"
+
+#~ msgid "label_end_date"
+#~ msgstr "until"
+
+#~ msgid "label_start_date"
+#~ msgstr "From"
 
 #~ msgid "error_fileformat"
 #~ msgstr ""

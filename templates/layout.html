@@ -108,13 +108,19 @@
 		{% if session.identified %}
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-3 col-md-2 sidebar">
+				<div class="col-sm-3 col-md-2 sidebar hidden-print">
 					<ul class="nav nav-sidebar">
 						<li><a href="{{ req.base }}/"{% if req.path == '' %} class="active"{% endif %}><span class="glyphicon glyphicon-home"></span> {{ __('title_dashboard') }}</a></li>
 						<li><a href="{{ req.base }}/issues"{% if req.path starts with 'issues' %} class="active"{% endif %}><span class="glyphicon glyphicon-book"></span> {{ __('title_issues') }}</a></li>
 						<li><a href="{{ req.base }}/articles"{% if req.path starts with 'articles' %} class="active"{% endif %}><span class="glyphicon glyphicon-align-left"></span> {{ __('title_articles') }}</a></li>
+						{% if pass('can', 'move', 'article') %}
+							<li><a href="#collapseReports" data-toggle="collapse" data-target="#collapseReports" aria-controls="collapseReports" {% if req.path starts with 'admin/reports' %} class="active" aria-expanded="true"{% else %} aria-expanded="false"{% endif %}><span class="glyphicon glyphicon-folder-open"></span> {{ __('title_reports') }}<span class="caret"></span></a></li>
+							<ul id="collapseReports" class="nav nav-second-level collapse{% if req.path starts with 'admin/reports/editing' %} in{% endif %}">
+								<li><a href="{{ req.base }}/admin/reports/editing"{% if req.path starts with 'admin/reports/editing' %} class="active"{% endif %}><span class="glyphicon glyphicon-stats"></span> {{ __('title_editing_report') }}</a></li>
+							</ul>
+						{% endif %}
 						{% if pass('can', 'view', 'user') or pass('can', 'create', 'user') %}
-						<li><a href="{{ req.base }}/admin/users"{% if req.path starts with 'admin/users' %} class="active"{% endif %}><span class="glyphicon glyphicon-user"></span> {{ __('title_users') }}</a></li>
+							<li><a href="{{ req.base }}/admin/users"{% if req.path starts with 'admin/users' %} class="active"{% endif %}><span class="glyphicon glyphicon-user"></span> {{ __('title_users') }}</a></li>
 						{% endif %}
 						{% if pass('can', 'view', 'role') %}
 							<li><a href="{{ req.base }}/admin/roles"{% if req.path starts with 'admin/roles' %} class="active"{% endif %}><span class="glyphicon glyphicon-education"></span> {{ __('title_roles') }}</a></li>

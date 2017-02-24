@@ -100,6 +100,8 @@ class Articles
                 versionId INTEGER NOT NULL DEFAULT '0',
                 peerId    INTEGER NOT NULL DEFAULT '0',
                 created   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                agreed    TIMESTAMP,
+                completed TIMESTAMP,
                 deadline  date NOT NULL DEFAULT '2000-01-01',
                 status    VARCHAR(32) NOT NULL DEFAULT 'created',
                 files     BLOB NOT NULL DEFAULT '',
@@ -858,7 +860,15 @@ class Articles
                 $cols['files'] = json_encode($oldFiles);
             };
 
-            $res = $db->update('reviews', $cols, 'WHERE id=?', array($id)) !== false;
+            $extraCol = '';
+            if (isset($cols['status'])) {
+                if ($cols['status'] === 'reviewing') {
+                    $extraCol = ", agreed=datetime('now')";
+                } elseif ($cols['status'] !== 'deleted') {
+                    $extraCol = ", completed=datetime('now')";
+                };
+            };
+            $res = $db->update('reviews', $cols, $extraCol . ' WHERE id=?', array($id)) !== false;
             if ($res && isset($cols['status'])) {
                 trigger(
                     'log',

@@ -84,6 +84,29 @@ textarea {
 	color: transparent !important;
 }
 
+.report table, table.report {
+	page-break-inside: avoid;
+}
+.report .panel-heading {
+	font-size: 120%;
+}
+
+.report .status {
+	white-space: nowrap;
+}
+.report .status-change {
+	margin-right: 1em;
+	white-space: nowrap;
+}
+.report .version {
+	margin-right: 1em;
+}
+
+.user-identity {
+	margin-right: 1em;
+	white-space: nowrap;
+}
+
 /* Left menu */
 .nav-sidebar {
 	margin: 0 -21px 20px -20px;

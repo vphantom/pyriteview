@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-21 09:18-0500\n"
-"PO-Revision-Date: 2017-02-21 09:21-0500\n"
+"POT-Creation-Date: 2017-02-24 09:34-0500\n"
+"PO-Revision-Date: 2017-02-24 09:35-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -141,6 +141,9 @@ msgstr "Accepter"
 msgid "label_accept_decline"
 msgstr "Accepter ou refuser"
 
+msgid "label_accepted"
+msgstr "accepté"
+
 msgid "label_action"
 msgstr "Action"
 
@@ -173,6 +176,9 @@ msgstr "attaché"
 
 msgid "label_authors"
 msgstr "Auteurs"
+
+msgid "label_begin"
+msgstr "Depuis"
 
 msgid "label_change_deadline"
 msgstr "Modifier date limite"
@@ -213,6 +219,9 @@ msgstr "Limite"
 msgid "label_decline"
 msgstr "Refuser"
 
+msgid "label_declined"
+msgstr "refusé"
+
 msgid "label_delete"
 msgstr "Effacer"
 
@@ -230,6 +239,9 @@ msgstr "Envoyer courriel de confirmation"
 
 msgid "label_employer"
 msgstr "Employeur"
+
+msgid "label_end"
+msgstr "jusqu'à"
 
 msgid "label_female"
 msgstr "Femme"
@@ -249,6 +261,9 @@ msgstr "depuis"
 msgid "label_gender"
 msgstr "Genre"
 
+msgid "label_generate"
+msgstr "Générer"
+
 msgid "label_has"
 msgstr "a"
 
@@ -257,6 +272,9 @@ msgstr "J'ai"
 
 msgid "label_in"
 msgstr "dans"
+
+msgid "label_invited"
+msgstr "Invité"
 
 msgid "label_invited_author"
 msgstr "invité l'auteur"
@@ -330,6 +348,9 @@ msgstr "Voir seulement moi"
 msgid "label_number"
 msgstr "Numéro"
 
+msgid "label_on"
+msgstr "le"
+
 msgid "label_password_opt"
 msgstr "Mot de passe (facultatif)"
 
@@ -353,6 +374,9 @@ msgstr "accepté d'évaluer"
 
 msgid "label_review_approved"
 msgstr "approuvé"
+
+msgid "label_review_deadline"
+msgstr "Évaluation attendue au plus tard le"
 
 msgid "label_review_declined"
 msgstr "refusé d'évaluer"
@@ -405,8 +429,14 @@ msgstr "Transmettre"
 msgid "label_user"
 msgstr "Usager"
 
+msgid "label_verdict"
+msgstr "Verdict"
+
 msgid "label_version"
 msgstr "Version"
+
+msgid "label_versions"
+msgstr "Versions"
 
 msgid "label_view_details"
 msgstr "Voir détails"
@@ -564,6 +594,9 @@ msgstr "Contacts"
 msgid "title_dashboard"
 msgstr "Tableau de bord"
 
+msgid "title_editing_report"
+msgstr "Rapport d'édition"
+
 msgid "title_history"
 msgstr "Historique"
 
@@ -606,6 +639,9 @@ msgstr "Historique Récente"
 msgid "title_register"
 msgstr "Inscription"
 
+msgid "title_reports"
+msgstr "Rapports"
+
 msgid "title_review"
 msgstr "Évaluation"
 
@@ -629,6 +665,12 @@ msgstr "Usager inconnu"
 
 msgid "user_zero"
 msgstr "Le système"
+
+#~ msgid "label_end_date"
+#~ msgstr "à"
+
+#~ msgid "label_start_date"
+#~ msgstr "De"
 
 #~ msgid "error_fileformat"
 #~ msgstr ""

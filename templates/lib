@@ -91,7 +91,7 @@
 	{%- else -%}
 		{% set label = __('status_'~status) %}
 	{%- endif -%}
-	<span class="status">
+	{%- if not nohtml -%}<span class="status">{%- endif -%}
 		{%- if status == 'created' -%}
 			{%- if not nohtml %}<span class="glyphicon glyphicon-star fg-new"></span> {% endif %}{{ label }}
 		{%- elseif status == 'reviewing' -%}
@@ -111,7 +111,7 @@
 		{%- else -%}
 			{%- if not nohtml %}<span class="glyphicon glyphicon-question-sign fg-err"></span> {% endif %}{{ __('status_unknown') }}
 		{%- endif -%}
-	</span>
+	{%- if not nohtml -%}</span>{%- endif -%}
 {%- endmacro %}
 
 {% macro format_user(user, flat, nohtml, withmail) -%}

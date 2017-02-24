@@ -494,8 +494,9 @@ class Articles
         $res = false;
         $oldArticle = false;
         $log = null;
+        $maillog = null;
         if (isset($cols['log'])) {
-            $log = $cols['log'];
+            $maillog = $log = $cols['log'];
             unset($cols['log']);
         };
 
@@ -542,6 +543,23 @@ class Articles
                         );
                         $log = null;
                     };
+                };
+
+                // Notify authors of status changes
+                if (isset($cols['status']) && $oldArticle['status'] !== $cols['status']) {
+                    echo "CHANGING STATUS NEEDS EMAIL";
+                    $article = grab('article', $res);  // Authors, title, etc. may have changed
+                    trigger(
+                        'sendmail',
+                        $article['authors'],
+                        null,
+                        null,
+                        'editarticle_status',
+                        array(
+                            'article' => $article,
+                            'log' => $maillog
+                        )
+                    );
                 };
 
             };

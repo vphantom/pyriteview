@@ -46,7 +46,7 @@ on(
             'order' => 'DESC',
             'max' => 12
         );
-        if (!pass('can', 'create', 'user')) {
+        if (!pass('can', 'delete', 'user')) {
             $historyFilter['userId'] = $_SESSION['user']['id'];
         };
         $states = array();

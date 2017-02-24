@@ -547,7 +547,6 @@ class Articles
 
                 // Notify authors of status changes
                 if (isset($cols['status']) && $oldArticle['status'] !== $cols['status']) {
-                    echo "CHANGING STATUS NEEDS EMAIL";
                     $article = grab('article', $res);  // Authors, title, etc. may have changed
                     trigger(
                         'sendmail',
@@ -1057,7 +1056,7 @@ on(
                         'editarticle',
                         array(
                             'article' => $article,
-                            'log' => $req['post']['log']
+                            'log' => (isset($req['post']['log']) ? $req['post']['log'] : null)
                         ),
                         true  // Author-editors could see Bcc
                     );

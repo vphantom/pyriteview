@@ -431,10 +431,17 @@ class Articles
     /**
      * Attach a new file to an article
      *
+     * The path supplied with each file is relative to the document root.  If
+     * attaching files to articles, however, keep in mind that renaming an
+     * issue or moving the article to a new issue will break the path.  It is
+     * intended for near-immediate e-mail sending.  This is why you'll see
+     * throughout this file that we build a path from the article's current
+     * issue and ID.
+     *
      * @param int   $articleId Article ID
      * @param array $file      File upload, usually from grab('request')['files'][...]
      *
-     * @return array|bool Associative with: name, bytes, type OR false on failure
+     * @return array|bool Associative with: path, name, bytes, type OR false on failure
      */
     private static function _attach($articleId, $file)
     {
@@ -453,8 +460,9 @@ class Articles
             if (!file_exists("{$config['path']}/{$issue}")) {
                 mkdir("{$config['path']}/{$issue}", 06770);
             };
-            if (!file_exists("{$config['path']}/{$issue}/{$articleId}")) {
-                mkdir("{$config['path']}/{$issue}/{$articleId}", 06770);
+            $path = "{$config['path']}/{$issue}/{$articleId}";
+            if (!file_exists($path)) {
+                mkdir($path, 06770);
             };
 
             // Attempt to save the file, avoiding name collisions
@@ -467,6 +475,7 @@ class Articles
             if (move_uploaded_file($file['tmp_name'], $try)) {
                 $pi = pathinfo($try);
                 return array(
+                    'path'  => $path,
                     'name'  => $pi['basename'],
                     'bytes' => $file['size'],
                     'type'  => $file['type']
@@ -497,6 +506,7 @@ class Articles
         $oldArticle = false;
         $log = null;
         $maillog = null;
+        $mailstatus = false;
         if (isset($cols['log'])) {
             $maillog = $log = $cols['log'];
             unset($cols['log']);
@@ -549,18 +559,7 @@ class Articles
 
                 // Notify authors of status changes
                 if (isset($cols['status']) && $oldArticle['status'] !== $cols['status']) {
-                    $article = grab('article', $res);  // Authors, title, etc. may have changed
-                    trigger(
-                        'sendmail',
-                        $article['authors'],
-                        null,
-                        null,
-                        'editarticle_status',
-                        array(
-                            'article' => $article,
-                            'log' => $maillog
-                        )
-                    );
+                    $mailstatus = true;
                 };
 
             };
@@ -644,7 +643,8 @@ class Articles
                     $log = null;
                 };
             };
-            if (count($newFiles) > 0) {
+
+            if (count($newFiles) > 0 && !isset($cols['files_email_only'])) {
                 $newVersion = self::saveVersion($res, $newFiles);
                 if ($oldArticle && $newVersion) {
                     // Update work-in-progress reviews to latest versionId
@@ -658,6 +658,24 @@ class Articles
                     // Not saving result as this is a "best effort" maintenance attempt.
                     $db->exec($q);
                 };
+                $newFiles = array();
+            };
+
+            // Now that we may have files, we can actually e-mail the status change
+            if ($mailstatus) {
+                $article = grab('article', $res);  // Authors, title, etc. may have changed
+                trigger(
+                    'sendmail',
+                    $article['authors'],
+                    null,
+                    null,
+                    'editarticle_status',
+                    array(
+                        'article' => $article,
+                        'log' => $maillog
+                    ),
+                    $newFiles
+                );
             };
 
         };
@@ -673,7 +691,7 @@ class Articles
      * ignored.
      *
      * @param int      $articleId The article
-     * @param array    $files     List of [name,bytes,type] arrays
+     * @param array    $files     List of [name,bytes,type] associative arrays
      * @param int|null $ver       (Optional) Version ID
      *
      * @return int|bool New ID on success, false on failure
@@ -682,11 +700,13 @@ class Articles
     {
         global $PPHP;
         $db = $PPHP['db'];
+        $files = json_encode($files);
+
         if ($ver !== null) {
             return $db->update(
                 'articleVersions',
                 array(
-                    'files' => json_encode($files)
+                    'files' => $files
                 ),
                 'WHERE id=?',
                 array($ver)
@@ -696,7 +716,7 @@ class Articles
                 'articleVersions',
                 array(
                     'articleId' => $articleId,
-                    'files'     => json_encode($files)
+                    'files'     => $files
                 )
             );
         };
@@ -779,7 +799,7 @@ class Articles
      * Save/create review(s)
      *
      * @param array      $cols  Columns to set
-     * @param array|null $files (Optional) List of [name,bytes,type] arrays
+     * @param array|null $files (Optional) List of [name,bytes,type] associative arrays
      *
      * @return bool Whether it succeeded
      */
@@ -869,7 +889,7 @@ class Articles
             if (count($newFiles) > 0) {
                 $oldFiles = $oldReview['files'];
                 if ($oldFiles) {
-                    $oldFiles = json_decode($oldFiles);
+                    $oldFiles = json_decode($oldFiles, true);
                 };
                 if (!is_array($oldFiles)) {
                     $oldFiles = array();
@@ -1087,6 +1107,7 @@ on(
                             'article' => $article,
                             'log' => (isset($req['post']['log']) ? $req['post']['log'] : null)
                         ),
+                        array(),
                         true  // Author-editors could see Bcc
                     );
                 };
@@ -1267,6 +1288,7 @@ on(
                     array(
                         'article' => $review['articleId']
                     ),
+                    array(),
                     true
                 );
             };
@@ -1308,6 +1330,7 @@ on(
                         'article' => $review['articleId'],
                         'deadline' => $review['deadline']
                     ),
+                    array(),
                     true
                 );
             };

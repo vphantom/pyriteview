@@ -6,6 +6,7 @@
 			{% for email in emails %}
 				<tr{% if email.id == currentEmail %} class="warning"{% endif %}>
 					<td class="col-sm-{{ all ? '4' : '3' }}"><div class="window">{% if all %}{{ lib.format_user(email.sender) }} <span class="glyphicon glyphicon-arrow-right"></span> {% endif %}<a href="{{ req.base }}/outbox/{{ email.id }}">{{ lib.format_users(email.recipients, true) }}</a></div></td>
+					<td class="fit">{% if email.files|length > 0 %}<span class="glyphicon glyphicon-paperclip"></span>{% endif %} </td>
 					<td class="widest"><div class="window"><a href="{{ req.base }}/outbox/{{ email.id }}">{{ lib.label_roles(email.roles, true) }} {{ email.subject }}</a></div></td>
 					<td class="time">{{ lib.format_timestamp(email.localmodified) }}</td>
 				</tr>

@@ -104,6 +104,9 @@
 				<a class="list-group-item small"><strong>{{ __('label_new_version') }}:</strong></a>
 			{% endif %}
 			{{ lib.input_files('addfile', 'xs') }}
+			{% if pass('can', 'delete', 'article', article.id) %}
+				<br><input type="checkbox" name="files_email_only" id="files_email_only" value="1"> <label for="files_email_only">{{ __('label_files_email_only') }}</label>
+			{% endif %}
 		</div>
 		{{ lib.leftright_save(article.id) }}
 	</form>

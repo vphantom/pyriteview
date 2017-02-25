@@ -961,6 +961,32 @@ class Articles
 // Routes
 
 on(
+    'can_create_article',
+    function () {
+        global $PPHP;
+
+        if (!pass('can', 'create', 'article')) return false;
+        if (pass('has_role', 'author')) {
+            // Authors are throttled in articles per day
+            $maxDailyCount = $PPHP['config']['articles']['max_daily_articles'];
+            $authorDailyCount = grab(
+                'history',
+                array(
+                    'userId' => $_SESSION['user']['id'],
+                    'action' => 'created',
+                    'objectType' => 'article',
+                    'today' => true
+                )
+            );
+            if (is_array($authorDailyCount) && count($authorDailyCount) >= $maxDailyCount) {
+                return false;
+            };
+        };
+        return true;
+    }
+);
+
+on(
     'route/articles',
     function ($path) {
         global $PPHP;
@@ -1027,7 +1053,7 @@ on(
                 if (is_numeric($articleId)) {
                     if (!(pass('can', 'edit', 'article', $articleId) || pass('can', 'edit', 'issue', $article['issueId']))) return trigger('http_status', 403);
                 } else {
-                    if (!pass('can', 'create', 'article')) return trigger('http_status', 403);
+                    if (!pass('can_create_article')) return trigger('http_status', 403);
                 };
                 if (!isset($req['post']['userdata'])) {
                     $req['post']['userdata'] = array();
@@ -1133,6 +1159,7 @@ on(
             } else {
                 // New article editor
                 $article['authors'] = array($_SESSION['user']['id']);
+                if (!pass('can_create_article')) return trigger('http_status', 403);
             };
             $deadline = (new DateTime())->modify($PPHP['config']['reviews']['deadline_modifier'])->format('Y-m-d');
             trigger(

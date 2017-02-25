@@ -44,16 +44,16 @@
 			<input type="hidden" name="id" value="{{ email.id }}">
 		{% endif %}
 		<div class="form-group">
-			{{ lib.select_users(__('email_to'), 'recipient', email.recipients, true) }}
+			{{ lib.select_users(__('email_to'), 'recipient', email.recipients, false, true) }}
 		</div>
 		{% if email.ccs|length > 0 %}
 			<div class="form-group">
-				{{ lib.select_users(__('email_cc'), 'cc', email.ccs, true) }}
+				{{ lib.select_users(__('email_cc'), 'cc', email.ccs, false, true) }}
 			</div>
 			{% endif %}
 		{% if email.bccs|length > 0 %}
 			<div class="form-group">
-				{{ lib.select_users(__('email_bcc'), 'bcc', email.bccs, true) }}
+				{{ lib.select_users(__('email_bcc'), 'bcc', email.bccs, false, true) }}
 			</div>
 		{% endif %}
 		<div class="form-group">

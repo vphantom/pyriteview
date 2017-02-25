@@ -50,7 +50,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<span class="glyphicon glyphicon-align-left"></span> {{ __('title_articles') }}
-					{% if pass('can', 'create', 'article') %}
+					{% if pass('can_create_article') %}
 						<div class="pull-right">
 							<form action="{{ req.base }}/articles/new" id="article_create" method="get" class="form-inline">
 								<button class="btn btn-default btn-xs" type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-plus"></span></span> {{ __('label_create') }}</button>

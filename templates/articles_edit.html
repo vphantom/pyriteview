@@ -68,14 +68,14 @@
 		{% endif %}
 		<input data-label="{{ __('label_wordcount') }}" type="number" id="wordCount" value="{{ article.wordCount }}" required>
 		<input type="hidden" name="__arrays[]" value="keywords">
-		<select data-label="{{ __('label_keywords') }}" id="keywords[]" placeholder="{{ __('hint_keywords') }}" class="keywords feedback-tags" multiple>
+		<select data-label="{{ __('label_keywords') }}" data-maxcount="{{ config.articles.max_keywords }}" id="keywords[]" placeholder="{{ __('hint_keywords') }}" class="keywords feedback-tags" multiple>
 			{% for keyword in article.keywords %}
 				<option selected>{{ keyword }}
 			{% endfor %}
 		</select>
 		<textarea data-label="{{ __('label_abstract') }}" id="abstract">{{ article.abstract }}</textarea>
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
-			{{ lib.select_users(__('label_authors'), 'author', article.authors) }}
+			{{ lib.select_users(__('label_authors'), 'author', article.authors, config.articles.max_authors) }}
 		{% elseif article.id %}
 			<span data-label="{{ __('label_authors') }}" class="input-like">
 				{% for author in article.authors %}

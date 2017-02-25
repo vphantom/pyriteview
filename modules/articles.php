@@ -440,14 +440,15 @@ class Articles
     {
         global $PPHP;
         $config = $PPHP['config']['articles'];
+        $filename = filter('clean_filename', $file['filename']);
+        $ext = filter('clean_filename', $file['extension']);
 
         if (in_array($file['type'], $config['file_types'])
             && in_array($file['extension'], $config['file_extensions'])
         ) {
             $issue = self::_getIssueName($articleId);
             $bad_format = false;
-            $ext = filter('clean_filename', $file['extension']);
-            $base = "{$config['path']}/{$issue}/{$articleId}/" . filter('clean_filename', $file['filename']);
+            $base = "{$config['path']}/{$issue}/{$articleId}/{$filename}";
 
             if (!file_exists("{$config['path']}/{$issue}")) {
                 mkdir("{$config['path']}/{$issue}", 06770);
@@ -472,6 +473,7 @@ class Articles
                 );
             };
         };
+        trigger('warning', 'file_type', 1, "{$filename}.{$ext}");
         return false;
     }
 

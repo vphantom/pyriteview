@@ -60,6 +60,9 @@ on(
                 $env['issues'] = array();
                 foreach ($articleIds as $articleId) {
                     $article = grab('article', $articleId);
+                    if ($article === false) {
+                        continue;
+                    };
                     $article['statusChanges'] = grab(
                         'history',
                         array(

@@ -174,7 +174,14 @@
 			{% if req.redirect %}
 				{{ lib.alert(true, __('redirecting')) }}
 			{% endif %}
-			{{ body |raw }}
+			{% if req.warnings|length > 0 %}
+				{% for warning in req.warnings %}
+					{{ lib.warning(warning[0], warning[1], warning[2]) }}
+				{% endfor %}
+			{% endif %}
+			{% if pass('no_fatal_warnings') %}
+				{{ body |raw }}
+			{% endif %}
 			{{ stdout |raw }}
 
 		{% if session.identified %}

@@ -187,6 +187,9 @@ class Articles
             ",
             array($id)
         );
+        if ($article === false) {
+            return false;
+        };
 
         // Process up to the point where we can determine if the user is
         // allowed access to this article.  This means getting reviews.
@@ -235,28 +238,25 @@ class Articles
             || pass('can', 'edit', 'issue', $article['issueId'])
             || $article['isPeer']
         ) {
+            $article['keywords'] = dejoin(';', $article['keywords']);
+            $article['permalink'] = makePermalink($article['title']);
+            $article['authors'] = grab('object_users', 'edit', 'article', $id);
+            $article['editors'] = grab('object_users', '*', 'issue', $article['issueId']);
 
-            if ($article !== false) {
-                $article['keywords'] = dejoin(';', $article['keywords']);
-                $article['permalink'] = makePermalink($article['title']);
-                $article['authors'] = grab('object_users', 'edit', 'article', $id);
-                $article['editors'] = grab('object_users', '*', 'issue', $article['issueId']);
-
-                // Authors do not have the editor role for this specific article.
-                foreach ($article['editors'] as $key => $editor) {
-                    if (in_array($editor, $article['authors'])) {
-                        unset($article['editors'][$key]);
-                    };
+            // Authors do not have the editor role for this specific article.
+            foreach ($article['editors'] as $key => $editor) {
+                if (in_array($editor, $article['authors'])) {
+                    unset($article['editors'][$key]);
                 };
-                if (count($article['editors']) < 1) {
-                    $article['editors'] = grab('role_users', 'editor-in-chief');
-                };
-
-                $article['issue'] = self::_getIssueName($article);
-                $article['files_dir'] = "{$config['path']}/{$article['issue']}/{$article['id']}";
             };
+            if (count($article['editors']) < 1) {
+                $article['editors'] = grab('role_users', 'editor-in-chief');
+            };
+
+            $article['issue'] = self::_getIssueName($article);
+            $article['files_dir'] = "{$config['path']}/{$article['issue']}/{$article['id']}";
         } else {
-            return array();
+            return false;
         };
 
         return $article;

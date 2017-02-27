@@ -74,7 +74,7 @@
 			{% endfor %}
 		</select>
 		<textarea data-label="{{ __('label_abstract') }}" id="abstract">{{ article.abstract }}</textarea>
-		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
+		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) or pass('has_role', 'author') %}
 			{{ lib.select_users(__('label_authors'), 'author', article.authors, config.articles.max_authors) }}
 		{% elseif article.id %}
 			<span data-label="{{ __('label_authors') }}" class="input-like">

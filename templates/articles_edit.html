@@ -212,6 +212,15 @@
 
 {% elseif article.id and (pass('can', 'view', 'article', article.id) or pass('can', 'view', 'issue', article.issueId) or article.isPeer) %}
 
+	{% set review = false %}
+	{% if article.isPeer %}
+		{% for r in article.versions|last.reviews %}
+			{% if r.peerId == session.user.id %}
+				{% set review = r %}
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+
 	<dl class="dl-horizontal">
 		<dt>{{ __('label_issueId') }}</dt><dd>{{ lib.format_issue(article.issueId) }}</dd>
 		{% if article.isPeer %}
@@ -230,20 +239,16 @@
 				{{ lib.format_user(author) }}
 			{% endfor %}
 		</dd>
-		<dt>{{ __('label_files') }}</td><dd>
-			{% for file in article.versions|last.files %}
-				<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
-			{% endfor %}
-		</dd>
+		{% if review and review.status != 'created' %}
+			<dt>{{ __('label_files') }}</td><dd>
+				{% for file in article.versions|last.files %}
+					<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
+				{% endfor %}
+			</dd>
+		{% endif %}
 	</dl>
 
 	{% if article.isPeer %}
-		{% set review = false %}
-		{% for r in article.versions|last.reviews %}
-			{% if r.peerId == session.user.id %}
-				{% set review = r %}
-			{% endif %}
-		{% endfor %}
 		{% if review.id and (review.status == 'created' or review.status == 'reviewing') %}
 			<h3>{{ __('title_review') }}</h3>
 			<p>{{ __('label_review_deadline') }}: {{ review.deadline }}</p>

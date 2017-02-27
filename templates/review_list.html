@@ -1,6 +1,7 @@
 {% import 'lib' as lib %}
 {% if reviews|length > 0 %}
 	<table class="table table-condensed">
+		{% set form_begin_review = filter('form_begin', 'review') %}
 		{% for status in config.reviews.states_wip %}
 			{% if reviews[status] |length > 0 %}
 				{# Help gettext's msgmerge:
@@ -13,12 +14,11 @@
 						<th>{{ __('label_deadline') }}</th>
 						<th colspan="2">{{ __('title_articles') }}</th>
 					</tr>
-					{% set form_begin_review = filter('form_begin', 'review') %}
 					{% for review in reviews[status] %}
 						<tr>
 							<td class="fit">{{ review.deadline }}</td>
 							<td>{{ lib.format_article(review.articleId) }}</td>
-							<td class="fit">
+							<td>
 								{% if status == 'created' %}
 									<form action="{{ req.base }}/articles/{{ review.articleId }}" id="review" method="post" class="form-inline">
 										{{ form_begin_review |raw }}

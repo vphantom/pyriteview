@@ -1112,7 +1112,15 @@ on(
                     );
                 };
 
-                if ($created) return trigger('http_redirect', $req['base'] . '/articles/' . $articleId . '/' . $article['permalink']);
+                // We need to display warnings so we can't redirect, but we
+                // need to redirect before displaying the article because any
+                // forms would need the URL to reflect the articleId.
+                if ($created) return trigger(
+                    'warning',
+                    'redirect_created',
+                    3,
+                    "{$req['protocol']}://{$req['base']}/articles/{$articleId}/{$article['permalink']}"
+                );
             };
             if (isset($req['get']['unlink'])) {
                 if (!pass('can', 'delete', 'article', $articleId)) return trigger('http_status', 403);

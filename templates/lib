@@ -25,10 +25,15 @@
 		<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
 		{# Help gettext's msgmerge:
 			__('warning_file_type')
+			__('warning_redirect_created')
 		#}
 		{{ __('warning_'~code) }}
 		{% for arg in args %}
-			{{ __(arg) }}
+			{% if arg starts with 'http://' or arg starts with 'https://' %}
+				<a href="{{ arg }}">{{ arg }}</a>
+			{% else %}
+				{{ __(arg) }}
+			{% endif %}
 		{% endfor %}
 	</div>
 {% endmacro %}

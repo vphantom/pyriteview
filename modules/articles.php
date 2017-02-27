@@ -525,7 +525,7 @@ class Articles
             if ($res !== false) {
                 $res = $id;
 
-                if ($oldArticle['issueId'] !== $cols['issueId'] && count($oldArticle['versions']) > 0) {
+                if (isset($cols['issueId']) && $oldArticle['issueId'] !== $cols['issueId'] && count($oldArticle['versions']) > 0) {
                     // Move files directory if issue was reassigned
                     $issue = grab('issue', $cols['issueId']);
                     $issuePath = $config['articles']['path'] . '/' . $issue['issue'];

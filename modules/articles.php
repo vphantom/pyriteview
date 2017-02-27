@@ -809,8 +809,9 @@ class Articles
         $db = $PPHP['db'];
         $config = $PPHP['config']['reviews'];
         $log = null;
+        $maillog = null;
         if (isset($cols['log'])) {
-            $log = $cols['log'];
+            $maillog = $log = $cols['log'];
             unset($cols['log']);
         };
 
@@ -946,7 +947,8 @@ class Articles
                             'review_declined',
                             array(
                                 'peerId' => $oldReview['peerId'],
-                                'article' => $cols['articleId']
+                                'article' => $cols['articleId'],
+                                'log' => $maillog
                             )
                         );
                         break;

@@ -1,5 +1,5 @@
 {% block subject %}
-Article modified: {{ article.title |truncate(64, true) }}
+Article created or modified: {{ article.title |truncate(64, true) }}
 {% endblock %}
 
 {% block html %}
@@ -8,7 +8,7 @@ Article modified: {{ article.title |truncate(64, true) }}
 <p>
 This message is to inform you that article
 <a href="{{ req.protocol }}://{{ req.host }}{{ req.base }}/article/{{ article.id }}/{{ article.permalink }}">{{ article.title |truncate(64, true) }}</a>
-was modified by {{ lib.format_user(session.user, true, true) }}.
+was created or modified by {{ lib.format_user(session.user, true, true) }}.
 </p>
 {% if log %}
 <p>A comment has been noted:</p>

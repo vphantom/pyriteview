@@ -11,6 +11,8 @@ Vous êtes invités à venir évaluer en tant qu'expert l'article
 "{{ lib.format_article(article, true, true) }}"
 qui a été soumis à {{ config.global.name }}.
 </p>
+<p><b>Sommaire:</b></p>
+<blockquote>{{ article.abstract }}</blockquote>
 <p>
 Nous vous prions de bien vouloir nous faire part de votre intérêt à effectuer
 cette évaluation à la page ci-dessous:

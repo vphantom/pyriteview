@@ -11,6 +11,8 @@ Un petit rappel que nous avons besoin de votre évaluation de l'article
 "{{ lib.format_article(article, true, true) }}"
 d'ici le {{ deadline }}.
 </p>
+<p><b>Sommaire:</b></p>
+<blockquote>{{ article.abstract }}</blockquote>
 <p>
 Vous pouvez la compléter dès maintenant à:
 </p>

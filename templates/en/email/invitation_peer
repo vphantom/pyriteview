@@ -11,6 +11,8 @@ You are invited to come review as an expert, article
 "{{ lib.format_article(article, true, true) }}"
 which was submitted to {{ config.global.name }}.
 </p>
+<p><b>Abstract:</b></p>
+<blockquote>{{ article.abstract }}</blockquote>
 <p>
 Please let us know about your interest to perform this evaluation at the
 following link:

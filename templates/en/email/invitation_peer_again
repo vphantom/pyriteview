@@ -12,6 +12,8 @@ You are invited to come review as an expert, article
 which was submitted to {{ config.global.name }}.
 The article has been revised since your previous evaluation.
 </p>
+<p><b>Abstract:</b></p>
+<blockquote>{{ article.abstract }}</blockquote>
 <p>
 Please let us know about your interest to perform this new evaluation at the
 following link:

@@ -12,6 +12,8 @@ Vous êtes invités à revenir évaluer en tant qu'expert l'article
 qui a été soumis à {{ config.global.name }}.
 L'article a été révisé depuis votre évaluation précédente.
 </p>
+<p><b>Sommaire:</b></p>
+<blockquote>{{ article.abstract }}</blockquote>
 <p>
 Nous vous prions de bien vouloir nous faire part de votre intérêt à effectuer
 cette nouvelle évaluation à la page ci-dessous:

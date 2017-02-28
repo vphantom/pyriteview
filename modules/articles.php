@@ -858,7 +858,7 @@ class Articles
                     'invitation_peer' . ($alreadyPeer ? '_again' : ''),
                     $peer,
                     array(
-                        'article' => $cols['articleId']
+                        'article' => grab('article', $cols['articleId'])
                     )
                 );
             };
@@ -1072,7 +1072,7 @@ on(
             $success = false;
             $history = null;
             $history_id = $articleId;
-            if (isset($req['post']['wordCount']) || isset($req['post']['status'])) {
+            if (isset($req['post']['wordCount']) || isset($req['post']['files_email_only'])) {
                 if (!pass('form_validate', 'articles_edit')) return trigger('http_status', 440);
                 if (is_numeric($articleId)) {
                     if (!(pass('can', 'edit', 'article', $articleId) || pass('can', 'edit', 'issue', $article['issueId']))) return trigger('http_status', 403);
@@ -1272,7 +1272,7 @@ on(
                     'invitation_peer_noanswer',
                     $review['peerId'],
                     array(
-                        'article' => $review['articleId']
+                        'article' => grab('article', $review['articleId'])
                     ),
                     null,
                     true
@@ -1320,7 +1320,7 @@ on(
                     'invitation_peer_reminder',
                     $review['peerId'],
                     array(
-                        'article' => $review['articleId'],
+                        'article' => grab('article', $review['articleId']),
                         'deadline' => $review['deadline']
                     ),
                     null,

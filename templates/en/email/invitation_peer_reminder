@@ -11,6 +11,8 @@ This is a simple reminder that we need your review of the article
 "{{ lib.format_article(article, true, true) }}"
 by {{ deadline }}.
 </p>
+<p><b>Abstract:</b></p>
+<blockquote>{{ article.abstract }}</blockquote>
 <p>
 You may complete your review now at:
 </p>

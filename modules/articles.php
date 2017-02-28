@@ -1072,7 +1072,7 @@ on(
             $success = false;
             $history = null;
             $history_id = $articleId;
-            if (isset($req['post']['wordCount'])) {
+            if (isset($req['post']['wordCount']) || isset($req['post']['status'])) {
                 if (!pass('form_validate', 'articles_edit')) return trigger('http_status', 440);
                 if (is_numeric($articleId)) {
                     if (!(pass('can', 'edit', 'article', $articleId) || pass('can', 'edit', 'issue', $article['issueId']))) return trigger('http_status', 403);

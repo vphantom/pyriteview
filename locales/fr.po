@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-27 16:54-0500\n"
-"PO-Revision-Date: 2017-02-27 16:54-0500\n"
+"POT-Creation-Date: 2017-02-28 15:25-0500\n"
+"PO-Revision-Date: 2017-02-28 15:25-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -180,6 +180,9 @@ msgstr "Auteurs"
 msgid "label_begin"
 msgstr "Depuis"
 
+msgid "label_change_and_send"
+msgstr "Changer et envoyer"
+
 msgid "label_change_deadline"
 msgstr "Modifier date limite"
 
@@ -251,10 +254,6 @@ msgstr "Fichier"
 
 msgid "label_files"
 msgstr "Fichiers"
-
-msgid "label_files_email_only"
-msgstr ""
-"Ces fichiers ne sont pas une nouvelle version, mais à joindre au courriel."
 
 msgid "label_from"
 msgstr "de"
@@ -589,6 +588,9 @@ msgstr "Articles"
 msgid "title_change_mail_password"
 msgstr "Modifier courriel ou mot de passe"
 
+msgid "title_change_status"
+msgstr "Changer l'état"
+
 msgid "title_config_info"
 msgstr "Configuration et information"
 
@@ -675,6 +677,10 @@ msgstr "Un fichier a été ignoré parce qu'il n'était pas d'un format accepté
 
 msgid "warning_redirect_created"
 msgstr "Vous pouvez voir l'item créé à:"
+
+#~ msgid "label_files_email_only"
+#~ msgstr ""
+#~ "Ces fichiers ne sont pas une nouvelle version, mais à joindre au courriel."
 
 #~ msgid "label_end_date"
 #~ msgstr "à"

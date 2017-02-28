@@ -1,62 +1,78 @@
 {% block welcome %}
 	<p>
-		To use this application, you must sign into your account here.  If you
-		do not have an account, you should register.
+	To use this application, you must sign into your account here.  If you
+	do not have an account, you should register.
 	</p>
 
 	<p><a class="btn btn-primary btn-lg" type="button" href="{{ req.base }}/register">{{ __('title_register') }} &raquo;</a></p>
 
 	<p>
-		If your account does not have a password, or you would prefer not to use
-		it, simply enter your e-mail address above.
+	If your account does not have a password, or you would prefer not to use
+	it, simply enter your e-mail address above.
 	</p>
 
 	<p>
-		If you already have an account and a password, but forgot your password,
-		<a href="{{ req.base }}/password_reset">click here</a>.
+	If you already have an account and a password, but forgot your password,
+	<a href="{{ req.base }}/password_reset">click here</a>.
 	</p>
 {% endblock %}
 
 
 {% block hint_role_creation %}
-	<p>
+	<div class="hint">
+		<p>
 		Note: roles are declared in your <code>config.ini</code>
 		file in section <code>acl</code>.
-	</p>
+		</p>
+	</div>
 {% endblock %}
 
 
 {% block hint_user_mailpass_change %}
 	<p>
-		For your protection, to modify your e-mail address or your password you
-		must enter your current password first.  A reminder will also be
-		e-mailed to you (at both the current and new address, if applicable).
+	For your protection, to modify your e-mail address or your password you
+	must enter your current password first.  A reminder will also be
+	e-mailed to you (at both the current and new address, if applicable).
 	</p>
 {% endblock %}
 
 
 {% block hint_password_creation %}
 	<p>
-		(Optional.)  If you do not want to confirm your e-mail address at each
-		visit, define a password below.  This will allow you to sign in without
-		extra confirmation in the future.
+	(Optional.)  If you do not want to confirm your e-mail address at each
+	visit, define a password below.  This will allow you to sign in without
+	extra confirmation in the future.
 	</p>
 {% endblock %}
 
 
 {% block hint_outbox %}
-	<p>
+	<div class="hint">
+		<p>
 		As a privileged user, here you have the opportunity to review and
 		manually send the e-mails which have been created by your recent
 		operations.
-	</p>
+		</p>
+	</div>
 {% endblock %}
 
 
 {% block hint_review %}
-	<p>
+	<div class="hint">
+		<p>
 		After having read the files above, please download
 		<a href="/questions.docx"><span class="glyphicon glyphicon-file"></span>these questions</a>,
 		answer them and attach it below with your verdict.
-	</p>
+		</p>
+	</div>
+{% endblock %}
+
+
+{% block hint_article_change_status %}
+	<div class="hint">
+		<p>
+		Involved users will be notified via e-mail.  You can attach files to
+		this status change, in which case they'll be added to this e-mail.
+		</p>
+	</div>
 {% endblock %}

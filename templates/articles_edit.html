@@ -28,29 +28,14 @@
 
 	{{ lib.modal() }}
 
+	{% set form_begin_edit = filter('form_begin', 'articles_edit') %}
 	<form id="articles_edit" method="post" class="form-leftright" enctype="multipart/form-data">
-		{{ filter('form_begin', 'articles_edit') |raw }}
+		{{ form_begin_edit |raw }}
 		{% if article.id %}
 			<input type="hidden" name="id" value="{{ article.id }}">
 		{% endif %}
 
-		{% if pass('can', 'move', 'article', article.id) and article.id %}
-			<div data-label="{{ __('label_status') }}" class="btn-group input-like" data-toggle="buttons">
-				<label class="btn btn-default btn-sm active">
-					<input type="radio" name="status" autocomplete="off" value="{{ article.status }}" checked>
-					{{ lib.format_status(article.status) }}
-				</label>
-				<span class="btn btn-default btn-sm active disabled"><span class="glyphicon glyphicon-arrow-right"></span></span>
-				{% for status in config.articles.states_next[article.status]|split(' ') %}
-					<label class="btn btn-default btn-sm">
-						<input type="radio" name="status" autocomplete="off" value="{{ status }}">
-						{{ lib.format_status(status, true) }}
-					</label>
-				{% endfor %}
-			</div>
-		{% elseif article.id %}
-			<span data-label="{{ __('label_status') }}" class="input-like">{{ lib.format_status(article.status) }}</span>
-		{% endif %}
+		<span data-label="{{ __('label_status') }}" class="input-like">{{ lib.format_status(article.status) }}</span>
 
 		<input data-label="{{ __('label_title') }}" type="text" id="title" value="{{ article.title }}" required>
 		{% if pass('can', 'move', 'article', article.id) or not article.id %}
@@ -104,15 +89,41 @@
 				<a class="list-group-item small"><strong>{{ __('label_new_version') }}:</strong></a>
 			{% endif %}
 			{{ lib.input_files('addfile', 'xs') }}
-			{% if pass('can', 'delete', 'article', article.id) %}
-				<br><input type="checkbox" name="files_email_only" id="files_email_only" value="1"> <label for="files_email_only">{{ __('label_files_email_only') }}</label>
-			{% endif %}
 		</div>
-		{{ lib.leftright_save(article.id) }}
+		{{ lib.leftright_submit('save', article.id) }}
 	</form>
 
 
 	{% if article.id %}
+
+		{% if pass('can', 'delete', 'article', article.id) %}
+			<h3>{{ __('title_change_status') }}</h3>
+			{{ block('hint_article_change_status') }}
+			<form id="articles_edit_status" method="post" class="form-leftright" enctype="multipart/form-data">
+				{{ form_begin_edit |raw }}
+				<input type="hidden" name="id" value="{{ article.id }}">
+				<input type="hidden" name="files_email_only" value="1">
+
+				<div data-label="{{ __('label_status') }}" class="btn-group input-like" data-toggle="buttons">
+					<label class="btn btn-default btn-sm active">
+						<input type="radio" name="status" autocomplete="off" value="{{ article.status }}" checked>
+						{{ lib.format_status(article.status) }}
+					</label>
+					<span class="btn btn-default btn-sm active disabled"><span class="glyphicon glyphicon-arrow-right"></span></span>
+					{% for status in config.articles.states_next[article.status]|split(' ') %}
+						<label class="btn btn-default btn-sm">
+							<input type="radio" name="status" autocomplete="off" value="{{ status }}">
+							{{ lib.format_status(status, true) }}
+						</label>
+					{% endfor %}
+				</div>
+
+				<div data-label="{{ __('label_files') }}" class="input-like" id="file-list">
+					{{ lib.input_files('addfiletomail', 'xs') }}
+				</div>
+				{{ lib.leftright_submit('change_and_send', true) }}
+			</form>
+		{% endif %}
 
 		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) %}
 			{% if (session.user.id not in article.authors) and article.versions|length > 0 %}

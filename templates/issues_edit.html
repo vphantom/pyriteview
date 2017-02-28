@@ -48,7 +48,7 @@
 				<textarea name="description" class="rich-edit">{{ issue.description }}</textarea>
 			</div>
 		</div>
-		{{ lib.leftright_save(issue and issue.id > 0) }}
+		{{ lib.leftright_submit('save', issue and issue.id > 0) }}
 	</form>
 {% endif %}
 

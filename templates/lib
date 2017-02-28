@@ -329,7 +329,14 @@
 	</div>
 {% endmacro %}
 
-{% macro leftright_save(log) %}
+{% macro leftright_submit(mode, log) %}
+	{% if mode == 'change_and_send' %}
+		{% set icon = 'envelope' %}
+		{% set label = __('label_change_and_send') %}
+	{% else %}
+		{% set icon = 'ok' %}
+		{% set label = __('label_save') %}
+	{% endif %}
 	{% if log %}
 		<div data-label="" class="input-group input-like">
 			<span class="input-group-btn">
@@ -337,7 +344,7 @@
 	{%- else -%}
 		<button type="submit">
 	{%- endif -%}
-	<span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> {{ __('label_save') }}</button>
+	<span class="fg-ok"><span class="glyphicon glyphicon-{{ icon }}"></span></span> {{ label }}</button>
 	{%- if log -%}
 		</span>
 		<input type="text" name="log" class="form-control" placeholder="{{ __('label_comments') }}...">

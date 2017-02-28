@@ -84,6 +84,37 @@ textarea {
 	color: transparent !important;
 }
 
+/* Hint paragraphs */
+.hint {
+	padding-left: 3em;
+	padding-top: 1.12em;
+	padding-bottom: 0.01em;
+	padding-right: 1em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-left: 3em;
+	color: #444;
+	font-size: 90%;
+	background-color: #f8f8f8;
+	position: relative;
+	width: 38%;
+	min-width: 24em !important;
+}
+.hint:before {
+	content: '\e086';
+	font-family: 'Glyphicons Halflings';
+	font-size: 200%;
+	margin-left: -36px;
+	color: #444;
+	display: block;
+	position: absolute;
+	top: 0.25em;
+	left: 1.75em;
+}
+.Xint .hint-content {
+	margin-left: 1.5em;
+}
+
 .report table, table.report {
 	page-break-inside: avoid;
 }

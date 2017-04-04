@@ -1121,7 +1121,7 @@ on(
                     'warning',
                     'redirect_created',
                     3,
-                    "{$req['protocol']}://{$req['base']}/articles/{$articleId}/{$article['permalink']}"
+                    "{$req['protocol']}://{$req['host']}{$req['base']}/articles/{$articleId}/{$article['permalink']}"
                 );
             };
             if (isset($req['get']['unlink'])) {

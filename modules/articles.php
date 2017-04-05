@@ -578,7 +578,7 @@ class Articles
             };
         };
         if ($res !== false) {
-            if (isset($cols['authors']) && count($cols['authors']) > 0) {
+            if (isset($cols['authors']) && isset($cols['_authors'])) {
                 $oldAuthors = grab('object_users', 'edit', 'article', $res);
                 $deled = array_diff($oldAuthors, $cols['authors']);
                 $added = array_diff($cols['authors'], $oldAuthors);
@@ -1081,8 +1081,12 @@ on(
                 };
                 if (!isset($req['post']['userdata'])) {
                     $req['post']['userdata'] = array();
-                };
-                $req['post']['authors'] = grab('clean_userids', $req['post']['authors'], $req['post']['userdata']);
+		};
+		if (isset($req['post']['authors']) && isset($req['post']['_authors'])) {
+		    $req['post']['authors'] = grab('clean_userids', $req['post']['authors'], $req['post']['userdata']);
+		} else {
+		   unset($req['post']['authors']);
+		};
                 $saved = true;
                 $success = grab('article_save', $req['post'], $req['files']);
 

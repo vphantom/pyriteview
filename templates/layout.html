@@ -123,7 +123,7 @@
 								<li><a href="{{ req.base }}/admin/reports/editing"{% if req.path starts with 'admin/reports/editing' %} class="active"{% endif %}><span class="glyphicon glyphicon-stats"></span> {{ __('title_editing_report') }}</a></li>
 							</ul>
 						{% endif %}
-						{% if pass('can', 'view', 'user') or pass('can', 'create', 'user') %}
+						{% if pass('can', 'view', 'user') or pass('can', 'edit', 'user') %}
 							<li><a href="{{ req.base }}/admin/users"{% if req.path starts with 'admin/users' %} class="active"{% endif %}><span class="glyphicon glyphicon-user"></span> {{ __('title_users') }}</a></li>
 						{% endif %}
 						{% if pass('can', 'view', 'role') %}

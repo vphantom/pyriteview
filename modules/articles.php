@@ -578,7 +578,7 @@ class Articles
             };
         };
         if ($res !== false) {
-            if (isset($cols['authors'])) {
+            if (isset($cols['authors']) && count($cols['authors']) > 0) {
                 $oldAuthors = grab('object_users', 'edit', 'article', $res);
                 $deled = array_diff($oldAuthors, $cols['authors']);
                 $added = array_diff($cols['authors'], $oldAuthors);
@@ -1121,7 +1121,7 @@ on(
                     'warning',
                     'redirect_created',
                     3,
-                    "{$req['protocol']}://{$req['base']}/articles/{$articleId}/{$article['permalink']}"
+                    "{$req['protocol']}://{$req['host']}{$req['base']}/articles/{$articleId}/{$article['permalink']}"
                 );
             };
             if (isset($req['get']['unlink'])) {

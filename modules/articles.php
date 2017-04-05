@@ -913,7 +913,7 @@ class Articles
                     'log',
                     array(
                         'objectType' => 'article',
-                        'objectId' => $cols['articleId'],
+                        'objectId' => $oldReview['articleId'],
                         'action' => 'reviewed',
                         'newValue' => $cols['status'],
                         'content' => $log
@@ -921,7 +921,7 @@ class Articles
                 );
                 $log = null;
                 if ($oldReview['peerId'] == $_SESSION['user']['id']) {
-                    $article = grab('article', $cols['articleId']);
+                    $article = grab('article', $oldReview['articleId']);
                     switch ($cols['status']) {
                     case 'reviewing':
                         // Peer accepted
@@ -933,7 +933,7 @@ class Articles
                             'review_agreed',
                             array(
                                 'peerId' => $oldReview['peerId'],
-                                'article' => $cols['articleId']
+                                'article' => $oldReview['articleId']
                             )
                         );
                         break;
@@ -947,7 +947,7 @@ class Articles
                             'review_declined',
                             array(
                                 'peerId' => $oldReview['peerId'],
-                                'article' => $cols['articleId'],
+                                'article' => $oldReview['articleId'],
                                 'log' => $maillog
                             )
                         );
@@ -966,7 +966,7 @@ class Articles
                             'review_complete',
                             array(
                                 'peerId' => $oldReview['peerId'],
-                                'article' => $cols['articleId'],
+                                'article' => $oldReview['articleId'],
                                 'status' => $cols['status']
                             )
                         );
@@ -1081,12 +1081,12 @@ on(
                 };
                 if (!isset($req['post']['userdata'])) {
                     $req['post']['userdata'] = array();
-		};
-		if (isset($req['post']['authors']) && isset($req['post']['_authors'])) {
-		    $req['post']['authors'] = grab('clean_userids', $req['post']['authors'], $req['post']['userdata']);
-		} else {
-		   unset($req['post']['authors']);
-		};
+                };
+                if (isset($req['post']['authors']) && isset($req['post']['_authors'])) {
+                    $req['post']['authors'] = grab('clean_userids', $req['post']['authors'], $req['post']['userdata']);
+                } else {
+                    unset($req['post']['authors']);
+                };
                 $saved = true;
                 $success = grab('article_save', $req['post'], $req['files']);
 
@@ -1289,7 +1289,7 @@ on(
                         'objectType' => 'article',
                         'objectId' => $review['articleId'],
                         'action' => 'reviewed',
-                        'newValue' => $cols['status']
+                        'newValue' => $review['status']
                     )
                 );
                 $article = grab('article', $review['articleId']);

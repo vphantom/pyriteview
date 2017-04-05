@@ -49,11 +49,14 @@ bin/composer:
 	php composer-setup.php --install-dir=bin --filename=composer
 	rm -f composer-setup.php
 	
-init:	deps bin/composer
+init:	deps bin/composer var/config.ini
 	$(COMPOSER) install
 	@mkdir -p var/twig_cache var/sessions var/articles
 	if [ ! -f var/main.db ]; then $(SQLITE) /dev/null '.save var/main.db'; fi
 	php index.php --trigger install
+
+var/config.ini:	var/config-example.ini
+	cp $^ $@
 
 dev-init:	deps
 	@if ! which npm  >/dev/null; then echo "  **  Please install NPM, part of NodeJS."; exit 1; fi

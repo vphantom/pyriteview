@@ -58,15 +58,15 @@ To get the latest stable release, download and unpack a [release archive file](h
 * Typical Linux command line tools: make, wget, gzip
 * A web server of course
 
-### Configuration
-
-Edit `config.ini` to change any defaults as needed.
-
 ### Create directories and empty database
 
 Run `make init`.  This will automatically download and set up PHP's Composer package manager, then use it to download runtime dependencies locally.  Finally, it will create the database tables and the administrative user so you can log into your new installation.  You will be prompted on the command line for an e-mail address and password to use for that unrestricted account.  (**NOTE:** This prompt requires PHP's `readline`, so *it will not work on Windows*.)
 
 You will also need to make sure that your web server or PHP process has read-write access to the `var/` directory where the database, logs and template cache are stored.
+
+### Configuration
+
+Edit `var/config.ini` to change any defaults as needed.
 
 ### Crontab
 

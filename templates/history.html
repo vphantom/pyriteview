@@ -8,11 +8,20 @@
 				<td>
 		{% endif %}
 					<div class="log-part">
-					{% if tx.userId == session.user.id %}
-						{{ __('label_i') }}
+					{% if tx.action == 'login' %}
+						{% if tx.userId == session.user.id %}
+							{{ __('label_i_myself') }}
+						{% else %}
+							{{ lib.format('user', tx.userId) }}
+							{{ __('label_has_itself') }}
+						{% endif %}
 					{% else %}
-						{{ lib.format('user', tx.userId) }}
-						{{ __('label_has') }}
+						{% if tx.userId == session.user.id %}
+							{{ __('label_i') }}
+						{% else %}
+							{{ lib.format('user', tx.userId) }}
+							{{ __('label_has') }}
+						{% endif %}
 					{% endif %}
 
 					{% if tx.action == 'modified' %}

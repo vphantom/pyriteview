@@ -176,3 +176,17 @@ textarea {
 		display: block;
 	}
 }
+
+/* Read-only data lists */
+dl.dl-horizontal dd {
+	margin-bottom: 1em;
+}
+
+/* Peer form */
+form#peer_review .fileupload-multiple {
+	margin-top: 1em;
+}
+form#peer_review button {
+	margin-top: 1em;
+	margin-right: 2em;
+}

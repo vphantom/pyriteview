@@ -35,9 +35,16 @@
 
 			<div class="optional hideaway">
 				{{ block('hint_password_creation') }}
+				{% if session.user.id %}
+					{% set pass_type = 'text' %}
+					{% set pass_name = 'token' %}
+				{% else %}
+					{% set pass_type = 'password' %}
+					{% set pass_name = 'password' %}
+				{% endif %}
 				<div class="form-group">
-					<input data-label="{{ __('label_new_password') }}" type="password" id="password" minlength="8" maxlength="16" tabindex="15" class="hideaway-focus">
-					<input data-label="{{ __('label_again_password') }}" type="password" id="password2" data-parsley-equalto="#password" data-parsley-validate-if-empty tabindex="16">
+					<input data-label="{{ __('label_new_password') }}" type="{{ pass_type }}" id="{{ pass_name }}" minlength="8" maxlength="16" tabindex="15" class="input-password hideaway-focus">
+					<input data-label="{{ __('label_again_password') }}" type="{{ pass_type }}" id="{{ pass_name }}2" data-parsley-equalto="#{{ pass_name }}" data-parsley-validate-if-empty tabindex="16" class="input-password">
 				</div>
 			</div>
 

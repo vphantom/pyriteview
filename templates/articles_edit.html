@@ -245,13 +245,13 @@
 		<dt>{{ __('label_wordCount') }}</dt><dd>{{ article.wordCount }}</dd>
 		<dt>{{ __('label_keywords') }}</dt><dd>{{ article.keywords |join(', ') }}</dd>
 		<dt>{{ __('label_abstract') }}</dt><dd>{{ article.abstract }}</dd>
-		{{ if not article.isPeer }}
+		{% if not article.isPeer %}
 			<dt>{{ __('label_authors') }}</dt><dd>
 				{% for author in article.authors %}
 					{{ lib.format_user(author) }}
 				{% endfor %}
 			</dd>
-		{{ endif }}
+		{% endif %}
 		{% if review and review.status != 'created' %}
 			<dt>{{ __('label_files') }}</td><dd>
 				{% for file in article.versions|last.files %}

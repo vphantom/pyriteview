@@ -50,9 +50,18 @@ class Issues
     {
         global $PPHP;
         $db = $PPHP['db'];
+        $config = $PPHP['config']['issues'];
 
         echo "    Installing issues...";
         $db->begin();
+
+
+        $customs = '';
+        if (isset($config['fields'])) {
+            foreach ($config['fields'] as $name => $definition) {
+                $customs .= "                {$name} {$definition},\n";
+            };
+        };
         $db->exec(
             "
             CREATE TABLE IF NOT EXISTS 'issues' (
@@ -61,6 +70,7 @@ class Issues
                 volume      VARCHAR(16) NOT NULL DEFAULT '',
                 number      VARCHAR(16) NOT NULL DEFAULT '',
                 title       VARCHAR(255) NOT NULL DEFAULT '',
+                {$customs}
                 description TEXT NOT NULL DEFAULT ''
             )
             "

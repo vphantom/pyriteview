@@ -156,7 +156,7 @@ This application would not have been possible within a reasonable time frame wit
 
 #### Frameworks
 
-* jQuery 2
+* jQuery 2 (there were performance issues with version 3)
 * Twitter Bootstrap 3, including its gracious Glyphicon license
 
 #### Utilities

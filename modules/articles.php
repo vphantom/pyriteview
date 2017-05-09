@@ -68,6 +68,13 @@ class Articles
         foreach ($config['states'] as $status) {
             $db->exec("REPLACE INTO articleStatus (name) VALUES (?)", array($status));
         };
+
+        $customs = '';
+        if (isset($config['fields'])) {
+            foreach ($config['fields'] as $name => $definition) {
+                $customs .= "                {$name} {$definition},\n";
+            };
+        };
         $db->exec(
             "
             CREATE TABLE IF NOT EXISTS 'articles' (
@@ -78,6 +85,7 @@ class Articles
                 title       VARCHAR(255) NOT NULL DEFAULT '',
                 keywords    TEXT NOT NULL DEFAULT '',
                 abstract    TEXT NOT NULL DEFAULT '',
+                {$customs}
                 FOREIGN KEY(status) REFERENCES articleStatus(name)
             )
             "

@@ -90,6 +90,11 @@
 			{% endif %}
 			{{ lib.input_files('addfile', 'xs') }}
 		</div>
+		<div data-label="{{ __('label_copyright') }}" class="input-like">
+			<input type="checkbox" id="copyright" name="copyright" value="1" {% if article.id %}checked{% endif %} required>
+			{{ __('info_copyright') }}
+			<a id="copyright_link" target="_blank" href="{{ req.base }}/page/copyright?d={{ 'now'|date('Y-m-d') }}">{{ __('title_copyright') }}</a>
+		</div>
 		{{ lib.leftright_submit('save', article.id) }}
 	</form>
 

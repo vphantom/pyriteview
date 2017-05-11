@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-05 09:05-0400\n"
-"PO-Revision-Date: 2017-04-05 09:07-0500\n"
+"POT-Creation-Date: 2017-05-11 10:44-0400\n"
+"PO-Revision-Date: 2017-05-11 09:21-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -124,6 +124,9 @@ msgstr "Réinstaurer usager"
 msgid "hint_ymd"
 msgstr "AAAA-MM-JJ"
 
+msgid "info_copyright"
+msgstr "J'ai lu et j'accepte les termes décrits dans:"
+
 msgid "info_mailclick"
 msgstr ""
 "Presque terminé!  Veuillez cliquer le lien dans votre courriel pour vous "
@@ -200,6 +203,9 @@ msgstr "Fermer"
 
 msgid "label_comments"
 msgstr "Commentaires"
+
+msgid "label_copyright"
+msgstr "Droits d'auteur"
 
 msgid "label_create"
 msgstr "Créer"
@@ -602,6 +608,9 @@ msgstr "Configuration et information"
 
 msgid "title_contacts"
 msgstr "Contacts"
+
+msgid "title_copyright"
+msgstr "Convention de cession de droits d'auteur"
 
 msgid "title_dashboard"
 msgstr "Tableau de bord"

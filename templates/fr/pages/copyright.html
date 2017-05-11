@@ -1,0 +1,19 @@
+{% import 'lib' as lib %}
+{{ title(__('title_copyright')) }}
+<h2 class="page-header">{{ __('title_copyright') }}</h2>
+
+<p>
+Cette page décrit votre entente de droits d'auteur.
+</p>
+
+<p>
+Le titre est: {{ req.get.t }}
+</p>
+
+<p>
+Les auteurs sont: {{ lib.format_authors(req.get.aa) }}
+</p>
+
+<p>
+La date est: {{ req.get.d }}
+</p>

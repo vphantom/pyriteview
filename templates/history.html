@@ -109,17 +109,15 @@
 							{{ lib.format(tx.objectType, tx.objectId) }}
 						{% endif %}
 
-					{% elseif tx.action == 'sent' %}
-						{% set email = grab('outbox_email', tx.objectId) %}
+					{% elseif tx.action == 'sent' or tx.action == 'emailed' %}
+						{% set email = grab('outbox_email', tx.action == 'sent' ? tx.objectId : tx.newValue) %}
 						{{ __('label_sent') }}
 						<u><span class="glyphicon glyphicon-envelope"></span>{{ email.subject |truncate(64, true) }}</u>
 						{{ __('label_to') }}
 						{{ lib.format_users(email.recipients) }}
 						{{ lib.format_users(email.ccs) }}
 						<!-- Bcc excluded on purpose -->
-						{% if email.html %}
-							<div class="log-content">{{ filter('html_to_text', email.html) |truncate(400, true) }}</div>
-						{% endif %}
+						[<a href="{{ req.base }}/outbox/{{ email.id }}">{{ __('label_view_message') }}</a>]
 
 					{% elseif tx.action == 'activated' or tx.action == 'deactivated' %}
 						{# Help gettext's msgmerge: __('label_activated') __('label_deactivated') #}

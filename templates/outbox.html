@@ -38,44 +38,86 @@
 {% endif %}
 
 {% if email %}
-	<form id="outbox_edit" method="post" class="form-tight">
-		{{ filter('form_begin', 'outbox_edit') |raw }}
-		{% if email.id %}
-			<input type="hidden" name="id" value="{{ email.id }}">
-		{% endif %}
-		<div class="form-group">
-			{{ lib.select_users(__('email_to'), 'recipient', email.recipients, false, true) }}
-		</div>
-		{% if email.ccs|length > 0 %}
+	{% if email.isSent %}
+		<form class="form-tight">
 			<div class="form-group">
-				{{ lib.select_users(__('email_cc'), 'cc', email.ccs, false, true) }}
+				<div class="input-block col-sm-12">
+					<label>{{ __('email_to') }}</label>
+					<div class="form-control input-like">
+						{{ lib.format_users(email.recipients, true, false, true) }}
+						{{ lib.format_users(email.ccs, true, false, true) }}
+					</div>
+				</div>
 			</div>
+			<div class="form-group">
+				<div class="input-block col-sm-12">
+					<label>{{ __('label_subject') }}</label>
+					<div class="form-control input-like">
+						{{ email.subject }}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="input-block col-sm-12">
+					<label>{{ __('label_sent') }}</label>
+					<div class="form-control input-like">
+						{{ email.localmodified }}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="input-block col-sm-12">
+					<div class="form-control input-like">
+						{{ email.html |raw }}
+					</div>
+				</div>
+			</div>
+	{% else %}
+		<form id="outbox_edit" method="post" class="form-tight">
+			{{ filter('form_begin', 'outbox_edit') |raw }}
+			{% if email.id %}
+				<input type="hidden" name="id" value="{{ email.id }}">
 			{% endif %}
-		{% if email.bccs|length > 0 %}
 			<div class="form-group">
-				{{ lib.select_users(__('email_bcc'), 'bcc', email.bccs, false, true) }}
+				{{ lib.select_users(__('email_to'), 'recipient', email.recipients, false, true) }}
+			</div>
+			{% if email.ccs|length > 0 %}
+				<div class="form-group">
+					{{ lib.select_users(__('email_cc'), 'cc', email.ccs, false, true) }}
+				</div>
+				{% endif %}
+			{% if email.bccs|length > 0 %}
+				<div class="form-group">
+					{{ lib.select_users(__('email_bcc'), 'bcc', email.bccs, false, true) }}
+				</div>
+			{% endif %}
+			<div class="form-group">
+				<input data-colsize="12" data-label="{{ __('label_subject') }}" type="text" id="subject" value="{{ email.subject }}" required>
+			</div>
+			<div class="form-group">
+				<div class="input-block col-sm-12">
+					<textarea name="html" class="rich-edit">{{ email.html }}</textarea>
+				</div>
+			</div>
+	{% endif %}
+			<div class="form-group">
+				<div class="col-sm-12">
+					{% for file in email.files %}
+						{% if email.contextType and email.contextId %}
+							<a href="/=bin/{{ email.contextType }}s/{{ email.contextId }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-fil    e"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
+						{% else %}
+							<span class="glyphicon glyphicon-file"></span>{{ file.name }} ({{ lib.format_bytes(file.bytes) }})<br>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		{% if not email.isSent %}
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-send fg-ok"></span> {{ __('label_send') }}</button>
+					<button type="submit" class="btn btn-default" name="delete" value="1"><span class="glyphicon glyphicon-trash fg-err"></span> {{ __('label_delete') }}</button>
+				</div>
 			</div>
 		{% endif %}
-		<div class="form-group">
-			<input data-colsize="12" data-label="{{ __('label_subject') }}" type="text" id="subject" value="{{ email.subject }}" required>
-		</div>
-		<div class="form-group">
-			<div class="input-block col-sm-12">
-				<textarea name="html" class="rich-edit">{{ email.html }}</textarea>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-12">
-				{% for file in email.files %}
-					<span class="glyphicon glyphicon-file"></span>{{ file.name }} ({{ lib.format_bytes(file.bytes) }})<br>
-				{% endfor %}
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-send fg-ok"></span> {{ __('label_send') }}</button>
-				<button type="submit" class="btn btn-default" name="delete" value="1"><span class="glyphicon glyphicon-trash fg-err"></span> {{ __('label_delete') }}</button>
-			</div>
-		</div>
-	</form>
+		</form>
 {% endif %}

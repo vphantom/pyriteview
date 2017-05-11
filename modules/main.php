@@ -26,7 +26,7 @@
  */
 function makePermalink($string)
 {
-    return substr(filter('clean_filename', $string), 0, 64);
+    return substr(filter('clean_basefilename', $string), 0, 64);
 }
 
 // Start-up definitions from our support modules

@@ -455,8 +455,8 @@ class Articles
     {
         global $PPHP;
         $config = $PPHP['config']['articles'];
-        $filename = filter('clean_filename', $file['filename']);
-        $ext = filter('clean_filename', $file['extension']);
+        $filename = filter('clean_basefilename', $file['filename']);
+        $ext = filter('clean_basefilename', $file['extension']);
 
         if (in_array($file['type'], $config['file_types'])
             && in_array($file['extension'], $config['file_extensions'])
@@ -1023,11 +1023,15 @@ on(
     function ($path) {
         global $PPHP;
 
+        $PPHP['contextType'] = 'article';
         if (!$_SESSION['identified']) return trigger('http_status', 403);
         $req = grab('request');
         $articleId = array_shift($path);
         $article = (is_numeric($articleId) ? grab('article', $articleId) : false);
         if ($article !== false && empty($article)) return trigger('http_status', 404);
+        if ($article !== false) {
+            $PPHP['contextId'] = $articleId;
+        };
 
         // A binary request is necessarily for a file within an article
         //
@@ -1039,32 +1043,17 @@ on(
                 || $article['isPeer'])
             ) return trigger('http_status', 403);
 
-            $fname = array_shift($path);
-
-            // Look for it explicitly to avoid exploit surprises
-            $files = array();
-            foreach ($article['versions'] as $version) {
-                foreach ($version['files'] as $file) {
-                    array_push($files, $file);
-                };
-                foreach ($version['reviews'] as $review) {
-                    foreach ($review['files'] as $file) {
-                        array_push($files, $file);
-                    };
-                };
-            };
-            foreach ($files as $file) {
-                if ($file['name'] === $fname
-                    && file_exists($article['files_dir'] . '/' . $file['name'])
-                ) {
-                    header('Content-Type: ' . $file['type']);
-                    header('Expires: 0');
-                    header('Cache-Control: must-revalidate');
-                    header('Pragma: public');
-                    header('Content-Length: ' . $file['bytes']);
-                    readfile($article['files_dir'] . '/' . $file['name']);
-                    exit;
-                };
+            $fname = $article['files_dir'] . '/' . filter('clean_filename', array_shift($path));
+            if (file_exists($fname)) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                header('Content-Type: ' . finfo_file($finfo, $fname));
+                finfo_close($finfo);
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($fname));
+                readfile($fname);
+                exit;
             };
             // The http_status event is actually too late in binary mode.
             header('Status: 404 Not Found');
@@ -1099,7 +1088,7 @@ on(
                 $success = grab('article_save', $req['post'], $req['files']);
 
                 if ($success !== false && !is_numeric($articleId)) {
-                    $articleId = $success;
+                    $PPHP['contextId'] = ($articleId = $success);
                     $created = true;
                 }
                 // Refresh to discover changes/creation before file handling

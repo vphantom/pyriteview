@@ -17,6 +17,6 @@
         "ext-pcre": "*",
         "ext-pdo_sqlite": "*",
         "ext-readline": "*",
-        "vphantom/pyritephp": "^1.0"
+        "vphantom/pyritephp": "^1.2"
     }
 }

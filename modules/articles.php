@@ -1293,6 +1293,17 @@ on(
                 $article = grab('article', $review['articleId']);
                 trigger(
                     'sendmail',
+                    $article['editors'],
+                    null,
+                    null,
+                    'review_declined',
+                    array(
+                        'peerId' => $review['peerId'],
+                        'article' => $review['articleId']
+                    )
+                );
+                trigger(
+                    'sendmail',
                     $review['peerId'],
                     ($article !== false && isset($article['editors']) ? $article['editors'] : null),
                     null,

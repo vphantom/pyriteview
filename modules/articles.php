@@ -1256,6 +1256,7 @@ on(
         global $PPHP;
         $config = $PPHP['config'];
         $maxAge = $config['reviews']['accept_days'];
+        $invitePeriod = $config['reviews']['accept_reminder_interval'];
 
         // Nagging peers who haven't accepted/declined
         $reviews = grab(
@@ -1266,7 +1267,7 @@ on(
         foreach ($reviews as $review) {
             if ($review['age'] > 1
                 && $review['age'] < $maxAge
-                && $review['age'] % 3 === 0
+                && $review['age'] % $invitePeriod === 0
             ) {
                 trigger(
                     'send_invite',

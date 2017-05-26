@@ -885,7 +885,15 @@ class Articles
 
             $db->begin();
 
-            $oldReview = $db->selectSingleArray('SELECT * FROM reviews WHERE id=?', array($id));
+            $oldReview = $db->selectSingleArray(
+                "
+                    SELECT reviews.*, articleVersions.articleId
+                    FROM reviews
+                    LEFT JOIN articleVersions ON articleVersions.id=reviews.versionId
+                    WHERE reviews.id=?
+                ",
+                array($id)
+            );
 
             // Handle file uploads
             $newFiles = array();

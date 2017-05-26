@@ -22,7 +22,7 @@ $().ready(function() {
         + '&t='
         + encodeURIComponent(articleEditForm.find('#title').val())
         + '&aa='
-        + encodeURIComponent(articleEditForm.find('#authors').val())
+        + encodeURIComponent(articleEditForm.find('#authors\\[\\]').val())
     );
   }
 
@@ -34,6 +34,6 @@ $().ready(function() {
 
     // Update copyright URL when relevant fields are modified
     articleEditForm.find('#title').on('change', updateCopyright);
-    articleEditForm.find('#authors').on('change', updateCopyright);
+    articleEditForm.find('#authors\\[\\]').on('change', updateCopyright);
   }
 });

@@ -302,7 +302,7 @@
 	{% import _self as lib %}
 	<input type="hidden" name="__arrays[]" value="{{ role }}s">
 	<input type="hidden" name="_{{ role }}s" value="1">
-	<select data-label="{{ label }}" {% if maxcount %}data-maxcount="{{ maxcount }}"{% endif %} placeholder="{{ __('hint_selectusers') }}" id="{{ role }}s" class="users{% if not nocreate and pass('can', 'create', 'user') %}-create{% endif %} feedback-user" multiple>
+	<select data-label="{{ label }}" {% if maxcount %}data-maxcount="{{ maxcount }}"{% endif %} placeholder="{{ __('hint_selectusers') }}" id="{{ role }}s[]" class="users{% if not nocreate and pass('can', 'create', 'user') %}-create{% endif %} feedback-user" multiple>
 		{% for user in selected %}
 			<option value="{{ user }}" selected>{{ lib.format_user(user, true, true, true) }}
 		{% endfor %}

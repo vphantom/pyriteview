@@ -13,14 +13,14 @@
 						{% if tx.userId == session.user.id %}
 							{{ __('label_i_myself') }}
 						{% else %}
-							{{ lib.format('user', tx.userId) }}
+							{{ lib.format_user(tx.userId) }}
 							{{ __('label_has_itself') }}
 						{% endif %}
 					{% else %}
 						{% if tx.userId == session.user.id %}
 							{{ __('label_i') }}
 						{% else %}
-							{{ lib.format('user', tx.userId) }}
+							{{ lib.format_user(tx.userId) }}
 							{{ __('label_has') }}
 						{% endif %}
 					{% endif %}

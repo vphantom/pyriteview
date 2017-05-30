@@ -848,6 +848,8 @@ class Articles
                     $success = false;
                     break;
                 };
+                // Regardless if user existed, make sure it now has 'peer' role
+                trigger('grant', $peer, 'peer');
                 // Log and e-mail, which will be part of the rolled back transaction if we fail.
                 trigger(
                     'log',

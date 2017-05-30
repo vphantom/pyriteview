@@ -307,7 +307,7 @@
 			<option value="{{ user }}" selected>{{ lib.format_user(user, true, true, true) }}
 		{% endfor %}
 		{% if role %}
-			{% for user in grab('role_users', role) %}
+			{% for user in grab('all_users') %}
 				{% if user not in selected %}
 					<option value="{{ user }}">{{ lib.format_user(user, true, true, true) }}
 				{% endif %}

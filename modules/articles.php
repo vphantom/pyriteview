@@ -214,6 +214,7 @@ class Articles
         if (!is_array($article['versions'])) {
             $article['versions'] = array();
         };
+        $uniquePeers = array();
         // The following is quite ugly with $vkey/$rkey but it's to edit in place.
         foreach ($article['versions'] as $vkey => $version) {
             $article['versions'][$vkey]['files'] = json_decode($version['files'], true);
@@ -234,6 +235,7 @@ class Articles
                 if (!is_array($article['versions'][$vkey]['reviews'][$rkey]['files'])) {
                     $article['versions'][$vkey]['reviews'][$rkey]['files'] = array();
                 };
+                $uniquePeers[$review['peerId']] = true;
             };
         };
         $article['isPeer'] = count($article['versions']) > 0
@@ -249,6 +251,7 @@ class Articles
             $article['keywords'] = dejoin(';', $article['keywords']);
             $article['permalink'] = makePermalink($article['title']);
             $article['authors'] = grab('object_users', 'edit', 'article', $id);
+            $article['peers'] = array_keys($uniquePeers);
             $article['editors'] = grab('object_users', '*', 'issue', $article['issueId']);
 
             // Authors do not have the editor role for this specific article.

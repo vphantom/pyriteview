@@ -7,6 +7,7 @@
 			<tr{% if tx.objectType == 'user' and tx.action == 'modified' and (tx.fieldName=='email' or tx.fieldName=='password') %} class="warning"{% endif %}>
 				<td>
 		{% endif %}
+				{% if tx.userId not in history_blacklist %}
 					<div class="log-part">
 					{% if tx.action == 'login' %}
 						{% if tx.userId == session.user.id %}
@@ -78,7 +79,7 @@
 						{% else %}
 							???
 						{% endif %}
-						{{ lib.format_user(tx.newValue) }}
+						{{ tx.newValue in history_blacklist ? lib.format_user(-1) : lib.format_user(tx.newValue) }}
 
 					{% elseif tx.action == 'uninvited' %}
 						{% if tx.fieldName == 'peers' %}
@@ -90,7 +91,7 @@
 						{% else %}
 							???
 						{% endif %}
-						{{ lib.format_user(tx.newValue) }}
+						{{ tx.newValue in history_blacklist ? lib.format_user(-1) : lib.format_user(tx.newValue) }}
 
 					{% elseif tx.action == 'reviewed' %}
 						{% if tx.newValue == 'reviewing' %}
@@ -112,13 +113,21 @@
 
 					{% elseif tx.action == 'sent' or tx.action == 'emailed' %}
 						{% set email = grab('outbox_email', tx.action == 'sent' ? tx.objectId : tx.newValue) %}
+						{% set visible = 1 %}
+						{% for blocked in history_blacklist %}
+							{% if blocked in email.recipients or blocked in email.ccs %}
+								{% set visible = 0 %}
+							{% endif %}
+						{% endfor %}
 						{{ __('label_sent') }}
 						<u><span class="glyphicon glyphicon-envelope"></span>{{ email.subject |truncate(64, true) }}</u>
-						{{ __('label_to') }}
-						{{ lib.format_users(email.recipients) }}
-						{{ lib.format_users(email.ccs) }}
-						<!-- Bcc excluded on purpose -->
-						[<a href="{{ req.base }}/outbox/{{ email.id }}">{{ __('label_view_message') }}</a>]
+						{% if visible %}
+							{{ __('label_to') }}
+							{{ lib.format_users(email.recipients) }}
+							{{ lib.format_users(email.ccs) }}
+							<!-- Bcc excluded on purpose -->
+							[<a href="{{ req.base }}/outbox/{{ email.id }}">{{ __('label_view_message') }}</a>]
+						{% endif %}
 
 					{% elseif tx.action == 'activated' or tx.action == 'deactivated' %}
 						{# Help gettext's msgmerge: __('label_activated') __('label_deactivated') #}
@@ -135,6 +144,7 @@
 						<div class="log-content">{{ tx.content }}</div>
 					{% endif %}
 				</div>
+			{% endif %}
 		{% if loop.last or tx.timestamp|slice(0,18) != history[loop.index].timestamp|slice(0,18) %}
 				</td>
 				<td class="text-right fit">

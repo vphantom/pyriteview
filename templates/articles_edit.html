@@ -221,6 +221,9 @@
 				</table>
 			{% endif %}
 			<h3>{{ __('title_history') }}</h3>
+			{% if session.user.id in article.authors %}
+				{% set history_blacklist = article.peers %}
+			{% endif %}
 			{% include 'history.html' %}
 		{% endif %}
 

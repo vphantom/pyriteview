@@ -250,9 +250,32 @@ class Articles
         ) {
             $article['keywords'] = dejoin(';', $article['keywords']);
             $article['permalink'] = makePermalink($article['title']);
-            $article['authors'] = grab('object_users', 'edit', 'article', $id);
             $article['peers'] = array_keys($uniquePeers);
             $article['editors'] = grab('object_users', '*', 'issue', $article['issueId']);
+
+            // Consistency check!
+            // Any author found in ACL but not in our column get added.
+            $article['authors'] = dejoin(';', $article['authors']);
+            $dirtyAuthors = false;
+            foreach (
+                array_diff(
+                    grab('object_users', 'edit', 'article', $id),
+                    $article['authors']
+                ) as $author
+            ) {
+                $article['authors'][] = $author;
+                $dirtyAuthors = true;
+            };
+            if ($dirtyAuthors) {
+                $db->update(
+                    'articles',
+                    array(
+                        'authors' => implode(';', $article['authors'])
+                    ),
+                    'WHERE id=?',
+                    array($id)
+                );
+            };
 
             // Authors do not have the editor role for this specific article.
             foreach ($article['editors'] as $key => $editor) {
@@ -515,6 +538,7 @@ class Articles
         $config = $PPHP['config'];
         $res = false;
         $oldArticle = false;
+        $newAuthors = array();
         $log = null;
         $maillog = null;
         $mailstatus = false;
@@ -526,6 +550,10 @@ class Articles
         $db->begin();
         if (isset($cols['keywords']) && is_array($cols['keywords'])) {
             $cols['keywords'] = implode(';', $cols['keywords']);
+        };
+        if (isset($cols['authors']) && is_array($cols['authors'])) {
+            $newAuthors = $cols['authors'];
+            $cols['authors'] = implode(';', $cols['authors']);
         };
         if (isset($cols['id'])) {
             $id = $cols['id'];
@@ -590,9 +618,9 @@ class Articles
         };
         if ($res !== false) {
             if (isset($cols['authors']) && isset($cols['_authors'])) {
-                $oldAuthors = grab('object_users', 'edit', 'article', $res);
-                $deled = array_diff($oldAuthors, $cols['authors']);
-                $added = array_diff($cols['authors'], $oldAuthors);
+                $oldAuthors = $oldArticle['authors'];
+                $deled = array_diff($oldAuthors, $newAuthors);
+                $added = array_diff($newAuthors, $oldAuthors);
                 foreach ($added as $author) {
                     trigger('grant', $author, 'author');
                     trigger('grant', $author, null, 'edit', 'article', $res);

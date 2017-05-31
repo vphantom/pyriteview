@@ -14,6 +14,7 @@ FONT_SRC := $(wildcard node_modules/bootstrap/dist/fonts/*.*) \
 
 CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css \
 	node_modules/selectize/dist/css/selectize.css node_modules/selectize/dist/css/selectize.bootstrap3.css \
+	node_modules/jquery-ui-pyritephp/jquery-ui.css \
 	node_modules/summernote/dist/summernote.css \
 	$(wildcard vendor/vphantom/pyritephp/assets/*.css) \
 	$(wildcard modules/*.css)

@@ -43,6 +43,7 @@ class Articles
         on('peer_reviews',         'Articles::getPeerReviews');
         on('admin_reviews',        'Articles::adminReviews');
         on('review_save',          'Articles::saveReview');
+        on('peer_last_choices',    'Articles::getPeerLastChoices');
     }
 
     /**
@@ -1028,6 +1029,39 @@ class Articles
             $db->commit();
             return $res !== false;
         };
+    }
+
+
+    /**
+     * Get last acceptance and refusal dates for a peer
+     *
+     * The resulting array offers 'accepted' and 'refused' keys, each with
+     * either a 'YYYY-MM-DD' date or false if none was found.
+     *
+     * @param int $userId User ID
+     *
+     * @return array
+     */
+    public function getPeerLastChoices($userId)
+    {
+        global $PPHP;
+        $db = $PPHP['db'];
+        $times = array();
+        $query = "
+            SELECT date(timestamp) FROM transactions
+            WHERE
+                userId=?
+                AND objectType='article'
+                AND action='reviewed'
+                AND newValue=?
+            ORDER BY id DESC
+            LIMIT 1
+        ";
+
+        $times['accepted'] = $db->selectAtom($query, array($userId, 'reviewing'));
+        $times['refused'] = $db->selectAtom($query, array($userId, 'deleted'));
+
+        return $times;
     }
 }
 

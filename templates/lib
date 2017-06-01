@@ -309,7 +309,15 @@
 		{% if role %}
 			{% for user in grab('all_users') %}
 				{% if user not in selected %}
-					<option value="{{ user }}">{{ lib.format_user(user, true, true, true) }}
+					{% set times = grab('peer_last_choices', user) %}
+					<option value="{{ user }}"
+						{% if role == 'peer' -%}
+							data-label-lastaccepted="{{ __('label_last_accepted') }}"
+							data-val-lastaccepted="{{ times.accepted |default(__('label_never')) }}"
+							data-label-lastrefused="{{ __('label_last_refused') }}"
+							data-val-lastrefused="{{ times.refused |default(__('label_never')) }}"
+						{%- endif -%}
+					>{{ lib.format_user(user, true, true, true) }}
 				{% endif %}
 			{% endfor %}
 		{% endif %}

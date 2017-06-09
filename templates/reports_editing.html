@@ -70,7 +70,7 @@
 							{% for review in version.reviews %}
 								<tr>
 									<td>{{ ver }}</td>
-									<td>{{ self.format_user_full(review.peerId) }}</td>
+									<td>{{ self.format_user_full(session.user.id in article.authors ? -1 : review.peerId) }}</td>
 									<td class="text-nowrap">{{ review.created|slice(0,10) }}</td>
 									<td class="text-nowrap">
 										{% if review.status == 'deleted' %}
@@ -103,5 +103,7 @@
 		<u>{{ user.name }}</u> ({{ user.profession }}
 		{%- if user.employer -%}, <em>{{ user.employer }}</em>{%- endif -%}
 		)
+	{%- else -%}
+		{{ __('user_unknown') }}
 	{%- endif -%}
 {%- endmacro %}

@@ -159,6 +159,7 @@
 								{% set nexts = config.reviews.states_next[review.status]|split(' ') %}
 								{# Work around same bug as PHP... stupid! #}
 								{% if nexts[0] == '' %}{% set nexts = [] %}{% endif %}
+								{% if 'deleted' not in nexts %}{% set nexts = nexts|merge(['deleted']) %}{% endif %}
 								<tr class="{{
 									review.daysLeft < 0 and review.status not in config.reviews.states_final
 									? ' danger'
@@ -197,7 +198,7 @@
 													<span class="dropdown-toggle" id="status-{{ review.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ lib.format_status(review.status) }} <span class="caret"></span></span>
 													<div class="dropdown-menu" aria-labelledby="status-{{ review.id }}">
 														<div class="dropdown-header">{{ __('label_change_status') }}:</div>
-														{% for status in config.reviews.states_next[review.status]|split(' ') %}
+														{% for status in nexts %}
 															<button class="btn btn-default btn-xs" type="submit" name="status" value="{{ status }}">{{ lib.format_status(status, true) }}</button>
 														{% endfor %}
 													</div>

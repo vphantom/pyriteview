@@ -4,31 +4,33 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "73785a9e6557db88bc26aa2ec6018122",
+    "content-hash": "379534fe90593f43690294cc3d0d8f9b",
     "packages": [
         {
             "name": "gettext/gettext",
-            "version": "v4.2.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oscarotero/Gettext.git",
-                "reference": "8da2f94538a2250275bb86b431c51e31e256e1e1"
+                "reference": "782ba1d90f5112c398737b988e691be9e2da8f03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oscarotero/Gettext/zipball/8da2f94538a2250275bb86b431c51e31e256e1e1",
-                "reference": "8da2f94538a2250275bb86b431c51e31e256e1e1",
+                "url": "https://api.github.com/repos/oscarotero/Gettext/zipball/782ba1d90f5112c398737b988e691be9e2da8f03",
+                "reference": "782ba1d90f5112c398737b988e691be9e2da8f03",
                 "shasum": ""
             },
             "require": {
-                "gettext/languages": "2.*",
+                "gettext/languages": "^2.3",
                 "php": ">=5.4.0"
             },
             "require-dev": {
                 "illuminate/view": "*",
+                "phpunit/phpunit": "^4.8|^5.7",
+                "squizlabs/php_codesniffer": "^3.0",
                 "symfony/yaml": "~2",
                 "twig/extensions": "*",
-                "twig/twig": "^1.31"
+                "twig/twig": "^1.31|^2.0"
             },
             "suggest": {
                 "illuminate/view": "Is necessary if you want to use the Blade extractor",
@@ -64,24 +66,27 @@
                 "po",
                 "translation"
             ],
-            "time": "2017-01-14T13:14:10+00:00"
+            "time": "2017-05-20T11:44:28+00:00"
         },
         {
             "name": "gettext/languages",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlocati/cldr-to-gettext-plural-rules.git",
-                "reference": "bd19ab830291d9b74b23d21428233e06389ef7c2"
+                "reference": "49c39e51569963cc917a924b489e7025bfb9d8c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlocati/cldr-to-gettext-plural-rules/zipball/bd19ab830291d9b74b23d21428233e06389ef7c2",
-                "reference": "bd19ab830291d9b74b23d21428233e06389ef7c2",
+                "url": "https://api.github.com/repos/mlocati/cldr-to-gettext-plural-rules/zipball/49c39e51569963cc917a924b489e7025bfb9d8c7",
+                "reference": "49c39e51569963cc917a924b489e7025bfb9d8c7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4"
             },
             "bin": [
                 "bin/export-plural-rules",
@@ -122,7 +127,7 @@
                 "translations",
                 "unicode"
             ],
-            "time": "2017-02-06T14:30:42+00:00"
+            "time": "2017-03-23T17:02:28+00:00"
         },
         {
             "name": "sphido/events",
@@ -174,16 +179,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
+                "reference": "f29dca382a6485c3cbe6379f0c61230167681937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
-                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
+                "reference": "f29dca382a6485c3cbe6379f0c61230167681937",
                 "shasum": ""
             },
             "require": {
@@ -195,7 +200,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -229,27 +234,28 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14T01:06:16+00:00"
+            "time": "2017-06-09T14:24:12+00:00"
         },
         {
             "name": "twig/extensions",
-            "version": "v1.4.1",
+            "version": "v1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig-extensions.git",
-                "reference": "f0bb8431c8691f5a39f1017d9a5967a082bf01ff"
+                "reference": "d188c76168b853481cc75879ea045bf93d718e9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/f0bb8431c8691f5a39f1017d9a5967a082bf01ff",
-                "reference": "f0bb8431c8691f5a39f1017d9a5967a082bf01ff",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/d188c76168b853481cc75879ea045bf93d718e9c",
+                "reference": "d188c76168b853481cc75879ea045bf93d718e9c",
                 "shasum": ""
             },
             "require": {
-                "twig/twig": "~1.20|~2.0"
+                "twig/twig": "~1.27|~2.0"
             },
             "require-dev": {
-                "symfony/translation": "~2.3"
+                "symfony/phpunit-bridge": "~3.3@dev",
+                "symfony/translation": "~2.3|~3.0"
             },
             "suggest": {
                 "symfony/translation": "Allow the time_diff output to be translated"
@@ -257,12 +263,15 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4-dev"
+                    "dev-master": "1.5-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
                     "Twig_Extensions_": "lib/"
+                },
+                "psr-4": {
+                    "Twig\\Extensions\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -281,20 +290,20 @@
                 "i18n",
                 "text"
             ],
-            "time": "2016-10-25T17:34:14+00:00"
+            "time": "2017-06-08T18:19:53+00:00"
         },
         {
             "name": "twig/twig",
-            "version": "v2.1.0",
+            "version": "v2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "9062992538bc5855a683c6737257bfa18d25a4b8"
+                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9062992538bc5855a683c6737257bfa18d25a4b8",
-                "reference": "9062992538bc5855a683c6737257bfa18d25a4b8",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/eab7c3288ae6603d7d6f92b531626af2b162d1f2",
+                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2",
                 "shasum": ""
             },
             "require": {
@@ -302,18 +311,22 @@
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "require-dev": {
+                "psr/container": "^1.0",
                 "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.2"
+                "symfony/phpunit-bridge": "~3.3@dev"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
                     "Twig_": "lib/"
+                },
+                "psr-4": {
+                    "Twig\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -343,20 +356,62 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-01-11T19:39:01+00:00"
+            "time": "2017-06-07T18:47:58+00:00"
         },
         {
-            "name": "vphantom/pyritephp",
-            "version": "v1.0.0",
+            "name": "vphantom/email",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vphantom/pyritephp.git",
-                "reference": "b59d8868de1977d11d2a6cccce3c8fd553b7c289"
+                "url": "https://github.com/vphantom/php-email.git",
+                "reference": "17e5441c40821772459ad10d84a7a87084bd5b4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vphantom/pyritephp/zipball/b59d8868de1977d11d2a6cccce3c8fd553b7c289",
-                "reference": "b59d8868de1977d11d2a6cccce3c8fd553b7c289",
+                "url": "https://api.github.com/repos/vphantom/php-email/zipball/17e5441c40821772459ad10d84a7a87084bd5b4a",
+                "reference": "17e5441c40821772459ad10d84a7a87084bd5b4a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "ext-xdebug": "^2.0",
+                "phpunit/phpunit": "^6.0",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Email": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stéphane Lavergne",
+                    "email": "lis@imars.com"
+                }
+            ],
+            "description": "Create/send multipart MIME messages",
+            "time": "2017-03-04T17:22:35+00:00"
+        },
+        {
+            "name": "vphantom/pyritephp",
+            "version": "v1.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vphantom/pyritephp.git",
+                "reference": "2ff63cf8b73bc2b93ee23014198cd70f770ceacb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vphantom/pyritephp/zipball/2ff63cf8b73bc2b93ee23014198cd70f770ceacb",
+                "reference": "2ff63cf8b73bc2b93ee23014198cd70f770ceacb",
                 "shasum": ""
             },
             "require": {
@@ -367,10 +422,16 @@
                 "ext-readline": "*",
                 "ext-session": "*",
                 "gettext/gettext": "~4.2",
-                "php": ">=5.6",
+                "php": ">=7.0",
                 "sphido/events": "^0.3.0",
                 "twig/extensions": "~1.4",
-                "twig/twig": "~2.1"
+                "twig/twig": "~2.1",
+                "vphantom/email": "^1.0"
+            },
+            "require-dev": {
+                "ext-xdebug": "^2.0",
+                "phpunit/phpunit": "^6.0",
+                "satooshi/php-coveralls": "^1.0"
             },
             "type": "library",
             "autoload": {
@@ -392,7 +453,7 @@
                 }
             ],
             "description": "PyritePHP",
-            "time": "2017-02-25T17:14:32+00:00"
+            "time": "2017-06-01T22:00:01+00:00"
         }
     ],
     "packages-dev": [],

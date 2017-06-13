@@ -8,6 +8,16 @@
             "email": "lis@imars.com"
         }
     ],
+    "minimum-stability": "dev",
+    "repositories": [
+      {
+        "type": "path",
+        "url": "../pyritephp",
+        "options": {
+          "symlink": true
+        }
+      }
+    ],
     "require": {
         "php": ">=5.6",
         "ext-fileinfo": "*",
@@ -17,6 +27,6 @@
         "ext-pcre": "*",
         "ext-pdo_sqlite": "*",
         "ext-readline": "*",
-        "vphantom/pyritephp": "^1.2"
+        "vphantom/pyritephp": "dev-master"
     }
 }

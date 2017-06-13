@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee1b6c6f634d3791be9d7c312c13c246",
+    "content-hash": "379534fe90593f43690294cc3d0d8f9b",
     "packages": [
         {
             "name": "gettext/gettext",
@@ -179,7 +179,7 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "dev-master",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -234,20 +234,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-09 14:24:12"
+            "time": "2017-06-09T14:24:12+00:00"
         },
         {
             "name": "twig/extensions",
-            "version": "dev-master",
+            "version": "v1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig-extensions.git",
-                "reference": "2c2a90088f34be0b35c5c80ea55704a602c4fdb4"
+                "reference": "d188c76168b853481cc75879ea045bf93d718e9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/2c2a90088f34be0b35c5c80ea55704a602c4fdb4",
-                "reference": "2c2a90088f34be0b35c5c80ea55704a602c4fdb4",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/d188c76168b853481cc75879ea045bf93d718e9c",
+                "reference": "d188c76168b853481cc75879ea045bf93d718e9c",
                 "shasum": ""
             },
             "require": {
@@ -290,20 +290,20 @@
                 "i18n",
                 "text"
             ],
-            "time": "2017-06-09 13:53:09"
+            "time": "2017-06-08T18:19:53+00:00"
         },
         {
             "name": "twig/twig",
-            "version": "2.x-dev",
+            "version": "v2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "a9cca4b3b7c888a1077227c36821e8bf0ab1bd13"
+                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a9cca4b3b7c888a1077227c36821e8bf0ab1bd13",
-                "reference": "a9cca4b3b7c888a1077227c36821e8bf0ab1bd13",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/eab7c3288ae6603d7d6f92b531626af2b162d1f2",
+                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2",
                 "shasum": ""
             },
             "require": {
@@ -356,7 +356,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-06-12 16:59:07"
+            "time": "2017-06-07T18:47:58+00:00"
         },
         {
             "name": "vphantom/email",
@@ -402,12 +402,17 @@
         },
         {
             "name": "vphantom/pyritephp",
-            "version": "dev-master",
+            "version": "v1.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vphantom/pyritephp.git",
+                "reference": "f9d65337668eb7c3245f35ec96220eb7cda29b13"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pyritephp",
-                "reference": "2ff63cf8b73bc2b93ee23014198cd70f770ceacb",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/vphantom/pyritephp/zipball/f9d65337668eb7c3245f35ec96220eb7cda29b13",
+                "reference": "f9d65337668eb7c3245f35ec96220eb7cda29b13",
+                "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
@@ -437,6 +442,7 @@
                     "src/globals.php"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -447,17 +453,13 @@
                 }
             ],
             "description": "PyritePHP",
-            "transport-options": {
-                "symlink": true
-            }
+            "time": "2017-06-13T14:35:00+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "vphantom/pyritephp": 20
-    },
+    "minimum-stability": "stable",
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -1415,7 +1415,7 @@ on(
                     true
                 );
             } elseif ($review['daysLeft'] == 0
-                || $review['daysLeft'] == $config['reviews']['max_late_days']
+                || (0 - $review['daysLeft']) == $config['reviews']['max_late_days']
             ) {
                 $article = grab('article', $review['articleId']);
                 trigger(

@@ -619,7 +619,7 @@ class Articles
         };
         if ($res !== false) {
             if (isset($cols['authors']) && isset($cols['_authors'])) {
-                $oldAuthors = $oldArticle['authors'];
+                $oldAuthors = $oldArticle ? $oldArticle['authors'] : array();
                 $deled = array_diff($oldAuthors, $newAuthors);
                 $added = array_diff($newAuthors, $oldAuthors);
                 foreach ($added as $author) {

@@ -70,10 +70,11 @@ Edit `var/config.ini` to change any defaults as needed.
 
 ### Crontab
 
-The same user as your web server (in order to have access to `var/`) should trigger the 'daily' event every day.  For example, at 4:07 AM:
+The same user as your web server (in order to have access to `var/`) should trigger the 'daily' event every day and 'hourly' every hour.  For example:
 
 ```crontab
 7	4	*	*	*	/usr/bin/php /web/pyriteview/index.php --trigger daily
+11	*	*	*	*	/usr/bin/php /web/pyriteview/index.php --trigger hourly
 ```
 
 ### Web Server Configuration

@@ -122,7 +122,7 @@ location ~ \.php$ {
 
 location / {
     index index.html index.htm index.php;
-    try_files $uri $uri/ $uri/index.php /index.php;
+    try_files $uri $uri/ $uri/index.php /index.php?$args;
 }
 ```
 

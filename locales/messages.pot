@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-01 17:26-0400\n"
+"POT-Creation-Date: 2017-10-29 13:31-0400\n"
 "PO-Revision-Date: 2017-01-31 12:04-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
@@ -39,6 +39,9 @@ msgid "email_bcc"
 msgstr ""
 
 msgid "email_cc"
+msgstr ""
+
+msgid "email_from"
 msgstr ""
 
 msgid "email_to"

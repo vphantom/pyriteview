@@ -94,9 +94,40 @@
 			<div class="form-group">
 				<input data-colsize="12" data-label="{{ __('label_subject') }}" type="text" id="subject" value="{{ email.subject }}" required>
 			</div>
+<script src='//cdn.ckeditor.com/4.7.3/full/ckeditor.js'></script>
+<script type="text/javascript">
+// Toolbar edited with https://ckeditor.com/latest/samples/toolbarconfigurator/
+var ckConfig = {
+	customConfig: '',
+	language: 'fr',
+	stylesSet: 'my_styles',
+	format_tags: 'p;h1;h2;h3;h4;div',
+	toolbarGroups: [
+	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+	{ name: 'basicstyles', groups: [ 'cleanup', 'basicstyles' ] },
+	{ name: 'paragraph', groups: [ 'list', 'indent', 'align', 'paragraph' ] },
+	{ name: 'links', groups: [ 'links' ] },
+	{ name: 'styles', groups: [ 'styles' ] },
+	{ name: 'colors', groups: [ 'colors' ] },
+	{ name: 'tools', groups: [ 'tools' ] },
+	{ name: 'others', groups: [ 'others' ] },
+	{ name: 'document', groups: [ 'mode' ] },
+	{ name: 'about', groups: [ 'about' ] }
+	],
+	removeButtons: 'Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,Undo,Redo,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Language,Anchor,Image,Flash,Table,Smiley,PageBreak,Iframe,Styles,Format,Font,FontSize,CopyFormatting',
+	entities_latin: false,
+	entities_additional: '',
+	sourceAreaTabSize: 4,
+	dataIndentationChars: '    '
+};
+window.onload = function() {
+	CKEDITOR.replace('rich-edit-html', ckConfig);
+};
+</script>
 			<div class="form-group">
 				<div class="input-block col-sm-12">
-					<textarea name="html" class="rich-edit">{{ email.html }}</textarea>
+					<textarea name="html" id="rich-edit-html" class="rich-edit">{{ email.html }}</textarea>
 				</div>
 			</div>
 	{% endif %}

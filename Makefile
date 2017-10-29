@@ -9,13 +9,11 @@ JSLINT     := node_modules/.bin/eslint --fix
 GZIP       := gzip -f -n -k -9
 LANGUAGES  := `sed '/^languages\s*=/!d; s/^languages\s*=\s*"\([^"]*\)"\s*$$/\1/' var/config.ini |head -n1`
 
-FONT_SRC := $(wildcard node_modules/bootstrap/dist/fonts/*.*) \
-	$(wildcard node_modules/summernote/dist/font/*.*)
+FONT_SRC := $(wildcard node_modules/bootstrap/dist/fonts/*.*)
 
 CSS_SRC := node_modules/bootstrap/dist/css/bootstrap.css node_modules/bootstrap/dist/css/bootstrap-theme.css \
 	node_modules/selectize/dist/css/selectize.css node_modules/selectize/dist/css/selectize.bootstrap3.css \
 	node_modules/jquery-ui-pyritephp/jquery-ui.css \
-	node_modules/summernote/dist/summernote.css \
 	$(wildcard vendor/vphantom/pyritephp/assets/*.css) \
 	$(wildcard modules/*.css)
 
@@ -123,7 +121,6 @@ locales/loader.js:	var/config.ini
 		if [ $$LANG != 'en' ]; then \
 			echo "global.__timeago.register('$${LANG}', require('timeago.js/locales/$${LANG}'));" >>$@ ; \
 			echo "require('parsleyjs/dist/i18n/$${LANG}');" >>$@ ; \
-			echo "require('summernote/lang/summernote-$${LOCALES[$$LANG]}');" >>$@ ; \
 		fi ; \
 	done
 

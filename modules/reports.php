@@ -43,6 +43,7 @@ on(
     'route/admin+reports',
     function ($path) {
         global $PPHP;
+        $states = $PPHP['config']['articles']['states'];
         $req = grab('request');
         $env = array();
 
@@ -90,6 +91,7 @@ on(
                 };
                 foreach ($env['all_issues'] as $i => $issue) {
                     if (isset($issueArticles[$issue['id']])) {
+                        usort($issueArticles[$issue['id']], 'Articles::compareStatus');
                         $env['all_issues'][$i]['articles'] = $issueArticles[$issue['id']];
                     };
                 };

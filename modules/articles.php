@@ -1033,6 +1033,28 @@ class Articles
 
 
     /**
+     * Compare two articles by status
+     *
+     * @param array $a First article
+     * @param array $b Second article
+     *
+     * @return -1, 0 or 1 depending on whose status is earliest in config.articles.states.
+     */
+    public static function compareStatus($a, $b)
+    {
+        global $PPHP;
+        $states = $PPHP['config']['articles']['states'];
+
+        $aRank = array_search($a['status'], $states);
+        $bRank = array_search($b['status'], $states);
+        if ($aRank === $bRank) {
+            return 0;
+        };
+        return ($aRank < $bRank) ? -1 : 1;
+    }
+
+
+    /**
      * Get last acceptance and refusal dates for a peer
      *
      * The resulting array offers 'accepted' and 'refused' keys, each with

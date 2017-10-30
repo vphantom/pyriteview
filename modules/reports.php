@@ -81,10 +81,15 @@ on(
                             'fieldName' => 'status'
                         )
                     );
+                    $article['hasReviews'] = false;
+                    $article['hasAcceptedReviews'] = false;
                     foreach ($article['versions'] as $version) {
                         foreach ($version['reviews'] as $review) {
                             $article['hasReviews'] = true;
-                            break 2;
+                            if ($review['agreed']) {
+                                $article['hasAcceptedReviews'] = true;
+                                break 2;
+                            };
                         };
                     };
                     $issueArticles[$article['issueId']][] = $article;

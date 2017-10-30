@@ -21,6 +21,32 @@
 			{% endfor %}
 		</select>
 
+		<div data-label="{{ __('title_history') }}" class="input-like">
+			<label for="show_states">
+				<input type="checkbox" id="show_states" name="show_states" value="1" {{ req.post.show_states ? 'checked' : '' }}>
+				{{ __('label_statuses') }}
+			</label>
+			<label for="show_versions">
+				<input type="checkbox" id="show_versions" name="show_versions" value="1" {{ req.post.show_versions ? 'checked' : '' }}>
+				{{ __('label_versions') }}
+			</label>
+		</div>
+
+		<div data-label="{{ __('title_reviews') }}" class="input-like">
+			<label for="show_peers_2">
+				<input type="radio" id="show_peers_2" name="show_peers" value="2" {{ req.post.show_peers == 2 ? 'checked' : '' }}>
+				{{ __('label_all') }}
+			</label>
+			<label for="show_peers_1">
+				<input type="radio" id="show_peers_1" name="show_peers" value="1" {{ req.post.show_peers == 1 ? 'checked' : '' }}>
+				{{ __('label_accepteds') }}
+			</label>
+			<label for="show_peers_0">
+				<input type="radio" id="show_peers_0" name="show_peers" value="0" {{ not req.post.show_peers ? 'checked' : '' }}>
+				{{ __('no_reviews') }}
+			</label>
+		</div>
+
 		<button type="submit" class="hidden-print"><span class="glyphicon glyphicon-search"></span> {{ __('label_generate') }}</button>
 	</form>
 	<span class="visible-print-inline">
@@ -46,7 +72,7 @@
 							</td>
 						</tr>
 					{% endif %}
-					{% if article.versions|length > 0 %}
+					{% if article.versions|length > 0 and req.post.show_versions %}
 						<tr>
 							<td colspan="5">
 								{{ __('label_versions') }}:
@@ -58,7 +84,7 @@
 							</td>
 						</tr>
 					{% endif %}
-					{% if article.statusChanges|length > 0 %}
+					{% if article.statusChanges|length > 0 and req.post.show_states %}
 						<tr>
 							<td colspan="5">
 								{% for tx in article.statusChanges %}
@@ -67,7 +93,7 @@
 							</td>
 						</tr>
 					{% endif %}
-					{% if article.hasReviews %}
+					{% if (article.hasReviews and req.post.show_peers == 2) or (article.hasAcceptedReviews and req.post.show_peers) %}
 						<tr>
 							<th>{{ __('label_version') }}</th>
 							<th>{{ __('label_peer') }}</th>
@@ -77,7 +103,7 @@
 						</tr>
 						{% set ver = 1 %}
 						{% for version in article.versions %}
-							{% for review in version.reviews %}
+							{% for review in version.reviews if req.post.show_peers == 2 or (review.agreed and review.status != 'deleted') %}
 								<tr>
 									<td>{{ ver }}</td>
 									<td>{{ self.format_user_full(session.user.id in article.authors ? -1 : review.peerId) }}</td>

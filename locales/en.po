@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-29 13:31-0400\n"
-"PO-Revision-Date: 2017-10-29 13:32-0500\n"
+"POT-Creation-Date: 2017-10-30 17:52-0400\n"
+"PO-Revision-Date: 2017-10-30 17:53-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -143,6 +143,9 @@ msgstr "Accept or decline"
 
 msgid "label_accepted"
 msgstr "accepted"
+
+msgid "label_accepteds"
+msgstr "Accepted"
 
 msgid "label_action"
 msgstr "Action"
@@ -423,6 +426,9 @@ msgstr "since"
 msgid "label_status"
 msgstr "Status"
 
+msgid "label_statuses"
+msgstr "Statuses"
+
 msgid "label_subject"
 msgstr "Subject"
 
@@ -482,6 +488,9 @@ msgstr "No issues"
 
 msgid "no_permission"
 msgstr "No special permission"
+
+msgid "no_reviews"
+msgstr "No reviews"
 
 msgid "password_changed"
 msgstr "Thank you. Your password was updated."

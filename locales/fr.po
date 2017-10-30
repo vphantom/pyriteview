@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-29 13:31-0400\n"
-"PO-Revision-Date: 2017-10-29 13:32-0500\n"
+"POT-Creation-Date: 2017-10-30 17:52-0400\n"
+"PO-Revision-Date: 2017-10-30 17:53-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -150,6 +150,9 @@ msgstr "Accepter ou refuser"
 msgid "label_accepted"
 msgstr "accepté"
 
+msgid "label_accepteds"
+msgstr "Acceptées"
+
 msgid "label_action"
 msgstr "Action"
 
@@ -166,7 +169,7 @@ msgid "label_again_password"
 msgstr "Répéter mot de passe"
 
 msgid "label_all"
-msgstr "Tous"
+msgstr "Tout"
 
 msgid "label_all_users"
 msgstr "Voir tous les usagers"
@@ -429,6 +432,9 @@ msgstr "depuis"
 msgid "label_status"
 msgstr "État"
 
+msgid "label_statuses"
+msgstr "États"
+
 msgid "label_subject"
 msgstr "Sujet"
 
@@ -488,6 +494,9 @@ msgstr "Aucun numéro"
 
 msgid "no_permission"
 msgstr "Aucune permission spéciale"
+
+msgid "no_reviews"
+msgstr "Aucune évaluation"
 
 msgid "password_changed"
 msgstr "Merci.  Votre mot de passe a été mis à jour."

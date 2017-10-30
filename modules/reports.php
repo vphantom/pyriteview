@@ -54,11 +54,12 @@ on(
             $env['date_now'] = date('Y-m-d');
             $env['date_earlier'] = (new DateTime())->modify('-3 month')->format('Y-m-d');
             $env['all_issues'] = grab('issues');
+            array_unshift($env['all_issues'], array(id => 0));  // Dummy for passing articles along
 
             if (isset($req['post']['begin']) && isset($req['post']['end'])) {
                 if (!pass('form_validate', 'editing_report')) return trigger('http_status', 440);
                 $articleIds = grab('in_history', 'article', $req['post']['begin'], $req['post']['end']);
-                $env['issues'] = array();
+                $issueArticles = array();
                 foreach ($articleIds as $articleId) {
                     $article = grab('article', $articleId);
                     if ($article === false) {
@@ -85,9 +86,13 @@ on(
                             break 2;
                         };
                     };
-                    $env['issues'][$article['issueId']][] = $article;
+                    $issueArticles[$article['issueId']][] = $article;
                 };
-                ksort($env['issues']);
+                foreach ($env['all_issues'] as $i => $issue) {
+                    if (isset($issueArticles[$issue['id']])) {
+                        $env['all_issues'][$i]['articles'] = $issueArticles[$issue['id']];
+                    };
+                };
             };
 
             trigger('render', 'reports_editing.html', $env);

@@ -180,7 +180,7 @@ class Issues
             $search[] = $db->query('description LIKE ?', "%{$keyword}%");
             $q->and()->implodeClosed('OR', $search);
         };
-        $q->order_by('volume DESC, number DESC');
+        $q->order_by('publication DESC, volume DESC, number DESC');
         $issues = $db->selectArray($q);
         foreach ($issues as $key => $issue) {
             // Weird bug with PHP using $list => &$issue

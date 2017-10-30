@@ -228,7 +228,7 @@
 	{{ __('label_'~field) }}
 {%- endmacro %}
 
-{% macro format_issue(issue, flat, nohtml) -%}
+{% macro format_issue(issue, flat, nohtml, withdate) -%}
 	{%- set req = grab('request') -%}
 	{%- if not issue.id -%}
 		{%- set issue = grab('issue', issue) -%}
@@ -239,8 +239,11 @@
 		{%- else -%}
 			{% if not nohtml %}<span class="glyphicon glyphicon-book"></span>{% endif %}{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}
 		{%- endif -%}
+		{%- if withdate -%}
+			&nbsp; <small>{{ issue.publication }}</small>
+		{%- endif -%}
 	{%- else -%}
-		{%- if pass('can', 'view', 'issue', issue.id) and not flat -%}
+		{%- if pass('can', 'view', 'issue', 0) and not flat -%}
 			<a href="{{ req.base }}/issues/0"><span class="glyphicon glyphicon-book"></span>{{ __('issue_zero') }}</a>
 		{%- else -%}
 			{%- if not nohtml %}<span class="glyphicon glyphicon-book"></span>{% endif %}{{ __('issue_zero') }}

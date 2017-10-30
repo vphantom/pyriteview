@@ -16,7 +16,7 @@
 		<select data-label="{{ __('label_issueId') }}" id="issueId" name="issueId" class="feedback-book" required>
 			<option value="*"{% if req.post.issueId == '*' %} selected{% endif %}>{{ __('label_all') }}
 			<option value="0"{% if 'issueId' in req.post|keys and req.post.issueId == '0' %} selected{% endif %}>{{ __('issue_zero') }}
-			{% for issue in all_issues %}
+			{% for issue in all_issues if issue.id > 0 %}
 				<option value="{{ issue.id }}"{% if issue.id == req.post.issueId %} selected{% endif %}>{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}
 			{% endfor %}
 		</select>
@@ -29,9 +29,9 @@
 </p>
 
 <div class="report">
-	{% for issueId, articles in issues %}
-		<h3>{{ lib.format_issue(issueId, true, true) }}</h3>
-		{% for article in articles %}
+	{% for issue in all_issues if issue.articles %}
+		<h3>{{ lib.format_issue(issue.id, true, true, true) }}</h3>
+		{% for article in issue.articles %}
 			<table class="table">
 				<thead>
 					<tr class="panel-default"><th colspan="5" class="panel-heading">{{ article.title }}</th></tr>

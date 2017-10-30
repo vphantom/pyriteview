@@ -8,12 +8,19 @@
 {% endif %}
 
 <p>
-	<form id="editing_report" method="post" class="form-compact hidden-print">
+	<form id="editing_report" method="post" class="form-leftright hidden-print">
 		{{ filter('form_begin', 'editing_report') |raw }}
-		<strong>{{ __('label_begin') }}</strong>
-		<input type="text" name="begin" value="{{ req.post.begin |default(date_earlier) }}" minlength="10" maxlength="10" required>
-		<strong>{{ __('label_end') }}</strong>
-		<input type="text" name="end" value="{{ req.post.end |default(date_now) }}" minlength="10" maxlength="10" required>
+		<input data-label="{{ __('label_begin') }}" type="text" id="begin" name="begin" value="{{ req.post.begin |default(date_earlier) }}" minlength="10" maxlength="10" required>
+		<input data-label="{{ __('label_end') }}" type="text" id="end" name="end" value="{{ req.post.end |default(date_now) }}" minlength="10" maxlength="10" required>
+
+		<select data-label="{{ __('label_issueId') }}" id="issueId" name="issueId" class="feedback-book" required>
+			<option value="*"{% if req.post.issueId == '*' %} selected{% endif %}>{{ __('label_all') }}
+			<option value="0"{% if 'issueId' in req.post|keys and req.post.issueId == '0' %} selected{% endif %}>{{ __('issue_zero') }}
+			{% for issue in all_issues %}
+				<option value="{{ issue.id }}"{% if issue.id == req.post.issueId %} selected{% endif %}>{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}
+			{% endfor %}
+		</select>
+
 		<button type="submit" class="hidden-print"><span class="glyphicon glyphicon-search"></span> {{ __('label_generate') }}</button>
 	</form>
 	<span class="visible-print-inline">

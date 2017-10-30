@@ -53,6 +53,7 @@ on(
         case 'editing':
             $env['date_now'] = date('Y-m-d');
             $env['date_earlier'] = (new DateTime())->modify('-3 month')->format('Y-m-d');
+            $env['all_issues'] = grab('issues');
 
             if (isset($req['post']['begin']) && isset($req['post']['end'])) {
                 if (!pass('form_validate', 'editing_report')) return trigger('http_status', 440);
@@ -61,6 +62,12 @@ on(
                 foreach ($articleIds as $articleId) {
                     $article = grab('article', $articleId);
                     if ($article === false) {
+                        continue;
+                    };
+                    if (isset($req['post']['issueId'])
+                        && $req['post']['issueId'] !== '*'
+                        && $req['post']['issueId'] != $article['issueId']
+                    ) {
                         continue;
                     };
                     $article['statusChanges'] = grab(

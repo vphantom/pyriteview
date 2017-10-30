@@ -8,7 +8,7 @@
 {% endif %}
 
 <p>
-	<form id="editing_report" method="post" class="form-compact">
+	<form id="editing_report" method="post" class="form-compact hidden-print">
 		{{ filter('form_begin', 'editing_report') |raw }}
 		<strong>{{ __('label_begin') }}</strong>
 		<input type="text" name="begin" value="{{ req.post.begin |default(date_earlier) }}" minlength="10" maxlength="10" required>
@@ -16,6 +16,9 @@
 		<input type="text" name="end" value="{{ req.post.end |default(date_now) }}" minlength="10" maxlength="10" required>
 		<button type="submit" class="hidden-print"><span class="glyphicon glyphicon-search"></span> {{ __('label_generate') }}</button>
 	</form>
+	<span class="visible-print-inline">
+		{{ __('label_begin') }} {{ req.post.begin |default(date_earlier) }} {{ __('label_end') }} {{ req.post.end |default(date_now) }}
+	</span>
 </p>
 
 <div class="report">

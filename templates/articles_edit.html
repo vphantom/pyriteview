@@ -201,14 +201,17 @@
 									</td>
 									<td class="fit">
 										{% if nexts|length > 0 %}
-											<form id="review" method="post" class="form-inline inline">
+											<form id="review" method="post" class="form-inline inline" enctype="multipart/form-data">
 												{{ form_begin_review |raw }}
 												<input type="hidden" name="review" value="1">
 												<input type="hidden" name="id" value="{{ review.id }}">
-												<div class="dropdown buttons">
+												<div class="persistent dropdown buttons">
 													<span class="dropdown-toggle" id="status-{{ review.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ lib.format_status(review.status) }} <span class="caret"></span></span>
 													<div class="dropdown-menu" aria-labelledby="status-{{ review.id }}">
 														<div class="dropdown-header">{{ __('label_change_status') }}:</div>
+														{% if review.status == 'reviewing' %}
+															<div>{{ lib.input_files('addfiletoreview', 'xs', true) }}</div>
+														{% endif %}
 														{% for status in nexts %}
 															<button class="btn btn-default btn-xs" type="submit" name="status" value="{{ status }}">{{ lib.format_status(status, true) }}</button>
 														{% endfor %}
@@ -298,7 +301,7 @@
 					<button class="btn btn-default" type="submit" name="status" value="deleted"><span class="glyphicon glyphicon-remove fg-err"></span> {{ __('label_decline') }}</button>
 				{% else %}
 					{{ block('hint_review') }}
-					<div>{{ lib.input_files('addfile', 'xs', true) }}</div>
+					<div>{{ lib.input_files('addfilefrompeer', 'xs', true) }}</div>
 					{% for status in config.reviews.states_next[review.status]|split(' ') %}
 						<button class="btn btn-default" type="submit" name="status" value="{{ status }}">{{ lib.format_status(status, true) }}</button>
 					{% endfor %}

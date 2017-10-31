@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-30 17:52-0400\n"
-"PO-Revision-Date: 2017-10-30 17:53-0500\n"
+"POT-Creation-Date: 2017-10-31 09:15-0400\n"
+"PO-Revision-Date: 2017-10-31 11:10-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -128,6 +128,14 @@ msgstr "I have read and I agree with the terms in:"
 
 msgid "info_mailclick"
 msgstr "Almost done!  Please click the link in your e-mail to complete."
+
+msgid "info_plagiarism"
+msgstr ""
+"I have not plagiarized. Otherwise, below is my explanation for any "
+"exceptions:"
+
+msgid "info_policy"
+msgstr "I have read and agree with:"
 
 msgid "issue_zero"
 msgstr "Special"
@@ -383,6 +391,12 @@ msgstr "Peers"
 
 msgid "label_permissions"
 msgstr "Rights"
+
+msgid "label_plagiarism"
+msgstr "Plagiarism"
+
+msgid "label_policy"
+msgstr "Policy"
 
 msgid "label_profession"
 msgstr "Profession"
@@ -663,6 +677,9 @@ msgstr "Do you accept to review these articles?"
 
 msgid "title_peer_reviewing"
 msgstr "Articles awaiting your review:"
+
+msgid "title_policy"
+msgstr "Editorial Policy"
 
 msgid "title_prefs"
 msgstr "Preferences"

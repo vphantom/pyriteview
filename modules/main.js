@@ -3,8 +3,7 @@
 var $ = global.jQuery = require('jquery');
 
 $().ready(function() {
-  var articleEditForm = $('form#articles_edit');
-  var copyrightLink = $('a#copyright_link');
+  var $articleEditor = $('form#articles_edit');
 
   /**
    * Update copyright URL
@@ -16,24 +15,38 @@ $().ready(function() {
    * @return {void}
    */
   function updateCopyright() {
-    copyrightLink.attr(
+    var $link = $('a#copyright_link');
+
+    if (!$link.attr('baseHREF')) {
+      $link.attr('baseHREF', $link.attr('href'));
+    }
+    $link.attr(
         'href',
-        copyrightLink.attr('baseHREF')
+        $link.attr('baseHREF')
         + '&t='
-        + encodeURIComponent(articleEditForm.find('#title').val())
+        + encodeURIComponent($articleEditor.find('#title').val())
         + '&aa='
-        + encodeURIComponent(articleEditForm.find('#authors\\[\\]').val())
+        + encodeURIComponent($articleEditor.find('#authors\\[\\]').val())
     );
   }
 
-  if (articleEditForm.length) {
-    copyrightLink.attr('baseHREF', copyrightLink.attr('href'));
-
-    // Let things settle, then initialize copyright URL
+  if ($articleEditor.length) {
+    // Let page settle, then initialize copyright URL
     setTimeout(updateCopyright, 1000);
 
     // Update copyright URL when relevant fields are modified
-    articleEditForm.find('#title').on('change', updateCopyright);
-    articleEditForm.find('#authors\\[\\]').on('change', updateCopyright);
+    $articleEditor.find('#title').on('change', updateCopyright);
+    $articleEditor.find('#authors\\[\\]').on('change', updateCopyright);
+
+    // Only one of the two plagiarism inputs is actually required
+    $articleEditor.find('#plagiarism_ok').on('change', function() {
+      var $textarea = $('#plagiarism');
+
+      if ($(this).prop('checked')) {
+        $textarea.val('1').css('display', 'none');
+      } else {
+        $textarea.val('').css('display', 'block');
+      }
+    });
   }
 });

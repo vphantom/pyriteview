@@ -90,6 +90,17 @@
 			{% endif %}
 			{{ lib.input_files('addfile', 'xs') }}
 		</div>
+		<div data-label="{{ __('label_plagiarism') }}" class="input-like">
+			<input type="checkbox" id="plagiarism_ok" name="plagiarism_ok" value="1" {{ article.plagiarism == '1' ? 'checked' : '' }}>
+			{{ __('info_plagiarism') }}
+			<br>
+			<textarea class="form-control" id="plagiarism" name="plagiarism" required {% if article.plagiarism == '1' %}style="display: none;"{% endif %}>{{ article.plagiarism }}</textarea>
+		</div>
+		<div data-label="{{ __('label_policy') }}" class="input-like">
+			<input type="checkbox" id="policy" name="policy" value="1" {% if article.id %}checked{% endif %} required>
+			{{ __('info_policy') }}
+			<a id="policy_link" target="_blank" href="{{ req.base }}/page/policy">{{ __('title_policy') }}</a>
+		</div>
 		<div data-label="{{ __('label_copyright') }}" class="input-like">
 			<input type="checkbox" id="copyright" name="copyright" value="1" {% if article.id %}checked{% endif %} required>
 			{{ __('info_copyright') }}

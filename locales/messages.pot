@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-30 17:52-0400\n"
+"POT-Creation-Date: 2017-10-31 09:15-0400\n"
 "PO-Revision-Date: 2017-01-31 12:04-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
@@ -123,6 +123,12 @@ msgid "info_copyright"
 msgstr ""
 
 msgid "info_mailclick"
+msgstr ""
+
+msgid "info_plagiarism"
+msgstr ""
+
+msgid "info_policy"
 msgstr ""
 
 msgid "issue_zero"
@@ -378,6 +384,12 @@ msgid "label_peers"
 msgstr ""
 
 msgid "label_permissions"
+msgstr ""
+
+msgid "label_plagiarism"
+msgstr ""
+
+msgid "label_policy"
 msgstr ""
 
 msgid "label_profession"
@@ -654,6 +666,9 @@ msgid "title_peer_created"
 msgstr ""
 
 msgid "title_peer_reviewing"
+msgstr ""
+
+msgid "title_policy"
 msgstr ""
 
 msgid "title_prefs"

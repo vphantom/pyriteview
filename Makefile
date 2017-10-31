@@ -8,6 +8,7 @@ JS         := node_modules/.bin/uglifyjs >/dev/null --compress --mangle
 JSLINT     := node_modules/.bin/eslint --fix
 GZIP       := gzip -f -n -k -9
 LANGUAGES  := `sed '/^languages\s*=/!d; s/^languages\s*=\s*"\([^"]*\)"\s*$$/\1/' var/config.ini |head -n1`
+BUILDNUM   := $(shell date +%s%N)
 
 FONT_SRC := $(wildcard node_modules/bootstrap/dist/fonts/*.*)
 
@@ -92,11 +93,13 @@ client.css:	$(CSS_SRC)
 	mv $@ $@.tmp
 	cat $@.tmp |sed 's/url(font/url(fonts/g; s/\.\.\/\(fonts\)/\1/g' >$@
 	rm -f $@.tmp
+	sed -i -r 's/CSSBUILDNUM=[0-9]+/CSSBUILDNUM=$(BUILDNUM)/g' templates/layout.html
 
 client.js:	$(JS_SRC)
 	$(BROWSERIFY) $^  -d |$(EXORCIST) build.js.map >build.js
 	$(JS) --in-source-map build.js.map --source-map client.js.map -o client.js -- build.js
 	rm -f build.js build.js.map
+	sed -i -r 's/JSBUILDNUM=[0-9]+/JSBUILDNUM=$(BUILDNUM)/g' templates/layout.html
 
 # Copying here so that Node/Browserify doesn't fall all over itself on paths
 pyritephp.js:	vendor/vphantom/pyritephp/assets/pyritephp.js

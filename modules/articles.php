@@ -962,6 +962,7 @@ class Articles
                 trigger(
                     'log',
                     array(
+                        'userId' => $oldReview['peerId'],
                         'objectType' => 'article',
                         'objectId' => $oldReview['articleId'],
                         'action' => 'reviewed',

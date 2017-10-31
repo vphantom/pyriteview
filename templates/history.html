@@ -8,7 +8,7 @@
 				<td>
 		{% endif %}
 				{% if tx.userId not in history_blacklist %}
-					<div class="log-part">
+					<div class="log-part" data-txid="{{ tx.id }}">
 					{% if tx.action == 'login' %}
 						{% if tx.userId == session.user.id %}
 							{{ __('label_i_myself') }}
@@ -139,6 +139,9 @@
 						{{ tx.fieldName }}
 						{% if tx.oldValue %}{{ __('label_from') }} '{{ lib.format(tx.fieldName, tx.oldValue) }}'{% endif %}
 						{% if tx.newValue %}{{ __('label_to') }} '{{ lib.format(tx.fieldName, tx.newValue) }}'{% endif %}
+					{% endif %}
+					{% if tx.userId != tx.actingUserId %}
+						({{ __('label_by') }} {{ lib.format_user(tx.actingUserId) }})
 					{% endif %}
 					{% if tx.content and not narrow %}
 						<div class="log-content">{{ tx.content }}</div>

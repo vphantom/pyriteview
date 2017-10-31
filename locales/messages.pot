@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-31 09:15-0400\n"
+"POT-Creation-Date: 2017-10-31 13:02-0400\n"
 "PO-Revision-Date: 2017-01-31 12:04-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
@@ -183,6 +183,9 @@ msgid "label_authors"
 msgstr ""
 
 msgid "label_begin"
+msgstr ""
+
+msgid "label_by"
 msgstr ""
 
 msgid "label_change_and_send"

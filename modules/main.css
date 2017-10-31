@@ -190,3 +190,15 @@ form#peer_review button {
 	margin-top: 1em;
 	margin-right: 2em;
 }
+
+/* Printable report cosmetic tweaks */
+@media print {
+	h3 {
+		background-color: #000 !important;
+		color: #fff !important;
+		padding: 0.25em !important;
+	}
+	h3 small {
+		color: #fff !important;
+	}
+}

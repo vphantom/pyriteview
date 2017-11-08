@@ -95,11 +95,11 @@
 					{% endif %}
 					{% if (article.hasReviews and req.post.show_peers == 2) or (article.hasAcceptedReviews and req.post.show_peers) %}
 						<tr>
-							<th>{{ __('label_version') }}</th>
+							<th style="width: 4em;">{{ __('label_version') }}</th>
 							<th>{{ __('label_peer') }}</th>
-							<th>{{ __('label_invited') }}</th>
-							<th class="text-title">{{ __('label_accepted') }}</th>
-							<th>{{ __('label_verdict') }}</th>
+							<th style="width: 8em;">{{ __('label_invited') }}</th>
+							<th style="width: 8em;" class="text-title">{{ __('label_accepted') }}</th>
+							<th style="width: 20em;">{{ __('label_verdict') }}</th>
 						</tr>
 						{% set ver = 1 %}
 						{% for version in article.versions %}

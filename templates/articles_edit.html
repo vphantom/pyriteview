@@ -210,7 +210,7 @@
 													<div class="dropdown-menu" aria-labelledby="status-{{ review.id }}">
 														<div class="dropdown-header">{{ __('label_change_status') }}:</div>
 														{% if review.status == 'reviewing' %}
-															<div>{{ lib.input_files('addfiletoreview' ~ review.id, 'xs', true) }}</div>
+															<div>{{ lib.input_files('addfiletoreview' ~ review.id, 'xs', false) }}</div>
 														{% endif %}
 														{% for status in nexts %}
 															<button class="btn btn-default btn-xs" type="submit" name="status" value="{{ status }}">{{ lib.format_status(status, true) }}</button>

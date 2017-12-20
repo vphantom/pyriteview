@@ -38,7 +38,7 @@
 		<span data-label="{{ __('label_status') }}" class="input-like">{{ lib.format_status(article.status) }}</span>
 
 		<input data-label="{{ __('label_title') }}" type="text" id="title" value="{{ article.title }}" required>
-		{% if pass('can', 'move', 'article', article.id) or not article.id %}
+		{% if pass('can', 'move', 'article', article.id) or pass('can', 'move', 'issue', article.issueId) or not article.id %}
 			<select data-label="{{ __('label_issueId') }}" id="issueId" class="feedback-book" required>
 				{% if not article.id %}
 					<option selected disabled>{{ __('label_issueId') }}...
@@ -77,7 +77,7 @@
 				<a class="list-group-item small" data-toggle="collapse" data-target="#version-{{ version.id }}" data-parent="#file-list"><strong>{{ __('label_version') }} {{ vid }}</strong> <em>{{ lib.format_timestamp(version.localcreated) }}</em></a>
 				<div id="version-{{ version.id }}" class="collapse{{ loop.last ? ' in' : '' }}">
 					{% for file in version.files %}
-						{% if pass('can', 'delete', 'article', article.id) %}
+						{% if pass('can', 'delete', 'article', article.id) or pass('can', 'delete', 'issue', article.issueId) %}
 							<a href="{{ req.base }}/articles/{{ article.id }}/{{ file.name }}?unlink=1"><span class="fg-err"><span class="glyphicon glyphicon-minus"></span></span></a>
 						{% endif %}
 						<a href="/=bin/articles/{{ article.id }}/{{ file.name }}" target="_blank"><span class="glyphicon glyphicon-file"></span>{{ file.name }}</a> ({{ lib.format_bytes(file.bytes) }})<br>
@@ -112,7 +112,7 @@
 
 	{% if article.id %}
 
-		{% if pass('can', 'delete', 'article', article.id) %}
+		{% if pass('can', 'delete', 'article', article.id) or pass('can', 'delete', 'issue', article.issueId) %}
 			<h3>{{ __('title_change_status') }}</h3>
 			{{ block('hint_article_change_status') }}
 			<form id="articles_edit_status" method="post" class="form-leftright" enctype="multipart/form-data">

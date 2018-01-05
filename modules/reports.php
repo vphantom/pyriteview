@@ -47,7 +47,7 @@ on(
         $req = grab('request');
         $env = array();
 
-        if (!pass('can', 'edit', 'issue')) return trigger('http_status', 403);
+        if (!(pass('can', 'edit', 'issue') || pass('has_role', 'editor'))) return trigger('http_status', 403);
 
         $next = array_shift($path);
         switch ($next) {

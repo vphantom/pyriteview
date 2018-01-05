@@ -3,7 +3,7 @@
 {{ title(__('title_editing_report')) }}
 <h2 class="page-header"><span class="glyphicon glyphicon-stats"></span> {{ __('title_editing_report') }}</h2>
 
-{% if not pass('can', 'edit', 'issue') %}
+{% if not (pass('can', 'edit', 'issue') or pass('has_role', 'editor')) %}
 	{% exit %}
 {% endif %}
 

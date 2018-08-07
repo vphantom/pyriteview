@@ -7,4 +7,9 @@ vendor
 /locales/*~
 /locales/loader.js
 /pyritephp.js
-/var
+/var/articles
+/var/config.ini
+/var/crashes.txt
+/var/main.*
+/var/sessions
+/var/twig_cache

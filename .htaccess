@@ -1,0 +1,9 @@
+RewriteEngine on
+
+RewriteRule ^(bin|locales|modules|node_modules|pyritephp|templates|var|vendor) - [F,L,NC]
+
+RewriteRule ^$ /index.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+) /index.php/$1 [L]

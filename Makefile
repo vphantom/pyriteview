@@ -34,6 +34,7 @@ help:
 	@echo
 	@echo "  [ Devel ]  make build   - Rebuild any outdated/missing release files"
 	@echo "  [ Devel ]  make clean   - Remove rebuildable files"
+	@echo "  [ Devel ]  make apache  - Runs Apache/PHP7.2 in Docker for testing"
 	@echo
 
 deps:
@@ -48,7 +49,7 @@ bin/composer:
 	wget https://raw.githubusercontent.com/composer/getcomposer.org/6cf720ddb5567ef7f97b6855fda18dba92209f27/web/installer -O composer-setup.php
 	php composer-setup.php --install-dir=bin --filename=composer
 	rm -f composer-setup.php
-	
+
 init:	deps bin/composer var/config.ini
 	$(COMPOSER) install
 	@mkdir -p var/twig_cache var/sessions var/articles
@@ -143,4 +144,12 @@ var/archive.zip:	$(BACKUP_TARGETS)
 %.gz: %
 	$(GZIP) $< -c >$@
 
-.PHONY:	help deps clean init dev-init update dev-update build backup archive
+apache:	build
+	docker run -d -p 8080:80 --name pyriteview -v `pwd`:/app -u "`id -u`:`id -g`" webdevops/php-apache:alpine-php7
+	@echo "If Docker launched successfully, PyriteView is now available on http://localhost:8080/"
+
+apache-stop:
+	docker stop pyriteview
+	docker container rm pyriteview
+
+.PHONY:	help deps clean init dev-init update dev-update build backup archive apache apache-stop

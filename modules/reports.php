@@ -55,7 +55,7 @@ on(
             $env['date_now'] = date('Y-m-d');
             $env['date_earlier'] = (new DateTime())->modify('-3 month')->format('Y-m-d');
             $env['all_issues'] = grab('issues');
-            array_unshift($env['all_issues'], array(id => 0));  // Dummy for passing articles along
+            array_unshift($env['all_issues'], array('id' => 0));  // Dummy for passing articles along
 
             if (isset($req['post']['begin']) && isset($req['post']['end'])) {
                 if (!pass('form_validate', 'editing_report')) return trigger('http_status', 440);

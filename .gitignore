@@ -1,8 +1,10 @@
+*.db
 composer.lock
+package-lock.json
+node_modules
+vendor
 /bin
 /locales/*~
 /locales/loader.js
-node_modules
 /pyritephp.js
 /var
-vendor

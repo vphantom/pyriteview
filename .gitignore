@@ -7,6 +7,7 @@ vendor
 /locales/*~
 /locales/loader.js
 /pyritephp.js
+/var/*.sql
 /var/articles
 /var/config.ini
 /var/crashes.txt

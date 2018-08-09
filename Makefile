@@ -120,8 +120,7 @@ locales/%.po:	locales/messages.pot $(GETTEXT_TEMPLATES)
 
 locales/loader.js:	var/config.ini
 	@echo "'use strict';" >$@
-	@declare -A LOCALES=(["ar"]="ar-AR" ["bg"]="bg-BG" ["ca"]="ca-ES" ["cs"]="cs-CZ" ["da"]="da-DK" ["de"]="de-DE" ["es"]="es-ES" ["fa"]="fa-IR" ["fi"]="fi-FI" ["fr"]="fr-FR" ["gl"]="gl-ES" ["he"]="he-IL" ["hr"]="hr-HR" ["hu"]="hu-HU" ["id"]="id-ID" ["it"]="it-IT" ["ja"]="ja-JP" ["ko"]="ko-KR" ["lt"]="lt-LT" ["nb"]="nb-NO" ["nl"]="nl-NL" ["pl"]="pl-PL" ["pt"]="pt-PT" ["ro"]="ro-RO" ["ru"]="ru-RU" ["sk"]="sk-SK" ["sl"]="sl-SI" ["sv"]="sv-SE" ["th"]="th-TH" ["tr"]="tr-TR" ["uk"]="uk-UA" ["vi"]="vi-VN" ["zh"]="zh-CN"); \
-	for LANG in $(LANGUAGES); do \
+	@for LANG in $(LANGUAGES); do \
 		if [ $$LANG != 'en' ]; then \
 			echo "global.__timeago.register('$${LANG}', require('timeago.js/locales/$${LANG}'));" >>$@ ; \
 			echo "require('parsleyjs/dist/i18n/$${LANG}');" >>$@ ; \

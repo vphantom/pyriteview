@@ -8,7 +8,7 @@
  * @category  Application
  * @package   PyriteView
  * @author    Stéphane Lavergne <lis@imars.com>
- * @copyright 2017 Stéphane Lavergne
+ * @copyright 2017-2018 Stéphane Lavergne
  * @license   http://www.gnu.org/licenses/agpl-3.0.txt  GNU Affero GPL version 3
  * @link      https://github.com/vphantom/pyriteview
  */
@@ -21,7 +21,7 @@
  * @category  Application
  * @package   PyriteView
  * @author    Stéphane Lavergne <lis@imars.com>
- * @copyright 2017 Stéphane Lavergne
+ * @copyright 2017-2018 Stéphane Lavergne
  * @license   http://www.gnu.org/licenses/agpl-3.0.txt  GNU Affero GPL version 3
  * @link      https://github.com/vphantom/pyriteview
  */
@@ -39,6 +39,9 @@ class Issues
         on('issues',     'Issues::getList');
         on('issue',      'Issues::get');
         on('issue_save', 'Issues::save');
+
+        // Work around limitation of PHP's handling of true and false entries
+        $PPHP['config']['issues']['allow_issue_zero'] = (bool)$PPHP['config']['issues']['allow_issue_zero'];
     }
 
     /**

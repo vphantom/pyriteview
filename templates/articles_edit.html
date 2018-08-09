@@ -43,7 +43,9 @@
 				{% if not article.id %}
 					<option selected disabled>{{ __('label_issueId') }}...
 				{% endif %}
-				<option value="0"{% if article.id and issueId == 0 %} selected{% endif %}>{{ __('issue_zero') }}
+				{% if config.issues.allow_issue_zero or (article.id and issueId == 0) %}
+					<option value="0"{% if article.id and issueId == 0 %} selected{% endif %}>{{ __('issue_zero') }}
+				{% endif %}
 				{% for issue in issues %}
 					<option value="{{ issue.id }}"{% if issue.id == issueId %} selected{% endif %}>{{ issue.volume ? issue.volume~'.' : '' }}{{ issue.number }} {{ issue.title }}
 				{% endfor %}

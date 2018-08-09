@@ -35,6 +35,8 @@ class Issues
      */
     public static function bootstrap()
     {
+        global $PPHP;
+
         on('install',    'Issues::install');
         on('issues',     'Issues::getList');
         on('issue',      'Issues::get');

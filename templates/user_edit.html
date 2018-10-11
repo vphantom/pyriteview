@@ -24,8 +24,8 @@
 	</div>
 	{% if not modal %}
 		<div class="form-group hideaway">
-			<input data-label="{{ __('label_new_password') }}" type="password" id="newpassword1" minlength="8" maxlength="16" placeholder="{{ __('hint_new_password') }}" class="hideaway-focus">
-			<input data-label="{{ __('label_again_password') }}" type="password" id="newpassword2" maxlength="16" placeholder="{{ __('hint_again_password') }}" data-parsley-equalto="#newpassword1" data-parsley-validate-if-empty>
+			<input data-label="{{ __('label_new_password') }}" type="password" id="newpassword1" minlength="8" maxlength="72" placeholder="{{ __('hint_new_password') }}" class="hideaway-focus">
+			<input data-label="{{ __('label_again_password') }}" type="password" id="newpassword2" maxlength="72" placeholder="{{ __('hint_again_password') }}" data-parsley-equalto="#newpassword1" data-parsley-validate-if-empty>
 		</div>
 		<button type="submit"{% if not user.active %} disabled{% endif %}><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> {{ __('label_save') }}</button>
 	{% endif %}

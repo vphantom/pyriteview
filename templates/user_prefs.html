@@ -34,8 +34,8 @@
 			<p>&nbsp;</p>
 			<input data-label="{{ __('label_current_password') }}" type="password" id="password" required>
 			<p>&nbsp;</p>
-			<input data-label="{{ __('label_new_password') }}" type="password" id="newpassword1" minlength="8" maxlength="16" placeholder="{{ __('hint_new_password') }}">
-			<input data-label="{{ __('label_again_password') }}" type="password" id="newpassword2" maxlength="16" placeholder="{{ __('hint_again_password') }}" data-parsley-equalto="#newpassword1" data-parsley-validate-if-empty>
+			<input data-label="{{ __('label_new_password') }}" type="password" id="newpassword1" minlength="8" maxlength="72" placeholder="{{ __('hint_new_password') }}">
+			<input data-label="{{ __('label_again_password') }}" type="password" id="newpassword2" maxlength="72" placeholder="{{ __('hint_again_password') }}" data-parsley-equalto="#newpassword1" data-parsley-validate-if-empty>
 			<button type="submit"><span class="fg-ok"><span class="glyphicon glyphicon-ok"></span></span> {{ __('label_save') }}</button>
 		</form>
 	</div>

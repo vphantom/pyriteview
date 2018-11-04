@@ -24,17 +24,12 @@
 										{{ form_begin_review |raw }}
 										<input type="hidden" name="review" value="1">
 										<input type="hidden" name="id" value="{{ review.id }}">
-										<div class="dropdown buttons">
-											<button class="btn btn-default btn-xs dropdown-toggle" type="button" id="status-{{ review.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ __('label_accept_decline') }} <span class="caret"></span></button>
-											<div class="dropdown-menu" aria-labelledby="status-{{ review.id }}">
-												<div class="dropdown-header">{{ __('hint_review_accept') }}:</div>
-												<button class="btn btn-default btn-sm" type="submit" name="status" value="reviewing"><span class="glyphicon glyphicon-ok fg-ok"></span> {{ __('label_accept') }}</button>
+										<div class="dropdown-header">{{ __('hint_review_accept') }}:</div>
+										<button class="btn btn-default btn-sm" type="submit" name="status" value="reviewing"><span class="glyphicon glyphicon-ok fg-ok"></span> {{ __('label_accept') }}</button>
 
-												<div class="dropdown-header">{{ __('hint_review_decline') }}:</div>
-												<div><input type="text" name="log" value="" placeholder="{{ __('hint_suggestions') }}" class="form-control no-submit"></div>
-												<button class="btn btn-default btn-sm" type="submit" name="status" value="deleted"><span class="glyphicon glyphicon-remove fg-err"></span> {{ __('label_decline') }}</button>
-											</div>
-										</div>
+										<div class="dropdown-header">{{ __('hint_review_decline') }}:</div>
+										<div><input type="text" name="log" value="" placeholder="{{ __('hint_suggestions') }}" class="form-control no-submit"></div>
+										<button class="btn btn-default btn-sm" type="submit" name="status" value="deleted"><span class="glyphicon glyphicon-remove fg-err"></span> {{ __('label_decline') }}</button>
 									</form>
 								{% endif %}
 							</td>

@@ -152,9 +152,9 @@
 				</td>
 				<td class="text-right fit">
 					{%- if narrow -%}
-						<span class="text-muted small">{{ lib.format_timestamp(tx.localtimestamp) }}</span>
+						<span class="text-muted small">{{ lib.format_timestamp(tx.localtimestamp, raw_timestamps) }}</span>
 					{%- else -%}
-						{{ lib.format_timestamp(tx.localtimestamp) }} {{ __('label_from_ip') }} {{ lib.format_ip(tx.ip) }}
+						{{ lib.format_timestamp(tx.localtimestamp, raw_timestamps) }} {% if not no_ip -%}{{ __('label_from_ip') }} {{ lib.format_ip(tx.ip) }}{%- endif -%}
 					{%- endif -%}
 				</td>
 			</tr>

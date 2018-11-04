@@ -71,9 +71,13 @@
 	{{ lib.flashbox(context, inside, target, __('label_view_details')) }}
 {% endmacro %}
 
-{% macro format_timestamp(timestamp) %}
+{% macro format_timestamp(timestamp, raw_timestamps) %}
 	{%- if timestamp -%}
-		<span class="timeago" title="{{ timestamp }}" datetime="{{ timestamp }}">{{ timestamp }}</span>
+		{%- if raw_timestamps -%}
+			<span>{{ timestamp }}</span>
+		{%- else -%}
+			<span class="timeago" title="{{ timestamp }}" datetime="{{ timestamp }}">{{ timestamp }}</span>
+		{%- endif -%}
 	{%- else -%}
 		{{ __('label_never') }}
 	{%- endif -%}

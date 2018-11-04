@@ -8,7 +8,7 @@
  * @category  Application
  * @package   PyriteView
  * @author    Stéphane Lavergne <lis@imars.com>
- * @copyright 2017 Stéphane Lavergne
+ * @copyright 2017-2018 Stéphane Lavergne
  * @license   http://www.gnu.org/licenses/agpl-3.0.txt  GNU Affero GPL version 3
  * @link      https://github.com/vphantom/pyriteview
  */
@@ -21,7 +21,7 @@
  * @category  Application
  * @package   PyriteView
  * @author    Stéphane Lavergne <lis@imars.com>
- * @copyright 2017 Stéphane Lavergne
+ * @copyright 2017-2018 Stéphane Lavergne
  * @license   http://www.gnu.org/licenses/agpl-3.0.txt  GNU Affero GPL version 3
  * @link      https://github.com/vphantom/pyriteview
  */
@@ -43,6 +43,7 @@ on(
     'route/admin+reports',
     function ($path) {
         global $PPHP;
+        $db = $PPHP['db'];
         $states = $PPHP['config']['articles']['states'];
         $req = grab('request');
         $env = array();
@@ -51,6 +52,7 @@ on(
 
         $next = array_shift($path);
         switch ($next) {
+
         case 'editing':
             $env['date_now'] = date('Y-m-d');
             $env['date_earlier'] = (new DateTime())->modify('-3 month')->format('Y-m-d');
@@ -104,6 +106,33 @@ on(
 
             trigger('render', 'reports_editing.html', $env);
             break;
+
+        case 'activity':
+            $env['date_now'] = date('Y-m-d');
+            $env['date_earlier'] = (new DateTime())->modify('-3 month')->format('Y-m-d');
+
+            // Brute force some introspection
+            $env['objectTypes'] = $db->selectList("SELECT DISTINCT(objectType) FROM transactions");
+            if (isset($req['post']['objectType'])) { $env['objectType_set'] = true; };
+            $env['actions']     = $db->selectList("SELECT DISTINCT(action)     FROM transactions");
+
+            if (isset($req['post']['begin']) && isset($req['post']['end'])) {
+                $args = Array(
+                    'begin' => $req['post']['begin'],
+                    'end'   => $req['post']['end'],
+                );
+                if (isset($req['post']['objectType']) && $req['post']['objectType'] != '*') {
+                    $args['objectType'] = $req['post']['objectType'];
+                };
+                if (isset($req['post']['action']) && $req['post']['action'] != '*') {
+                    $args['action'] = $req['post']['action'];
+                };
+                $env['history'] = grab('history', $args);
+            };
+            trigger('render', 'reports_activity.html', $env);
+            break;
+
         }
+
     }
 );

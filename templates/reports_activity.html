@@ -1,0 +1,44 @@
+{% import 'lib' as lib %}
+{% import _self as self %}
+{{ title(__('title_activity_report')) }}
+<h2 class="page-header"><span class="glyphicon glyphicon-stats"></span> {{ __('title_activity_report') }}</h2>
+
+{% if not (pass('can', 'edit', 'issue') or pass('has_role', 'editor')) %}
+	{% exit %}
+{% endif %}
+
+<p>
+	<form id="activity_report" method="post" class="form-leftright hidden-print">
+		{{ filter('form_begin', 'activity_report') |raw }}
+		<input data-label="{{ __('label_begin') }}" type="text" id="begin" name="begin" value="{{ req.post.begin |default(date_earlier) }}" minlength="10" maxlength="10" required>
+		<input data-label="{{ __('label_end') }}"   type="text" id="end"   name="end"   value="{{ req.post.end |default(date_now) }}"       minlength="10" maxlength="10" required>
+
+		<select data-label="{{ __('label_objectType') }}" id="objectType" name="objectType">
+			<option value="*"{% if req.post.objectType == '*' or not objectType_set %} selected{% endif %}>{{ __('label_all') }}
+			{% for objectType in objectTypes %}
+				<option value="{{ objectType }}"{% if objectType_set and objectType == req.post.objectType %} selected{% endif %}>{{ __('label_'~objectType) }} ({{ objectType }})
+			{% endfor %}
+			{# Help gettext's msgmerge:
+				__('label_user')
+				__('label_issue')
+				__('label_article')
+				__('label_email')
+				__('label_')
+			#}
+		</select>
+
+		<select data-label="{{ __('label_action') }}" id="action" name="action">
+			<option value="*"{% if req.post.action == '*' %} selected{% endif %}>{{ __('label_all') }}
+			{% for action in actions %}
+				<option value="{{ action }}"{% if action == req.post.action %} selected{% endif %}>{{ action }}
+			{% endfor %}
+		</select>
+
+		<button type="submit" class="hidden-print"><span class="glyphicon glyphicon-search"></span> {{ __('label_generate') }}</button>
+	</form>
+	<span class="visible-print-inline">
+		{{ __('label_begin') }} {{ req.post.begin |default(date_earlier) }} {{ __('label_end') }} {{ req.post.end |default(date_now) }}
+	</span>
+</p>
+
+{% include 'history.html' %}

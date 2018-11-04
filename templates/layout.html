@@ -119,7 +119,8 @@
 						{% endif %}
 						{% if pass('can', 'move', 'article') or pass('has_role', 'editor') %}
 							<li><a href="#collapseReports" data-toggle="collapse" data-target="#collapseReports" aria-controls="collapseReports" {% if req.path starts with 'admin/reports' %} class="active" aria-expanded="true"{% else %} aria-expanded="false"{% endif %}><span class="glyphicon glyphicon-folder-open"></span> {{ __('title_reports') }}<span class="caret"></span></a></li>
-							<ul id="collapseReports" class="nav nav-second-level collapse{% if req.path starts with 'admin/reports/editing' %} in{% endif %}">
+							<ul id="collapseReports" class="nav nav-second-level collapse{% if req.path starts with 'admin/reports' %} in{% endif %}">
+								<li><a href="{{ req.base }}/admin/reports/activity"{% if req.path starts with 'admin/reports/activity' %} class="active"{% endif %}><span class="glyphicon glyphicon-stats"></span> {{ __('title_activity_report') }}</a></li>
 								<li><a href="{{ req.base }}/admin/reports/editing"{% if req.path starts with 'admin/reports/editing' %} class="active"{% endif %}><span class="glyphicon glyphicon-stats"></span> {{ __('title_editing_report') }}</a></li>
 							</ul>
 						{% endif %}

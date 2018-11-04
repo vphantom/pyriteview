@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-31 13:02-0400\n"
-"PO-Revision-Date: 2017-10-31 13:03-0500\n"
+"POT-Creation-Date: 2018-11-04 15:12-0500\n"
+"PO-Revision-Date: 2018-11-04 15:13-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: en\n"
@@ -16,7 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "KB"
 msgstr "KB"
@@ -140,6 +141,9 @@ msgstr "I have read and agree with:"
 msgid "issue_zero"
 msgstr "Special"
 
+msgid "label_"
+msgstr "-nothing"
+
 msgid "label_abstract"
 msgstr "Abstract"
 
@@ -181,6 +185,9 @@ msgstr "any action"
 
 msgid "label_any_type"
 msgstr "any type"
+
+msgid "label_article"
+msgstr "Article"
 
 msgid "label_attached"
 msgstr "attached"
@@ -311,6 +318,9 @@ msgstr "invited editor"
 msgid "label_invited_peer"
 msgstr "invited peer"
 
+msgid "label_issue"
+msgstr "Issue"
+
 msgid "label_issueId"
 msgstr "Issue"
 
@@ -379,6 +389,9 @@ msgstr "View only myself"
 
 msgid "label_number"
 msgstr "Number"
+
+msgid "label_objectType"
+msgstr "Type"
 
 msgid "label_on"
 msgstr "on"
@@ -627,6 +640,9 @@ msgstr "unknown status"
 msgid "title_about"
 msgstr "About us"
 
+msgid "title_activity_report"
+msgstr "Activity Report"
+
 msgid "title_articles"
 msgstr "Articles"
 
@@ -741,9 +757,6 @@ msgstr "You can view the created item at:"
 #~ msgid "error_fileformat"
 #~ msgstr ""
 #~ "Some files couldn't be saved because they don't match any accepted format."
-
-#~ msgid "label_issue"
-#~ msgstr "Issue"
 
 #~ msgid "title_mail"
 #~ msgstr "Courriel"

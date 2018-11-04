@@ -1355,6 +1355,7 @@ on(
         $config = $PPHP['config'];
         $maxAge = $config['reviews']['accept_days'];
         $invitePeriod = $config['reviews']['accept_reminder_interval'];
+        $PPHP['contextType'] = 'article';
 
         // Nagging peers who haven't accepted/declined
         $reviews = grab(
@@ -1363,6 +1364,7 @@ on(
             $config['articles']['states_wip']
         );
         foreach ($reviews as $review) {
+            $PPHP['contextId'] = $review['articleId'];
             if ($review['age'] > 1
                 && $review['age'] < $maxAge
                 && $review['age'] % $invitePeriod === 0
@@ -1423,6 +1425,7 @@ on(
         );
 
         foreach ($reviews as $review) {
+            $PPHP['contextId'] = $review['articleId'];
             // NOTE: Because nagging is stateless, sadly here we rely on
             // the fact that this event runs exactly once per day.
             if ($review['daysLeft'] == $config['reviews']['lastcall_days']) {

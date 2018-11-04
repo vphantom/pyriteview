@@ -4,7 +4,10 @@
 		<tbody>
 			{% for tx in history %}
 		{% if loop.first or tx.timestamp|slice(0,18) != lastTime %}
-			<tr{% if tx.objectType == 'user' and tx.action == 'modified' and (tx.fieldName=='email' or tx.fieldName=='password') %} class="warning"{% endif %}>
+			<tr
+				{% if tx.objectType == 'user' and tx.action == 'modified' and (tx.fieldName=='email' or tx.fieldName=='password') %}class="warning"{% endif %}
+				{% if split_by_objectId and lastObjectId and lastObjectId != tx.objectId %}style="border-top: 1.5em solid transparent;"{% endif %}
+			>
 				<td>
 		{% endif %}
 				{% if tx.userId not in history_blacklist %}
@@ -160,6 +163,7 @@
 			</tr>
 		{% endif %}
 		{% set lastTime = tx.timestamp|slice(0,18) %}
+		{% set lastObjectId = tx.objectId %}
 			{% endfor %}
 		</tbody>
 	</table>

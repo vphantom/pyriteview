@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-04 15:12-0500\n"
-"PO-Revision-Date: 2018-11-04 15:12-0500\n"
+"POT-Creation-Date: 2018-11-04 17:51-0500\n"
+"PO-Revision-Date: 2018-11-04 17:51-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -154,9 +154,6 @@ msgstr "Résumé"
 
 msgid "label_accept"
 msgstr "Accepter"
-
-msgid "label_accept_decline"
-msgstr "Accepter ou refuser"
 
 msgid "label_accepted"
 msgstr "accepté"
@@ -686,6 +683,9 @@ msgstr "Numéros"
 msgid "title_late_reviews"
 msgstr "Pairs en retard"
 
+msgid "title_login_link"
+msgstr "Nouvel URL d'authentification"
+
 msgid "title_mia_peers"
 msgstr "Pairs indécis"
 
@@ -751,6 +751,9 @@ msgstr "Un fichier a été ignoré parce qu'il n'était pas d'un format accepté
 
 msgid "warning_redirect_created"
 msgstr "Vous pouvez voir l'item créé à:"
+
+#~ msgid "label_accept_decline"
+#~ msgstr "Accepter ou refuser"
 
 #~ msgid "label_files_email_only"
 #~ msgstr ""

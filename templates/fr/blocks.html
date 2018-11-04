@@ -49,6 +49,26 @@
 {% endblock %}
 
 
+{% block hint_login_link %}
+	<p>
+	En cliquant ce bouton, vous invaliderez tout lien précédent pour en créer
+	un nouveau que vous pourrez copier à votre guise.
+	</p>
+{% endblock %}
+
+
+{% block login_link_url %}
+	<p>
+	Vous pouvez copier et coller ce lien d'authentification pour le communiquer
+	à l'usager ou vous connecter vous-même.  N'oubliez pas que les URL de connexion
+	ne sont valides que pour une seule utilisation.
+	</p>
+	<p>
+	<a href="{{ req.protocol }}://{{ req.host }}/{{ login_link }}">{{ req.protocol }}://{{ req.host }}/{{ login_link }}</a>
+	</p>
+{% endblock %}
+
+
 {% block hint_outbox %}
 	<div class="hint">
 		<p>

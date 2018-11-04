@@ -46,6 +46,26 @@
 {% endblock %}
 
 
+{% block hint_login_link %}
+	<p>
+	Clicking this button will invalidate any previous link and create a new
+	one which you can copy as you'd like.
+	</p>
+{% endblock %}
+
+
+{% block login_link_url %}
+	<p>
+	You may copy and paste this authentication link to give it to the user or
+	use it yourself.  Don't forget that a login URL is only valid for a single
+	use.
+	</p>
+	<p>
+	<a href="{{ req.protocol }}://{{ req.host }}/en/{{ login_link }}">{{ req.protocol }}://{{ req.host }}/en/{{ login_link }}</a>
+	</p>
+{% endblock %}
+
+
 {% block hint_outbox %}
 	<div class="hint">
 		<p>

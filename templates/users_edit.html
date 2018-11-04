@@ -1,4 +1,5 @@
 {% import 'lib' as lib %}
+{% use 'blocks.html' %}
 {{ title(__('title_users')) }}
 {% if saved or added or deleted %}
 	{% if success %}
@@ -115,6 +116,14 @@
 			</tbody>
 		</table>
 	</div>
+
+	<h3>{{ __('title_login_link') }}</h3>
+	{{ block('hint_login_link') }}
+	<form id="admin_user_loginlink" method="post" class="form-horizontal">
+		{{ filter('form_begin', 'admin_user_loginlink') |raw }}
+		<button type="submit" name="user_loginlink" value="user_loginlink" class="btn btn-default">{{ __('title_login_link') }}</button>
+	</form>
+
 {% endif %}
 
 {% if pass('can', 'view', 'user', user.id) %}

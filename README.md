@@ -18,13 +18,12 @@ This simple hub allows publication editors, single edition editors, article auth
 - [Installation](#installation)
   - [Download](#download)
   - [Requirements](#requirements)
+  - [Initialization](#initialization)
   - [Configuration](#configuration)
-  - [Create directories and empty database](#create-directories-and-empty-database)
   - [Crontab](#crontab)
   - [Web Server Configuration](#web-server-configuration)
     - [Apache](#apache)
     - [Nginx](#nginx)
-    - [Lighttpd](#lighttpd)
 - [Updating](#updating)
 - [Acknowledgements](#acknowledgements)
   - [Server-side](#server-side)
@@ -58,7 +57,7 @@ To get the latest stable release, download and unpack a [release archive file](h
 * Typical Linux command line tools: make, wget, gzip
 * A web server of course
 
-### Create directories and empty database
+### Initialization
 
 Run `make init`.  This will automatically download and set up PHP's Composer package manager, then use it to download runtime dependencies locally.  Finally, it will create the database tables and the administrative user so you can log into your new installation.  You will be prompted on the command line for an e-mail address and password to use for that unrestricted account.  (**NOTE:** This prompt requires PHP's `readline`, so *it will not work on Windows*.)
 
@@ -90,17 +89,7 @@ Here are sample configurations for major server software:
 
 #### Apache
 
-```
-RewriteEngine on
-
-RewriteRule ^(bin|locales|modules|node_modules|templates|var|vendor) - [F,L,NC]
-
-RewriteRule ^$ /index.php [L]
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+) /index.php/$1 [L]
-```
+See the included `.htaccess` file.
 
 #### Nginx
 
@@ -124,16 +113,6 @@ location / {
     index index.html index.htm index.php;
     try_files $uri $uri/ $uri/index.php /index.php?$args;
 }
-```
-
-#### Lighttpd
-
-```
-# TODO: Deny private directories
-url.rewrite-if-not-file (
-    "^(.*)$" => "/index.php/$1"
-    "^/(.*)$" => "/index.php/$1"
-)
 ```
 
 
@@ -180,7 +159,7 @@ For more information on the framework used to build this application, see relate
 
 ## GNU Affero GPL v3.0 License
 
-Copyright (c) 2016 Stéphane Lavergne <https://github.com/vphantom>
+Copyright (c) 2016-2018 Stéphane Lavergne <https://github.com/vphantom>
 
 The GNU Affero GPL license fits this end-user software well because it allows:
 

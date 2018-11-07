@@ -1,8 +1,10 @@
 *.db
+composer.json-*
 composer.lock
 package-lock.json
 node_modules
 vendor
+zz_remote.sh
 /bin
 /locales/*~
 /locales/loader.js

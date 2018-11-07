@@ -12,10 +12,12 @@
 	{% endif %}
 	<div class="form-group">
 		<input data-colsize="9" data-label="{{ __('label_name') }}" type="text" id="name" value="{{ user.name }}" required minlength="2" maxlength="100"{% if not modal and not user.active %} disabled{% endif %}>
-		<select data-colsize="3" data-label="{{ __('label_gender') }}" name="isMale" required{% if not modal and not user.active %} disabled{% endif %}>
+		<select data-colsize="3" data-label="{{ __('label_gender') }}" name="gender" required{% if not modal and not user.active %} disabled{% endif %}>
 			<option disabled{% if not user.id %} selected{% endif %}>{{ __('label_gender') }}...</option>
-			<option {% if user.id and not user.isMale %}selected {% endif %}value="0">{{ __('label_female') }}</option>
-			<option {% if user.id and user.isMale %}selected {% endif %}value="1">{{ __('label_male') }}</option>
+			<option {% if user.id and user.gender == 'X' %}selected {% endif %}value="X">{{ __('label_nogender') }}</option>
+			<option {% if user.id and user.gender == 'F' %}selected {% endif %}value="F">{{ __('label_female') }}</option>
+			<option {% if user.id and user.gender == 'M' %}selected {% endif %}value="M">{{ __('label_male') }}</option>
+			<option {% if user.id and user.gender == 'O' %}selected {% endif %}value="O">{{ __('label_othergender') }}</option>
 		</select>
 	</div>
 	<div class="form-group">

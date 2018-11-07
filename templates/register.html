@@ -24,8 +24,10 @@
 				<input data-colsize="9" data-label="{{ __('label_name') }}" type="text" id="name" minlength="3" maxlength="100" tabindex="11" required>
 				<select data-colsize="3" data-label="{{ __('label_gender') }}" name="isMale" tabindex="12" required>
 					<option selected disabled>{{ __('label_gender') }}...</option>
-					<option value="0">{{ __('label_female') }}</option>
-					<option value="1">{{ __('label_male') }}</option>
+					<option value="X">{{ __('label_nogender') }}</option>
+					<option value="F">{{ __('label_female') }}</option>
+					<option value="M">{{ __('label_male') }}</option>
+					<option value="O">{{ __('label_othergender') }}</option>
 				</select>
 			</div>
 			<div class="form-group">

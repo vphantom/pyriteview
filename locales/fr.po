@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyriteView v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-04 17:51-0500\n"
-"PO-Revision-Date: 2018-11-04 17:51-0500\n"
+"POT-Creation-Date: 2018-11-07 11:14-0500\n"
+"PO-Revision-Date: 2018-11-07 11:15-0500\n"
 "Last-Translator: Stéphane Lavergne <lis@imars.com>\n"
 "Language-Team: PyriteView <lis@imars.com>\n"
 "Language: fr\n"
@@ -386,6 +386,9 @@ msgstr "Nouvelle permission"
 msgid "label_new_version"
 msgstr "Nouvelle version"
 
+msgid "label_nogender"
+msgstr "Préfère ne pas répondre"
+
 msgid "label_not_all_users"
 msgstr "Voir seulement moi"
 
@@ -397,6 +400,9 @@ msgstr "Type"
 
 msgid "label_on"
 msgstr "le"
+
+msgid "label_othergender"
+msgstr "Autre"
 
 msgid "label_password_opt"
 msgstr "Mot de passe (facultatif)"

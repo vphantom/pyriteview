@@ -23,7 +23,7 @@
     "browserify": "^13.1.1",
     "clean-css": "^3.4.28",
     "doctoc": "^1.3.0",
-    "eslint": "^3.19.0",
+    "eslint": "^6.5.1",
     "exorcist": "^0.4.0",
     "jquery": "^2.2.4",
     "jquery-ui-pyritephp": "^1.12.1",

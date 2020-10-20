@@ -24,7 +24,7 @@
 		<input data-label="{{ __('label_profession') }}" type="text" id="profession" value="{{ user.profession }}" minlength="3" maxlength="100" required{% if not modal and not user.active %} disabled{% endif %}>
 		<input data-label="{{ __('label_employer') }}" type="text" id="employer" value="{{ user.employer }}" minlength="3" maxlength="100"{% if not modal and not user.active %} disabled{% endif %}>
 	</div>
-	{% if not modal %}
+	{% if not modal and user.id != session.user.id and pass('can', 'edit', 'user', user.id) %}
 		<div class="form-group hideaway">
 			<input data-label="{{ __('label_new_password') }}" type="password" id="newpassword1" minlength="8" maxlength="72" placeholder="{{ __('hint_new_password') }}" class="hideaway-focus">
 			<input data-label="{{ __('label_again_password') }}" type="password" id="newpassword2" maxlength="72" placeholder="{{ __('hint_again_password') }}" data-parsley-equalto="#newpassword1" data-parsley-validate-if-empty>

@@ -23,5 +23,6 @@ article.  You can let us know right now at this page:
 <p>
 Thank you,
 <br>{{ config.global.name }}
+<br>This message is intended for: {{ peer.email }}
 </p>
 {% endblock %}

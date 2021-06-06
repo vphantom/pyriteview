@@ -23,5 +23,6 @@ cette évaluation.  Vous pouvez nous en faire part dès maintenant à cette page
 <p>
 Merci,
 <br>{{ config.global.name }}
+<br>Ce message est à l'intention de: {{ peer.email }}
 </p>
 {% endblock %}

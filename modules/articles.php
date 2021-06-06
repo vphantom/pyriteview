@@ -1374,10 +1374,12 @@ on(
                     'invitation_peer_noanswer',
                     $review['peerId'],
                     array(
-                        'article' => grab('article', $review['articleId'])
+                        'article' => grab('article', $review['articleId']),
+                        'peer' => grab('user_resolve', $review['peerId'])
                     ),
                     null,
-                    true
+                    true,
+                    (isset($config['reviews']['accept_reminder_user']) ? $config['reviews']['accept_reminder_user'] : false)
                 );
             } elseif ($review['age'] > $maxAge) {
                 trigger('review_save', array('id' => $review['id'], 'status' => 'deleted'));

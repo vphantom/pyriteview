@@ -9,6 +9,7 @@ zz_remote.sh
 /locales/*~
 /locales/loader.js
 /pyritephp.js
+/tags
 /var/*.sql
 /var/articles
 /var/config.ini
